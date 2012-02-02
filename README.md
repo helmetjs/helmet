@@ -27,6 +27,8 @@ To use a particular middleware application wide just add it to your app configur
 [Content Security Policy (W3C Draft)](https://dvcs.w3.org/hg/content-security-policy/raw-file/tip/csp-specification.dev.html#content-security-policy-header-field)
 <- Pretty much required reading if you want to do anything with CSP
 
+Currently there is CSP support in Firefox and experimental support in Chrome.
+
 There are two different ways to build CSP policies with helmet.
 
 ### Using policy()
