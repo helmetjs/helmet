@@ -1,0 +1,15 @@
+{
+  "author": "Adam Baldwin <baldwin@andyet.net> (http://andyet.net/team/baldwin)",
+  "name": "helmet",
+  "description": "Security header middleware collection for express",
+  "version": "0.0.1",
+  "repository": {
+    "url": ""
+  },
+  "engines": {
+    "node": "~0.6.6"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "main": "lib/index"
+}
