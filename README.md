@@ -79,6 +79,13 @@ helmet.csp.reportTo('http://example.com/csp');
 xFrame is a lot more straight forward than CSP. It has three modes. DENY, SAMEORIGIN, ALLOW-FROM. If your app does
 not need to be framed (and most don't) you can use the default DENY.
 
+### Browser Support
+  - IE8+
+  - Opera 10.50+
+  - Safari 4+
+  - Chrome 4.1.249.1042+
+  - Firefox 3.6.9 (or earlier with NoScript)
+
 Here is an example for both SAMEORIGIN and ALLOW-FROM
 
 ```javascript
