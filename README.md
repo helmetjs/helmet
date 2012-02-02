@@ -1,4 +1,4 @@
-Express / Connect middleware that implement various security headers.
+Express / Connect middleware that implement various security headers. [with sane defaults where applicable]
 
 ## Included Middleware
 
