@@ -4,7 +4,7 @@
   "description": "Security header middleware collection for express",
   "version": "0.0.1",
   "repository": {
-    "url": ""
+    "url": "git://github.com/andyet/helmet.git"
   },
   "engines": {
     "node": "~0.6.6"
