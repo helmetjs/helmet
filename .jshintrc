@@ -1,0 +1,17 @@
+{
+    "asi": false,
+    "expr": true,
+    "loopfunc": true,
+    "curly": false,
+    "evil": true,
+    "white": true,
+    "undef": true,
+    "browser": true,
+    "predef": [
+        "module",
+        "require",
+        "exports",
+        "__dirname"
+    ]
+}
+
