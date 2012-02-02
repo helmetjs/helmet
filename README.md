@@ -21,7 +21,6 @@ To use a particular middleware application wide just add it to your app configur
         app.use(helmet.xframe());
         app.use(app.router);
     });
-
 ```
 
 ## Content Security Policy
