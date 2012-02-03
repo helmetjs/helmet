@@ -4,6 +4,13 @@ Express / Connect middleware that implement various security headers. [with sane
 
   - csp (Content Security Policy)
   - xframe (X-FRAME-OPTIONS)
+  - iexss (X-XSS-PROTECTION for IE8+)
+
+## Installation
+
+```
+npm install helmet
+```
 
 ## Basic Express Usage
 
@@ -96,10 +103,18 @@ helmet.xframe('sameorigin');
 helmet.xframe('allow-from', 'http://example.com');
 ```
 
+## X-XSS-PROTECTION
+
+The following example sets the X-XSS-PROTECTION: 1; mode=block header
+
+```javascript
+helmet.iexss();
+```
+
+
 ## To Be Implemented
 
   - HTTP Strict Transport Security
-  - X-XSS-Protection for IE
   - Warn when self, unsafe-inline or unsafe-eval are not single quoted
   - Warn when unsafe-inline or unsafe-eval are used
   - Caching of generated CSP headers
