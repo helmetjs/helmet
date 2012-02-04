@@ -2,7 +2,7 @@
   "author": "Adam Baldwin <baldwin@andyet.net> (http://andyet.net/team/baldwin)",
   "name": "helmet",
   "description": "Security header middleware collection for express",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "repository": {
     "url": "git://github.com/andyet/helmet.git"
   },
