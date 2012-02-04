@@ -3,6 +3,7 @@ Express / Connect middleware that implement various security headers. [with sane
 ## Included Middleware
 
   - csp (Content Security Policy)
+  - HSTS (HTTP Strict Transport Security)
   - xframe (X-FRAME-OPTIONS)
   - iexss (X-XSS-PROTECTION for IE8+)
 
@@ -80,6 +81,25 @@ use the reportTo() helper function.
 helmet.csp.reportTo('http://example.com/csp');
 ```
 
+## HTTP Strict Transport Security
+[draft-ietf-websec-strict-transport-sec-04](http://tools.ietf.org/html/draft-ietf-websec-strict-transport-sec-04)
+
+This middleware adds the Strict-Transport-Security header to the response 
+
+### Basic Usage
+
+To use the default header of Strict-Transport-Security: maxAge=15768000
+
+```javascript
+helmet.hsts();
+```
+
+To adjust other values for maxAge and to include subdomains
+
+```javascript
+helmet.hsts(1234567, true);  // hsts(maxAge, includeSubdomains)
+```
+
 
 ## X-FRAME-OPTIONS
 
@@ -114,7 +134,6 @@ helmet.iexss();
 
 ## To Be Implemented
 
-  - HTTP Strict Transport Security
   - Warn when self, unsafe-inline or unsafe-eval are not single quoted
   - Warn when unsafe-inline or unsafe-eval are used
   - Caching of generated CSP headers
