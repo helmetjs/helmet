@@ -6,6 +6,8 @@ Express / Connect middleware that implement various security headers. [with sane
   - HSTS (HTTP Strict Transport Security)
   - xframe (X-FRAME-OPTIONS)
   - iexss (X-XSS-PROTECTION for IE8+)
+  - contentTypeOptions (X-Content-Type-Options nosniff)
+  - cacheControl (Cache-Control no-store, no-cache)
 
 ## Installation
 
@@ -19,7 +21,7 @@ npm install helmet
     var helmet = require('helmet');
 ```
 
-To use a particular middleware application wide just add it to your app configuration.
+To use a particular middleware application wide just add it to your app configuration. Make sure it is listed before app.router.
 
 ```javascript
     app.configure(function(){
@@ -27,6 +29,7 @@ To use a particular middleware application wide just add it to your app configur
         app.use(express.bodyParser());
         app.use(helmet.csp());
         app.use(helmet.xframe());
+        app.use(helmet.contentTypeOptions());
         app.use(app.router);
     });
 ```
@@ -131,6 +134,21 @@ The following example sets the X-XSS-PROTECTION: 1; mode=block header
 helmet.iexss();
 ```
 
+## X-Content-Type-Options
+
+The following example sets the X-Content-Type-Options header to it's only and default option 'nosniff'
+
+```javascript
+helmet.contentTypeOptions();
+```
+
+## Cache-Control
+
+The following example sets the Cache-Control header to no-store, no-cache. This is not configurable at this time.
+
+```javascript
+helmet.cacheControl();
+```
 
 ## To Be Implemented
 
