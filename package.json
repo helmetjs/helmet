@@ -7,7 +7,7 @@
     "url": "git://github.com/andyet/helmet.git"
   },
   "engines": {
-    "node": "~0.6.6"
+    "node": ">= 0.6.6"
   },
   "dependencies": {},
   "devDependencies": {},
