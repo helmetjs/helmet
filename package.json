@@ -3,8 +3,9 @@
   "name": "helmet",
   "description": "Security header middleware collection for express",
   "version": "0.0.7",
+  "keywords": ["security", "headers", "express", "x-frame-options", "csp"],
   "repository": {
-    "url": "git://github.com/andyet/helmet.git"
+    "url": "git://github.com/evilpacket/helmet.git"
   },
   "engines": {
     "node": ">= 0.6.6"
