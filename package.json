@@ -2,7 +2,7 @@
   "author": "Adam Baldwin <baldwin@andyet.net> (http://andyet.net/team/baldwin)",
   "name": "helmet",
   "description": "Security header middleware collection for express",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "keywords": ["security", "headers", "express", "x-frame-options", "csp"],
   "repository": {
     "url": "git://github.com/evilpacket/helmet.git"
