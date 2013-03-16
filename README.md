@@ -157,3 +157,4 @@ helmet.cacheControl();
   - Caching of generated CSP headers
   - Device to capture and parse reported CSP violations
 
+[![githalytics.com alpha](https://cruel-carlota.pagodabox.com/aaabccb3974032554c072dce9a0c46c9 "githalytics.com")](http://githalytics.com/evilpacket/helmet)
