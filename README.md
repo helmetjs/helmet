@@ -21,17 +21,30 @@ npm install helmet
     var helmet = require('helmet');
 ```
 
-To use a particular middleware application wide just add it to your app configuration. Make sure it is listed before app.router.
+To use a particular middleware application wide just use it from your app.
+*Make sure it is listed before app.router*.
 
 ```javascript
-    app.configure(function(){
-        app.use(express.methodOverride());
-        app.use(express.bodyParser());
-        app.use(helmet.csp());
-        app.use(helmet.xframe());
-        app.use(helmet.contentTypeOptions());
-        app.use(app.router);
-    });
+    app.use(express.methodOverride());
+    app.use(express.bodyParser());
+    app.use(helmet.csp());
+    app.use(helmet.xframe());
+    app.use(helmet.contentTypeOptions());
+    app.use(app.router);
+```
+
+If you just want to use the default-level policies, all you need to do is:
+
+```javascript
+    helmet.defaults(app);
+```
+
+Defaults is semi-configurable too. If you wanted for instance all the
+defaults but wanted your own xframe options you could do this:
+
+```javascript
+    helmet.defaults(app, {xframe: false});
+    app.use(helmet.xframe('DENY'));
 ```
 
 ## Content Security Policy
