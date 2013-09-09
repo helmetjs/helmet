@@ -2,75 +2,75 @@ var helmet = require('../');
 var assert = require('assert');
 var sinon = require('sinon');
 
-describe('xframe', function() {
+describe('xframe', function () {
 
     var req, res, next;
-    beforeEach(function() {
+    beforeEach(function () {
         res = { header: sinon.spy() };
         next = sinon.spy();
     });
 
-    describe('with proper input', function() {
+    describe('with proper input', function () {
 
-        afterEach(function() {
+        afterEach(function () {
             assert(next.calledOnce);
         });
 
-        it('sets header to DENY with no arguments', function() {
+        it('sets header to DENY with no arguments', function () {
             var middleware = helmet.xframe();
             middleware(req, res, next);
             assert(res.header.withArgs('X-FRAME-OPTIONS', 'DENY').calledOnce);
         });
 
-        it('sets header to DENY when called with lowercase "deny"', function() {
+        it('sets header to DENY when called with lowercase "deny"', function () {
             var middleware = helmet.xframe('deny');
             middleware(req, res, next);
             assert(res.header.withArgs('X-FRAME-OPTIONS', 'DENY').calledOnce);
         });
 
-        it('sets header to DENY when called with uppercase "DENY"', function() {
+        it('sets header to DENY when called with uppercase "DENY"', function () {
             var middleware = helmet.xframe('DENY');
             middleware(req, res, next);
             assert(res.header.withArgs('X-FRAME-OPTIONS', 'DENY').calledOnce);
         });
 
-        it('sets header to SAMEORIGIN when called with lowercase "sameorigin"', function() {
+        it('sets header to SAMEORIGIN when called with lowercase "sameorigin"', function () {
             var middleware = helmet.xframe('sameorigin');
             middleware(req, res, next);
             assert(res.header.withArgs('X-FRAME-OPTIONS', 'SAMEORIGIN').calledOnce);
         });
 
-        it('sets header to SAMEORIGIN when called with uppercase "SAMEORIGIN"', function() {
+        it('sets header to SAMEORIGIN when called with uppercase "SAMEORIGIN"', function () {
             var middleware = helmet.xframe('SAMEORIGIN');
             middleware(req, res, next);
             assert(res.header.withArgs('X-FRAME-OPTIONS', 'SAMEORIGIN').calledOnce);
         });
 
-        it('sets header properly when called with lowercase "allow-from"', function() {
+        it('sets header properly when called with lowercase "allow-from"', function () {
             var middleware = helmet.xframe('allow-from', 'http://example.com');
             middleware(req, res, next);
             assert(res.header.withArgs('X-FRAME-OPTIONS', 'ALLOW-FROM http://example.com').calledOnce);
         });
 
-        it('sets header properly when called with uppercase "ALLOW-FROM"', function() {
+        it('sets header properly when called with uppercase "ALLOW-FROM"', function () {
             var middleware = helmet.xframe('ALLOW-FROM', 'http://example.com');
             middleware(req, res, next);
             assert(res.header.withArgs('X-FRAME-OPTIONS', 'ALLOW-FROM http://example.com').calledOnce);
         });
 
-        it('sets header properly when called with lowercase "allowfrom"', function() {
+        it('sets header properly when called with lowercase "allowfrom"', function () {
             var middleware = helmet.xframe('allowfrom', 'http://example.com');
             middleware(req, res, next);
             assert(res.header.withArgs('X-FRAME-OPTIONS', 'ALLOW-FROM http://example.com').calledOnce);
         });
 
-        it('sets header properly when called with uppercase "ALLOWFROM"', function() {
+        it('sets header properly when called with uppercase "ALLOWFROM"', function () {
             var middleware = helmet.xframe('ALLOWFROM', 'http://example.com');
             middleware(req, res, next);
             assert(res.header.withArgs('X-FRAME-OPTIONS', 'ALLOW-FROM http://example.com').calledOnce);
         });
 
-        it("works with String objects and doesn't change them", function() {
+        it("works with String objects and doesn't change them", function () {
             var str = new String('SAMEORIGIN');
             var middleware = helmet.xframe(str);
             middleware(req, res, next);
@@ -80,16 +80,16 @@ describe('xframe', function() {
 
     });
 
-    describe('with improper input', function() {
+    describe('with improper input', function () {
 
         function callWith() {
             var args = arguments;
             return function () {
                 return helmet.xframe.apply(helmet, args);
             };
-        };
+        }
 
-        it('fails with a bad first argument', function() {
+        it('fails with a bad first argument', function () {
             assert.throws(callWith(' '));
             assert.throws(callWith('denyy'));
             assert.throws(callWith('DENNY'));
@@ -102,7 +102,7 @@ describe('xframe', function() {
             assert.throws(callWith(/cool_regex/g));
         });
 
-        it('fails with a bad second argument if the first is "ALLOW-FROM"', function() {
+        it('fails with a bad second argument if the first is "ALLOW-FROM"', function () {
             assert.throws(callWith('ALLOW-FROM'));
             assert.throws(callWith('ALLOW-FROM', null));
             assert.throws(callWith('ALLOW-FROM', false));
