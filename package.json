@@ -10,6 +10,9 @@
   "engines": {
     "node": ">= 0.6.6"
   },
+  "dependencies": {
+    "platform": "1.0.x"
+  },
   "devDependencies": {
     "connect": "2.11.x",
     "mocha": "1.14.x",
