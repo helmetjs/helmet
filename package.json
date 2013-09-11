@@ -10,7 +10,10 @@
   "engines": {
     "node": ">= 0.6.6"
   },
-  "dependencies": {},
+  "dependencies": {
+    "platform": ">= 1.0.0"
+  },
+
   "devDependencies": {},
   "main": "lib/index"
 }
