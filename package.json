@@ -10,7 +10,12 @@
   "engines": {
     "node": ">= 0.6.6"
   },
-  "dependencies": {},
-  "devDependencies": {},
+  "devDependencies": {
+    "mocha": "*",
+    "sinon": "*"
+  },
+  "scripts": {
+    "test": "./node_modules/.bin/mocha"
+  },
   "main": "lib/index"
 }
