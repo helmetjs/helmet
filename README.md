@@ -8,6 +8,7 @@ Express/Connect middleware that implement various security headers, with sane de
   - `iexss` (X-XSS-PROTECTION for IE8+)
   - `contentTypeOptions` (X-Content-Type-Options nosniff)
   - `cacheControl` (Cache-Control no-store, no-cache)
+  - `hidePoweredBy` (Remove X-Powered-By)
 
 ## Installation
 
