@@ -1,5 +1,7 @@
 Express/Connect middleware that implement various security headers, with sane defaults where applicable.
 
+[![Dependency Status](https://david-dm.org/evilpacket/helmet.png)](https://david-dm.org/evilpacket/helmet)
+
 ## Included Middleware
 
   - `csp` (Content Security Policy)
