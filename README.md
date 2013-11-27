@@ -47,16 +47,21 @@ app.use(helmet.xframe('deny'));
 ```
 
 ## Content Security Policy
-The [Content Security Policy (W3C Draft)](https://dvcs.w3.org/hg/content-security-policy/raw-file/tip/csp-specification.dev.html#content-security-policy-header-field) is pretty much required reading if you want to do anything with CSP.
 
-### Browser Support
-Currently there is CSP support in Firefox and experimental support in Chrome. Both `X-Content-Security-Policy` and `X-WebKit-CSP`
-headers are set by Helmet.
+By default the CSP middelware is outputting the ```Content-Security-Policy``` header, to follow the [Content Security Policy 1.1](https://dvcs.w3.org/hg/content-security-policy/raw-file/tip/csp-specification.dev.html#content-security-policy-header-field) specification. However since there's older experimental implementations of CSP around, you can pass the ```legacy``` option to the middlware, which will enable CSP with the following headers:
+- ```X-WebKit-CSP``` — experimental header introduced into Google Chrome and other WebKit-based browsers (Safari) in 2011.
+- ```X-Content-Security-Policy``` — experimental header introduced in Gecko 2 based browsers (Firefox 4 to Firefox 22, Thunderbird 3.3, SeaMonkey 2.1).
 
+### How to enable legacy CSP support?
+```javascript
+app.use(helmet.csp({ legacy: true }));
+```
+
+### How to define the CSP policy with Helmet?
 
 There are two different ways to build CSP policies with Helmet.
 
-### Using policy()
+#### Using policy()
 
 `policy()` eats a JSON blob (including the output of it's own `toJSON()` function) to create a policy. By default
 helmet has a defaultPolicy that looks like;
@@ -78,7 +83,7 @@ policy = {
 helmet.csp.policy(policy);
 ```
 
-### Using add()
+#### Using add()
 
 The same thing could be accomplished using `add()` since the defaultPolicy default-src is already 'self':
 
@@ -97,7 +102,7 @@ helmet.csp.reportTo('http://example.com/csp');
 ## HTTP Strict Transport Security
 [draft-ietf-websec-strict-transport-sec-04](http://tools.ietf.org/html/draft-ietf-websec-strict-transport-sec-04)
 
-This middleware adds the `Strict-Transport-Security` header to the response. 
+This middleware adds the `Strict-Transport-Security` header to the response.
 
 ### Basic Usage
 
