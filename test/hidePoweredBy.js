@@ -1,26 +1,31 @@
 var helmet = require('../');
+
+var connect = require('connect');
+var request = require('supertest');
 var assert = require('assert');
-var sinon = require('sinon');
 
 describe('hidePoweredBy', function () {
 
-    var req, res, next, middleware;
+    var app;
     beforeEach(function () {
-        middleware = helmet.hidePoweredBy();
-        res = { removeHeader: sinon.spy() };
-        next = sinon.spy();
+        app = connect();
+        app.use(function (req, res, next) {
+            res.setHeader('X-Powered-By', 'Computers');
+            next();
+        });
+        app.use(helmet.hidePoweredBy());
+        app.use(function (req, res) {
+            res.end('Hello world!');
+        });
     });
 
-    afterEach(function () {
-        assert(next.calledOnce);
-    });
-
-    it('removes the X-Powered-By header', function () {
-        middleware(req, res, next);
-        assert(res.removeHeader.calledOnce);
-        var args = res.removeHeader.firstCall.args;
-        assert(args.length == 1);
-        assert(args[0].toLowerCase() == 'x-powered-by');
+    it('removes the X-Powered-By header', function (done) {
+        request(app).get('/')
+        .end(function (err, res) {
+            if (err) return done(err);
+            assert.equal(res.header['x-powered-by'], undefined);
+            done();
+        });
     });
 
 });

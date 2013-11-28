@@ -16,7 +16,6 @@
   "devDependencies": {
     "connect": "2.11.x",
     "mocha": "1.14.x",
-    "sinon": "1.7.x",
     "supertest": "0.8.x"
   },
   "scripts": {
