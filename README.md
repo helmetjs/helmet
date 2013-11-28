@@ -12,6 +12,7 @@ Included middleware
 - `hsts` (HTTP Strict Transport Security)
 - `xframe` (X-Frame-Options)
 - `iexss` (X-XSS-Protection for IE8+)
+- `ienoopen` (X-Download-Options for IE8+)
 - `contentTypeOptions` (X-Content-Type-Options)
 - `cacheControl` (Cache-Control)
 - `hidePoweredBy` (remove X-Powered-By)
@@ -102,7 +103,7 @@ helmet.csp.reportTo('http://example.com/csp');
 ## HTTP Strict Transport Security
 [draft-ietf-websec-strict-transport-sec-04](http://tools.ietf.org/html/draft-ietf-websec-strict-transport-sec-04)
 
-This middleware adds the `Strict-Transport-Security` header to the response. 
+This middleware adds the `Strict-Transport-Security` header to the response.
 
 ### Basic Usage
 
@@ -146,6 +147,14 @@ The following example sets the `X-XSS-PROTECTION: 1; mode=block` header:
 
 ```javascript
 helmet.iexss();
+```
+
+## X-Download-Options
+
+Sets the `X-Download-Options` header to `noopen` to prevent IE users from executing downloads in your site's context. For more, see [this MSDN blog post](http://blogs.msdn.com/b/ie/archive/2008/07/02/ie8-security-part-v-comprehensive-protection.aspx).
+
+```javascript
+app.use(helmet.ienoopen())
 ```
 
 ## X-Content-Type-Options
