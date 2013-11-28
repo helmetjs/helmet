@@ -1,80 +1,81 @@
 var helmet = require('../');
+
+var connect = require('connect');
+var request = require('supertest');
 var assert = require('assert');
-var sinon = require('sinon');
+
+var hello = function (req, res) {
+    res.end('Hello world!');
+};
 
 describe('xframe', function () {
 
-    var req, res, next;
+    var app;
     beforeEach(function () {
-        res = { header: sinon.spy() };
-        next = sinon.spy();
+        app = connect();
     });
 
     describe('with proper input', function () {
 
-        afterEach(function () {
-            assert(next.calledOnce);
+        it('sets header to DENY with no arguments', function (done) {
+            app.use(helmet.xframe()).use(hello);
+            request(app).get('/')
+            .expect('X-Frame-Options', 'DENY', done);
         });
 
-        it('sets header to DENY with no arguments', function () {
-            var middleware = helmet.xframe();
-            middleware(req, res, next);
-            assert(res.header.withArgs('X-FRAME-OPTIONS', 'DENY').calledOnce);
+        it('sets header to DENY when called with lowercase "deny"', function (done) {
+            app.use(helmet.xframe('deny')).use(hello);
+            request(app).get('/')
+            .expect('X-Frame-Options', 'DENY', done);
         });
 
-        it('sets header to DENY when called with lowercase "deny"', function () {
-            var middleware = helmet.xframe('deny');
-            middleware(req, res, next);
-            assert(res.header.withArgs('X-FRAME-OPTIONS', 'DENY').calledOnce);
+        it('sets header to DENY when called with uppercase "DENY"', function (done) {
+            app.use(helmet.xframe('DENY')).use(hello);
+            request(app).get('/')
+            .expect('X-Frame-Options', 'DENY', done);
         });
 
-        it('sets header to DENY when called with uppercase "DENY"', function () {
-            var middleware = helmet.xframe('DENY');
-            middleware(req, res, next);
-            assert(res.header.withArgs('X-FRAME-OPTIONS', 'DENY').calledOnce);
+        it('sets header to SAMEORIGIN when called with lowercase "sameorigin"', function (done) {
+            app.use(helmet.xframe('sameorigin')).use(hello);
+            request(app).get('/')
+            .expect('X-Frame-Options', 'SAMEORIGIN', done);
         });
 
-        it('sets header to SAMEORIGIN when called with lowercase "sameorigin"', function () {
-            var middleware = helmet.xframe('sameorigin');
-            middleware(req, res, next);
-            assert(res.header.withArgs('X-FRAME-OPTIONS', 'SAMEORIGIN').calledOnce);
+        it('sets header to SAMEORIGIN when called with uppercase "SAMEORIGIN"', function (done) {
+            app.use(helmet.xframe('SAMEORIGIN')).use(hello);
+            request(app).get('/')
+            .expect('X-Frame-Options', 'SAMEORIGIN', done);
         });
 
-        it('sets header to SAMEORIGIN when called with uppercase "SAMEORIGIN"', function () {
-            var middleware = helmet.xframe('SAMEORIGIN');
-            middleware(req, res, next);
-            assert(res.header.withArgs('X-FRAME-OPTIONS', 'SAMEORIGIN').calledOnce);
+        it('sets header properly when called with lowercase "allow-from"', function (done) {
+            app.use(helmet.xframe('allow-from', 'http://example.com')).use(hello);
+            request(app).get('/')
+            .expect('X-Frame-Options', 'ALLOW-FROM http://example.com', done);
         });
 
-        it('sets header properly when called with lowercase "allow-from"', function () {
-            var middleware = helmet.xframe('allow-from', 'http://example.com');
-            middleware(req, res, next);
-            assert(res.header.withArgs('X-FRAME-OPTIONS', 'ALLOW-FROM http://example.com').calledOnce);
+        it('sets header properly when called with uppercase "ALLOW-FROM"', function (done) {
+            app.use(helmet.xframe('ALLOW-FROM', 'http://example.com')).use(hello);
+            request(app).get('/')
+            .expect('X-Frame-Options', 'ALLOW-FROM http://example.com', done);
         });
 
-        it('sets header properly when called with uppercase "ALLOW-FROM"', function () {
-            var middleware = helmet.xframe('ALLOW-FROM', 'http://example.com');
-            middleware(req, res, next);
-            assert(res.header.withArgs('X-FRAME-OPTIONS', 'ALLOW-FROM http://example.com').calledOnce);
+        it('sets header properly when called with lowercase "allowfrom"', function (done) {
+            app.use(helmet.xframe('allowfrom', 'http://example.com')).use(hello);
+            request(app).get('/')
+            .expect('X-Frame-Options', 'ALLOW-FROM http://example.com', done);
         });
 
-        it('sets header properly when called with lowercase "allowfrom"', function () {
-            var middleware = helmet.xframe('allowfrom', 'http://example.com');
-            middleware(req, res, next);
-            assert(res.header.withArgs('X-FRAME-OPTIONS', 'ALLOW-FROM http://example.com').calledOnce);
+        it('sets header properly when called with uppercase "ALLOWFROM"', function (done) {
+            app.use(helmet.xframe('ALLOWFROM', 'http://example.com')).use(hello);
+            request(app).get('/')
+            .expect('X-Frame-Options', 'ALLOW-FROM http://example.com', done);
         });
 
-        it('sets header properly when called with uppercase "ALLOWFROM"', function () {
-            var middleware = helmet.xframe('ALLOWFROM', 'http://example.com');
-            middleware(req, res, next);
-            assert(res.header.withArgs('X-FRAME-OPTIONS', 'ALLOW-FROM http://example.com').calledOnce);
-        });
-
-        it("works with String objects and doesn't change them", function () {
+        it("works with String objects and doesn't change them", function (done) {
             var str = new String('SAMEORIGIN');
-            var middleware = helmet.xframe(str);
-            middleware(req, res, next);
-            assert(res.header.withArgs('X-FRAME-OPTIONS', 'SAMEORIGIN').calledOnce);
+            app.use(helmet.xframe(str)).use(hello);
+            request(app).get('/')
+            .expect('X-Frame-Options', 'SAMEORIGIN', done);
             assert.equal(str, 'SAMEORIGIN');
         });
 
@@ -106,6 +107,7 @@ describe('xframe', function () {
             assert.throws(callWith('ALLOW-FROM'));
             assert.throws(callWith('ALLOW-FROM', null));
             assert.throws(callWith('ALLOW-FROM', false));
+            assert.throws(callWith('ALLOW-FROM', 123));
         });
 
     });
