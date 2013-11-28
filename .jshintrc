@@ -11,7 +11,11 @@
         "module",
         "require",
         "exports",
-        "__dirname"
+        "__dirname",
+        "describe",
+        "beforeEach",
+        "afterEach",
+        "it"
     ]
 }
 
