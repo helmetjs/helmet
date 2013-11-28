@@ -173,6 +173,20 @@ The following example sets the `Cache-Control` header to `no-store, no-cache`. T
 helmet.cacheControl();
 ```
 
+## Hide X-Powered-By
+
+This middleware will remove the `X-Powered-By` header if it is set.
+
+```javascript
+helmet.hidePoweredBy()
+```
+
+Note: if you're using Express, you can skip Helmet's middleware if you want:
+
+```javascript
+app.disable('x-powered-by')
+```
+
 ## To Be Implemented
 
   - Warn when self, unsafe-inline or unsafe-eval are not single quoted
