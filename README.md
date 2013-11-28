@@ -1,40 +1,42 @@
-Express/Connect middleware that implement various security headers, with sane defaults where applicable.
+Helmet
+======
 
 [![Dependency Status](https://david-dm.org/evilpacket/helmet.png)](https://david-dm.org/evilpacket/helmet)
 
-## Included Middleware
+Helmet is a series of middlewares for Express/Connect apps that implement various security headers to make your app more secure.
 
-  - `csp` (Content Security Policy)
-  - `hsts` (HTTP Strict Transport Security)
-  - `xframe` (X-FRAME-OPTIONS)
-  - `iexss` (X-XSS-PROTECTION for IE8+)
-  - `contentTypeOptions` (X-Content-Type-Options nosniff)
-  - `cacheControl` (Cache-Control no-store, no-cache)
-  - `hidePoweredBy` (Remove X-Powered-By)
+Included middleware
+-------------------
 
-## Installation
+- `csp` (Content Security Policy)
+- `hsts` (HTTP Strict Transport Security)
+- `xframe` (X-Frame-Options)
+- `iexss` (X-XSS-Protection for IE8+)
+- `contentTypeOptions` (X-Content-Type-Options)
+- `cacheControl` (Cache-Control)
+- `hidePoweredBy` (remove X-Powered-By)
 
-```
-npm install helmet
-```
+Installation
+------------
 
-## Basic Express Usage
+    npm install helmet
+
+Basic usage
+-----------
 
 ```javascript
 var helmet = require('helmet');
 ```
 
-To use a particular middleware application-wide, just use it from your app.
-*Make sure it is listed before `app.router`*.
+To use a particular middleware application-wide, just `use` it:
 
 ```javascript
-app.use(express.methodOverride());
-app.use(express.bodyParser());
 app.use(helmet.csp());
-app.use(helmet.xframe());
+app.use(helmet.xframe('deny'));
 app.use(helmet.contentTypeOptions());
-app.use(app.router);
 ```
+
+*If you're using Express, make sure these middlewares are listed before `app.router`*.
 
 If you just want to use the default-level policies, all you need to do is:
 
@@ -42,11 +44,11 @@ If you just want to use the default-level policies, all you need to do is:
 helmet.defaults(app);
 ```
 
-Defaults are semi-configurable too. If you wanted all the defaults but wanted your own xframe options you could do this:
+Don't want all the defaults?
 
 ```javascript
 helmet.defaults(app, { xframe: false });
-app.use(helmet.xframe('deny'));
+app.use(helmet.xframe('sameorigin'));
 ```
 
 ## Content Security Policy
