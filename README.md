@@ -64,7 +64,7 @@ There are two different ways to build CSP policies with Helmet.
 
 ### Using policy()
 
-`policy()` eats a JSON blob (including the output of it's own `toJSON()` function) to create a policy. By default
+`policy()` eats a JSON blob (including the output of its own `toJSON()` function) to create a policy. By default
 helmet has a defaultPolicy that looks like;
 
 ```
@@ -159,7 +159,7 @@ app.use(helmet.ienoopen())
 
 ## X-Content-Type-Options
 
-The following example sets the `X-Content-Type-Options` header to it's only and default option, `nosniff`:
+The following example sets the `X-Content-Type-Options` header to its only and default option, `nosniff`:
 
 ```javascript
 helmet.contentTypeOptions();
