@@ -10,7 +10,7 @@ describe('ienoopen', function () {
         app = connect();
         app.use(helmet.ienoopen());
         app.use(function (req, res) {
-            res.setHeader('Content-Disposition', 'attachment; filename=somefile.txt')
+            res.setHeader('Content-Disposition', 'attachment; filename=somefile.txt');
             res.end('Download this cool file!');
         });
     });
