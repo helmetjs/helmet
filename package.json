@@ -11,11 +11,13 @@
     "node": ">= 0.6.6"
   },
   "devDependencies": {
-    "mocha": "*",
-    "sinon": "*"
+    "connect": "2.11.x",
+    "mocha": "1.14.x",
+    "sinon": "1.7.x",
+    "supertest": "0.8.x"
   },
   "scripts": {
-    "test": "./node_modules/.bin/mocha"
+    "test": "./node_modules/mocha/bin/mocha"
   },
   "main": "lib/index"
 }

@@ -1,23 +1,22 @@
 var helmet = require('../');
-var assert = require('assert');
-var sinon = require('sinon');
+
+var connect = require('connect');
+var request = require('supertest');
 
 describe('iexss', function () {
 
-    var req, res, next, middleware;
+    var app;
     beforeEach(function () {
-        middleware = helmet.iexss();
-        res = { header: sinon.spy() };
-        next = sinon.spy();
+        app = connect();
+        app.use(helmet.iexss());
+        app.use(function (req, res) {
+            res.end('Hello world!');
+        });
     });
 
-    afterEach(function () {
-        assert(next.calledOnce);
-    });
-
-    it('sets header properly', function () {
-        middleware(req, res, next);
-        assert(res.header.withArgs('X-XSS-Protection', '1; mode=block').calledOnce);
+    it('sets header properly', function (done) {
+        request(app).get('/')
+        .expect('X-XSS-Protection', '1; mode=block', done);
     });
 
 });
