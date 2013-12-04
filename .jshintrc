@@ -6,12 +6,16 @@
     "evil": true,
     "white": true,
     "undef": true,
-    "browser": true,
+    "node": true,
     "predef": [
         "module",
         "require",
         "exports",
-        "__dirname"
+        "__dirname",
+        "describe",
+        "beforeEach",
+        "afterEach",
+        "it"
     ]
 }
 

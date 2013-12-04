@@ -2,14 +2,24 @@
   "author": "Adam Baldwin <baldwin@andyet.net> (http://andyet.net/team/baldwin)",
   "name": "helmet",
   "description": "Security header middleware collection for express",
-  "version": "0.0.7",
+  "version": "0.1.2",
+  "keywords": ["security", "headers", "express", "x-frame-options", "csp", "hsts"],
   "repository": {
-    "url": "git://github.com/andyet/helmet.git"
+    "url": "git://github.com/evilpacket/helmet.git"
   },
   "engines": {
     "node": ">= 0.6.6"
   },
-  "dependencies": {},
-  "devDependencies": {},
+  "dependencies": {
+    "platform": "1.0.x"
+  },
+  "devDependencies": {
+    "connect": "2.11.x",
+    "mocha": "1.14.x",
+    "supertest": "0.8.x"
+  },
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha"
+  },
   "main": "lib/index"
 }
