@@ -1,6 +1,6 @@
 {
-  "author": "Adam Baldwin <baldwin@andyet.net> (http://andyet.net/team/baldwin)",
   "name": "helmet",
+  "author": "Adam Baldwin <baldwin@andyet.net> (http://andyet.net/team/baldwin)",
   "description": "Security header middleware collection for express",
   "version": "0.1.2",
   "keywords": ["security", "headers", "express", "x-frame-options", "csp", "hsts"],
