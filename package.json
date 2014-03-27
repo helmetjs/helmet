@@ -19,7 +19,7 @@
     "supertest": "0.8.x"
   },
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha"
+    "test": "mocha"
   },
   "main": "lib/index"
 }
