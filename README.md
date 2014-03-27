@@ -32,12 +32,14 @@ var helmet = require('helmet');
 To use a particular middleware application-wide, just `use` it:
 
 ```javascript
+var app = express(); // or connect
+
 app.use(helmet.csp());
 app.use(helmet.xframe('deny'));
 app.use(helmet.contentTypeOptions());
 ```
 
-*If you're using Express, make sure these middlewares are listed before `app.router`*.
+*If you're using Express 3, make sure these middlewares are listed before `app.router`*.
 
 If you just want to use the default-level policies, all you need to do is:
 
