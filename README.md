@@ -96,6 +96,8 @@ app.use(helmet.csp.reporter('/report-violation', function(report) {
 - `violatedDirective`
 - `originalPolicy`
 
+The middleware returns an empty response with the HTTP status code 204.
+
 HTTP Strict Transport Security
 -------------------------------
 
