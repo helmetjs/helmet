@@ -147,7 +147,7 @@ describe('csp middleware', function () {
 
 describe('csp reporter', function () {
 
-    it('adds cspReport to the request object', function (done) {
+    it('parses the report', function (done) {
 
         var report = JSON.stringify({
             'csp-report': {
