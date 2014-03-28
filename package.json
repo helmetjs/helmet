@@ -1,6 +1,9 @@
 {
   "name": "helmet",
   "author": "Adam Baldwin <baldwin@andyet.net> (http://andyet.net/team/baldwin)",
+  "contributors": [
+    "Evan Hahn <me@evanhahn.com> (http://evanhahn.com)"
+  ],
   "description": "Security header middleware collection for express",
   "version": "0.2.0",
   "keywords": [
