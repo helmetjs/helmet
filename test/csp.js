@@ -31,8 +31,8 @@ describe('csp middleware', function () {
     var CHROME_25 = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 1092) AppleWebKit/537.22 (KHTML like Gecko) Chrome/25.0.1364.97 Safari/537.22';
     CHROME_25.name = 'Chrome 25';
 
-    var OPERA_20 = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.117 Safari/537.36 OPR/20.0.1387.64';
-    OPERA_20.name = 'Opera 15';
+    var OPERA_15 = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.117 Safari/537.36 OPR/15.0.1387.64';
+    OPERA_15.name = 'Opera 15';
 
     function use (policy) {
         var result = connect();
@@ -121,7 +121,7 @@ describe('csp middleware', function () {
     [
         FIREFOX_23,
         CHROME_25,
-        OPERA_20
+        OPERA_15
     ].forEach(function (useragent) {
 
         it('sets the header properly for ' + useragent.name, function (done) {
