@@ -72,7 +72,8 @@ app.use(helmet.csp({
   'sandbox': ['allow-forms', 'allow-scripts'],
   'report-uri': ['/report-violation'],
   reportOnly: false, // set to true if you only want to report errors
-  setAllHeaders: false // set to true if you want to set all headers
+  setAllHeaders: false, // set to true if you want to set all headers
+  safari5: false // set to true if you want to force buggy CSP in Safari 5
 })
 ```
 
