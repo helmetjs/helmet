@@ -58,7 +58,7 @@ describe('csp middleware', function () {
         },
         'Safari 7': {
             string: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.74.9 (KHTML, like Gecko) Version/7.0.2 Safari/537.74.9',
-            header: 'X-WebKit-CSP'
+            header: 'Content-Security-Policy'
         }
     };
 
