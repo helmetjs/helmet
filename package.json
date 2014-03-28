@@ -22,9 +22,7 @@
   },
   "dependencies": {
     "platform": "1.0.x",
-    "underscore": "1.6.x",
-    "body": "4.4.x",
-    "hump": "0.0.4"
+    "underscore": "1.6.x"
   },
   "devDependencies": {
     "connect": "2.11.x",

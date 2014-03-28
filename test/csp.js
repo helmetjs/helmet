@@ -6,6 +6,10 @@ var connect = require('connect');
 var request = require('supertest');
 var assert = require('assert');
 
+function helloWorld(req, res) {
+    res.end('Hello world!');
+}
+
 describe('csp middleware', function () {
 
     var POLICY = {
@@ -37,9 +41,7 @@ describe('csp middleware', function () {
     function use (policy) {
         var result = connect();
         result.use(helmet.csp(policy));
-        result.use(function (req, res) {
-            res.end('Hello world!');
-        });
+        result.use(helloWorld);
         return result;
     }
 
@@ -147,43 +149,6 @@ describe('csp middleware', function () {
             .expect(header, /report-uri \/report-violation/)
             .end(done);
         });
-
-    });
-
-});
-
-describe('csp reporter', function () {
-
-    it('parses the report', function (done) {
-
-        var report = JSON.stringify({
-            'csp-report': {
-                'document-uri': 'http://example.org/page.html',
-                'referrer': 'http://evil.example.com/',
-                'blocked-uri': 'http://evil.example.com/evil.js',
-                'violated-directive': "script-src 'self' https://apis.google.com",
-                'original-policy': "script-src 'self' https://apis.google.com; report-uri http://example.org/my_amazing_csp_report_parser"
-            }
-        });
-
-        var app = connect();
-        app.use(helmet.csp.reporter('/csp-report', function (report, req) {
-            assert(report);
-            assert(req);
-            assert(report.documentUri);
-            assert(report.referrer);
-            assert(report.blockedUri);
-            assert(report.violatedDirective);
-            assert(report.originalPolicy);
-        }));
-        app.use(function (req, res) {
-            res.end('Hello world!');
-        });
-
-        request(app).post('/csp-report')
-        .set('Content-Type', 'application/json; charset=UTF-8')
-        .send(report)
-        .expect(204, done);
 
     });
 
