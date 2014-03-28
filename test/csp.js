@@ -160,14 +160,14 @@ describe('csp reporter', function () {
         });
 
         var app = connect();
-        app.use(helmet.csp.reporter('/csp-report', function (req, res) {
-            var report = req.cspReport;
+        app.use(helmet.csp.reporter('/csp-report', function (report, req) {
             assert(report);
-            assert(report['document-uri']);
-            assert(report['referrer']);
-            assert(report['blocked-uri']);
-            assert(report['violated-directive']);
-            assert(report['original-policy']);
+            assert(req);
+            assert(report.documentUri);
+            assert(report.referrer);
+            assert(report.blockedUri);
+            assert(report.violatedDirective);
+            assert(report.originalPolicy);
         }));
         app.use(function (req, res) {
             res.end('Hello world!');
