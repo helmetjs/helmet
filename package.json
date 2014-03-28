@@ -2,7 +2,7 @@
   "name": "helmet",
   "author": "Adam Baldwin <baldwin@andyet.net> (http://andyet.net/team/baldwin)",
   "description": "Security header middleware collection for express",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "keywords": [
     "security",
     "headers",
@@ -18,7 +18,8 @@
     "node": ">= 0.6.6"
   },
   "dependencies": {
-    "platform": "1.0.x"
+    "platform": "1.0.x",
+    "underscore": "1.6.x"
   },
   "devDependencies": {
     "connect": "2.11.x",
