@@ -74,7 +74,8 @@ describe('csp middleware', function () {
         var app = use({
             reportOnly: true,
             setAllHeaders: true,
-            'default-src': ["'self'"]
+            'default-src': ["'self'"],
+            'report-uri': '/reporter'
         });
         request(app).get('/').set('User-Agent', FIREFOX_23)
         .expect('X-Content-Security-Policy-Report-Only', /default-src 'self'/)
@@ -83,7 +84,7 @@ describe('csp middleware', function () {
         .end(done);
     });
 
-    it('throws an error with unquoted input', function () {
+    it('throws an error when directives need quotes', function () {
         assert.throws(function() {
             helmet.csp({ 'default-src': ['none'] });
         }, Error);
@@ -98,6 +99,12 @@ describe('csp middleware', function () {
         }, Error);
         assert.throws(function() {
             helmet.csp({ 'default-src': 'self' });
+        }, Error);
+    });
+
+    it('throws an error reportOnly is true and there is no report-uri', function () {
+        assert.throws(function() {
+            helmet.csp({ reportOnly: true });
         }, Error);
     });
 
