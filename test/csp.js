@@ -6,33 +6,33 @@ var connect = require('connect');
 var request = require('supertest');
 var assert = require('assert');
 
-var POLICY = {
-    'default-src': ["'self'", 'default.com'],
-    'script-src': ['scripts.com'],
-    'style-src': ['style.com'],
-    'img-src': ['img.com'],
-    'connect-src': ['connect.com'],
-    'font-src': ['font.com'],
-    'object-src': ['object.com'],
-    'media-src': ['media.com'],
-    'frame-src': ['frame.com'],
-    'sandbox': ['allow-forms', 'allow-scripts'],
-    'report-uri': ['/report-violation']
-};
+describe('csp middleware', function () {
 
-var FIREFOX_22 = 'Mozilla/5.0 (Windows NT 6.2; rv:22.0) Gecko/20130405 Firefox/22.0';
-FIREFOX_22.name = 'Firefox 22';
+    var POLICY = {
+        'default-src': ["'self'", 'default.com'],
+        'script-src': ['scripts.com'],
+        'style-src': ['style.com'],
+        'img-src': ['img.com'],
+        'connect-src': ['connect.com'],
+        'font-src': ['font.com'],
+        'object-src': ['object.com'],
+        'media-src': ['media.com'],
+        'frame-src': ['frame.com'],
+        'sandbox': ['allow-forms', 'allow-scripts'],
+        'report-uri': ['/report-violation']
+    };
 
-var FIREFOX_23 = 'Mozilla/5.0 (Windows NT 6.2; rv:22.0) Gecko/20130405 Firefox/23.0';
-FIREFOX_23.name = 'Firefox 23';
+    var FIREFOX_22 = 'Mozilla/5.0 (Windows NT 6.2; rv:22.0) Gecko/20130405 Firefox/22.0';
+    FIREFOX_22.name = 'Firefox 22';
 
-var CHROME_25 = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 1092) AppleWebKit/537.22 (KHTML like Gecko) Chrome/25.0.1364.97 Safari/537.22';
-CHROME_25.name = 'Chrome 25';
+    var FIREFOX_23 = 'Mozilla/5.0 (Windows NT 6.2; rv:22.0) Gecko/20130405 Firefox/23.0';
+    FIREFOX_23.name = 'Firefox 23';
 
-var OPERA_20 = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.117 Safari/537.36 OPR/20.0.1387.64';
-OPERA_20.name = 'Opera 15';
+    var CHROME_25 = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 1092) AppleWebKit/537.22 (KHTML like Gecko) Chrome/25.0.1364.97 Safari/537.22';
+    CHROME_25.name = 'Chrome 25';
 
-describe('csp', function () {
+    var OPERA_20 = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.117 Safari/537.36 OPR/20.0.1387.64';
+    OPERA_20.name = 'Opera 15';
 
     function use (policy) {
         var result = connect();
@@ -140,6 +140,43 @@ describe('csp', function () {
             .expect(header, /report-uri \/report-violation/)
             .end(done);
         });
+
+    });
+
+});
+
+describe('csp reporter', function () {
+
+    it('adds cspReport to the request object', function (done) {
+
+        var report = JSON.stringify({
+            'csp-report': {
+                'document-uri': 'http://example.org/page.html',
+                'referrer': 'http://evil.example.com/',
+                'blocked-uri': 'http://evil.example.com/evil.js',
+                'violated-directive': "script-src 'self' https://apis.google.com",
+                'original-policy': "script-src 'self' https://apis.google.com; report-uri http://example.org/my_amazing_csp_report_parser"
+            }
+        });
+
+        var app = connect();
+        app.use(helmet.csp.reporter('/csp-report', function (req, res) {
+            var report = req.cspReport;
+            assert(report);
+            assert(report['document-uri']);
+            assert(report['referrer']);
+            assert(report['blocked-uri']);
+            assert(report['violated-directive']);
+            assert(report['original-policy']);
+        }));
+        app.use(function (req, res) {
+            res.end('Hello world!');
+        });
+
+        request(app).post('/csp-report')
+        .set('Content-Type', 'application/json; charset=UTF-8')
+        .send(report)
+        .expect(204, done);
 
     });
 
