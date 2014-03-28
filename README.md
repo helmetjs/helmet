@@ -78,6 +78,24 @@ app.use(helmet.csp({
 
 There are a lot of inconsistencies in how browsers implement CSP. Helmet sniffs the user-agent of the browser and sets the appropriate header and value for that browser. If no user-agent is found, it will set _all_ the headers with the 1.0 spec.
 
+### Violation reports
+
+Helmet also includes a convenience method for handling CSP violation reports. Here's how you use it:
+
+```javascript
+app.use(helmet.csp.reporter('/report-violation', function(report) {
+  // handle the report
+}));
+```
+
+`report` contains the following values (assuming they're provided by the violator):
+
+- `documentUri`
+- `referrer`
+- `blockedUri`
+- `violatedDirective`
+- `originalPolicy`
+
 HTTP Strict Transport Security
 -------------------------------
 
