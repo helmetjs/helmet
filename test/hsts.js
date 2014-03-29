@@ -4,7 +4,6 @@ var connect = require('connect');
 var request = require('supertest');
 
 describe('hsts', function () {
-    "use strict";
 
     var app;
     beforeEach(function () {
