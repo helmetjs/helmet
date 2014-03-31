@@ -108,6 +108,7 @@ describe('xframe', function () {
             assert.throws(callWith('ALLOW-FROM', null));
             assert.throws(callWith('ALLOW-FROM', false));
             assert.throws(callWith('ALLOW-FROM', 123));
+            assert.throws(callWith('ALLOW-FROM', ['http://website.com', 'http//otherwebsite.com']));
         });
 
     });
