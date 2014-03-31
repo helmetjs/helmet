@@ -3,7 +3,7 @@ Helmet
 
 [![Dependency Status](https://david-dm.org/evilpacket/helmet.png)](https://david-dm.org/evilpacket/helmet)
 
-Helmet is a series of middlewares for Express/Connect apps that implement various security headers to make your app more secure.
+Helmet is a series of middlewares for Express/Connect apps that implement various security headers to make your app more secure. *It's not a silver bullet*, but it can help!
 
 Helmet includes the following middlewares:
 
