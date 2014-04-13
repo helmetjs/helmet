@@ -4,7 +4,7 @@
   "contributors": [
     "Evan Hahn <me@evanhahn.com> (http://evanhahn.com)"
   ],
-  "description": "Security header middleware collection for express",
+  "description": "Security header middleware collection for Express/Connect",
   "version": "0.2.0",
   "keywords": [
     "security",
