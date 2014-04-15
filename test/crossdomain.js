@@ -24,7 +24,7 @@ describe('crossdomain', function () {
         .expect('Content-Type', /text\/x-cross-domain-policy/)
         .expect(/^<\?xml version="1.0"\?>/)
         .expect(/<!DOCTYPE cross-domain-policy SYSTEM "http:\/\/www.adobe.com\/xml\/dtds\/cross-domain-policy\.dtd">/)
-        .expect(/<cross-domain-policy>.+<\/cross-domain-policy>/)
+        .expect(/<cross-domain-policy>.+<\/cross-domain-policy>$/)
         .expect(/<site-control permitted-cross-domain-policies="none"\/>/)
         .expect(200, done);
     });
