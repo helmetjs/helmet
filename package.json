@@ -12,7 +12,8 @@
     "express",
     "x-frame-options",
     "csp",
-    "hsts"
+    "hsts",
+    "crossdomain.xml"
   ],
   "repository": {
     "url": "git://github.com/evilpacket/helmet.git"

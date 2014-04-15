@@ -14,6 +14,7 @@ Helmet includes the following middlewares:
 - `ienoopen` (X-Download-Options for IE8+)
 - `contentTypeOptions` (X-Content-Type-Options)
 - `cacheControl` (Cache-Control)
+- `crossdomain` (crossdomain.xml)
 - `hidePoweredBy` (remove X-Powered-By)
 
 Installation
@@ -166,6 +167,15 @@ The following example sets the `Cache-Control` header to `no-store, no-cache`. T
 
 ```javascript
 app.use(helmet.cacheControl())
+```
+
+Crossdomain.xml
+---------------
+
+The following example sets the most restrictive [crossdomain.xml](http://www.adobe.com/devnet/articles/crossdomain_policy_file_spec.html):
+
+```javascript
+app.use(helmet.crossdomain())
 ```
 
 Hide X-Powered-By
