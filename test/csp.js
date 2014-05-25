@@ -59,6 +59,16 @@ describe('csp middleware', function () {
         'Safari 7': {
             string: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.74.9 (KHTML, like Gecko) Version/7.0.2 Safari/537.74.9',
             header: 'Content-Security-Policy'
+        },
+        'Internet Explorer 10': {
+            string: 'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)',
+            header: 'X-Content-Security-Policy',
+            special: true
+        },
+        'Internet Explorer 11': {
+            string: 'Mozilla/5.0 (Windows NT 6.1; Trident/7.0; rv:11.0) like Gecko/20100101 Firefox/12.0',
+            header: 'X-Content-Security-Policy',
+            special: true
         }
     };
 
@@ -200,6 +210,50 @@ describe('csp middleware', function () {
         });
         request(app).get('/').set('User-Agent', AGENTS['Safari 5.1'].string)
         .expect('X-WebKit-CSP', 'default-src a.com', done);
+    });
+
+    it('sets the header for IE 10 only if sandbox is specified', function (done) {
+        var app = use({
+          sandbox: ['allow-forms', 'allow-scripts'],
+        });
+
+        request(app).get('/').set('User-Agent', AGENTS['Internet Explorer 10'].string)
+        .expect('X-Content-Security-Policy', 'sandbox', done);
+    });
+
+    it("doesn't set the sandbox for IE 10 if sandbox was not specified", function (done) {
+        var app = use({});
+
+        request(app).get('/').set('User-Agent', AGENTS['Internet Explorer 10'].string)
+        .end(function(err, res) {
+            if (err) {
+              return done(err);
+            }
+            assert(res.header['x-content-security-policy'] === undefined);
+            done();
+        });
+    });
+
+    it('sets the header for IE 11 only if sandbox is specified', function (done) {
+        var app = use({
+          sandbox: ['allow-forms', 'allow-scripts'],
+        });
+
+        request(app).get('/').set('User-Agent', AGENTS['Internet Explorer 11'].string)
+        .expect('X-Content-Security-Policy', 'sandbox', done);
+    });
+
+    it("doesn't set the sandbox for IE 11 if sandbox was not specified", function (done) {
+        var app = use({});
+
+        request(app).get('/').set('User-Agent', AGENTS['Internet Explorer 11'].string)
+        .end(function(err, res) {
+            if (err) {
+              return done(err);
+            }
+            assert(res.header['x-content-security-policy'] === undefined);
+            done();
+        });
     });
 
 });
