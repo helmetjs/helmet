@@ -134,13 +134,13 @@ describe('csp middleware', function () {
         }, Error);
     });
 
-    _.each(AGENTS, function(agent) {
+    _.each(AGENTS, function(agent, name) {
 
         if (agent.special) {
             return;
         }
 
-        it('sets the header properly for ' + agent.name, function (done) {
+        it('sets the header properly for ' + name, function (done) {
             var app = use(POLICY);
             var header = agent.header;
             request(app).get('/').set('User-Agent', agent.string)
@@ -186,9 +186,9 @@ describe('csp middleware', function () {
             if (err) {
                 return done(err);
             }
-            assert(res.header['X-WebKit-CSP'] === undefined);
-            assert(res.header['Content-Security-Policy'] === undefined);
-            assert(res.header['X-Content-Security-Policy'] === undefined);
+            assert(res.header['x-webkit-csp'] === undefined);
+            assert(res.header['content-security-policy'] === undefined);
+            assert(res.header['x-content-security-policy'] === undefined);
             done();
         });
     });
