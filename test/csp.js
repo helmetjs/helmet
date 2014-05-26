@@ -66,7 +66,7 @@ describe('csp middleware', function () {
             special: true
         },
         'Internet Explorer 11': {
-            string: 'Mozilla/5.0 (Windows NT 6.1; Trident/7.0; rv:11.0) like Gecko/20100101 Firefox/12.0',
+            string: 'Mozilla/5.0 (Windows NT 6.1; Trident/7.0; rv:11.0) like Gecko',
             header: 'X-Content-Security-Policy',
             special: true
         }
