@@ -202,4 +202,25 @@ describe('csp middleware', function () {
         .expect('X-WebKit-CSP', 'default-src a.com', done);
     });
 
+    it('dont splice the original array', function (done) {
+        var app = use({
+            'style-src': [
+                "'self'",
+                "'unsafe-inline'"
+            ]
+        });
+        var chrome = AGENTS['Chrome 27'];
+        var ff = AGENTS['Firefox 22'];
+        request(app).get('/').set('User-Agent', chrome.string)
+        .expect(chrome.header, /style-src 'self' 'unsafe-inline';/)
+        .end(function() {
+            request(app).get('/').set('User-Agent', ff.string)
+            .expect(ff.header, /style-src 'self';/)
+            .end(function() {
+                request(app).get('/').set('User-Agent', chrome.string)
+                .expect(chrome.header, /style-src 'self' 'unsafe-inline';/)
+                .end(done);
+            });
+        });
+    });
 });
