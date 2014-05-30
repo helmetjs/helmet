@@ -212,13 +212,13 @@ describe('csp middleware', function () {
         var chrome = AGENTS['Chrome 27'];
         var ff = AGENTS['Firefox 22'];
         request(app).get('/').set('User-Agent', chrome.string)
-        .expect(chrome.header, /style-src 'self' 'unsafe-inline';/)
-        .end(function() {
+        .expect(chrome.header, /style-src 'self' 'unsafe-inline'/)
+        .end(function(err,res) {
             request(app).get('/').set('User-Agent', ff.string)
-            .expect(ff.header, /style-src 'self';/)
-            .end(function() {
+            .expect(ff.header, /style-src 'self'/)
+            .end(function(err, res) {
                 request(app).get('/').set('User-Agent', chrome.string)
-                .expect(chrome.header, /style-src 'self' 'unsafe-inline';/)
+                .expect(chrome.header, /style-src 'self' 'unsafe-inline'/)
                 .end(done);
             });
         });
