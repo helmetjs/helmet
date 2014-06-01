@@ -59,6 +59,24 @@ describe('csp middleware', function () {
         'Safari 7': {
             string: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.74.9 (KHTML, like Gecko) Version/7.0.2 Safari/537.74.9',
             header: 'Content-Security-Policy'
+        },
+        'Internet Explorer 8': {
+            string: 'Mozilla/5.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0; GTB7.4; InfoPath.2; SV1; .NET CLR 3.3.69573; WOW64; en-US)',
+            special: true
+        },
+        'Internet Explorer 9': {
+            string: 'Mozilla/5.0 (Windows; U; MSIE 9.0; Windows NT 9.0; en-US)',
+            special: true
+        },
+        'Internet Explorer 10': {
+            string: 'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)',
+            header: 'X-Content-Security-Policy',
+            special: true
+        },
+        'Internet Explorer 11': {
+            string: 'Mozilla/5.0 (Windows NT 6.1; Trident/7.0; rv:11.0) like Gecko',
+            header: 'X-Content-Security-Policy',
+            special: true
         }
     };
 
@@ -179,18 +197,26 @@ describe('csp middleware', function () {
         .end(done);
     });
 
-    it("doesn't set the property for Safari 5.1 by default", function (done) {
-        var app = use(POLICY);
-        request(app).get('/').set('User-Agent', AGENTS['Safari 5.1'].string)
-        .end(function(err, res) {
-            if (err) {
-                return done(err);
-            }
-            assert(res.header['X-WebKit-CSP'] === undefined);
-            assert(res.header['Content-Security-Policy'] === undefined);
-            assert(res.header['X-Content-Security-Policy'] === undefined);
-            done();
+    [
+        'Safari 5.1',
+        'Internet Explorer 8',
+        'Internet Explorer 9'
+    ].forEach(function (browser) {
+
+        it("doesn't set the property for " + browser + " by default", function (done) {
+            var app = use(POLICY);
+            request(app).get('/').set('User-Agent', AGENTS[browser].string)
+            .end(function(err, res) {
+                if (err) {
+                    return done(err);
+                }
+                assert(res.header['X-WebKit-CSP'] === undefined);
+                assert(res.header['Content-Security-Policy'] === undefined);
+                assert(res.header['X-Content-Security-Policy'] === undefined);
+                done();
+            });
         });
+
     });
 
     it('sets the header for Safari 5.1 if you force it', function (done) {
@@ -200,6 +226,36 @@ describe('csp middleware', function () {
         });
         request(app).get('/').set('User-Agent', AGENTS['Safari 5.1'].string)
         .expect('X-WebKit-CSP', 'default-src a.com', done);
+    });
+
+    [10, 11].forEach(function (version) {
+
+        var ua = AGENTS['Internet Explorer ' + version];
+
+        it('sets the header for IE ' + version + ' if sandbox is true', function (done) {
+            var app = use({ sandbox: true });
+            request(app).get('/').set('User-Agent', ua.string)
+            .expect(ua.header, 'sandbox', done);
+        });
+
+        it('sets the header for IE ' + version + ' if sandbox is an array', function (done) {
+            var app = use({ sandbox: ['allow-forms', 'allow-scripts'] });
+            request(app).get('/').set('User-Agent', ua.string)
+            .expect(ua.header, /sandbox allow-forms allow-scripts/, done);
+        });
+
+        it("doesn't set the header for IE " + version + " if sandbox isn't specified", function (done) {
+            var app = use({ 'default-src': ["'self'"] });
+            request(app).get('/').set('User-Agent', ua.string)
+            .end(function (err, res) {
+                if (err) {
+                    return done(err);
+                }
+                assert(res.header[ua.header] === undefined);
+                done();
+            });
+        });
+
     });
 
     it("doesn't splice the original array", function (done) {
