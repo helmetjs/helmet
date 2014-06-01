@@ -134,13 +134,13 @@ describe('csp middleware', function () {
         }, Error);
     });
 
-    _.each(AGENTS, function(agent) {
+    _.each(AGENTS, function(agent, name) {
 
         if (agent.special) {
             return;
         }
 
-        it('sets the header properly for ' + agent.name, function (done) {
+        it('sets the header properly for ' + name, function (done) {
             var app = use(POLICY);
             var header = agent.header;
             request(app).get('/').set('User-Agent', agent.string)
