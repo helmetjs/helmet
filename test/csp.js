@@ -202,7 +202,7 @@ describe('csp middleware', function () {
         .expect('X-WebKit-CSP', 'default-src a.com', done);
     });
 
-    it('dont splice the original array', function (done) {
+    it("doesn't splice the original array", function (done) {
         var app = use({
             'style-src': [
                 "'self'",
