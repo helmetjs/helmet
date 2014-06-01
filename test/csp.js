@@ -48,6 +48,10 @@ describe('csp middleware', function () {
             string: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.117 Safari/537.36 OPR/15.0.1387.64',
             header: 'Content-Security-Policy'
         },
+        'Opera 21': {
+            string: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.132 Safari/537.36 OPR/21.0.1432.67',
+            header: 'Content-Security-Policy'
+        },
         'Safari 5.1': {
             string: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_3) AppleWebKit/534.55.3 (KHTML, like Gecko) Version/5.1.3 Safari/534.53.10',
             special: true
