@@ -213,10 +213,10 @@ describe('csp middleware', function () {
         var ff = AGENTS['Firefox 22'];
         request(app).get('/').set('User-Agent', chrome.string)
         .expect(chrome.header, /style-src 'self' 'unsafe-inline'/)
-        .end(function(err,res) {
+        .end(function() {
             request(app).get('/').set('User-Agent', ff.string)
             .expect(ff.header, /style-src 'self'/)
-            .end(function(err, res) {
+            .end(function() {
                 request(app).get('/').set('User-Agent', chrome.string)
                 .expect(chrome.header, /style-src 'self' 'unsafe-inline'/)
                 .end(done);
