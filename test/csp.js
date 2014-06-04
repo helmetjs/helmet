@@ -214,9 +214,9 @@ describe('csp middleware', function () {
                 if (err) {
                     return done(err);
                 }
-                assert(res.header['X-WebKit-CSP'] === undefined);
-                assert(res.header['Content-Security-Policy'] === undefined);
-                assert(res.header['X-Content-Security-Policy'] === undefined);
+                assert(res.header['x-webkit-csp'] === undefined);
+                assert(res.header['content-security-policy'] === undefined);
+                assert(res.header['x-content-security-policy'] === undefined);
                 done();
             });
         });
@@ -255,7 +255,7 @@ describe('csp middleware', function () {
                 if (err) {
                     return done(err);
                 }
-                assert(res.header[ua.header] === undefined);
+                assert(res.header[ua.header.toLowerCase()] === undefined);
                 done();
             });
         });
