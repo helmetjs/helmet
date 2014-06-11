@@ -5,7 +5,7 @@
     "Evan Hahn <me@evanhahn.com> (http://evanhahn.com)"
   ],
   "description": "Security middleware collection for Express/Connect",
-  "version": "0.2.4",
+  "version": "0.3.0",
   "keywords": [
     "security",
     "headers",
@@ -27,7 +27,9 @@
   },
   "devDependencies": {
     "connect": "2.19.x",
+    "express": "4.4.x",
     "mocha": "1.20.x",
+    "sinon": "1.10.x",
     "supertest": "0.13.x"
   },
   "scripts": {
