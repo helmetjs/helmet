@@ -179,6 +179,13 @@ The following example sets the most restrictive [crossdomain.xml](http://www.ado
 app.use(helmet.crossdomain())
 ```
 
+This serves the policy at `/crossdomain.xml`. By default, this is case-insensitive. To make it case-sensitive:
+
+```javascript
+app.use(helmet.crossdomain({ caseSensitive: true }))
+// This will now ONLY match all-lowercase /crossdomain.xml.
+```
+
 Hide X-Powered-By
 -----------------
 

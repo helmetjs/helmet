@@ -26,6 +26,11 @@ describe('crossdomain', function () {
         .expect(200, done);
     }
 
+    function expectHello(uri, done) {
+        request(app).get('/')
+        .expect('Hello world!', done);
+    }
+
     function test(uri) {
         it('responds with proper XML visiting ' + uri, function (done) {
             expectPolicy(uri, done);
@@ -33,7 +38,7 @@ describe('crossdomain', function () {
     }
 
     it('preserves normal responses', function (done) {
-        request(app).get('/').expect('Hello world!', done);
+        expectHello('/', done);
     });
 
     test('/crossdomain.xml');
@@ -41,10 +46,12 @@ describe('crossdomain', function () {
     test('/CrossDomain.xml');
     test('/CROSSDOMAIN.xml');
     test('/CROSSDOMAIN.XML');
+    test('/crossdomain.xml?');
+    test('/crossdomain.xml?foo=123&bar=456');
 
     it('can be forced to be case-sensitive in the middleware', function (done) {
 
-        var testsRemaining = 5;
+        var testsRemaining = 7;
         function finished(err) {
             if (err) {
                 done(err);
@@ -61,10 +68,12 @@ describe('crossdomain', function () {
         app.use(helloWorld);
 
         expectPolicy('/crossdomain.xml', finished);
-        request(app).get('/crossdomain.XML').expect('Hello world!', finished);
-        request(app).get('/CrossDomain.xml').expect('Hello world!', finished);
-        request(app).get('/CROSSDOMAIN.xml').expect('Hello world!', finished);
-        request(app).get('/CROSSDOMAIN.XML').expect('Hello world!', finished);
+        expectPolicy('/crossdomain.xml?CAPITALIZED=ARGUMENTS', finished);
+        expectHello('/crossdomain.XML', finished);
+        expectHello('/CrossDomain.xml', finished);
+        expectHello('/CROSSDOMAIN.xml', finished);
+        expectHello('/CROSSDOMAIN.XML', finished);
+        expectHello('/CROSSDOMAIN.XML?foo=bar', finished);
 
     });
 
