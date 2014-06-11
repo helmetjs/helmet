@@ -27,7 +27,6 @@
   },
   "devDependencies": {
     "connect": "2.19.x",
-    "express": "4.4.x",
     "mocha": "1.20.x",
     "sinon": "1.10.x",
     "supertest": "0.13.x"
