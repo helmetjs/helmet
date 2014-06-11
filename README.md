@@ -85,16 +85,36 @@ HTTP Strict Transport Security
 
 This middleware adds the `Strict-Transport-Security` header to the response. [See the spec.](http://tools.ietf.org/html/draft-ietf-websec-strict-transport-sec-04)
 
-To use the default header of `Strict-Transport-Security: maxAge=15768000` (about 6 months):
-
 ```javascript
-app.use(helmet.hsts())
+var ninetyDaysInMilliseconds = 7776000000;
+app.use(helmet.hsts({ maxAge: ninetyDaysInMilliseconds }))
 ```
 
-To adjust other values for `maxAge` and to include subdomains:
+To include subdomains:
 
 ```javascript
-app.use(helmet.hsts(1234567, true))
+app.use(helmet.hsts({
+  maxAge: 123000,
+  includeSubdomains: true
+})
+```
+
+This'll be set if `req.secure` is true. If you're not using Express, that value won't necessarily be set, so you have two options:
+
+```javascript
+// Set the header based on conditions
+app.use(helmet.use({
+  maxAge: 1234000,
+  setIf: function(req, res) {
+    return Math.random() < 0.5
+  }
+})
+
+// ALWAYS set the header
+app.use(helmet.use({
+  maxAge: 1234000,
+  force: true
+})
 ```
 
 Note that the max age is in _seconds_, not milliseconds (as is typical in JavaScript).
