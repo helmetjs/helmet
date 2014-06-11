@@ -141,6 +141,7 @@ This sets the `X-XSS-Protection` header. On modern browsers, it will set the val
 
 ```javascript
 app.use(helmet.iexss({ setOnOldIE: true }))
+// This has some security problems for old IE!
 ```
 
 ## X-Download-Options
