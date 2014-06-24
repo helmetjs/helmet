@@ -21,12 +21,11 @@ Installation
 ------------
 
 ```sh
-npm install helmet
+npm install helmet --save
 ```
 
 Basic usage
 -----------
-
 
 To use a particular middleware application-wide, just `use` it:
 
