@@ -22,6 +22,7 @@
     "node": ">= 0.6.6"
   },
   "dependencies": {
+    "camelize": "0.1.x",
     "platform": "1.2.x",
     "underscore": "1.6.x"
   },
