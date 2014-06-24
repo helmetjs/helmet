@@ -16,6 +16,7 @@
     "crossdomain.xml"
   ],
   "repository": {
+    "type": "git",
     "url": "git://github.com/evilpacket/helmet.git"
   },
   "engines": {
