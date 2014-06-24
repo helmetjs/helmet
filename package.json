@@ -15,6 +15,7 @@
     "hsts",
     "crossdomain.xml"
   ],
+  "bugs": "https://github.com/evilpacket/helmet/issues",
   "repository": {
     "type": "git",
     "url": "git://github.com/evilpacket/helmet.git"
