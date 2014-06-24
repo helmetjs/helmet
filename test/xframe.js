@@ -96,6 +96,8 @@ describe('xframe', function () {
             assert.throws(callWith(' '));
             assert.throws(callWith('denyy'));
             assert.throws(callWith('DENNY'));
+            assert.throws(callWith(' deny '));
+            assert.throws(callWith(' DENY '));
             assert.throws(callWith(123));
             assert.throws(callWith(false));
             assert.throws(callWith(null));
