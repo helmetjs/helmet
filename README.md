@@ -20,7 +20,9 @@ Helmet includes the following middlewares:
 Installation
 ------------
 
-    npm install helmet
+```sh
+npm install helmet
+```
 
 Basic usage
 -----------
