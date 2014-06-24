@@ -72,7 +72,9 @@ describe('xframe', function () {
         });
 
         it("works with String objects and doesn't change them", function (done) {
+            /* jshint -W053 */
             var str = new String('SAMEORIGIN');
+            /* jshint +W053 */
             app.use(helmet.xframe(str)).use(hello);
             request(app).get('/')
             .expect('X-Frame-Options', 'SAMEORIGIN', done);

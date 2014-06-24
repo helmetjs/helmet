@@ -20,11 +20,12 @@ Helmet includes the following middlewares:
 Installation
 ------------
 
-    npm install helmet
+```sh
+npm install helmet --save
+```
 
 Basic usage
 -----------
-
 
 To use a particular middleware application-wide, just `use` it:
 
@@ -61,22 +62,24 @@ Usage:
 
 ```javascript
 app.use(helmet.csp({
-  'default-src': ["'self'", 'default.com'],
-  'script-src': ['scripts.com'],
-  'style-src': ['style.com'],
-  'img-src': ['img.com'],
-  'connect-src': ['connect.com'],
-  'font-src': ['font.com'],
-  'object-src': ['object.com'],
-  'media-src': ['media.com'],
-  'frame-src': ['frame.com'],
-  'sandbox': ['allow-forms', 'allow-scripts'],
-  'report-uri': ['/report-violation'],
+  defaultSrc: ["'self'", 'default.com'],
+  scriptSrc: ['scripts.com'],
+  styleSrc: ['style.com'],
+  imgSrc: ['img.com'],
+  connectSrc: ['connect.com'],
+  fontSrc: ['font.com'],
+  objectSrc: ['object.com'],
+  mediaSrc: ['media.com'],
+  frameSrc: ['frame.com'],
+  sandbox: ['allow-forms', 'allow-scripts'],
+  reportUri: ['/report-violation'],
   reportOnly: false, // set to true if you only want to report errors
   setAllHeaders: false, // set to true if you want to set all headers
   safari5: false // set to true if you want to force buggy CSP in Safari 5
 })
 ```
+
+You can specify keys in a camel-cased fashion (`imgSrc`) or dashed (`img-src`); they are equivalent.
 
 There are a lot of inconsistencies in how browsers implement CSP. Helmet sniffs the user-agent of the browser and sets the appropriate header and value for that browser. If no user-agent is found, it will set _all_ the headers with the 1.0 spec.
 
@@ -161,6 +164,7 @@ This sets the `X-XSS-Protection` header. On modern browsers, it will set the val
 
 ```javascript
 app.use(helmet.iexss({ setOnOldIE: true }))
+// This has some security problems for old IE!
 ```
 
 ## X-Download-Options
@@ -196,6 +200,13 @@ The following example sets the most restrictive [crossdomain.xml](http://www.ado
 
 ```javascript
 app.use(helmet.crossdomain())
+```
+
+This serves the policy at `/crossdomain.xml`. By default, this is case-insensitive. To make it case-sensitive:
+
+```javascript
+app.use(helmet.crossdomain({ caseSensitive: true }))
+// This will now ONLY match all-lowercase /crossdomain.xml.
 ```
 
 Hide X-Powered-By

@@ -19,6 +19,11 @@ describe('iexss', function () {
         });
     });
 
+    it('sets header if there is no user-agent', function (done) {
+        request(app).get('/').unset('User-Agent')
+        .expect('X-XSS-Protection', '1; mode=block', done);
+    });
+
     it('sets header for Firefox 23', function (done) {
         request(app).get('/').set('User-Agent', FIREFOX_23)
         .expect('X-XSS-Protection', '1; mode=block', done);

@@ -27,6 +27,20 @@ describe('csp middleware', function () {
         'report-uri': ['/report-violation']
     };
 
+    var CAMELCASE_POLICY = {
+        defaultSrc: ["'self'", 'default.com'],
+        scriptSrc: ['scripts.com'],
+        styleSrc: ['style.com'],
+        imgSrc: ['img.com'],
+        connectSrc: ['connect.com'],
+        fontSrc: ['font.com'],
+        objectSrc: ['object.com'],
+        mediaSrc: ['media.com'],
+        frameSrc: ['frame.com'],
+        sandbox: ['allow-forms', 'allow-scripts'],
+        reportUri: ['/report-violation']
+    };
+
     var AGENTS = {
         'Firefox 22': {
             string: 'Mozilla/5.0 (Windows NT 6.2; rv:22.0) Gecko/20130405 Firefox/22.0',
@@ -162,8 +176,25 @@ describe('csp middleware', function () {
             return;
         }
 
-        it('sets the header properly for ' + name, function (done) {
+        it('sets the header properly for ' + name + ' given dashed names', function (done) {
             var app = use(POLICY);
+            var header = agent.header;
+            request(app).get('/').set('User-Agent', agent.string)
+            .expect(header, /default-src 'self' default.com/)
+            .expect(header, /script-src scripts.com/)
+            .expect(header, /img-src img.com/)
+            .expect(header, /connect-src connect.com/)
+            .expect(header, /font-src font.com/)
+            .expect(header, /object-src object.com/)
+            .expect(header, /media-src media.com/)
+            .expect(header, /frame-src frame.com/)
+            .expect(header, /sandbox allow-forms allow-scripts/)
+            .expect(header, /report-uri \/report-violation/)
+            .end(done);
+        });
+
+        it('sets the header properly for ' + name + ' given camelCased names', function (done) {
+            var app = use(CAMELCASE_POLICY);
             var header = agent.header;
             request(app).get('/').set('User-Agent', agent.string)
             .expect(header, /default-src 'self' default.com/)
@@ -283,4 +314,5 @@ describe('csp middleware', function () {
             });
         });
     });
+
 });
