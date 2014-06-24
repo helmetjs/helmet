@@ -27,11 +27,13 @@
   },
   "devDependencies": {
     "connect": "2.19.x",
+    "jshint": "2.5.x",
     "mocha": "1.20.x",
     "supertest": "0.13.x"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "hint": "jshint ."
   },
   "main": "lib/index"
 }
