@@ -24,7 +24,7 @@ describe('csp middleware', function () {
         'media-src': ['media.com'],
         'frame-src': ['frame.com'],
         'sandbox': ['allow-forms', 'allow-scripts'],
-        'report-uri': ['/report-violation']
+        'report-uri': '/report-violation'
     };
 
     var CAMELCASE_POLICY = {
@@ -38,7 +38,7 @@ describe('csp middleware', function () {
         mediaSrc: ['media.com'],
         frameSrc: ['frame.com'],
         sandbox: ['allow-forms', 'allow-scripts'],
-        reportUri: ['/report-violation']
+        reportUri: '/report-violation'
     };
 
     var AGENTS = {
