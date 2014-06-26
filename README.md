@@ -218,6 +218,12 @@ This middleware will remove the `X-Powered-By` header if it is set.
 app.use(helmet.hidePoweredBy())
 ```
 
+You can also explicitly set the header to something else, if you want:
+
+```javascript
+app.use(helmet.hidePoweredBy({ setTo: 'PHP 4.2.0' }))
+```
+
 Note: if you're using Express, you can skip Helmet's middleware if you want:
 
 ```javascript
