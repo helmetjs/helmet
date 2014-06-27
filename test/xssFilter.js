@@ -3,7 +3,7 @@ var helmet = require('../');
 var connect = require('connect');
 var request = require('supertest');
 
-describe('iexss', function () {
+describe('xssFilter', function () {
 
     var IE_7 = 'Mozilla/5.0 (Windows; U; MSIE 7.0; Windows NT 6.0; en-US)';
     var IE_8 = 'Mozilla/4.0 ( ; MSIE 8.0; Windows NT 6.0; Trident/4.0; GTB6.6; .NET CLR 3.5.30729)';
@@ -13,7 +13,7 @@ describe('iexss', function () {
     var app;
     beforeEach(function () {
         app = connect();
-        app.use(helmet.iexss());
+        app.use(helmet.xssFilter());
         app.use(function (req, res) {
             res.end('Hello world!');
         });
@@ -46,7 +46,7 @@ describe('iexss', function () {
 
     it('allows you to set the header for old IE', function (done) {
         app = connect();
-        app.use(helmet.iexss({ setOnOldIE: true }));
+        app.use(helmet.xssFilter({ setOnOldIE: true }));
         app.use(function (req, res) {
             res.end('Hello world!');
         });
