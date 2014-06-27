@@ -1,5 +1,6 @@
 var helmet = require('../');
 
+var assert = require('assert');
 var connect = require('connect');
 var request = require('supertest');
 
@@ -75,6 +76,11 @@ describe('crossdomain', function () {
         expectHello('/CROSSDOMAIN.XML', finished);
         expectHello('/CROSSDOMAIN.XML?foo=bar', finished);
 
+    });
+
+    it('names its function and middleware', function () {
+        assert.equal(helmet.crossdomain.name, 'crossdomain');
+        assert.equal(helmet.crossdomain().name, 'crossdomain');
     });
 
 });

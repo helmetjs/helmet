@@ -1,5 +1,6 @@
 var helmet = require('../');
 
+var assert = require('assert');
 var connect = require('connect');
 var request = require('supertest');
 
@@ -52,6 +53,11 @@ describe('xssFilter', function () {
         });
         request(app).get('/').set('User-Agent', IE_8)
         .expect('X-XSS-Protection', '1; mode=block', done);
+    });
+
+    it('names its function and middleware', function () {
+        assert.equal(helmet.xssFilter.name, 'xssFilter');
+        assert.equal(helmet.xssFilter().name, 'xssFilter');
     });
 
 });

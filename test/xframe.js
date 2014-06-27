@@ -117,4 +117,9 @@ describe('xframe', function () {
 
     });
 
+    it('names its function and middleware', function () {
+        assert.equal(helmet.xframe.name, 'xframe');
+        assert.equal(helmet.xframe().name, 'xframe');
+    });
+
 });

@@ -36,4 +36,9 @@ describe('hidePoweredBy', function () {
         shouldBe: 'steampowered'
     });
 
+    it('names its function and middleware', function () {
+        assert.equal(helmet.hidePoweredBy.name, 'hidePoweredBy');
+        assert.equal(helmet.hidePoweredBy().name, 'hidePoweredBy');
+    });
+
 });

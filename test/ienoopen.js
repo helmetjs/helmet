@@ -1,5 +1,6 @@
 var helmet = require('../');
 
+var assert = require('assert');
 var connect = require('connect');
 var request = require('supertest');
 
@@ -18,6 +19,11 @@ describe('ienoopen', function () {
     it('sets header properly', function (done) {
         request(app).get('/')
         .expect('X-Download-Options', 'noopen', done);
+    });
+
+    it('names its function and middleware', function () {
+        assert.equal(helmet.ienoopen.name, 'ienoopen');
+        assert.equal(helmet.ienoopen().name, 'ienoopen');
     });
 
 });

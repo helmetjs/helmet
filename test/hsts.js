@@ -86,7 +86,7 @@ describe('hsts', function () {
     it('lets you decide whether it should be set', function () {
         handler = helmet.hsts({
             maxAge: maxAge,
-            setIf: function(req, res) {
+            setIf: function(req) {
                 return req.pleaseSet;
             }
         });
@@ -94,6 +94,11 @@ describe('hsts', function () {
         req.pleaseSet = true;
         handler(req, res, next);
         assert(res.setHeader.calledOnce);
+    });
+
+    it('names its function and middleware', function () {
+        assert.equal(helmet.hsts.name, 'hsts');
+        assert.equal(helmet.hsts({ maxAge: 1 }).name, 'hsts');
     });
 
 });

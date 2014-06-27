@@ -315,4 +315,9 @@ describe('csp middleware', function () {
         });
     });
 
+    it('names its function and middleware', function () {
+        assert.equal(helmet.csp.name, 'csp');
+        assert.equal(helmet.csp().name, 'csp');
+    });
+
 });
