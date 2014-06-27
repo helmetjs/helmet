@@ -31,11 +31,11 @@ npm install helmet --save
 To use a particular middleware application-wide, just `use` it:
 
 ```javascript
-var helmet = require('helmet')
-var app = express() // or connect
+var helmet = require('helmet');
+var app = express(); // or connect
 
-app.use(helmet.xframe('deny'))
-app.use(helmet.contentTypeOptions())
+app.use(helmet.xframe('deny'));
+app.use(helmet.contentTypeOptions());
 ```
 
 *If you're using Express 3, make sure these middlewares are listed before `app.router`.*
@@ -43,14 +43,14 @@ app.use(helmet.contentTypeOptions())
 If you just want to use the default-level policies, all you need to do is:
 
 ```javascript
-app.use(helmet())
+app.use(helmet());
 ```
 
 Don't want all the defaults?
 
 ```javascript
-app.use(helmet({ xframe: false, hsts: false }))
-app.use(helmet.xframe('sameorigin'))
+app.use(helmet({ xframe: false, hsts: false }));
+app.use(helmet.xframe('sameorigin'));
 ```
 
 Usage guide
@@ -104,13 +104,13 @@ There are a lot of inconsistencies in how browsers implement CSP. Helmet sniffs 
 **How to use Helmet to mitigate this:** The `X-XSS-Protection` HTTP header is a basic protection against XSS. It was originally [by Microsoft](http://blogs.msdn.com/b/ieinternals/archive/2011/01/31/controlling-the-internet-explorer-xss-filter-with-the-x-xss-protection-http-header.aspx) but Chrome has since adopted it as well. Helmet lets you use it easily:
 
 ```javascript
-app.use(helmet.xssFilter())
+app.use(helmet.xssFilter());
 ```
 
 This sets the `X-XSS-Protection` header. On modern browsers, it will set the value to `1; mode=block`. On old versions of Internet Explorer, this creates a vulnerability (see [here](http://hackademix.net/2009/11/21/ies-xss-filter-creates-xss-vulnerabilities/) and [here](http://technet.microsoft.com/en-us/security/bulletin/MS10-002)), and so the header is set to `0` to disable it. To force the header on all versions of IE, add the option:
 
 ```javascript
-app.use(helmet.xssFilter({ setOnOldIE: true }))
+app.use(helmet.xssFilter({ setOnOldIE: true }));
 // This has some security problems for old IE!
 ```
 
@@ -126,14 +126,14 @@ Usage:
 
 ```javascript
 // These are equivalent:
-app.use(helmet.xframe())
-app.use(helmet.xframe('deny'))
+app.use(helmet.xframe());
+app.use(helmet.xframe('deny'));
 
 // Only let me be framed by people of the same origin:
-app.use(helmet.xframe('sameorigin'))
+app.use(helmet.xframe('sameorigin'));
 
 // Allow from a specific host:
-app.use(helmet.xframe('allow-from', 'http://example.com'))
+app.use(helmet.xframe('allow-from', 'http://example.com'));
 ```
 
 **Limitations:** This has pretty good (but not 100%) browser support: IE8+, Opera 10.50+, Safari 4+, Chrome 4.1+, and Firefox 3.6.9+. It only prevents against a certain class of attack, but does so pretty well. It also prevents your site from being framed, which you might want for legitimate reasons.
@@ -148,7 +148,7 @@ This will set the Strict Transport Security header, telling browsers to visit by
 
 ```javascript
 var ninetyDaysInMilliseconds = 7776000000;
-app.use(helmet.hsts({ maxAge: ninetyDaysInMilliseconds }))
+app.use(helmet.hsts({ maxAge: ninetyDaysInMilliseconds }));
 ```
 
 You can also include subdomains. If this is set on *example.com*, supported browsers will also use HTTPS on *my-subdomain.example.com*. Here's how you do that:
@@ -157,7 +157,7 @@ You can also include subdomains. If this is set on *example.com*, supported brow
 app.use(helmet.hsts({
   maxAge: 123000,
   includeSubdomains: true
-})
+}));
 ```
 
 This'll be set if `req.secure` is true, a boolean auto-populated by Express. If you're not using Express, that value won't necessarily be set, so you have two options:
@@ -169,13 +169,13 @@ app.use(helmet.use({
   setIf: function(req, res) {
     return Math.random() < 0.5
   }
-})
+}));
 
 // ALWAYS set the header
 app.use(helmet.use({
   maxAge: 1234000,
   force: true
-})
+}));
 ```
 
 Note that the max age is in milliseconds, even though the spec uses seconds. This will round to the nearest full second.
@@ -189,7 +189,7 @@ Note that the max age is in milliseconds, even though the spec uses seconds. Thi
 **How to use Helmet to mitigate this:** Set the `X-Download-Options` header to `noopen` to prevent IE users from executing downloads in your site's context.
 
 ```javascript
-app.use(helmet.ienoopen())
+app.use(helmet.ienoopen());
 ```
 
 **Limitations:** This is pretty obscure, fixing a small bug on IE only. No real drawbacks other than performance/bandwidth, though.
@@ -201,19 +201,19 @@ app.use(helmet.ienoopen())
 **How to use Helmet to mitigate this:** The `hidePoweredBy` middleware will remove the `X-Powered-By` header if it is set (which it will be by default in Express).
 
 ```javascript
-app.use(helmet.hidePoweredBy())
+app.use(helmet.hidePoweredBy());
 ```
 
 You can also explicitly set the header to something else, if you want:
 
 ```javascript
-app.use(helmet.hidePoweredBy({ setTo: 'PHP 4.2.0' }))
+app.use(helmet.hidePoweredBy({ setTo: 'PHP 4.2.0' }));
 ```
 
 Note: if you're using Express, you can skip Helmet's middleware if you want:
 
 ```javascript
-app.disable('x-powered-by')
+app.disable('x-powered-by');
 ```
 
 **Limitations:** There might be other telltale signs that your site is Express-based (a blog post about your tech stack, for example). This might prevent hackers from easily exploiting known vulnerabilities in your stack, but that's all it does.
@@ -225,7 +225,7 @@ app.disable('x-powered-by')
 **How to use Helmet to mitigate this:** Use Helmet's `nosniff` middleware to keep IE from doing this. The following example sets the `X-Content-Type-Options` header to its only option, `nosniff`:
 
 ```javascript
-app.use(helmet.nosniff())
+app.use(helmet.nosniff());
 ```
 
 **Limitations:** This is a pretty small attack, but an attack nonetheless. This basically fixes a security hole in IE, and doesn't affect other browsers. It's unlikely that you wouldn't want to set this.
@@ -237,7 +237,7 @@ app.use(helmet.nosniff())
 **How to use Helmet to mitigate this:** Use Helmet to disable this kind of caching. This sets the `Cache-Control` HTTP header to `no-store, no-cache`, which tells browsers not to cache anything.
 
 ```javascript
-app.use(helmet.nocache())
+app.use(helmet.nocache());
 ```
 
 **Limitations:** Caching has some real benefits, and you lose them here. This doesn't interfere with [ETag](https://en.wikipedia.org/wiki/HTTP_ETag) support, but browsers won't cache resources with this enabled. It's also possible that you'll introduce *new* bugs and you'll wish people had old resources cached, but that's less likely.
@@ -249,13 +249,13 @@ app.use(helmet.nocache())
 **How to use Helmet to mitigate this:** Simply use Helmet's `crossdomain` middleware to serve up a restrictive policy:
 
 ```javascript
-app.use(helmet.crossdomain())
+app.use(helmet.crossdomain());
 ```
 
 This serves the policy at `/crossdomain.xml`. By default, this is case-insensitive. To make it case-sensitive:
 
 ```javascript
-app.use(helmet.crossdomain({ caseSensitive: true }))
+app.use(helmet.crossdomain({ caseSensitive: true }));
 // This will now ONLY match all-lowercase /crossdomain.xml.
 ```
 
