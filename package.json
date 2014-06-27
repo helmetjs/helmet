@@ -25,11 +25,11 @@
   },
   "dependencies": {
     "camelize": "0.1.x",
+    "connect": "3.0.x",
     "platform": "1.2.x",
     "underscore": "1.6.x"
   },
   "devDependencies": {
-    "connect": "3.0.x",
     "jshint": "2.5.x",
     "mocha": "1.20.x",
     "sinon": "1.10.x",
