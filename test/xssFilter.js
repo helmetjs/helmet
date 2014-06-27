@@ -35,6 +35,11 @@ describe('xssFilter', function () {
         .expect('X-XSS-Protection', '1; mode=block', done);
     });
 
+    it('sets header for unknown browsers', function (done) {
+        request(app).get('/').set('User-Agent', 'Unknown Browser 123')
+        .expect('X-XSS-Protection', '1; mode=block', done);
+    });
+
     it('sets header to 0 for IE 8', function (done) {
         request(app).get('/').set('User-Agent', IE_8)
         .expect('X-XSS-Protection', '0', done);
