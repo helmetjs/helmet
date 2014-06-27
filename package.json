@@ -5,16 +5,18 @@
     "Evan Hahn <me@evanhahn.com> (http://evanhahn.com)"
   ],
   "description": "Security middleware collection for Express/Connect",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "keywords": [
     "security",
     "headers",
     "express",
+    "connect",
     "x-frame-options",
     "x-powered-by",
     "csp",
     "hsts",
-    "crossdomain.xml"
+    "crossdomain.xml",
+    "clickjack"
   ],
   "bugs": "https://github.com/evilpacket/helmet/issues",
   "repository": {
