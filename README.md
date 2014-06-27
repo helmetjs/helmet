@@ -88,7 +88,7 @@ app.use(helmet.csp({
   reportOnly: false, // set to true if you only want to report errors
   setAllHeaders: false, // set to true if you want to set all headers
   safari5: false // set to true if you want to force buggy CSP in Safari 5
-})
+}));
 ```
 
 You can specify keys in a camel-cased fashion (`imgSrc`) or dashed (`img-src`); they are equivalent.
