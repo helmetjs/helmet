@@ -3,12 +3,12 @@ var helmet = require('../');
 var connect = require('connect');
 var request = require('supertest');
 
-describe('cacheControl', function () {
+describe('nocache', function () {
 
     var app;
     beforeEach(function () {
         app = connect();
-        app.use(helmet.cacheControl());
+        app.use(helmet.nocache());
         app.use(function (req, res) {
             res.end('Hello world!');
         });

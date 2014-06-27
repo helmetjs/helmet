@@ -4,7 +4,7 @@ var assert = require('assert');
 
 describe('deprecated methods', function () {
 
-    var deprecatedList = ['iexss', 'contentTypeOptions'];
+    var deprecatedList = ['iexss', 'contentTypeOptions', 'cacheControl'];
 
     deprecatedList.forEach(function (deprecated) {
         it(deprecated + ' is deprecated', function() {
