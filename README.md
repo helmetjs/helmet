@@ -182,7 +182,7 @@ Note that the max age is in milliseconds, even though the spec uses seconds. Thi
 
 **Limitations:** This only works if your site actually has HTTPS. It won't tell users on HTTP to *switch* to HTTPS, it will just tell HTTPS users to stick around. You can enforce this with the [express-enforces-ssl](https://github.com/aredo/express-enforces-ssl) module. It's [somewhat well-supported by browsers](http://caniuse.com/#feat=stricttransportsecurity).
 
-### X-Download-Options
+### X-Download-Options: ienoopen
 
 **Trying to prevent:** Some web applications will serve untrusted HTML for download. By default, some versions of IE will allow you to open those HTML files *in the context of your site*, which means that an untrusted HTML page could start doing bad things in the context of your pages. For more, see [this MSDN blog post](http://blogs.msdn.com/b/ie/archive/2008/07/02/ie8-security-part-v-comprehensive-protection.aspx).
 
