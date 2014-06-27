@@ -3,12 +3,12 @@ var helmet = require('../');
 var connect = require('connect');
 var request = require('supertest');
 
-describe('contentTypeOptions', function () {
+describe('nosniff', function () {
 
     var app;
     beforeEach(function () {
         app = connect();
-        app.use(helmet.contentTypeOptions());
+        app.use(helmet.nosniff());
         app.use(function (req, res) {
             res.end('Hello world!');
         });
