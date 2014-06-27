@@ -49,7 +49,7 @@ app.use(helmet())
 Don't want all the defaults?
 
 ```javascript
-app.use(helmet({ xframe: false })
+app.use(helmet({ xframe: false, hsts: false }))
 app.use(helmet.xframe('sameorigin'))
 ```
 
