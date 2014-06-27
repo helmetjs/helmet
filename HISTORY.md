@@ -5,6 +5,8 @@ unreleased
 
 - fix: `helmet()` was having issues
 
+- remove: all comment headers; refer to the readme
+
 0.3.1
 =====
 
