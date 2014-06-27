@@ -45,7 +45,7 @@ describe('xssFilter', function () {
         .expect('X-XSS-Protection', '0', done);
     });
 
-    it('allows you to set the header for old IE', function (done) {
+    it('allows you to force the header for old IE', function (done) {
         app = connect();
         app.use(helmet.xssFilter({ setOnOldIE: true }));
         app.use(function (req, res) {
