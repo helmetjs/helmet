@@ -5,12 +5,13 @@
     "Evan Hahn <me@evanhahn.com> (http://evanhahn.com)"
   ],
   "description": "Security middleware collection for Express/Connect",
-  "version": "0.2.5",
+  "version": "0.3.0",
   "keywords": [
     "security",
     "headers",
     "express",
     "x-frame-options",
+    "x-powered-by",
     "csp",
     "hsts",
     "crossdomain.xml"
