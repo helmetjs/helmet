@@ -30,11 +30,15 @@ describe('hsts', function () {
         test(undefined);
         test(null);
         test('1234');
+        test(-1234);
         test(1234);
         test(1234, true);
         test({});
         test({ includeSubdomains: true });
         test({ force: true });
+        test({ maxAge: -123 });
+        test({ maxAge: -0 });
+        test({ maxAge: +0 });
         test({ maxAge: '123' });
         test({ maxAge: true });
         test({ setIf: 123 });
