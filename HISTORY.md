@@ -6,6 +6,8 @@ unreleased
 
 - fix: `helmet()` was having issues
 - fix: make some Errors more specific
+- fix: syntax errors in README
+- fix: add semicolons in README
 
 - remove: all comment headers; refer to the readme
 
