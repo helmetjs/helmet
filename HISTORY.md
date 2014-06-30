@@ -4,6 +4,7 @@ unreleased
 - new: all middleware functions are named
 
 - fix: `helmet()` was having issues
+- fix: make some Errors more specific
 
 - remove: all comment headers; refer to the readme
 
