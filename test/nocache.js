@@ -15,9 +15,12 @@ describe('nocache', function () {
         });
     });
 
-    it('sets header properly', function (done) {
+    it('sets headers properly', function (done) {
         request(app).get('/')
-        .expect('Cache-Control', 'no-store, no-cache', done);
+        .expect('Cache-Control', 'no-store, no-cache')
+        .expect('Pragma', 'no-cache')
+        .expect('Expires', '0')
+        .end(done);
     });
 
     it('names its function and middleware', function () {

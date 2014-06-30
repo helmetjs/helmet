@@ -235,11 +235,13 @@ app.use(helmet.nosniff());
 
 **Trying to prevent:** Users caching your old, buggy resources. It's possible that you've got bugs in an old HTML or JavaScript file, and with a cache, some users will be stuck with those old versions.
 
-**How to use Helmet to mitigate this:** Use Helmet to disable this kind of caching. This sets the `Cache-Control` HTTP header to `no-store, no-cache`, which tells browsers not to cache anything.
+**How to use Helmet to mitigate this:** Use Helmet to disable this kind of caching. This sets a number of HTTP headers that stop caching.
 
 ```javascript
 app.use(helmet.nocache());
 ```
+
+This will set `Cache-Control` and `Pragma` headers to stop caching. It will also set an `Expires` header of 0, effectively saying "this has already expired."
 
 **Limitations:** Caching has some real benefits, and you lose them here. This doesn't interfere with [ETag](https://en.wikipedia.org/wiki/HTTP_ETag) support, but browsers won't cache resources with this enabled. It's also possible that you'll introduce *new* bugs and you'll wish people had old resources cached, but that's less likely.
 

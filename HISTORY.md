@@ -1,3 +1,8 @@
+unreleased
+==========
+
+- new: nocache now sets the Expires and Pragma headers
+
 0.3.2 / 2014-06-30
 ==================
 
