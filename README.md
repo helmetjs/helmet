@@ -243,7 +243,13 @@ app.use(helmet.nocache());
 
 This will set `Cache-Control` and `Pragma` headers to stop caching. It will also set an `Expires` header of 0, effectively saying "this has already expired."
 
-**Limitations:** Caching has some real benefits, and you lose them here. This doesn't interfere with [ETag](https://en.wikipedia.org/wiki/HTTP_ETag) support, but browsers won't cache resources with this enabled. It's also possible that you'll introduce *new* bugs and you'll wish people had old resources cached, but that's less likely.
+If you want to crush the `ETag` header as well, you can:
+
+```javascript
+app.use(helmet.nocache({ noEtag: true }));
+```
+
+**Limitations:** Caching has some real benefits, and you lose them here. Browsers won't cache resources with this enabled, although some performance is retained if you keep ETag support. It's also possible that you'll introduce *new* bugs and you'll wish people had old resources cached, but that's less likely.
 
 ### A restrictive crossdomain.xml: crossdomain
 
