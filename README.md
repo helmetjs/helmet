@@ -193,7 +193,7 @@ Note that the max age is in milliseconds, even though the spec uses seconds. Thi
 app.use(helmet.hidePoweredBy());
 ```
 
-You can also explicitly set the header to something else, if you want:
+You can also explicitly set the header to something else, if you want. This could throw people off:
 
 ```javascript
 app.use(helmet.hidePoweredBy({ setTo: 'PHP 4.2.0' }));
