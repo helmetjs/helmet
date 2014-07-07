@@ -71,7 +71,7 @@ describe('xframe', function () {
             .expect('X-Frame-Options', 'ALLOW-FROM http://example.com', done);
         });
 
-        it("works with String objects and doesn't change them", function (done) {
+        it('works with String object set to "SAMEORIGIN" and doesn\'t change them', function (done) {
             /* jshint -W053 */
             var str = new String('SAMEORIGIN');
             /* jshint +W053 */
@@ -79,6 +79,19 @@ describe('xframe', function () {
             request(app).get('/')
             .expect('X-Frame-Options', 'SAMEORIGIN', done);
             assert.equal(str, 'SAMEORIGIN');
+        });
+
+        it('works with ALLOW-FROM with String objects and doesn\'t change them', function (done) {
+            /* jshint -W053 */
+            var directive = new String('ALLOW-FROM');
+            var url = new String('http://example.com');
+            /* jshint +W053 */
+            app.use(helmet.xframe(directive, url));
+            app.use(hello);
+            request(app).get('/')
+            .expect('X-Frame-Options', 'ALLOW-FROM http://example.com', done);
+            assert.equal(directive, 'ALLOW-FROM');
+            assert.equal(url, 'http://example.com');
         });
 
     });
