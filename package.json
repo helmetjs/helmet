@@ -5,7 +5,7 @@
     "Evan Hahn <me@evanhahn.com> (http://evanhahn.com)"
   ],
   "description": "Security middleware collection for Express/Connect",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "keywords": [
     "security",
     "headers",
