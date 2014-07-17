@@ -221,17 +221,19 @@ app.use(helmet.ienoopen());
 
 **Limitations:** This is pretty obscure, fixing a small bug on IE only. No real drawbacks other than performance/bandwidth of setting the headers, though.
 
-### IE, don't infer the MIME type: nosniff
+### Don't infer the MIME type: nosniff
 
-**Trying to prevent:** IE will, by default, "sniff" the MIME type. This means that a text file could get parsed as CSS if it looks like CSS, or an image could get parsed as JavaScript if it looks like JavaScript. A user could upload JavaScript, even if they're only allowed to upload JPG files.
+**Trying to prevent:** Some browsers will try to "sniff" mimetypes. For example, if my server serves *file.txt* with a *text/plain* content-type, some browsers can still run that file with `<script src="file.txt"></script>`. Many browsers will allow *file.js* to be run even if the content-type isn't for JavaScript. There are [some other vulnerabilities](http://miki.it/blog/2014/7/8/abusing-jsonp-with-rosetta-flash/), too.
 
-**How to use Helmet to mitigate this:** Use Helmet's `nosniff` middleware to keep IE from doing this. The following example sets the `X-Content-Type-Options` header to its only option, `nosniff`:
+**How to use Helmet to mitigate this:** Use Helmet's `nosniff` middleware to keep Chrome, Opera, and IE from doing this sniffing ([and Firefox soon](https://bugzilla.mozilla.org/show_bug.cgi?id=471020)). The following example sets the `X-Content-Type-Options` header to its only option, `nosniff`:
 
 ```javascript
 app.use(helmet.nosniff());
 ```
 
-**Limitations:** This is a pretty small attack, but an attack nonetheless. This basically fixes a security hole in IE, and doesn't affect other browsers. It's unlikely that you wouldn't want to set this.
+[MSDN has a good description](http://msdn.microsoft.com/en-us/library/gg622941%28v=vs.85%29.aspx) of how browsers behave when this header is sent.
+
+**Limitations:** This only prevents against a certain kind of attack.
 
 ### Turn off caching: nocache
 
