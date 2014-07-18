@@ -24,26 +24,34 @@ describe('hsts', function () {
         function test(value) {
             assert.throws(function () {
                 helmet.hsts(value);
+                console.log(value, typeof value);
             }, Error);
         }
-        test();
-        test(undefined);
-        test(null);
         test('1234');
         test(-1234);
         test(1234);
         test(1234, true);
-        test({});
-        test({ includeSubdomains: true });
-        test({ force: true });
         test({ maxAge: -123 });
-        test({ maxAge: -0 });
-        test({ maxAge: +0 });
         test({ maxAge: '123' });
         test({ maxAge: true });
         test({ setIf: 123 });
         test({ setIf: true });
         test({ setIf: function() {}, force: true });
+        test({ maxage: 1234 });
+    });
+
+    it('sets a default value to 1 day', function () {
+        handler = helmet.hsts();
+        req.secure = true;
+        handler(req, res, next);
+        assert(res.setHeader.calledWith('Strict-Transport-Security', 'max-age=86400'));
+    });
+
+    it('can include subdomains with no specified max-age', function () {
+        handler = helmet.hsts({ includeSubdomains: true });
+        req.secure = true;
+        handler(req, res, next);
+        assert(res.setHeader.calledWith('Strict-Transport-Security', 'max-age=86400; includeSubdomains'));
     });
 
     it('is unset if req.secure is false', function () {
@@ -63,6 +71,20 @@ describe('hsts', function () {
         req.secure = false;
         handler(req, res, next);
         assert(res.setHeader.calledWith('Strict-Transport-Security', defaultHeader));
+    });
+
+    it('can be set to -0', function () {
+        req.secure = true;
+        handler = helmet.hsts({ maxAge: -0 });
+        handler(req, res, next);
+        assert(res.setHeader.calledWith('Strict-Transport-Security', 'max-age=0'));
+    });
+
+    it('can be set to 0', function () {
+        req.secure = true;
+        handler = helmet.hsts({ maxAge: 0 });
+        handler(req, res, next);
+        assert(res.setHeader.calledWith('Strict-Transport-Security', 'max-age=0'));
     });
 
     it('rounds down properly', function () {

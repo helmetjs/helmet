@@ -5,6 +5,9 @@ unreleased
 - new: nocache now allows you to crush ETags
 
 - update: improve the docs for nosniff
+- update: revert HSTS behavior of requiring a specified max-age
+
+- fix: allow HSTS to have a max-age of 0
 
 0.3.2 / 2014-06-30
 ==================
