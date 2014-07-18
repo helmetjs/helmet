@@ -1,5 +1,5 @@
-unreleased
-==========
+0.4.0 / 2014-07-17
+==================
 
 - new: nocache now sets the Expires and Pragma headers
 - new: nocache now allows you to crush ETags
