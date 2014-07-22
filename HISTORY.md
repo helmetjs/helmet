@@ -1,3 +1,8 @@
+unreleased
+==========
+
+- update: 2 spaces instead of 4 throughout the code
+
 0.4.0 / 2014-07-17
 ==================
 
