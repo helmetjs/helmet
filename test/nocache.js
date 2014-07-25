@@ -38,7 +38,10 @@ describe('nocache', function () {
     .expect('Pragma', 'no-cache')
     .expect('Expires', '0')
     .end(function (err, res) {
-      if (err) return done(err);
+      if (err) {
+        done(err);
+        return;
+      }
       assert.equal(res.header.etag, undefined);
       done();
     });

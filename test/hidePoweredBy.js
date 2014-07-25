@@ -21,7 +21,10 @@ describe('hidePoweredBy', function () {
       app.use(helloWorld);
       request(app).get('/')
       .end(function (err, res) {
-        if (err) return done(err);
+        if (err) {
+          done(err);
+          return;
+        }
         assert.equal(res.header['x-powered-by'], options.shouldBe);
         done();
       });
@@ -34,7 +37,10 @@ describe('hidePoweredBy', function () {
     app.use(helloWorld);
     request(app).get('/')
     .end(function (err, res) {
-      if (err) return done(err);
+      if (err) {
+        done(err);
+        return;
+      }
       assert.equal(res.header['x-powered-by'], undefined);
       done();
     });
