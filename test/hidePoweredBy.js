@@ -4,6 +4,10 @@ var connect = require('connect');
 var request = require('supertest');
 var assert = require('assert');
 
+function helloWorld (req, res) {
+  res.end('Hello world!');
+}
+
 describe('hidePoweredBy', function () {
 
   function test(name, options) {
@@ -14,9 +18,7 @@ describe('hidePoweredBy', function () {
         next();
       });
       app.use(options.middleware);
-      app.use(function (req, res) {
-        res.end('Hello world!');
-      });
+      app.use(helloWorld);
       request(app).get('/')
       .end(function (err, res) {
         if (err) return done(err);
@@ -25,6 +27,18 @@ describe('hidePoweredBy', function () {
       });
     });
   }
+
+  it('works even if no header is set', function (done) {
+    var app = connect();
+    app.use(helmet.hidePoweredBy());
+    app.use(helloWorld);
+    request(app).get('/')
+    .end(function (err, res) {
+      if (err) return done(err);
+      assert.equal(res.header['x-powered-by'], undefined);
+      done();
+    });
+  });
 
   test('removes the X-Powered-By header', {
     middleware: helmet.hidePoweredBy(),
