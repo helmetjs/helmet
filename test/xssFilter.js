@@ -25,6 +25,11 @@ describe('xssFilter', function () {
     .expect('X-XSS-Protection', '1; mode=block', done);
   });
 
+  it('sets header for a weird user-agent', function (done) {
+    request(app).get('/').set('User-Agent', 'The Helmet Browser')
+    .expect('X-XSS-Protection', '1; mode=block', done);
+  });
+
   it('sets header for Firefox 23', function (done) {
     request(app).get('/').set('User-Agent', FIREFOX_23)
     .expect('X-XSS-Protection', '1; mode=block', done);
