@@ -167,7 +167,7 @@ This'll be set if `req.secure` is true, a boolean auto-populated by Express. If 
 
 ```javascript
 // Set the header based on conditions
-app.use(helmet.use({
+app.use(helmet.hsts({
   maxAge: 1234000,
   setIf: function(req, res) {
     return Math.random() < 0.5;
@@ -175,7 +175,7 @@ app.use(helmet.use({
 }));
 
 // ALWAYS set the header
-app.use(helmet.use({
+app.use(helmet.hsts({
   maxAge: 1234000,
   force: true
 }));
