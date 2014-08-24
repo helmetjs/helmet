@@ -1,6 +1,7 @@
-unreleased
-==========
+0.4.1 / 2014-08-24
+==================
 
+- update: use [helmet-crossdomain](https://github.com/helmetjs/crossdomain) to test the waters
 - update: 2 spaces instead of 4 throughout the code
 
 0.4.0 / 2014-07-17

@@ -5,7 +5,7 @@
     "Evan Hahn <me@evanhahn.com> (http://evanhahn.com)"
   ],
   "description": "Security middleware collection for Express/Connect",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "keywords": [
     "security",
     "headers",
@@ -29,6 +29,7 @@
   "dependencies": {
     "camelize": "1.0.x",
     "connect": "3.0.x",
+    "helmet-crossdomain": "^0.1.0",
     "platform": "1.2.x",
     "underscore": "1.6.x"
   },
