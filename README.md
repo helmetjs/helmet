@@ -163,12 +163,12 @@ app.use(helmet.hsts({
 }));
 ```
 
-You can also set preload. This is required to confirm and authenticate the *example.com* domain to be added to Chrome's preload list. Submit your site here: [https://hstspreload.appspot.com/](https://hstspreload.appspot.com/).
+Chrome lets you submit your site for baked-into-Chrome HSTS by adding `preload` to the header. You can add that with the following code, and then submit your site to the Chrome team at [hstspreload.appspot.com](https://hstspreload.appspot.com/).
 
 ```javascript
 app.use(helmet.hsts({
-  maxAge: 123000,
-  includeSubdomains: true,
+  maxAge: 10886400000,     // Must be at least 18 weeks to be approved by Google
+  includeSubdomains: true, // Must be enabled to be approved by Google
   preload: true
 }));
 ```

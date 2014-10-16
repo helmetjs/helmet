@@ -1,7 +1,7 @@
-0.4.2 / 2014-10-xx
+0.4.2 / 2014-10-16
 ==================
 
-- new: support preload in hsts header
+- new: support preload in HSTS header
 
 0.4.1 / 2014-08-24
 ==================
