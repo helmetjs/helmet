@@ -54,6 +54,13 @@ describe('hsts', function () {
     assert(res.setHeader.calledWith('Strict-Transport-Security', 'max-age=86400; includeSubdomains'));
   });
 
+  it('can include subdomains and preload with no specified max-age', function () {
+    handler = helmet.hsts({ includeSubdomains: true, preload: true });
+    req.secure = true;
+    handler(req, res, next);
+    assert(res.setHeader.calledWith('Strict-Transport-Security', 'max-age=86400; includeSubdomains; preload'));
+  });
+
   it('is unset if req.secure is false', function () {
     req.secure = false;
     handler(req, res, next);

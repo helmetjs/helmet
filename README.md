@@ -163,6 +163,16 @@ app.use(helmet.hsts({
 }));
 ```
 
+You can also set preload. This is required to confirm and authenticate the *example.com* domain to be added to Chrome's preload list. Submit your site here: [https://hstspreload.appspot.com/](https://hstspreload.appspot.com/).
+
+```javascript
+app.use(helmet.hsts({
+  maxAge: 123000,
+  includeSubdomains: true,
+  preload: true
+}));
+```
+
 This'll be set if `req.secure` is true, a boolean auto-populated by Express. If you're not using Express, that value won't necessarily be set, so you have two options:
 
 ```javascript
