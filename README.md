@@ -163,7 +163,7 @@ app.use(helmet.hsts({
 }));
 ```
 
-You can also set preload. This is required to confirm and authenticate the *example.com* domain to be added to Chrome's preload list.
+You can also set preload. This is required to confirm and authenticate the *example.com* domain to be added to Chrome's preload list. Submit your site here: [https://hstspreload.appspot.com/](https://hstspreload.appspot.com/).
 
 ```javascript
 app.use(helmet.hsts({
