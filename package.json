@@ -45,5 +45,5 @@
   "scripts": {
     "test": "mocha"
   },
-  "main": "lib/index"
+  "main": "index"
 }

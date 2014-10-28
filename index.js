@@ -1,6 +1,6 @@
 var connect = require('connect');
 
-var config = require('../config.json');
+var config = require('./config.json');
 
 function helmet() {
   var chain = connect();
