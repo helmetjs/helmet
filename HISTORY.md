@@ -1,4 +1,4 @@
-0.5.0 / 2014-??-??
+0.5.0 / 2014-10-28
 ==================
 
 - new: most middlewares have some aliases now
