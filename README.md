@@ -6,53 +6,47 @@ Helmet
 
 Helmet is a series of middleware that help secure your Express/Connect apps. *It's not a silver bullet*, but it can help!
 
-Helmet includes the following middleware:
-
-- `crossdomain` (crossdomain.xml)
-- `csp` (Content Security Policy)
-- `hidePoweredBy` (remove X-Powered-By)
-- `hsts` (HTTP Strict Transport Security)
-- `ienoopen` (X-Download-Options for IE8+)
-- `nocache` (Cache-Control)
-- `nosniff` (X-Content-Type-Options)
-- `xframe` (X-Frame-Options)
-- `xssFilter` (X-XSS-Protection for IE8+ and Chrome)
-
-Helmet also includes a default configuration of the above middleware that can be dropped into your applications.
-
-Basic usage
+Quick start
 -----------
 
-First, install it:
+First, run `npm install helmet --save` for your app. Then, in an Express app:
 
-```sh
-npm install helmet --save
+```js
+var express = require('express');
+var helmet = require('helmet');
+
+var app = express();
+
+app.use(helmet());
+
+// ...
 ```
 
-To use a particular middleware application-wide, just `use` it:
+You can also use them individually:
 
-```javascript
-var helmet = require('helmet');
-var app = express(); // or connect
-
-app.use(helmet.xframe('deny'));
-app.use(helmet.contentTypeOptions());
+```js
+app.use(helmet.noCache());
+app.use(helmet.frameguard());
 ```
 
 *If you're using Express 3, make sure these middlewares are listed before `app.router`.*
 
-If you just want to use the default-level policies, all you need to do is:
+How it works
+------------
 
-```javascript
-app.use(helmet());
-```
+Helmet is really just a collection of 9 smaller middleware functions:
 
-Don't want all the defaults?
+- [crossdomain](https://github.com/helmetjs/crossdomain) for serving `crossdomain.xml`
+- [contentSecurityPolicy](https://github.com/helmetjs/csp) for setting Content Security Policy
+- [hidePoweredBy](https://github.com/helmetjs/hide-powered-by) to remove the X-Powered-By header
+- [hsts](https://github.com/helmetjs/hsts) for HTTP Strict Transport Security
+- [ieNoOpen](https://github.com/helmetjs/ienoopen) sets X-Download-Options for IE8+
+- [noCache](https://github.com/helmetjs/nocache) to disable client-side caching
+- [noSniff](https://github.com/helmetjs/dont-sniff-mimetype) to keep clients from sniffing the MIME type
+- [frameguard](https://github.com/helmetjs/frameguard) to prevent clickjacking
+- [xssFilter](https://github.com/helmetjs/x-xss-protection) adds some small XSS protections
 
-```javascript
-app.use(helmet({ xframe: false, hsts: false }));
-app.use(helmet.xframe('sameorigin'));
-```
+Running `app.use(helmet())` will include 7 of the 9, leaving out `contentSecurityPolicy` and `noCache`. You can also use each module individually, as documented below.
 
 Usage guide
 -----------
@@ -65,7 +59,7 @@ For each of the middlewares, we'll talk about three things:
 
 Let's get started.
 
-### Content Security Policy: csp
+### Content Security Policy: contentSecurityPolicy
 
 **Trying to prevent:** Injecting anything unintended into our page. That could cause XSS vulnerabilities, unintended tracking, malicious frames, and more.
 
@@ -74,7 +68,7 @@ Let's get started.
 Usage:
 
 ```javascript
-app.use(helmet.csp({
+app.use(helmet.contentSecurityPolicy({
   defaultSrc: ["'self'", 'default.com'],
   scriptSrc: ['scripts.com'],
   styleSrc: ['style.com'],
@@ -119,7 +113,7 @@ app.use(helmet.xssFilter({ setOnOldIE: true }));
 
 **Limitations:** This isn't anywhere near as thorough as CSP. It's only properly supported on IE9+ and Chrome; no other major browsers support it at this time. Old versions of IE support it in a buggy way, which we disable by default.
 
-### Frame options: xframe
+### Frame options: frameguard
 
 **Trying to prevent:** Your page being put in a `<frame>` or `<iframe>` without your consent. This helps to prevent things like [clickjacking attacks](https://en.wikipedia.org/wiki/Clickjacking).
 
@@ -129,14 +123,14 @@ Usage:
 
 ```javascript
 // These are equivalent:
-app.use(helmet.xframe());
-app.use(helmet.xframe('deny'));
+app.use(helmet.frameguard());
+app.use(helmet.frameguard('deny'));
 
 // Only let me be framed by people of the same origin:
-app.use(helmet.xframe('sameorigin'));
+app.use(helmet.frameguard('sameorigin'));
 
 // Allow from a specific host:
-app.use(helmet.xframe('allow-from', 'http://example.com'));
+app.use(helmet.frameguard('allow-from', 'http://example.com'));
 ```
 
 **Limitations:** This has pretty good (but not 100%) browser support: IE8+, Opera 10.50+, Safari 4+, Chrome 4.1+, and Firefox 3.6.9+. It only prevents against a certain class of attack, but does so pretty well. It also prevents your site from being framed, which you might want for legitimate reasons.
@@ -176,7 +170,7 @@ app.use(helmet.hsts({
 This'll be set if `req.secure` is true, a boolean auto-populated by Express. If you're not using Express, that value won't necessarily be set, so you have two options:
 
 ```javascript
-// Set the header based on conditions
+// Set the header based on silly conditions
 app.use(helmet.hsts({
   maxAge: 1234000,
   setIf: function(req, res) {
@@ -219,40 +213,40 @@ app.disable('x-powered-by');
 
 **Limitations:** There might be other telltale signs that your site is Express-based (a blog post about your tech stack, for example). This might prevent hackers from easily exploiting known vulnerabilities in your stack, but that's all it does.
 
-### IE, restrict untrusted HTML: ienoopen
+### IE, restrict untrusted HTML: ieNoOpen
 
 **Trying to prevent:** Some web applications will serve untrusted HTML for download. By default, some versions of IE will allow you to open those HTML files *in the context of your site*, which means that an untrusted HTML page could start doing bad things in the context of your pages. For more, see [this MSDN blog post](http://blogs.msdn.com/b/ie/archive/2008/07/02/ie8-security-part-v-comprehensive-protection.aspx).
 
 **How to use Helmet to mitigate this:** Set the `X-Download-Options` header to `noopen` to prevent IE users from executing downloads in your site's context.
 
 ```javascript
-app.use(helmet.ienoopen());
+app.use(helmet.ieNoOpen());
 ```
 
 **Limitations:** This is pretty obscure, fixing a small bug on IE only. No real drawbacks other than performance/bandwidth of setting the headers, though.
 
-### Don't infer the MIME type: nosniff
+### Don't infer the MIME type: noSniff
 
 **Trying to prevent:** Some browsers will try to "sniff" mimetypes. For example, if my server serves *file.txt* with a *text/plain* content-type, some browsers can still run that file with `<script src="file.txt"></script>`. Many browsers will allow *file.js* to be run even if the content-type isn't for JavaScript. There are [some other vulnerabilities](http://miki.it/blog/2014/7/8/abusing-jsonp-with-rosetta-flash/), too.
 
-**How to use Helmet to mitigate this:** Use Helmet's `nosniff` middleware to keep Chrome, Opera, and IE from doing this sniffing ([and Firefox soon](https://bugzilla.mozilla.org/show_bug.cgi?id=471020)). The following example sets the `X-Content-Type-Options` header to its only option, `nosniff`:
+**How to use Helmet to mitigate this:** Use Helmet's `noSniff` middleware to keep Chrome, Opera, and IE from doing this sniffing ([and Firefox soon](https://bugzilla.mozilla.org/show_bug.cgi?id=471020)). The following example sets the `X-Content-Type-Options` header to its only option, `nosniff`:
 
 ```javascript
-app.use(helmet.nosniff());
+app.use(helmet.noSniff());
 ```
 
 [MSDN has a good description](http://msdn.microsoft.com/en-us/library/gg622941%28v=vs.85%29.aspx) of how browsers behave when this header is sent.
 
 **Limitations:** This only prevents against a certain kind of attack.
 
-### Turn off caching: nocache
+### Turn off caching: noCache
 
 **Trying to prevent:** Users caching your old, buggy resources. It's possible that you've got bugs in an old HTML or JavaScript file, and with a cache, some users will be stuck with those old versions.
 
 **How to use Helmet to mitigate this:** Use Helmet to disable this kind of caching. This sets a number of HTTP headers that stop caching.
 
 ```javascript
-app.use(helmet.nocache());
+app.use(helmet.noCache());
 ```
 
 This will set `Cache-Control` and `Pragma` headers to stop caching. It will also set an `Expires` header of 0, effectively saying "this has already expired."
@@ -260,10 +254,10 @@ This will set `Cache-Control` and `Pragma` headers to stop caching. It will also
 If you want to crush the `ETag` header as well, you can:
 
 ```javascript
-app.use(helmet.nocache({ noEtag: true }));
+app.use(helmet.noCache({ noEtag: true }));
 ```
 
-**Limitations:** Caching has some real benefits, and you lose them here. Browsers won't cache resources with this enabled, although some performance is retained if you keep ETag support. It's also possible that you'll introduce *new* bugs and you'll wish people had old resources cached, but that's less likely.
+**Limitations:** Caching has some real benefits, and you lose them here (which is why it's disabled in the default configuration). Browsers won't cache resources with this enabled, although some performance is retained if you keep ETag support. It's also possible that you'll introduce *new* bugs and you'll wish people had old resources cached, but that's less likely.
 
 ### A restrictive crossdomain.xml: crossdomain
 
