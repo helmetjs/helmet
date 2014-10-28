@@ -5,6 +5,8 @@
 
 - fix: readme link was broken
 
+- remove: deprecation warnings
+
 0.4.2 / 2014-10-16
 ==================
 
