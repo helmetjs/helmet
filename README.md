@@ -96,7 +96,7 @@ You can specify keys in a camel-cased fashion (`imgSrc`) or dashed (`img-src`); 
 
 There are a lot of inconsistencies in how browsers implement CSP. Helmet sniffs the user-agent of the browser and sets the appropriate header and value for that browser. If no user-agent is matched, it will set _all_ the headers with the 1.0 spec.
 
-*Note*: If you're using the `reportUri` feature and you're using [csurf](https://github.com/expressjs/csurf), you might have errors. [Check this out](https://github.com/evilpacket/helmet/edit/master/README.md) for a workaround.
+*Note*: If you're using the `reportUri` feature and you're using [csurf](https://github.com/expressjs/csurf), you might have errors. [Check this out](https://github.com/expressjs/csurf/issues/20) for a workaround.
 
 **Limitations:** CSP is often difficult to tune properly, as it's a whitelist and not a blacklist. It isn't supported on old browsers but is [pretty well-supported](http://caniuse.com/#feat=contentsecuritypolicy) on non-IE browsers nowadays.
 
