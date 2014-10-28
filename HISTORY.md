@@ -1,7 +1,11 @@
-0.4.3 / 2014-??-??
+0.5.0 / 2014-??-??
 ==================
 
+- new: most middlewares have some aliases now
+
+- update: `nocache` removed from default middleware stack
 - update: middleware split out into their own modules
+- update: documentation
 
 - fix: readme link was broken
 

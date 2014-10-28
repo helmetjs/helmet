@@ -1,0 +1,22 @@
+{
+  "middlewares": {
+    "dont-sniff-mimetype": ["nosniff", "noSniff"],
+    "frameguard": ["frameguard", "frameGuard", "xframe", "xFrame"],
+    "helmet-crossdomain": ["crossdomain", "crossDomain"],
+    "helmet-csp": ["csp", "contentSecurityPolicy"],
+    "hide-powered-by": ["hidePoweredBy", "hideXPoweredBy"],
+    "hsts": ["hsts"],
+    "ienoopen": ["ienoopen", "ieNoOpen", "IENoOpen"],
+    "nocache": ["nocache", "noCache"],
+    "x-xss-protection": ["xssFilter", "xssfilter", "xXSSProtection"]
+  },
+  "defaultMiddleware": [
+    "dont-sniff-mimetype",
+    "frameguard",
+    "helmet-crossdomain",
+    "hide-powered-by",
+    "hsts",
+    "ienoopen",
+    "x-xss-protection"
+  ]
+}
