@@ -27,19 +27,16 @@
     "node": ">= 0.6.6"
   },
   "dependencies": {
-    "camelize": "1.0.x",
-    "connect": "3.0.x",
+    "connect": "3.3.1",
+    "dont-sniff-mimetype": "0.1.0",
+    "frameguard": "0.1.0",
     "helmet-crossdomain": "0.1.0",
     "helmet-csp": "0.1.0",
     "hide-powered-by": "0.1.0",
     "hsts": "0.1.0",
     "ienoopen": "0.1.0",
     "nocache": "0.1.0",
-    "dont-sniff-mimetype": "0.1.0",
-    "frameguard": "0.1.0",
-    "x-xss-protection": "0.1.0",
-    "platform": "1.2.x",
-    "underscore": "1.6.x"
+    "x-xss-protection": "0.1.0"
   },
   "devDependencies": {
     "jshint": "^2.5.6",
