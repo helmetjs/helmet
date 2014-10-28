@@ -9,12 +9,12 @@
 - update: `nocache` removed from default middleware stack
 - update: middleware split out into their own modules
 - update: documentation
+- update: supported Node version to at least 0.10.0
+- update: Connect version
 
 - fix: readme link was broken
 
 - remove: deprecation warnings
-
-- deps: frameguard@0.2.0
 
 0.4.2 / 2014-10-16
 ==================
