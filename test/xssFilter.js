@@ -65,9 +65,4 @@ describe('xssFilter', function () {
     .expect('X-XSS-Protection', '1; mode=block', done);
   });
 
-  it('names its function and middleware', function () {
-    assert.equal(helmet.xssFilter.name, 'xssFilter');
-    assert.equal(helmet.xssFilter().name, 'xssFilter');
-  });
-
 });
