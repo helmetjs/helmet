@@ -1,3 +1,10 @@
+0.4.3 / 2014-??-??
+==================
+
+- update: middleware split out into their own modules
+
+- fix: readme link was broken
+
 0.4.2 / 2014-10-16
 ==================
 
