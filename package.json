@@ -39,14 +39,12 @@
     "x-xss-protection": "0.1.0"
   },
   "devDependencies": {
-    "jshint": "^2.5.6",
     "mocha": "^2.0.1",
     "sinon": "^1.11.1",
     "supertest": "^0.14.0"
   },
   "scripts": {
-    "test": "mocha",
-    "hint": "jshint ."
+    "test": "mocha"
   },
   "main": "lib/index"
 }
