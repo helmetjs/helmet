@@ -32,14 +32,15 @@
     "helmet-crossdomain": "0.1.0",
     "helmet-csp": "0.1.0",
     "hide-powered-by": "0.1.0",
+    "hsts": "0.1.0",
     "platform": "1.2.x",
     "underscore": "1.6.x"
   },
   "devDependencies": {
-    "jshint": "2.5.x",
-    "mocha": "1.20.x",
-    "sinon": "1.10.x",
-    "supertest": "0.13.x"
+    "jshint": "^2.5.6",
+    "mocha": "^2.0.1",
+    "sinon": "^1.11.1",
+    "supertest": "^0.14.0"
   },
   "scripts": {
     "test": "mocha",
