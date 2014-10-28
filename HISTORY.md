@@ -1,3 +1,8 @@
+unreleased / ????-??-??
+==================
+
+- update: URLs in `package.json` for new URL
+
 0.5.0 / 2014-10-28
 ==================
 
