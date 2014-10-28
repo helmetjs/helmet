@@ -24,7 +24,7 @@
     "url": "git://github.com/evilpacket/helmet.git"
   },
   "engines": {
-    "node": ">= 0.6.6"
+    "node": ">= 0.10.0"
   },
   "dependencies": {
     "connect": "3.3.1",
