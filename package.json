@@ -35,6 +35,7 @@
     "hsts": "0.1.0",
     "ienoopen": "0.1.0",
     "nocache": "0.1.0",
+    "dont-sniff-mimetype": "0.1.0",
     "platform": "1.2.x",
     "underscore": "1.6.x"
   },
