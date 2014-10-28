@@ -3,6 +3,9 @@
 
 - new: most middlewares have some aliases now
 
+- update: `xframe` now called `frameguard` (though `xframe` still works)
+- update: `frameguard` chooses sameorigin by default
+- update: `frameguard` understands "SAME-ORIGIN" in addition to "SAMEORIGIN"
 - update: `nocache` removed from default middleware stack
 - update: middleware split out into their own modules
 - update: documentation
@@ -10,6 +13,8 @@
 - fix: readme link was broken
 
 - remove: deprecation warnings
+
+- deps: frameguard@0.2.0
 
 0.4.2 / 2014-10-16
 ==================

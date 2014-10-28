@@ -122,12 +122,12 @@ app.use(helmet.xssFilter({ setOnOldIE: true }));
 Usage:
 
 ```javascript
-// These are equivalent:
-app.use(helmet.frameguard());
-app.use(helmet.frameguard('deny'));
-
 // Only let me be framed by people of the same origin:
 app.use(helmet.frameguard('sameorigin'));
+app.use(helmet.frameguard());  // Same-origin by default.
+
+// Don't allow anyone to put me in a frame.
+app.use(helmet.frameguard('deny'));
 
 // Allow from a specific host:
 app.use(helmet.frameguard('allow-from', 'http://example.com'));
