@@ -18,10 +18,10 @@
     "crossdomain.xml",
     "clickjack"
   ],
-  "bugs": "https://github.com/evilpacket/helmet/issues",
+  "bugs": "https://github.com/helmetjs/helmet/issues",
   "repository": {
     "type": "git",
-    "url": "git://github.com/evilpacket/helmet.git"
+    "url": "git://github.com/helmetjs/helmet.git"
   },
   "engines": {
     "node": ">= 0.10.0"
