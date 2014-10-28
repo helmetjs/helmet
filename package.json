@@ -31,6 +31,7 @@
     "connect": "3.0.x",
     "helmet-crossdomain": "^0.1.0",
     "helmet-csp": "0.1.0",
+    "hide-powered-by": "0.1.0",
     "platform": "1.2.x",
     "underscore": "1.6.x"
   },
