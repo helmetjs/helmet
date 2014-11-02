@@ -3,6 +3,7 @@ Helmet
 
 [![npm version](https://badge.fury.io/js/helmet.svg)](http://badge.fury.io/js/helmet)
 [![npm dependency status](https://david-dm.org/evilpacket/helmet.png)](https://david-dm.org/evilpacket/helmet)
+[![Build Status](https://travis-ci.org/helmetjs/helmet.svg?branch=master)](https://travis-ci.org/helmetjs/helmet)
 
 Helmet is a series of middleware that help secure your Express/Connect apps. *It's not a silver bullet*, but it can help!
 
