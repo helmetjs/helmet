@@ -1,9 +1,11 @@
-unreleased / ????-??-??
+0.5.1 / 2014-11-09
 ==================
 
 - new: Travis CI for everyone
 
 - update: URLs in `package.json` for new URL
+
+- fix: CSP would set all headers forever after receiving an unknown user agent
 
 0.5.0 / 2014-10-28
 ==================
