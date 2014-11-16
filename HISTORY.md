@@ -1,3 +1,11 @@
+0.5.2 / 2014-11-16
+==================
+
+- update: Connect version
+- update: Sinon version
+
+- fix: minor `csp` bugfixes
+
 0.5.1 / 2014-11-09
 ==================
 
