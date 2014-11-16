@@ -27,7 +27,7 @@
     "node": ">= 0.10.0"
   },
   "dependencies": {
-    "connect": "3.3.1",
+    "connect": "3.3.3",
     "dont-sniff-mimetype": "0.1.0",
     "frameguard": "0.2.0",
     "helmet-crossdomain": "0.1.0",
@@ -40,7 +40,7 @@
   },
   "devDependencies": {
     "mocha": "^2.0.1",
-    "sinon": "^1.11.1"
+    "sinon": "^1.12.1"
   },
   "scripts": {
     "test": "mocha"
