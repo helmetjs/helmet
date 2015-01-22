@@ -31,7 +31,7 @@
     "dont-sniff-mimetype": "0.1.0",
     "frameguard": "0.2.0",
     "helmet-crossdomain": "0.1.0",
-    "helmet-csp": "0.1.2",
+    "helmet-csp": "0.2.0",
     "hide-powered-by": "0.1.0",
     "hsts": "0.1.0",
     "ienoopen": "0.1.0",

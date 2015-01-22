@@ -1,3 +1,10 @@
+0.6.0 / 2015-01-21
+==================
+
+- new: you can disable `csp` for Android
+
+- fix: `csp` on Chrome Mobile on Android and iOS
+
 0.5.4 / 2014-12-21
 ==================
 
