@@ -279,3 +279,8 @@ app.use(helmet.crossdomain({ caseSensitive: true }));
 ```
 
 **Limitations:** This doesn't make you wildly more secure, but it does help to keep Flash from loading things that you don't want it to. You might also *want* some of this behavior, in which case you should make your own less-restrictive policy and serve it.
+
+Other recommended modules
+-------------------------
+
+* [express-enforces-ssl](https://github.com/aredo/express-enforces-ssl)
