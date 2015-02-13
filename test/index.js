@@ -25,7 +25,6 @@ describe('helmet', function() {
     });
   });
 
-
   it('chains all default middleware', function() {
     moduleNames.forEach(function(moduleName) {
       sinon.spy(helmet, moduleName);
