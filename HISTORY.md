@@ -1,5 +1,5 @@
-unreleased
-==========
+0.6.1 / 2015-02-13
+==================
 
 - update: Lodash version
 
