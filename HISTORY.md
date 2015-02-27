@@ -1,3 +1,8 @@
+unreleased
+==========
+
+- update: improve `xssFilter` performance
+
 0.6.1 / 2015-02-13
 ==================
 
