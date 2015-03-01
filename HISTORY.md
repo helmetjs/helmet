@@ -1,7 +1,8 @@
-unreleased
-==========
+0.6.2 / 2015-03-01
+==================
 
 - update: improve `xssFilter` performance
+- update: Lodash versions
 
 0.6.1 / 2015-02-13
 ==================
