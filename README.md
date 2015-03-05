@@ -48,7 +48,7 @@ Helmet is really just a collection of 9 smaller middleware functions:
 - [frameguard](https://github.com/helmetjs/frameguard) to prevent clickjacking
 - [xssFilter](https://github.com/helmetjs/x-xss-protection) adds some small XSS protections
 
-Running `app.use(helmet())` will include 7 of the 9, leaving out `contentSecurityPolicy` and `noCache`. You can also use each module individually, as documented below.
+Running `app.use(helmet())` will include 7 of the 10, leaving out `contentSecurityPolicy`, `hpkp`, and `noCache`. You can also use each module individually, as documented below.
 
 Usage guide
 -----------
