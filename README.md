@@ -40,6 +40,7 @@ Helmet is really just a collection of 9 smaller middleware functions:
 - [crossdomain](https://github.com/helmetjs/crossdomain) for serving `crossdomain.xml`
 - [contentSecurityPolicy](https://github.com/helmetjs/csp) for setting Content Security Policy
 - [hidePoweredBy](https://github.com/helmetjs/hide-powered-by) to remove the X-Powered-By header
+- [hpkp](https://github.com/helmetjs/hpkp) for HTTP Public Key Pinning
 - [hsts](https://github.com/helmetjs/hsts) for HTTP Strict Transport Security
 - [ieNoOpen](https://github.com/helmetjs/ienoopen) sets X-Download-Options for IE8+
 - [noCache](https://github.com/helmetjs/nocache) to disable client-side caching
@@ -260,6 +261,24 @@ app.use(helmet.noCache({ noEtag: true }));
 ```
 
 **Limitations:** Caching has some real benefits, and you lose them here (which is why it's disabled in the default configuration). Browsers won't cache resources with this enabled, although some performance is retained if you keep ETag support. It's also possible that you'll introduce *new* bugs and you'll wish people had old resources cached, but that's less likely.
+
+### Public Key Pinning: HPKP
+
+**Trying to prevent:** HTTPS certificates can be forged, allowing man-in-the middle attacks. [HTTP Public Key Pinning](https://developer.mozilla.org/en-US/docs/Web/Security/Public_Key_Pinning) aims to help that.
+
+**How to use Helmet to mitigate this:** Pass the "Public-Key-Pins" header to better assert your SSL certificates. [See the spec](https://tools.ietf.org/html/draft-ietf-websec-key-pinning-21) for more.
+
+```javascript
+var ninetyDaysInMilliseconds = 7776000000;
+app.use(helmet.publicKeyPins({
+  maxAge: ninetyDaysInMilliseconds,
+  sha256s: ['AbCdEf123=', 'ZyXwVu456='],
+  includeSubdomains: true,         // optional
+  reportUri: 'http://example.com'  // optional
+}));
+```
+
+**Limitations:** Don't let these get out of sync with your certs!
 
 ### A restrictive crossdomain.xml: crossdomain
 

@@ -5,6 +5,7 @@
     "helmet-crossdomain": ["crossdomain", "crossDomain"],
     "helmet-csp": ["csp", "contentSecurityPolicy"],
     "hide-powered-by": ["hidePoweredBy", "hideXPoweredBy"],
+    "hpkp": ["hpkp", "publicKeyPinning", "publicKeyPins", "hPkp", "hkpk"],
     "hsts": ["hsts"],
     "ienoopen": ["ienoopen", "ieNoOpen", "IENoOpen"],
     "nocache": ["nocache", "noCache"],
