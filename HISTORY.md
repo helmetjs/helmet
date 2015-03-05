@@ -1,7 +1,10 @@
-unreleased
-==========
+0.7.0 / 2015-03-05
+==================
 
-- minor code cleanup
+- new: `hpkp` middleware
+
+- update: Travis CI should test 0.10 and 0.12
+- update: minor code cleanup
 
 0.6.2 / 2015-03-01
 ==================
