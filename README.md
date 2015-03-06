@@ -303,4 +303,5 @@ Other recommended modules
 -------------------------
 
 * [express-enforces-ssl](https://github.com/aredo/express-enforces-ssl)
+* [hpp](https://www.npmjs.com/package/hpp)
 * [cors](https://www.npmjs.org/package/cors)
