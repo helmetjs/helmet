@@ -35,7 +35,7 @@ app.use(helmet.frameguard());
 How it works
 ------------
 
-Helmet is really just a collection of 9 smaller middleware functions:
+Helmet is really just a collection of 10 smaller middleware functions:
 
 - [crossdomain](https://github.com/helmetjs/crossdomain) for serving `crossdomain.xml`
 - [contentSecurityPolicy](https://github.com/helmetjs/csp) for setting Content Security Policy
