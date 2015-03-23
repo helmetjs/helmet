@@ -1,3 +1,9 @@
+0.7.1 / 2015-03-23
+==================
+
+- update: all outdated dependencies (insofar as possible)
+- update: HSTS now uses Lodash like all the rest of the libraries
+
 0.7.0 / 2015-03-05
 ==================
 
