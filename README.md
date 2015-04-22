@@ -35,9 +35,8 @@ app.use(helmet.frameguard());
 How it works
 ------------
 
-Helmet is really just a collection of 10 smaller middleware functions:
+Helmet is really just a collection of 9 smaller middleware functions:
 
-- [crossdomain](https://github.com/helmetjs/crossdomain) for serving `crossdomain.xml`
 - [contentSecurityPolicy](https://github.com/helmetjs/csp) for setting Content Security Policy
 - [hidePoweredBy](https://github.com/helmetjs/hide-powered-by) to remove the X-Powered-By header
 - [hpkp](https://github.com/helmetjs/hpkp) for HTTP Public Key Pinning
@@ -48,7 +47,7 @@ Helmet is really just a collection of 10 smaller middleware functions:
 - [frameguard](https://github.com/helmetjs/frameguard) to prevent clickjacking
 - [xssFilter](https://github.com/helmetjs/x-xss-protection) adds some small XSS protections
 
-Running `app.use(helmet())` will include 7 of the 10, leaving out `contentSecurityPolicy`, `hpkp`, and `noCache`. You can also use each module individually, as documented below.
+Running `app.use(helmet())` will include 6 of the 9, leaving out `contentSecurityPolicy`, `hpkp`, and `noCache`. You can also use each module individually, as documented below.
 
 Usage guide
 -----------
@@ -279,25 +278,6 @@ app.use(helmet.publicKeyPins({
 ```
 
 **Limitations:** Don't let these get out of sync with your certs!
-
-### A restrictive crossdomain.xml: crossdomain
-
-**Trying to prevent:** Adobe defines [the spec for crossdomain.xml](http://www.adobe.com/devnet/articles/crossdomain_policy_file_spec.html), a policy file that grants some Adobe products (like Flash) read access to resources on your domain. An unrestrictive policy could let others load things off your domain that you don't want.
-
-**How to use Helmet to mitigate this:** Simply use Helmet's `crossdomain` middleware to serve up a restrictive policy:
-
-```javascript
-app.use(helmet.crossdomain());
-```
-
-This serves the policy at `/crossdomain.xml`. By default, this is case-insensitive. To make it case-sensitive:
-
-```javascript
-app.use(helmet.crossdomain({ caseSensitive: true }));
-// This will now ONLY match all-lowercase /crossdomain.xml.
-```
-
-**Limitations:** This doesn't make you wildly more secure, but it does help to keep Flash from loading things that you don't want it to. You might also *want* some of this behavior, in which case you should make your own less-restrictive policy and serve it.
 
 Other recommended modules
 -------------------------
