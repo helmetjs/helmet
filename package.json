@@ -15,7 +15,6 @@
     "x-powered-by",
     "csp",
     "hsts",
-    "crossdomain.xml",
     "clickjack"
   ],
   "bugs": "https://github.com/helmetjs/helmet/issues",
