@@ -5,12 +5,12 @@ Helmet
 [![npm dependency status](https://david-dm.org/helmetjs/helmet.png)](https://david-dm.org/helmetjs/helmet)
 [![Build Status](https://travis-ci.org/helmetjs/helmet.svg?branch=master)](https://travis-ci.org/helmetjs/helmet)
 
-Helmet is a series of middleware that help secure your Express/Connect apps. *It's not a silver bullet*, but it can help!
+Helmet helps you secure your Express apps by setting various HTTP headers. *It's not a silver bullet*, but it can help!
 
 Quick start
 -----------
 
-First, run `npm install helmet --save` for your app. Then, in an Express app:
+First, run `npm install helmet --save` for your app. Then, in an Express (or Connect) app:
 
 ```js
 var express = require('express');
@@ -23,7 +23,7 @@ app.use(helmet());
 // ...
 ```
 
-You can also use them individually:
+You can also use its pieces individually:
 
 ```js
 app.use(helmet.noCache());
