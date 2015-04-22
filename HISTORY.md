@@ -1,8 +1,11 @@
 unreleased
 ==========
 
+- update: deprecate `crossdomain` middleware
 - update: remove hefty Lodash dependency from HSTS and CSP
 - update: update string detection module in Frameguard
+
+- remove: `crossdomain` is no longer a default middleware
 
 0.7.1 / 2015-03-23
 ==================
