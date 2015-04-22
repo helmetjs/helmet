@@ -30,11 +30,11 @@ unreleased
 0.6.1 / 2015-02-13
 ==================
 
+- new: "Other recommended modules" in README
+
 - update: Lodash version
 
 - fix: `frameguard` middleware exported a function called `xframe`
-
-- new: "Other recommended modules" in README
 
 0.6.0 / 2015-01-21
 ==================
