@@ -2,6 +2,7 @@ unreleased
 ==========
 
 - update: remove hefty Lodash dependency from HSTS and CSP
+- update: update string detection module in Frameguard
 
 0.7.1 / 2015-03-23
 ==================
