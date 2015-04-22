@@ -1,3 +1,8 @@
+unreleased
+==========
+
+- update: remove hefty Lodash dependency from HSTS and CSP
+
 0.7.1 / 2015-03-23
 ==================
 
