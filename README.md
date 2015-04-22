@@ -35,7 +35,7 @@ app.use(helmet.frameguard());
 How it works
 ------------
 
-Helmet is really just a collection of 9 smaller middleware functions:
+Helmet is really just a collection of 9 smaller middleware functions that set HTTP headers:
 
 - [contentSecurityPolicy](https://github.com/helmetjs/csp) for setting Content Security Policy
 - [hidePoweredBy](https://github.com/helmetjs/hide-powered-by) to remove the X-Powered-By header
