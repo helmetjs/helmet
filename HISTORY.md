@@ -1,6 +1,7 @@
-unreleased
-==========
+0.9.0 / 2015-04-24
+==================
 
+- update: `nocache` adds `private` to its `Cache-Control` directive
 - update: `package.json` description
 
 0.8.0 / 2015-04-21
