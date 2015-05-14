@@ -1,3 +1,8 @@
+unreleased
+==========
+
+- new: add "Handling CSP violations" to `csp` readme
+
 0.9.0 / 2015-04-24
 ==================
 
