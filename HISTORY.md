@@ -3,6 +3,8 @@ unreleased
 
 - new: add "Handling CSP violations" to `csp` readme
 
+- update: `hpkp` had a link to the wrong place in its readme
+
 0.9.0 / 2015-04-24
 ==================
 
