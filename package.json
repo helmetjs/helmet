@@ -47,5 +47,6 @@
   "scripts": {
     "test": "mocha"
   },
+  "license": "MIT",
   "main": "index"
 }
