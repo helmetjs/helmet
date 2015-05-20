@@ -2,6 +2,7 @@ unreleased
 ==========
 
 - new: add "Handling CSP violations" to `csp` readme
+- new: add license to `package.json`
 
 - update: `hpkp` had a link to the wrong place in its readme
 
