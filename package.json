@@ -34,7 +34,7 @@
     "helmet-csp": "0.2.3",
     "hide-powered-by": "0.1.0",
     "hpkp": "0.1.0",
-    "hsts": "0.1.2",
+    "hsts": "0.1.3",
     "ienoopen": "0.1.0",
     "nocache": "0.3.0",
     "x-xss-protection": "0.1.2"
