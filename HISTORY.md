@@ -1,5 +1,5 @@
-unreleased
-==========
+0.10.0 / 2015-07-08
+===================
 
 - new: add "Handling CSP violations" to `csp` readme
 - new: add license to `package.json`
