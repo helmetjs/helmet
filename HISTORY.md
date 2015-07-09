@@ -5,6 +5,9 @@ unreleased
 - new: add license to `package.json`
 
 - update: `hpkp` had a link to the wrong place in its readme
+- update: `hpkp` requires 2 or more pins
+
+- fix: `hpkp` might have miscalculated `maxAge` slightly wrong
 
 0.9.0 / 2015-04-24
 ==================
