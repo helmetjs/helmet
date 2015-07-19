@@ -7,6 +7,8 @@ Helmet
 
 Helmet helps you secure your Express apps by setting various HTTP headers. *It's not a silver bullet*, but it can help!
 
+[Looking for a version of Helmet that supports the Koa framework?](https://github.com/venables/koa-helmet)
+
 Quick start
 -----------
 
@@ -288,3 +290,4 @@ Helmet only deals with HTTP headers, but there are a number of other helpful sec
 * [express-content-length-validator](https://github.com/ericmdantas/express-content-length-validator)
 * [hpp](https://www.npmjs.com/package/hpp)
 * [cors](https://www.npmjs.org/package/cors)
+* [koa-helmet](https://github.com/venables/koa-helmet)
