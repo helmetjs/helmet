@@ -1,6 +1,7 @@
 Helmet
 ======
 
+[![Gitter chat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/helmetjs/helmet)
 [![npm version](https://badge.fury.io/js/helmet.svg)](http://badge.fury.io/js/helmet)
 [![npm dependency status](https://david-dm.org/helmetjs/helmet.png)](https://david-dm.org/helmetjs/helmet)
 [![Build Status](https://travis-ci.org/helmetjs/helmet.svg?branch=master)](https://travis-ci.org/helmetjs/helmet)
