@@ -1,3 +1,9 @@
+unreleased
+==========
+
+- update: `connect` to 3.4.0
+- update: `depd` to 1.1.0
+
 0.10.0 / 2015-07-08
 ===================
 

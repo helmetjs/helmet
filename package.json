@@ -26,8 +26,8 @@
     "node": ">= 0.10.0"
   },
   "dependencies": {
-    "connect": "3.3.5",
-    "depd": "1.0.1",
+    "connect": "3.4.0",
+    "depd": "1.1.0",
     "dont-sniff-mimetype": "0.1.0",
     "frameguard": "0.2.2",
     "helmet-crossdomain": "0.1.0",
