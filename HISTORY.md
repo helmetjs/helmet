@@ -1,5 +1,5 @@
-unreleased
-==========
+0.11.0 / 2015-09-18
+===================
 
 - new: `csp` now supports Microsoft Edge
 - new: CSP Level 2 support
