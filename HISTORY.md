@@ -1,8 +1,14 @@
 unreleased
 ==========
 
+- new: `csp` now supports Microsoft Edge
+- new: CSP Level 2 support
+
 - update: `connect` to 3.4.0
 - update: `depd` to 1.1.0
+
+- fix: add `license` key to `csp`'s `package.json`
+- fix: empty `csp` directives support every directive, not just `sandbox`
 
 0.10.0 / 2015-07-08
 ===================
