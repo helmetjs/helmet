@@ -1,3 +1,8 @@
+unreleased
+==========
+
+- update: add new CSP docs to readme
+
 0.11.0 / 2015-09-18
 ===================
 
