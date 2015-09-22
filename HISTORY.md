@@ -2,6 +2,7 @@ unreleased
 ==========
 
 - update: add new CSP docs to readme
+- update: HSTS option renamed from `includeSubdomains` to `includeSubDomains`
 
 0.11.0 / 2015-09-18
 ===================
