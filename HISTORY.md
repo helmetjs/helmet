@@ -1,5 +1,7 @@
-unreleased
-==========
+0.13.0 / 2015-10-23
+===================
+
+- new: `xssFilter` now has a function name
 
 - update: add new CSP docs to readme
 - update: HSTS option renamed from `includeSubdomains` to `includeSubDomains`
