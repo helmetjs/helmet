@@ -5,7 +5,7 @@
     "Evan Hahn <me@evanhahn.com> (http://evanhahn.com)"
   ],
   "description": "help secure Express/Connect apps with various HTTP headers",
-  "version": "0.13.0",
+  "version": "0.14.0",
   "keywords": [
     "security",
     "headers",
