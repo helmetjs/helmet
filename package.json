@@ -36,7 +36,7 @@
     "hpkp": "0.2.0",
     "hsts": "0.2.0",
     "ienoopen": "0.1.0",
-    "nocache": "0.3.0",
+    "nocache": "0.4.0",
     "x-xss-protection": "0.2.0"
   },
   "devDependencies": {
