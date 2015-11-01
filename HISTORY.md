@@ -1,3 +1,10 @@
+0.14.0 / 2015-11-01
+===================
+
+- new: `nocache` now sends the `Surrogate-Control` header
+
+- update: `nocache` no longer contains the `private` directive in the `Cache-Control` header
+
 0.13.0 / 2015-10-23
 ===================
 
