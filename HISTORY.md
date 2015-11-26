@@ -1,3 +1,8 @@
+0.15.0 / 2015-11-26
+===================
+
+- update: `hpkp` allows a `report-uri` without the `Report-Only` header
+
 0.14.0 / 2015-11-01
 ===================
 
