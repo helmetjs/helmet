@@ -72,9 +72,7 @@ Let's get started.
 Usage:
 
 ```javascript
-var csp = require('helmet-csp');
-
-app.use(csp({
+app.use(helmet.csp({
   // Specify directives as normal
   defaultSrc: ["'self'", 'default.com'],
   scriptSrc: ["'self'", "'unsafe-inline'"],
