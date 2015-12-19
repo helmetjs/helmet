@@ -1,5 +1,5 @@
-unreleased
-==========
+1.0.1 / 2015-12-19
+==================
 
 - fix: `csp` with no User Agent would cause errors
 
