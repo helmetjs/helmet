@@ -1,6 +1,5 @@
 var connect = require('connect');
 
-var crossdomain = require('./lib/deprecated-crossdomain');
 var config = require('./config.json');
 
 function helmet() {
@@ -19,7 +18,5 @@ Object.keys(config.middlewares).forEach(function(moduleName) {
     helmet[aliasName] = pkg;
   });
 });
-
-helmet.crossdomain = helmet.crossDomain = crossdomain;
 
 module.exports = helmet;
