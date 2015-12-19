@@ -1,11 +1,11 @@
-unreleased
-==========
+1.0.0 / 2015-12-18
+==================
 
 - new: `csp` module supports dynamically-generated values
 
 - update: `csp` directives are now under the `directives` key
 - update: `hpkp`'s `Report-Only` header is now opt-in, not opt-out
-- update: tweak readmes of every repo
+- update: tweak readmes of every sub-repo
 
 - fix: old Firefox Content-Security-Policy behavior for `unsafe-inline` and `unsafe-eval`
 - fix: dynamic `csp` policies is no longer recursive
