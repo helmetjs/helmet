@@ -73,16 +73,17 @@ Usage:
 
 ```javascript
 app.use(helmet.csp({
-  // Specify directives as normal
-  defaultSrc: ["'self'", 'default.com'],
-  scriptSrc: ["'self'", "'unsafe-inline'"],
-  styleSrc: ['style.com'],
-  imgSrc: ['img.com', 'data:'],
-  sandbox: ['allow-forms', 'allow-scripts'],
-  reportUri: '/report-violation',
+  // Specify directives as normal.
+  directives: {
+    defaultSrc: ["'self'", 'default.com'],
+    scriptSrc: ["'self'", "'unsafe-inline'"],
+    styleSrc: ['style.com'],
+    imgSrc: ['img.com', 'data:'],
+    sandbox: ['allow-forms', 'allow-scripts'],
+    reportUri: '/report-violation'
 
-  // Set to an empty array to allow nothing through
-  objectSrc: [],
+    objectSrc: [], // An empty array allows nothing through
+  }
 
   // Set to true if you only want browsers to report errors, not block them
   reportOnly: false,
@@ -91,36 +92,14 @@ app.use(helmet.csp({
   // X-WebKit-CSP, and X-Content-Security-Policy.
   setAllHeaders: false,
 
-  // Set to true if you want to disable CSP on Android.
-  disableAndroid: false,
-
-  // Set to true if you want to force buggy CSP in Safari 5.1 and below.
-  safari5: false
+  // Set to true if you want to disable CSP on Android where it can be buggy.
+  disableAndroid: false
 }))
 ```
 
-You can specify keys in a camel-cased fashion (`imgSrc`) or dashed (`img-src`); they are equivalent. The following directives are allowed:
+You can specify keys in a camel-cased fashion (`imgSrc`) or dashed (`img-src`); they are equivalent.
 
-* `baseUri`
-* `childSrc`
-* `connectSrc`
-* `defaultSrc`
-* `fontSrc`
-* `formAction`
-* `frameAncestors`
-* `frameSrc`
-* `imgSrc`
-* `manifestSrc`
-* `mediaSrc`
-* `objectSrc`
-* `pluginTypes`
-* `reportUri`
-* `sandbox`
-* `scriptSrc`
-* `styleSrc`
-* `upgradeInsecureRequests`
-
-There are a lot of inconsistencies in how browsers implement CSP. Helmet sniffs the user-agent of the browser and sets the appropriate header and value for that browser. If no user-agent is matched, it will set _all_ the headers with the 2.0 spec.
+There are a lot of inconsistencies in how browsers implement CSP. Helmet sniffs the user-agent of the browser and sets the appropriate header and value for that browser. If no user-agent is matched, it will set _all_ the headers with the latest spec.
 
 *Note*: If you're using the `reportUri` feature and you're using [csurf](https://github.com/expressjs/csurf), you might have errors. [Check this out](https://github.com/expressjs/csurf/issues/20) for a workaround.
 
@@ -128,7 +107,7 @@ There are a lot of inconsistencies in how browsers implement CSP. Helmet sniffs 
 
 ### XSS Filter: xssFilter
 
-**Trying to prevent:** Cross-site scripting attacks (XSS), a subset of the above.
+**Trying to prevent:** Cross-site scripting attacks (XSS), a subset of the attacks mentioned above.
 
 **How to use Helmet to mitigate this:** The `X-XSS-Protection` HTTP header is a basic protection against XSS. It was originally [by Microsoft](http://blogs.msdn.com/b/ieinternals/archive/2011/01/31/controlling-the-internet-explorer-xss-filter-with-the-x-xss-protection-http-header.aspx) but Chrome has since adopted it as well. Helmet lets you use it easily:
 
@@ -169,7 +148,7 @@ app.use(helmet.frameguard('allow-from', 'http://example.com'))
 
 ### HTTP Strict Transport Security: hsts
 
-**Trying to prevent:** Users viewing your site on HTTP instead of HTTPS. HTTP is pretty insecure.
+**Trying to prevent:** Users viewing your site on HTTP instead of HTTPS. HTTP is pretty insecure!
 
 **How to use Helmet to mitigate this:** This middleware adds the `Strict-Transport-Security` header to the response. This tells browsers, "hey, only use HTTPS for the next period of time". ([See the spec](http://tools.ietf.org/html/draft-ietf-websec-strict-transport-sec-04) for more.)
 
@@ -217,13 +196,13 @@ app.use(helmet.hsts({
 }))
 ```
 
-Note that the max age is in milliseconds, even though the spec uses seconds. This will round to the nearest full second.
+Note that the max age is in milliseconds, even though the spec uses seconds. This middleware will round to the nearest full second.
 
 **Limitations:** This only works if your site actually has HTTPS. It won't tell users on HTTP to *switch* to HTTPS, it will just tell HTTPS users to stick around. You can enforce this with the [express-enforces-ssl](https://github.com/aredo/express-enforces-ssl) module. It's [somewhat well-supported by browsers](http://caniuse.com/#feat=stricttransportsecurity).
 
 ### Hide X-Powered-By: hidePoweredBy
 
-**Trying to prevent:** Hackers can exploit known vulnerabilities in Express/Node if they see that your site is powered by Express (or whichever framework you use). `X-Powered-By: Express` is sent in every HTTP request coming from Express, by default.
+**Trying to prevent:** Hackers can exploit known vulnerabilities in Express/Node if they see that your site is powered by Express (or whichever framework you use). `X-Powered-By: Express` is sent in every HTTP request coming from Express by default. Disabling this won't provide much security benefit ([as discussed here](https://github.com/strongloop/express/pull/2813#issuecomment-159270428)), but might help a tiny bit. It will also improve performance by reducing the number of bytes sent.
 
 **How to use Helmet to mitigate this:** The `hidePoweredBy` middleware will remove the `X-Powered-By` header if it is set (which it will be by default in Express).
 
@@ -243,11 +222,11 @@ Note: if you're using Express, you can skip Helmet's middleware if you want:
 app.disable('x-powered-by')
 ```
 
-**Limitations:** There might be other telltale signs that your site is Express-based (a blog post about your tech stack, for example). This might prevent hackers from easily exploiting known vulnerabilities in your stack, but that's all it does.
+**Limitations:** There might be other telltale signs that your site is Express-based (a blog post about your tech stack, for example). And if a hacker wants to hack your site, they could try Express (even if they're not sure that's what your site is built on).
 
-### IE, restrict untrusted HTML: ieNoOpen
+### Internet Explorer, restrict untrusted HTML: ieNoOpen
 
-**Trying to prevent:** Some web applications will serve untrusted HTML for download. By default, some versions of IE will allow you to open those HTML files *in the context of your site*, which means that an untrusted HTML page could start doing bad things in the context of your pages. For more, see [this MSDN blog post](http://blogs.msdn.com/b/ie/archive/2008/07/02/ie8-security-part-v-comprehensive-protection.aspx).
+**Trying to prevent:** Some web applications will serve untrusted HTML for download. By default, some versions of Internet Explorer will allow you to open those HTML files *in the context of your site*, which means that an untrusted HTML page could start doing bad things in the context of your pages. For more, see [this MSDN blog post](http://blogs.msdn.com/b/ie/archive/2008/07/02/ie8-security-part-v-comprehensive-protection.aspx).
 
 **How to use Helmet to mitigate this:** Set the `X-Download-Options` header to `noopen` to prevent IE users from executing downloads in your site's context.
 
@@ -281,7 +260,12 @@ app.use(helmet.noSniff())
 app.use(helmet.noCache())
 ```
 
-This will set `Cache-Control` and `Pragma` headers to stop caching. It will also set an `Expires` header of 0, effectively saying "this has already expired."
+This sets four headers, disabling a lot of browser caching:
+
+- `Cache-Control: no-store, no-cache, must-revalidate, proxy-revalidate`
+- `Pragma: no-cache`
+- `Expires: 0`
+- `Surrogate-Control: no-store`
 
 If you want to crush the `ETag` header as well, you can:
 
@@ -304,8 +288,11 @@ app.use(helmet.publicKeyPins({
   sha256s: ['AbCdEf123=', 'ZyXwVu456='],
   includeSubdomains: true,         // optional
   reportUri: 'http://example.com'  // optional
+  reportOnly: false                // optional
 }))
 ```
+
+Setting `reportOnly` to `true` will change the header from `Public-Key-Pins` to `Public-Key-Pins-Report-Only`.
 
 **Limitations:** Don't let these get out of sync with your certs!
 
