@@ -1,10 +1,10 @@
 Helmet
 ======
-
 [![Gitter chat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/helmetjs/helmet)
 [![npm version](https://badge.fury.io/js/helmet.svg)](http://badge.fury.io/js/helmet)
 [![npm dependency status](https://david-dm.org/helmetjs/helmet.png)](https://david-dm.org/helmetjs/helmet)
 [![Build Status](https://travis-ci.org/helmetjs/helmet.svg?branch=master)](https://travis-ci.org/helmetjs/helmet)
+[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 
 Helmet helps you secure your Express apps by setting various HTTP headers. *It's not a silver bullet*, but it can help!
 
@@ -16,12 +16,12 @@ Quick start
 First, run `npm install helmet --save` for your app. Then, in an Express (or Connect) app:
 
 ```js
-var express = require('express');
-var helmet = require('helmet');
+var express = require('express')
+var helmet = require('helmet')
 
-var app = express();
+var app = express()
 
-app.use(helmet());
+app.use(helmet())
 
 // ...
 ```
@@ -29,8 +29,8 @@ app.use(helmet());
 You can also use its pieces individually:
 
 ```js
-app.use(helmet.noCache());
-app.use(helmet.frameguard());
+app.use(helmet.noCache())
+app.use(helmet.frameguard())
 ```
 
 *If you're using Express 3, make sure these middlewares are listed before `app.router`.*
@@ -96,7 +96,7 @@ app.use(helmet.csp({
 
   // Set to true if you want to force buggy CSP in Safari 5.1 and below.
   safari5: false
-}));
+}))
 ```
 
 You can specify keys in a camel-cased fashion (`imgSrc`) or dashed (`img-src`); they are equivalent. The following directives are allowed:
@@ -133,13 +133,13 @@ There are a lot of inconsistencies in how browsers implement CSP. Helmet sniffs 
 **How to use Helmet to mitigate this:** The `X-XSS-Protection` HTTP header is a basic protection against XSS. It was originally [by Microsoft](http://blogs.msdn.com/b/ieinternals/archive/2011/01/31/controlling-the-internet-explorer-xss-filter-with-the-x-xss-protection-http-header.aspx) but Chrome has since adopted it as well. Helmet lets you use it easily:
 
 ```javascript
-app.use(helmet.xssFilter());
+app.use(helmet.xssFilter())
 ```
 
 This sets the `X-XSS-Protection` header. On modern browsers, it will set the value to `1; mode=block`. On old versions of Internet Explorer, this creates a vulnerability (see [here](http://hackademix.net/2009/11/21/ies-xss-filter-creates-xss-vulnerabilities/) and [here](http://technet.microsoft.com/en-us/security/bulletin/MS10-002)), and so the header is set to `0` to disable it. To force the header on all versions of IE, add the option:
 
 ```javascript
-app.use(helmet.xssFilter({ setOnOldIE: true }));
+app.use(helmet.xssFilter({ setOnOldIE: true }))
 // This has some security problems for old IE!
 ```
 
@@ -155,14 +155,14 @@ Usage:
 
 ```javascript
 // Only let me be framed by people of the same origin:
-app.use(helmet.frameguard('sameorigin'));
-app.use(helmet.frameguard());  // Same-origin by default.
+app.use(helmet.frameguard('sameorigin'))
+app.use(helmet.frameguard())  // Same-origin by default.
 
 // Don't allow anyone to put me in a frame.
-app.use(helmet.frameguard('deny'));
+app.use(helmet.frameguard('deny'))
 
 // Allow from a specific host:
-app.use(helmet.frameguard('allow-from', 'http://example.com'));
+app.use(helmet.frameguard('allow-from', 'http://example.com'))
 ```
 
 **Limitations:** This has pretty good (but not 100%) browser support: IE8+, Opera 10.50+, Safari 4+, Chrome 4.1+, and Firefox 3.6.9+. It only prevents against a certain class of attack, but does so pretty well. It also prevents your site from being framed, which you might want for legitimate reasons.
@@ -177,7 +177,7 @@ This will set the Strict Transport Security header, telling browsers to visit by
 
 ```javascript
 var ninetyDaysInMilliseconds = 7776000000;
-app.use(helmet.hsts({ maxAge: ninetyDaysInMilliseconds }));
+app.use(helmet.hsts({ maxAge: ninetyDaysInMilliseconds }))
 ```
 
 You can also include subdomains. If this is set on *example.com*, supported browsers will also use HTTPS on *my-subdomain.example.com*. Here's how you do that:
@@ -186,7 +186,7 @@ You can also include subdomains. If this is set on *example.com*, supported brow
 app.use(helmet.hsts({
   maxAge: 123000,
   includeSubdomains: true
-}));
+}))
 ```
 
 Chrome lets you submit your site for baked-into-Chrome HSTS by adding `preload` to the header. You can add that with the following code, and then submit your site to the Chrome team at [hstspreload.appspot.com](https://hstspreload.appspot.com/).
@@ -196,7 +196,7 @@ app.use(helmet.hsts({
   maxAge: 10886400000,     // Must be at least 18 weeks to be approved by Google
   includeSubdomains: true, // Must be enabled to be approved by Google
   preload: true
-}));
+}))
 ```
 
 This'll be set if `req.secure` is true, a boolean auto-populated by Express. If you're not using Express, that value won't necessarily be set, so you have two options:
@@ -214,7 +214,7 @@ app.use(helmet.hsts({
 app.use(helmet.hsts({
   maxAge: 1234000,
   force: true
-}));
+}))
 ```
 
 Note that the max age is in milliseconds, even though the spec uses seconds. This will round to the nearest full second.
@@ -228,19 +228,19 @@ Note that the max age is in milliseconds, even though the spec uses seconds. Thi
 **How to use Helmet to mitigate this:** The `hidePoweredBy` middleware will remove the `X-Powered-By` header if it is set (which it will be by default in Express).
 
 ```javascript
-app.use(helmet.hidePoweredBy());
+app.use(helmet.hidePoweredBy())
 ```
 
 You can also explicitly set the header to something else, if you want. This could throw people off:
 
 ```javascript
-app.use(helmet.hidePoweredBy({ setTo: 'PHP 4.2.0' }));
+app.use(helmet.hidePoweredBy({ setTo: 'PHP 4.2.0' }))
 ```
 
 Note: if you're using Express, you can skip Helmet's middleware if you want:
 
 ```javascript
-app.disable('x-powered-by');
+app.disable('x-powered-by')
 ```
 
 **Limitations:** There might be other telltale signs that your site is Express-based (a blog post about your tech stack, for example). This might prevent hackers from easily exploiting known vulnerabilities in your stack, but that's all it does.
@@ -252,7 +252,7 @@ app.disable('x-powered-by');
 **How to use Helmet to mitigate this:** Set the `X-Download-Options` header to `noopen` to prevent IE users from executing downloads in your site's context.
 
 ```javascript
-app.use(helmet.ieNoOpen());
+app.use(helmet.ieNoOpen())
 ```
 
 **Limitations:** This is pretty obscure, fixing a small bug on IE only. No real drawbacks other than performance/bandwidth of setting the headers, though.
@@ -264,7 +264,7 @@ app.use(helmet.ieNoOpen());
 **How to use Helmet to mitigate this:** Use Helmet's `noSniff` middleware to keep Chrome, Opera, and IE from doing this sniffing ([and Firefox soon](https://bugzilla.mozilla.org/show_bug.cgi?id=471020)). The following example sets the `X-Content-Type-Options` header to its only option, `nosniff`:
 
 ```javascript
-app.use(helmet.noSniff());
+app.use(helmet.noSniff())
 ```
 
 [MSDN has a good description](http://msdn.microsoft.com/en-us/library/gg622941%28v=vs.85%29.aspx) of how browsers behave when this header is sent.
@@ -278,7 +278,7 @@ app.use(helmet.noSniff());
 **How to use Helmet to mitigate this:** Use Helmet to disable this kind of caching. This sets a number of HTTP headers that stop caching.
 
 ```javascript
-app.use(helmet.noCache());
+app.use(helmet.noCache())
 ```
 
 This will set `Cache-Control` and `Pragma` headers to stop caching. It will also set an `Expires` header of 0, effectively saying "this has already expired."
@@ -286,7 +286,7 @@ This will set `Cache-Control` and `Pragma` headers to stop caching. It will also
 If you want to crush the `ETag` header as well, you can:
 
 ```javascript
-app.use(helmet.noCache({ noEtag: true }));
+app.use(helmet.noCache({ noEtag: true }))
 ```
 
 **Limitations:** Caching has some real benefits, and you lose them here (which is why it's disabled in the default configuration). Browsers won't cache resources with this enabled, although some performance is retained if you keep ETag support. It's also possible that you'll introduce *new* bugs and you'll wish people had old resources cached, but that's less likely.
@@ -304,7 +304,7 @@ app.use(helmet.publicKeyPins({
   sha256s: ['AbCdEf123=', 'ZyXwVu456='],
   includeSubdomains: true,         // optional
   reportUri: 'http://example.com'  // optional
-}));
+}))
 ```
 
 **Limitations:** Don't let these get out of sync with your certs!

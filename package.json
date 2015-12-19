@@ -39,11 +39,18 @@
   },
   "devDependencies": {
     "mocha": "^2.2.1",
-    "sinon": "^1.14.1"
+    "sinon": "^1.14.1",
+    "standard": "^5.4.1"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "standard && mocha"
   },
   "license": "MIT",
-  "main": "index"
+  "main": "index",
+  "standard": {
+    "globals": [
+      "describe",
+      "it"
+    ]
+  }
 }
