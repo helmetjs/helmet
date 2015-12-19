@@ -1,3 +1,20 @@
+unreleased
+==========
+
+- new: `csp` module supports dynamically-generated values
+
+- update: `csp` directives are now under the `directives` key
+- update: `hpkp`'s `Report-Only` header is now opt-in, not opt-out
+- update: tweak readmes of every repo
+
+- fix: old Firefox Content-Security-Policy behavior for `unsafe-inline` and `unsafe-eval`
+- fix: dynamic `csp` policies is no longer recursive
+
+- remove: `crossdomain` middleware
+- remove: `csp` no longer throws errors when some directives aren't quoted (`'self'`, for example)
+- remove: `maxage` option in the `hpkp` middleware
+- remove: `safari5` option from `csp` module
+
 0.15.0 / 2015-11-26
 ===================
 
