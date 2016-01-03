@@ -1,3 +1,8 @@
+unreleased
+==========
+
+- fix: `csp` had some errors in its readme
+
 1.0.1 / 2015-12-19
 ==================
 
