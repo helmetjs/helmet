@@ -83,7 +83,7 @@ app.use(helmet.csp({
     reportUri: '/report-violation'
 
     objectSrc: [], // An empty array allows nothing through
-  }
+  },
 
   // Set to true if you only want browsers to report errors, not block them
   reportOnly: false,
