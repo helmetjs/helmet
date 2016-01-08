@@ -1,5 +1,5 @@
-unreleased
-==========
+1.0.2 / 2016-01-08
+==================
 
 - fix: `csp` wouldn't recognize `IE Mobile` browsers
 - fix: `csp` had some errors in its readme
