@@ -1,6 +1,7 @@
 unreleased
 ==========
 
+- fix: `csp` wouldn't recognize `IE Mobile` browsers
 - fix: `csp` had some errors in its readme
 - fix: main readme had a syntax error
 
