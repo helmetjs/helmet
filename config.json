@@ -1,5 +1,6 @@
 {
   "middlewares": {
+    "dns-prefetch-control": ["dnsPrefetchControl"],
     "dont-sniff-mimetype": ["nosniff", "noSniff"],
     "frameguard": ["frameguard", "frameGuard", "xframe", "xFrame"],
     "helmet-csp": ["csp", "contentSecurityPolicy"],

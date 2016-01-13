@@ -2,6 +2,7 @@ unreleased
 ==========
 
 - new: code of conduct
+- new: `dnsPrefetchControl` middleware
 
 - fix: `csp` readme had syntax errors in the readme
 

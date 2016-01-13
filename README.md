@@ -38,19 +38,22 @@ app.use(helmet.frameguard())
 How it works
 ------------
 
-Helmet is really just a collection of 9 smaller middleware functions that set HTTP headers:
+Helmet is really just a collection of 10 smaller middleware functions that set HTTP headers:
 
 - [contentSecurityPolicy](https://github.com/helmetjs/csp) for setting Content Security Policy
+- [dnsPrefetchControl](https://github.com/helmetjs/dns-prefetch-control) controls browser DNS prefetching
+- [frameguard](https://github.com/helmetjs/frameguard) to prevent clickjacking
 - [hidePoweredBy](https://github.com/helmetjs/hide-powered-by) to remove the X-Powered-By header
 - [hpkp](https://github.com/helmetjs/hpkp) for HTTP Public Key Pinning
 - [hsts](https://github.com/helmetjs/hsts) for HTTP Strict Transport Security
 - [ieNoOpen](https://github.com/helmetjs/ienoopen) sets X-Download-Options for IE8+
 - [noCache](https://github.com/helmetjs/nocache) to disable client-side caching
 - [noSniff](https://github.com/helmetjs/dont-sniff-mimetype) to keep clients from sniffing the MIME type
-- [frameguard](https://github.com/helmetjs/frameguard) to prevent clickjacking
 - [xssFilter](https://github.com/helmetjs/x-xss-protection) adds some small XSS protections
 
-Running `app.use(helmet())` will include 6 of the 9, leaving out `contentSecurityPolicy`, `hpkp`, and `noCache`. You can also use each module individually, as documented below.
+Running `app.use(helmet())` will include 6 of the 10, leaving out `contentSecurityPolicy`, `dnsPrefetchControl`, `hpkp`, and `noCache`. You can also use each module individually, as documented below.
+
+`dnsPrefetchControl` is in "beta" right now and will soon become part of the default Helmet middleware.
 
 Usage guide
 -----------
@@ -295,6 +298,23 @@ app.use(helmet.publicKeyPins({
 Setting `reportOnly` to `true` will change the header from `Public-Key-Pins` to `Public-Key-Pins-Report-Only`.
 
 **Limitations:** Don't let these get out of sync with your certs!
+
+### Prevent DNS prefetching: dnsPrefetchControl
+
+**Trying to prevent:** Some browsers can start doing DNS lookups of other domains before visiting those domains. This can improve performance but can worsen security. [Mozilla Developer Network](https://developer.mozilla.org/en-US/docs/Web/HTTP/Controlling_DNS_prefetching) describes how browsers do this prefetching. [Chromium's documentation](https://dev.chromium.org/developers/design-documents/dns-prefetching) describes some ways that DNS lookups can be abused.
+
+**How to use Helmet to mitigate this:** Browsers will listen for the `X-DNS-Prefetch-Control` header and will disable DNS prefetching if the header is set to `off`.
+
+```js
+// Disable DNS prefetching (these two lines are equivalent):
+app.use(helmet.dnsPrefetchControl())
+app.use(helmet.dnsPrefetchControl({ allow: false }))
+
+// Enable DNS prefetching (less secure but faster):
+app.use(helmet.dnsPrefetchControl({ allow: true }))
+```
+
+**Limitations:** This hurts performance—browsers will no longer prefetch resources from your site.
 
 Other recommended modules
 -------------------------
