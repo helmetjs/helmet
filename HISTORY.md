@@ -1,10 +1,10 @@
-unreleased
-==========
+1.1.0 / 2016-01-12
+==================
 
 - new: code of conduct
 - new: `dnsPrefetchControl` middleware
 
-- fix: `csp` readme had syntax errors in the readme
+- fix: `csp` readme had syntax errors
 
 1.0.2 / 2016-01-08
 ==================
