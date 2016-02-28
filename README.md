@@ -136,15 +136,18 @@ app.use(helmet.xssFilter({ setOnOldIE: true }))
 Usage:
 
 ```javascript
-// Only let me be framed by people of the same origin:
-app.use(helmet.frameguard('sameorigin'))
-app.use(helmet.frameguard())  // Same-origin by default.
+// Don't allow me to be in ANY frames:
+app.use(frameguard({ action: 'deny' }))
 
-// Don't allow anyone to put me in a frame.
-app.use(helmet.frameguard('deny'))
+// Only let me be framed by people of the same origin:
+app.use(frameguard({ action: 'sameorigin' }))
+app.use(frameguard())  // defaults to sameorigin
 
 // Allow from a specific host:
-app.use(helmet.frameguard('allow-from', 'http://example.com'))
+app.use(frameguard({
+  action: 'allow-from',
+  domain: 'http://example.com'
+}))
 ```
 
 **Limitations:** This has pretty good (but not 100%) browser support: IE8+, Opera 10.50+, Safari 4+, Chrome 4.1+, and Firefox 3.6.9+. It only prevents against a certain class of attack, but does so pretty well. It also prevents your site from being framed, which you might want for legitimate reasons.

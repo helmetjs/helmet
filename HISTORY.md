@@ -1,6 +1,7 @@
 unreleased
 ==========
 
+- update: `frameguard` can now be initialized with options
 - update: add `npmignore` file to speed up installs slightly
 
 1.1.0 / 2016-01-12
