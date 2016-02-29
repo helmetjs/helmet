@@ -3,7 +3,6 @@ var connect = require('connect')
 var config = require('./config.json')
 
 function helmet (optionOverrides) {
-  'use strict'
   var chain = connect()
 
   // reverse lookup for alias to moduleName
@@ -51,7 +50,6 @@ function helmet (optionOverrides) {
 }
 
 Object.keys(config.middlewares).forEach(function (moduleName) {
-  'use strict'
   var pkg = require(moduleName)
   var aliases = config.middlewares[moduleName]
   helmet[moduleName] = pkg

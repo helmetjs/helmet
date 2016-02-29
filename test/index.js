@@ -69,12 +69,7 @@ describe('helmet', function () {
     helmet(options)
     moduleNames.forEach(function (moduleName) {
       var pkg = helmet[moduleName]
-      var isDefault = config.defaultMiddleware.indexOf(moduleName) !== -1
-      if (isDefault) {
-        assert(!pkg.called, moduleName + ' is default but should be not called')
-      } else {
-        assert(!pkg.called, moduleName + ' is called but is not default')
-      }
+      assert(!pkg.called, moduleName + ' should not be called')
       pkg.restore()
     })
   })
@@ -95,13 +90,23 @@ describe('helmet', function () {
     helmet(options)
     moduleNames.forEach(function (moduleName) {
       var pkg = helmet[moduleName]
-      var isDefault = config.defaultMiddleware.indexOf(moduleName) !== -1
-      if (isDefault) {
-        assert(pkg.called, moduleName + ' is default and not called')
-      } else {
-        assert(pkg.called, moduleName + ' is not called')
-      }
+      assert(pkg.called, moduleName + ' should be called')
       pkg.restore()
     })
+  })
+
+  it('apply correct options', function () {
+    var options = {}
+    var xssOptions = { setOnOldIe: true }
+
+    var moduleName = 'x-xss-protection'
+    sinon.spy(helmet, moduleName)
+    options[moduleName] = xssOptions
+
+    helmet(options)
+
+    var pkg = helmet[moduleName]
+    assert(pkg.calledWith(xssOptions), moduleName + ' not called with correct options')
+    pkg.restore()
   })
 })
