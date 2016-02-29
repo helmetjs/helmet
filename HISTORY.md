@@ -1,6 +1,8 @@
 unreleased
 ==========
 
+- new: `csp` now has a `browserSniff` option to disable all user-agent sniffing
+
 - update: `frameguard` can now be initialized with options
 - update: add `npmignore` file to speed up installs slightly
 

@@ -96,7 +96,12 @@ app.use(helmet.csp({
   setAllHeaders: false,
 
   // Set to true if you want to disable CSP on Android where it can be buggy.
-  disableAndroid: false
+  disableAndroid: false,
+
+  // Set to false if you want to completely disable any user-agent sniffing.
+  // This may make the headers less compatible but it will be much faster.
+  // This defaults to `true`.
+  browserSniff: true
 }))
 ```
 
