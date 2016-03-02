@@ -1,3 +1,8 @@
+1.3.0 / 2016-03-01
+==================
+
+- new: `hpkp` has a `setIf` option to conditionally set the header
+
 1.2.0 / 2016-02-29
 ==================
 

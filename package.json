@@ -32,7 +32,7 @@
     "frameguard": "1.1.0",
     "helmet-csp": "1.1.0",
     "hide-powered-by": "1.0.0",
-    "hpkp": "1.0.0",
+    "hpkp": "1.1.0",
     "hsts": "1.0.0",
     "ienoopen": "1.0.0",
     "nocache": "1.0.0",
