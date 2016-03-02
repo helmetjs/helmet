@@ -1,5 +1,5 @@
-unreleased
-==========
+1.2.0 / 2016-02-29
+==================
 
 - new: `csp` now has a `browserSniff` option to disable all user-agent sniffing
 
