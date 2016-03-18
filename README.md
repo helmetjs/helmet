@@ -161,7 +161,7 @@ app.use(frameguard({
 
 **Trying to prevent:** Users viewing your site on HTTP instead of HTTPS. HTTP is pretty insecure!
 
-**How to use Helmet to mitigate this:** This middleware adds the `Strict-Transport-Security` header to the response. This tells browsers, "hey, only use HTTPS for the next period of time". ([See the spec](http://tools.ietf.org/html/draft-ietf-websec-strict-transport-sec-04) for more.)
+**How to use Helmet to mitigate this:** This middleware adds the `Strict-Transport-Security` header to the response. This tells browsers, "hey, only use HTTPS for the next period of time". ([See the spec](http://tools.ietf.org/html/rfc6797) for more.)
 
 This will set the Strict Transport Security header, telling browsers to visit by HTTPS for the next ninety days:
 
