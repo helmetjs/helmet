@@ -1,43 +1,44 @@
 var helmet = require('..')
-var config = require('../config.json')
+var config = require('../config')
 
 var assert = require('assert')
 var sinon = require('sinon')
 
 describe('helmet', function () {
-  var packagesByKey = {}
-  var moduleNames = Object.keys(config.middlewares)
-  var packages = []
-  moduleNames.forEach(function (moduleName) {
-    var pkg = require(moduleName)
-    packages.push(pkg)
-    packagesByKey[moduleName] = pkg
+  beforeEach(function () {
+    this.sandbox = sinon.sandbox.create()
+  })
+
+  afterEach(function () {
+    this.sandbox.restore()
   })
 
   it('maintains module aliases', function () {
-    moduleNames.forEach(function (moduleName) {
-      var pkg = packagesByKey[moduleName]
-      var aliases = config.middlewares[moduleName]
-      aliases.forEach(function (alias) {
-        assert.equal(helmet[alias], pkg)
+    Object.keys(config.middlewares).forEach(function (moduleName) {
+      var pkg = require(moduleName)
+
+      config.middlewares[moduleName].forEach(function (aliasName) {
+        assert.equal(helmet[aliasName], pkg)
       })
     })
   })
 
   it('chains all default middleware', function () {
-    moduleNames.forEach(function (moduleName) {
-      sinon.spy(helmet, moduleName)
-    })
+    Object.keys(config.middlewares).forEach(function (moduleName) {
+      this.sandbox.spy(helmet, moduleName)
+    }.bind(this))
+
     helmet()
-    moduleNames.forEach(function (moduleName) {
+
+    Object.keys(config.middlewares).forEach(function (moduleName) {
       var pkg = helmet[moduleName]
+
       var isDefault = config.defaultMiddleware.indexOf(moduleName) !== -1
       if (isDefault) {
         assert(pkg.calledOnce, moduleName + ' is default but is not called')
       } else {
         assert(!pkg.called, moduleName + ' is called but is not default')
       }
-      pkg.restore()
     })
   })
 })
