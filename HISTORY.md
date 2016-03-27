@@ -1,3 +1,8 @@
+unreleased
+==========
+
+- fix: update `hpkp` spec URL in readmes
+
 1.3.0 / 2016-03-01
 ==================
 
