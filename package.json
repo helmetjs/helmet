@@ -44,7 +44,8 @@
     "standard": "^6.0.7"
   },
   "scripts": {
-    "test": "standard && mocha"
+    "pretest": "standard",
+    "test": "mocha"
   },
   "license": "MIT",
   "main": "index",
