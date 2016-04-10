@@ -339,4 +339,8 @@ Helmet only deals with HTTP headers, but there are a number of other helpful sec
 * [express-content-length-validator](https://github.com/ericmdantas/express-content-length-validator)
 * [hpp](https://www.npmjs.com/package/hpp)
 * [cors](https://www.npmjs.org/package/cors)
-* [koa-helmet](https://github.com/venables/koa-helmet)
+
+This module has also been ported to other environments.
+
+* Koa Node web framework: [koa-helmet](https://github.com/venables/koa-helmet)
+* Crystal programming language: [crystal-helmet](https://github.com/EvanHahn/crystal-helmet)
