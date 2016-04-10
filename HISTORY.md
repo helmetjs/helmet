@@ -2,6 +2,7 @@ unreleased
 ==========
 
 - fix: update `hpkp` spec URL in readmes
+- fix: update `frameguard` header name in readme
 
 1.3.0 / 2016-03-01
 ==================
