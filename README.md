@@ -83,9 +83,8 @@ app.use(helmet.csp({
     styleSrc: ['style.com'],
     imgSrc: ['img.com', 'data:'],
     sandbox: ['allow-forms', 'allow-scripts'],
-    reportUri: '/report-violation'
-
-    objectSrc: [], // An empty array allows nothing through
+    reportUri: '/report-violation',
+    objectSrc: [] // An empty array allows nothing through
   },
 
   // Set to true if you only want browsers to report errors, not block them
