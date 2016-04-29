@@ -285,7 +285,7 @@ app.use(helmet.noCache({ noEtag: true }))
 
 **Limitations:** Caching has some real benefits, and you lose them here (which is why it's disabled in the default configuration). Browsers won't cache resources with this enabled, although some performance is retained if you keep ETag support. It's also possible that you'll introduce *new* bugs and you'll wish people had old resources cached, but that's less likely.
 
-### Public Key Pinning: HPKP
+### Public Key Pinning: hpkp
 
 **Trying to prevent:** HTTPS certificates can be forged, allowing man-in-the middle attacks. [HTTP Public Key Pinning](https://developer.mozilla.org/en-US/docs/Web/Security/Public_Key_Pinning) aims to help that.
 

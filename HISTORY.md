@@ -1,6 +1,7 @@
 unreleased
 ==========
 
+- fix: make `hpkp` lowercase in documentation
 - fix: update `hpkp` spec URL in readmes
 - fix: update `frameguard` header name in readme
 
