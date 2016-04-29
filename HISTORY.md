@@ -1,5 +1,5 @@
-unreleased
-==========
+2.0.0 / 2016-04-29
+==================
 
 - new: pass configuration to enable/disable default middlewares
 
