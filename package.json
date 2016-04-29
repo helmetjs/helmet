@@ -29,7 +29,7 @@
     "connect": "3.4.1",
     "dns-prefetch-control": "0.1.0",
     "dont-sniff-mimetype": "1.0.0",
-    "frameguard": "1.1.0",
+    "frameguard": "2.0.0",
     "helmet-csp": "1.1.0",
     "hide-powered-by": "1.0.0",
     "hpkp": "1.1.0",
