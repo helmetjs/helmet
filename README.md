@@ -51,9 +51,7 @@ Helmet is really just a collection of 10 smaller middleware functions that set H
 - [noSniff](https://github.com/helmetjs/dont-sniff-mimetype) to keep clients from sniffing the MIME type
 - [xssFilter](https://github.com/helmetjs/x-xss-protection) adds some small XSS protections
 
-Running `app.use(helmet())` will include 6 of the 10, leaving out `contentSecurityPolicy`, `dnsPrefetchControl`, `hpkp`, and `noCache`. You can also use each module individually, as documented below.
-
-`dnsPrefetchControl` is in "beta" right now and will soon become part of the default Helmet middleware.
+Running `app.use(helmet())` will include 6 of the 10, leaving out `contentSecurityPolicy`, `hpkp`, and `noCache`. You can also use each module individually, as documented below.
 
 Usage guide
 -----------
