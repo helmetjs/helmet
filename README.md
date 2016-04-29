@@ -51,7 +51,7 @@ Helmet is really just a collection of 10 smaller middleware functions that set H
 - [noSniff](https://github.com/helmetjs/dont-sniff-mimetype) to keep clients from sniffing the MIME type
 - [xssFilter](https://github.com/helmetjs/x-xss-protection) adds some small XSS protections
 
-Running `app.use(helmet())` will include 6 of the 10, leaving out `contentSecurityPolicy`, `hpkp`, and `noCache`. You can also use each module individually, as documented below.
+Running `app.use(helmet())` will include 7 of the 10, leaving out `contentSecurityPolicy`, `hpkp`, and `noCache`. You can also use each module individually, as documented below.
 
 Usage guide
 -----------
@@ -63,6 +63,32 @@ For each of the middlewares, we'll talk about three things:
 3. What are the non-obvious limitations of this middleware?
 
 Let's get started.
+
+### Top-level: helmet
+
+The top-level `helmet` package will include 7 of the following 10 packages. You can use it like this:
+
+```js
+app.use(helmet())
+```
+
+You can disable a middleware that's normally enabled by default. This will disable `frameguard` but include the other 6 defaults.
+
+```js
+app.use(helmet({
+  frameguard: false
+}))
+```
+
+You can also set options for a middleware. Setting options like this will *always* include the middleware, whether or not it's a default.
+
+```js
+app.use(helmet({
+  frameguard: {
+    action: 'deny'
+  }
+}))
+```
 
 ### Content Security Policy: contentSecurityPolicy
 

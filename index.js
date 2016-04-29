@@ -1,12 +1,33 @@
 var connect = require('connect')
 
-var config = require('./config.json')
+var config = require('./config')
+var values = require('./lib/values')
 
-function helmet () {
+var middlewares = values(config.middlewares)
+
+function helmet (options) {
+  options = options || {}
+
   var chain = connect()
-  config.defaultMiddleware.forEach(function (middlewareName) {
-    chain.use(helmet[middlewareName]())
+
+  middlewares.forEach(function (middlewareName) {
+    var middleware = helmet[middlewareName]
+    var option = options[middlewareName]
+    var isDefault = config.defaultMiddleware.indexOf(middlewareName) !== -1
+
+    if (option === false) { return }
+
+    if (option != null) {
+      if (option === true) {
+        chain.use(middleware({}))
+      } else {
+        chain.use(middleware(option))
+      }
+    } else if (isDefault) {
+      chain.use(middleware({}))
+    }
   })
+
   return chain
 }
 

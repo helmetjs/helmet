@@ -65,13 +65,15 @@ describe('helmet', function () {
   })
 
   describe('helmet()', function () {
-    it('chains all default middleware', function () {
+    beforeEach(function () {
       Object.keys(helmet).forEach(function (key) {
         if (typeof helmet[key] === 'function') {
           this.sandbox.spy(helmet, key)
         }
       }.bind(this))
+    })
 
+    it('chains all default middleware', function () {
       helmet()
 
       sinon.assert.calledOnce(helmet.dnsPrefetchControl)
@@ -82,7 +84,116 @@ describe('helmet', function () {
       sinon.assert.calledOnce(helmet.noSniff)
       sinon.assert.calledOnce(helmet.xssFilter)
 
+      sinon.assert.calledWith(helmet.dnsPrefetchControl, {})
+      sinon.assert.calledWith(helmet.frameguard, {})
+      sinon.assert.calledWith(helmet.hidePoweredBy, {})
+      sinon.assert.calledWith(helmet.hsts, {})
+      sinon.assert.calledWith(helmet.ieNoOpen, {})
+      sinon.assert.calledWith(helmet.noSniff, {})
+      sinon.assert.calledWith(helmet.xssFilter, {})
+
       sinon.assert.notCalled(helmet.contentSecurityPolicy)
+      sinon.assert.notCalled(helmet.hpkp)
+      sinon.assert.notCalled(helmet.noCache)
+    })
+
+    it('lets you disable a default middleware', function () {
+      helmet({ frameguard: false })
+
+      sinon.assert.notCalled(helmet.frameguard)
+
+      sinon.assert.calledOnce(helmet.dnsPrefetchControl)
+      sinon.assert.calledOnce(helmet.hidePoweredBy)
+      sinon.assert.calledOnce(helmet.hsts)
+      sinon.assert.calledOnce(helmet.ieNoOpen)
+      sinon.assert.calledOnce(helmet.noSniff)
+      sinon.assert.calledOnce(helmet.xssFilter)
+      sinon.assert.calledWith(helmet.dnsPrefetchControl, {})
+      sinon.assert.calledWith(helmet.hidePoweredBy, {})
+      sinon.assert.calledWith(helmet.hsts, {})
+      sinon.assert.calledWith(helmet.ieNoOpen, {})
+      sinon.assert.calledWith(helmet.noSniff, {})
+      sinon.assert.calledWith(helmet.xssFilter, {})
+      sinon.assert.notCalled(helmet.contentSecurityPolicy)
+      sinon.assert.notCalled(helmet.hpkp)
+      sinon.assert.notCalled(helmet.noCache)
+    })
+
+    it('lets you enable a normally-disabled middleware', function () {
+      helmet({ contentSecurityPolicy: true })
+
+      sinon.assert.calledOnce(helmet.contentSecurityPolicy)
+      sinon.assert.calledWith(helmet.contentSecurityPolicy, {})
+
+      sinon.assert.calledOnce(helmet.dnsPrefetchControl)
+      sinon.assert.calledOnce(helmet.frameguard)
+      sinon.assert.calledOnce(helmet.hidePoweredBy)
+      sinon.assert.calledOnce(helmet.hsts)
+      sinon.assert.calledOnce(helmet.ieNoOpen)
+      sinon.assert.calledOnce(helmet.noSniff)
+      sinon.assert.calledOnce(helmet.xssFilter)
+      sinon.assert.calledWith(helmet.dnsPrefetchControl, {})
+      sinon.assert.calledWith(helmet.frameguard, {})
+      sinon.assert.calledWith(helmet.hidePoweredBy, {})
+      sinon.assert.calledWith(helmet.hsts, {})
+      sinon.assert.calledWith(helmet.ieNoOpen, {})
+      sinon.assert.calledWith(helmet.noSniff, {})
+      sinon.assert.calledWith(helmet.xssFilter, {})
+      sinon.assert.notCalled(helmet.hpkp)
+      sinon.assert.notCalled(helmet.noCache)
+    })
+
+    it('lets you set options for a default middleware', function () {
+      var options = { action: 'deny' }
+
+      helmet({ frameguard: options })
+
+      sinon.assert.calledOnce(helmet.frameguard)
+      sinon.assert.calledWith(helmet.frameguard, options)
+
+      sinon.assert.calledOnce(helmet.dnsPrefetchControl)
+      sinon.assert.calledOnce(helmet.hidePoweredBy)
+      sinon.assert.calledOnce(helmet.hsts)
+      sinon.assert.calledOnce(helmet.ieNoOpen)
+      sinon.assert.calledOnce(helmet.noSniff)
+      sinon.assert.calledOnce(helmet.xssFilter)
+      sinon.assert.calledWith(helmet.dnsPrefetchControl, {})
+      sinon.assert.calledWith(helmet.hidePoweredBy, {})
+      sinon.assert.calledWith(helmet.hsts, {})
+      sinon.assert.calledWith(helmet.ieNoOpen, {})
+      sinon.assert.calledWith(helmet.noSniff, {})
+      sinon.assert.calledWith(helmet.xssFilter, {})
+      sinon.assert.notCalled(helmet.contentSecurityPolicy)
+      sinon.assert.notCalled(helmet.hpkp)
+      sinon.assert.notCalled(helmet.noCache)
+    })
+
+    it('lets you set options for a non-default middleware', function () {
+      var options = {
+        directives: {
+          defaultSrc: ['*']
+        }
+      }
+
+      helmet({ contentSecurityPolicy: options })
+
+      sinon.assert.calledOnce(helmet.contentSecurityPolicy)
+      sinon.assert.calledWith(helmet.contentSecurityPolicy, options)
+
+      sinon.assert.calledOnce(helmet.dnsPrefetchControl)
+      sinon.assert.calledOnce(helmet.frameguard)
+      sinon.assert.calledOnce(helmet.hidePoweredBy)
+      sinon.assert.calledOnce(helmet.hsts)
+      sinon.assert.calledOnce(helmet.ieNoOpen)
+      sinon.assert.calledOnce(helmet.noSniff)
+      sinon.assert.calledOnce(helmet.xssFilter)
+      sinon.assert.calledWith(helmet.dnsPrefetchControl, {})
+      sinon.assert.calledWith(helmet.frameguard, {})
+      sinon.assert.calledWith(helmet.hidePoweredBy, {})
+      sinon.assert.calledWith(helmet.hsts, {})
+      sinon.assert.calledWith(helmet.ieNoOpen, {})
+      sinon.assert.calledWith(helmet.noSniff, {})
+      sinon.assert.calledWith(helmet.xssFilter, {})
       sinon.assert.notCalled(helmet.hpkp)
       sinon.assert.notCalled(helmet.noCache)
     })
