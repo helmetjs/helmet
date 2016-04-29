@@ -1,6 +1,8 @@
 unreleased
 ==========
 
+- new: pass configuration to enable/disable default middlewares
+
 - update: `dnsPrefetchControl` middleware is now default
 
 - fix: make `hpkp` lowercase in documentation
@@ -8,6 +10,7 @@ unreleased
 - fix: update `frameguard` header name in readme
 
 - remove: module aliases. There is now just one way to include each middleware
+- remove: `frameguard` can no longer be initialized with strings; you must use an object
 
 1.3.0 / 2016-03-01
 ==================
