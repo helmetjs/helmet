@@ -12,11 +12,8 @@ function helmet () {
 
 Object.keys(config.middlewares).forEach(function (moduleName) {
   var pkg = require(moduleName)
-  var aliases = config.middlewares[moduleName]
-  helmet[moduleName] = pkg
-  aliases.forEach(function (aliasName) {
-    helmet[aliasName] = pkg
-  })
+  var alias = config.middlewares[moduleName]
+  helmet[alias] = pkg
 })
 
 module.exports = helmet

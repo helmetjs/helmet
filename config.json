@@ -1,22 +1,23 @@
 {
   "middlewares": {
-    "dns-prefetch-control": ["dnsPrefetchControl"],
-    "dont-sniff-mimetype": ["nosniff", "noSniff"],
-    "frameguard": ["frameguard", "frameGuard", "xframe", "xFrame"],
-    "helmet-csp": ["csp", "contentSecurityPolicy"],
-    "hide-powered-by": ["hidePoweredBy", "hideXPoweredBy"],
-    "hpkp": ["hpkp", "publicKeyPinning", "publicKeyPins", "hPkp", "hkpk"],
-    "hsts": ["hsts"],
-    "ienoopen": ["ienoopen", "ieNoOpen", "IENoOpen"],
-    "nocache": ["nocache", "noCache"],
-    "x-xss-protection": ["xssFilter", "xssfilter", "xXSSProtection"]
+    "dns-prefetch-control": "dnsPrefetchControl",
+    "dont-sniff-mimetype": "noSniff",
+    "frameguard": "frameguard",
+    "helmet-csp": "contentSecurityPolicy",
+    "hide-powered-by": "hidePoweredBy",
+    "hpkp": "hpkp",
+    "hsts": "hsts",
+    "ienoopen": "ieNoOpen",
+    "nocache": "noCache",
+    "x-xss-protection": "xssFilter"
   },
   "defaultMiddleware": [
-    "dont-sniff-mimetype",
+    "dnsPrefetchControl",
     "frameguard",
-    "hide-powered-by",
+    "hidePoweredBy",
     "hsts",
-    "ienoopen",
-    "x-xss-protection"
+    "ieNoOpen",
+    "noSniff",
+    "xssFilter"
   ]
 }

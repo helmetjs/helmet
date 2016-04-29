@@ -75,7 +75,7 @@ Let's get started.
 Usage:
 
 ```javascript
-app.use(helmet.csp({
+app.use(helmet.contentSecurityPolicy({
   // Specify directives as normal.
   directives: {
     defaultSrc: ["'self'", 'default.com'],
@@ -293,7 +293,7 @@ app.use(helmet.noCache({ noEtag: true }))
 
 ```javascript
 var ninetyDaysInMilliseconds = 7776000000;
-app.use(helmet.publicKeyPins({
+app.use(helmet.hpkp({
   maxAge: ninetyDaysInMilliseconds,
   sha256s: ['AbCdEf123=', 'ZyXwVu456='],
   includeSubdomains: true,         // optional
