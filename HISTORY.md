@@ -1,5 +1,5 @@
-unreleased
-==========
+2.1.1 / 2016-06-10
+==================
 
 - update: remove several dependencies from `helmet-csp`
 
