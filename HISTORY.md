@@ -2,6 +2,7 @@ unreleased
 ==========
 
 - fix: `frameguard` had a documentation error about its default value
+- fix: `frameguard` docs in main Helmet readme said `frameguard`, not `helmet.frameguard`
 
 2.1.0 / 2016-05-18
 ==================
