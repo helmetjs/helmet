@@ -165,14 +165,14 @@ Usage:
 
 ```javascript
 // Don't allow me to be in ANY frames:
-app.use(frameguard({ action: 'deny' }))
+app.use(helmet.frameguard({ action: 'deny' }))
 
 // Only let me be framed by people of the same origin:
-app.use(frameguard({ action: 'sameorigin' }))
-app.use(frameguard())  // defaults to sameorigin
+app.use(helmet.frameguard({ action: 'sameorigin' }))
+app.use(helmet.frameguard())  // defaults to sameorigin
 
 // Allow from a specific host:
-app.use(frameguard({
+app.use(helmet.frameguard({
   action: 'allow-from',
   domain: 'http://example.com'
 }))
