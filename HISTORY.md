@@ -1,6 +1,8 @@
 unreleased
 ==========
 
+- update: remove several dependencies from `helmet-csp`
+
 - fix: `frameguard` had a documentation error about its default value
 - fix: `frameguard` docs in main Helmet readme said `frameguard`, not `helmet.frameguard`
 
