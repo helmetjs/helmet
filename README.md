@@ -301,13 +301,7 @@ This sets four headers, disabling a lot of browser caching:
 - `Expires: 0`
 - `Surrogate-Control: no-store`
 
-If you want to crush the `ETag` header as well, you can:
-
-```javascript
-app.use(helmet.noCache({ noEtag: true }))
-```
-
-**Limitations:** Caching has some real benefits, and you lose them here (which is why it's disabled in the default configuration). Browsers won't cache resources with this enabled, although some performance is retained if you keep ETag support. It's also possible that you'll introduce *new* bugs and you'll wish people had old resources cached, but that's less likely.
+**Limitations:** Caching has performance benefits, and you lose them here. It's also possible that you'll introduce new bugs and you'll wish people had old resources cached, but that's less likely.
 
 ### Public Key Pinning: hpkp
 

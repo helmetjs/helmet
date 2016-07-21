@@ -1,3 +1,8 @@
+unreleased
+==================
+
+- update: `nocache`'s `noEtag` option is now deprecated
+
 2.1.1 / 2016-06-10
 ==================
 
