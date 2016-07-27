@@ -1,4 +1,4 @@
-unreleased
+2.1.2 / 2016-07-27
 ==================
 
 - update: `nocache`'s `noEtag` option is now deprecated
