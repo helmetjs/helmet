@@ -3,6 +3,8 @@ unreleased
 
 - update: `nocache`'s `noEtag` option is now deprecated
 
+- fix: `csp` now better handles Firefox on mobile
+
 2.1.1 / 2016-06-10
 ==================
 

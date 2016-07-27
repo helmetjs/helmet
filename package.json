@@ -30,7 +30,7 @@
     "dns-prefetch-control": "0.1.0",
     "dont-sniff-mimetype": "1.0.0",
     "frameguard": "2.0.0",
-    "helmet-csp": "1.2.1",
+    "helmet-csp": "1.2.2",
     "hide-powered-by": "1.0.0",
     "hpkp": "1.1.0",
     "hsts": "1.0.0",
