@@ -1,3 +1,8 @@
+2.1.3 / 2016-09-07
+==================
+
+- update: top-level aliases (like `helmet.xssFilter`) are no longer dynamically required
+
 2.1.2 / 2016-07-27
 ==================
 

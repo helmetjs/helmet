@@ -31,10 +31,15 @@ function helmet (options) {
   return chain
 }
 
-Object.keys(config.middlewares).forEach(function (moduleName) {
-  var pkg = require(moduleName)
-  var alias = config.middlewares[moduleName]
-  helmet[alias] = pkg
-})
+helmet.dnsPrefetchControl = require('dns-prefetch-control')
+helmet.noSniff = require('dont-sniff-mimetype')
+helmet.frameguard = require('frameguard')
+helmet.contentSecurityPolicy = require('helmet-csp')
+helmet.hidePoweredBy = require('hide-powered-by')
+helmet.hpkp = require('hpkp')
+helmet.hsts = require('hsts')
+helmet.ieNoOpen = require('ienoopen')
+helmet.noCache = require('nocache')
+helmet.xssFilter = require('x-xss-protection')
 
 module.exports = helmet
