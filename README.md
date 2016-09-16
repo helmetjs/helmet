@@ -38,20 +38,22 @@ app.use(helmet.frameguard())
 How it works
 ------------
 
-Helmet is really just a collection of 10 smaller middleware functions that set HTTP headers:
+Helmet is a collection of 10 smaller middleware functions that set HTTP headers. Running `app.use(helmet())` will not include all of these middleware functions by default.
 
-- [contentSecurityPolicy](https://github.com/helmetjs/csp) for setting Content Security Policy
-- [dnsPrefetchControl](https://github.com/helmetjs/dns-prefetch-control) controls browser DNS prefetching
-- [frameguard](https://github.com/helmetjs/frameguard) to prevent clickjacking
-- [hidePoweredBy](https://github.com/helmetjs/hide-powered-by) to remove the X-Powered-By header
-- [hpkp](https://github.com/helmetjs/hpkp) for HTTP Public Key Pinning
-- [hsts](https://github.com/helmetjs/hsts) for HTTP Strict Transport Security
-- [ieNoOpen](https://github.com/helmetjs/ienoopen) sets X-Download-Options for IE8+
-- [noCache](https://github.com/helmetjs/nocache) to disable client-side caching
-- [noSniff](https://github.com/helmetjs/dont-sniff-mimetype) to keep clients from sniffing the MIME type
-- [xssFilter](https://github.com/helmetjs/x-xss-protection) adds some small XSS protections
+| Module | Default? |
+|---|---|
+| [contentSecurityPolicy](https://github.com/helmetjs/csp) for setting Content Security Policy |  |
+| [dnsPrefetchControl](https://github.com/helmetjs/dns-prefetch-control) controls browser DNS prefetching | ✓ |
+| [frameguard](https://github.com/helmetjs/frameguard) to prevent clickjacking | ✓ |
+| [hidePoweredBy](https://github.com/helmetjs/hide-powered-by) to remove the X-Powered-By header | ✓ |
+| [hpkp](https://github.com/helmetjs/hpkp) for HTTP Public Key Pinning |  |
+| [hsts](https://github.com/helmetjs/hsts) for HTTP Strict Transport Security | ✓ |
+| [ieNoOpen](https://github.com/helmetjs/ienoopen) sets X-Download-Options for IE8+ | ✓ |
+| [noCache](https://github.com/helmetjs/nocache) to disable client-side caching |  |
+| [noSniff](https://github.com/helmetjs/dont-sniff-mimetype) to keep clients from sniffing the MIME type | ✓ |
+| [xssFilter](https://github.com/helmetjs/x-xss-protection) adds some small XSS protections | ✓ |
 
-Running `app.use(helmet())` will include 7 of the 10, leaving out `contentSecurityPolicy`, `hpkp`, and `noCache`. You can also use each module individually, as documented below.
+You can also use each module individually as documented below.
 
 Usage guide
 -----------
