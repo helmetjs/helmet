@@ -38,7 +38,7 @@ app.use(helmet.frameguard())
 How it works
 ------------
 
-Helmet is a collection of 10 smaller middleware functions that set HTTP headers. Running `app.use(helmet())` will not include all of these middleware functions by default.
+Helmet is a collection of 11 smaller middleware functions that set HTTP headers. Running `app.use(helmet())` will not include all of these middleware functions by default.
 
 | Module | Default? |
 |---|---|
