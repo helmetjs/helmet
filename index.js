@@ -39,6 +39,7 @@ helmet.hsts = require('hsts')
 helmet.ieNoOpen = require('ienoopen')
 helmet.noCache = require('nocache')
 helmet.xssFilter = require('x-xss-protection')
+helmet.referrerPolicy = require('referrer-policy')
 middlewares = Object.keys(helmet)
 
 module.exports = helmet

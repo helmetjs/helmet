@@ -58,6 +58,11 @@ describe('helmet', function () {
       assert.equal(helmet.noCache, pkg)
     })
 
+    it('aliases "referrer-policy"', function () {
+      var pkg = require('referrer-policy')
+      assert.equal(helmet.referrerPolicy, pkg)
+    })
+
     it('aliases "x-xss-protection"', function () {
       var pkg = require('x-xss-protection')
       assert.equal(helmet.xssFilter, pkg)
