@@ -69,7 +69,7 @@ Let's get started.
 
 ### Top-level: helmet
 
-The top-level `helmet` package will include 7 of the following 10 packages. You can use it like this:
+The top-level `helmet` package will include 7 of the following 11 packages. You can use it like this:
 
 ```js
 app.use(helmet())
