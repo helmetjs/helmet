@@ -29,17 +29,17 @@ function helmet (options) {
   return chain
 }
 
-helmet.dnsPrefetchControl = require('dns-prefetch-control')
-helmet.noSniff = require('dont-sniff-mimetype')
-helmet.frameguard = require('frameguard')
 helmet.contentSecurityPolicy = require('helmet-csp')
+helmet.dnsPrefetchControl = require('dns-prefetch-control')
+helmet.frameguard = require('frameguard')
 helmet.hidePoweredBy = require('hide-powered-by')
 helmet.hpkp = require('hpkp')
 helmet.hsts = require('hsts')
 helmet.ieNoOpen = require('ienoopen')
 helmet.noCache = require('nocache')
-helmet.xssFilter = require('x-xss-protection')
+helmet.noSniff = require('dont-sniff-mimetype')
 helmet.referrerPolicy = require('referrer-policy')
+helmet.xssFilter = require('x-xss-protection')
 middlewares = Object.keys(helmet)
 
 module.exports = helmet
