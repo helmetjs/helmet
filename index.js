@@ -1,10 +1,8 @@
 var connect = require('connect')
 
 var config = require('./config')
-var values = require('./lib/values')
 
-var middlewares = values(config.middlewares)
-
+var middlewares
 function helmet (options) {
   options = options || {}
 
@@ -41,5 +39,6 @@ helmet.hsts = require('hsts')
 helmet.ieNoOpen = require('ienoopen')
 helmet.noCache = require('nocache')
 helmet.xssFilter = require('x-xss-protection')
+middlewares = Object.keys(helmet)
 
 module.exports = helmet

@@ -1,16 +1,4 @@
 {
-  "middlewares": {
-    "dns-prefetch-control": "dnsPrefetchControl",
-    "dont-sniff-mimetype": "noSniff",
-    "frameguard": "frameguard",
-    "helmet-csp": "contentSecurityPolicy",
-    "hide-powered-by": "hidePoweredBy",
-    "hpkp": "hpkp",
-    "hsts": "hsts",
-    "ienoopen": "ieNoOpen",
-    "nocache": "noCache",
-    "x-xss-protection": "xssFilter"
-  },
   "defaultMiddleware": [
     "dnsPrefetchControl",
     "frameguard",
