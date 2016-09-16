@@ -51,6 +51,7 @@ Helmet is a collection of 10 smaller middleware functions that set HTTP headers.
 | [ieNoOpen](https://github.com/helmetjs/ienoopen) sets X-Download-Options for IE8+ | ✓ |
 | [noCache](https://github.com/helmetjs/nocache) to disable client-side caching |  |
 | [noSniff](https://github.com/helmetjs/dont-sniff-mimetype) to keep clients from sniffing the MIME type | ✓ |
+| [referrerPolicy](https://github.com/helmetjs/referrer-policy) to hide the Referer header |  |
 | [xssFilter](https://github.com/helmetjs/x-xss-protection) adds some small XSS protections | ✓ |
 
 You can also use each module individually as documented below.
@@ -235,6 +236,25 @@ app.use(helmet.hsts({
 Note that the max age is in milliseconds, even though the spec uses seconds. This middleware will round to the nearest full second.
 
 **Limitations:** This only works if your site actually has HTTPS. It won't tell users on HTTP to *switch* to HTTPS, it will just tell HTTPS users to stick around. You can enforce this with the [express-enforces-ssl](https://github.com/aredo/express-enforces-ssl) module. It's [somewhat well-supported by browsers](http://caniuse.com/#feat=stricttransportsecurity).
+
+### Hide the Referer header: referrerPolicy
+
+The [Referer HTTP header](https://en.wikipedia.org/wiki/HTTP_referer) is typically set by web browsers to tell the server where it's coming from. For example, if you click a link on *example.com/index.html* that takes you to *wikipedia.org*, Wikipedia's servers will see `Referer: example.com`. This can have privacy implications—websites can see where you are coming from. The new [`Referrer-Policy` HTTP header](https://www.w3.org/TR/referrer-policy/#referrer-policy-header) lets authors control how browsers set the Referer header.
+
+[Read the spec](https://www.w3.org/TR/referrer-policy/#referrer-policies) to see the options you can provide.
+
+Usage:
+
+```js
+app.use(helmet.referrerPolicy({ policy: 'same-origin' }))
+// Referrer-Policy: same-origin
+
+app.use(helmet.referrerPolicy({ policy: 'unsafe-url' }))
+// Referrer-Policy: unsafe-url
+
+app.use(helmet.referrerPolicy())
+// Referrer-Policy: no-referrer
+```
 
 ### Hide X-Powered-By: hidePoweredBy
 
