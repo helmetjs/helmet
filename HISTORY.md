@@ -1,3 +1,8 @@
+unreleased
+==========
+
+- new: `referrerPolicy` middleware
+
 2.1.3 / 2016-09-07
 ==================
 
