@@ -239,7 +239,7 @@ Note that the max age is in milliseconds, even though the spec uses seconds. Thi
 
 ### Hide the Referer header: referrerPolicy
 
-The [Referer HTTP header](https://en.wikipedia.org/wiki/HTTP_referer) is typically set by web browsers to tell the server where it's coming from. For example, if you click a link on *example.com/index.html* that takes you to *wikipedia.org*, Wikipedia's servers will see `Referer: example.com`. This can have privacy implications—websites can see where you are coming from. The new [`Referrer-Policy` HTTP header](https://www.w3.org/TR/referrer-policy/#referrer-policy-header) lets authors control how browsers set the Referer header.
+The [Referer HTTP header](https://en.wikipedia.org/wiki/HTTP_referer) is typically set by web browsers to tell the server where it's coming from. For example, if you click a link on *example.com/index.html* that takes you to *wikipedia.org*, Wikipedia's servers will see `Referer: example.com`. This can have privacy implications—websites can see where you are coming from. The new [`Referrer-Policy` HTTP header](https://www.w3.org/TR/referrer-policy/#referrer-policy-header) lets authors control how browsers set the Referer header.
 
 [Read the spec](https://www.w3.org/TR/referrer-policy/#referrer-policies) to see the options you can provide.
 
