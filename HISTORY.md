@@ -1,3 +1,10 @@
+2.3.0 / 2016-09-30
+==================
+
+- new: `hpkp` middleware now supports the `includeSubDomains` property with a capital D
+
+- fix: `hpkp` was setting `includeSubdomains` instead of `includeSubDomains`
+
 2.2.0 / 2016-09-16
 ==================
 
