@@ -1,3 +1,8 @@
+3.0.0 / UNRELEASED
+==================
+
+- update: `domain` parameter in `frameguard` cannot be empty
+
 2.3.0 / 2016-09-30
 ==================
 

@@ -44,7 +44,7 @@ Helmet is a collection of 11 smaller middleware functions that set HTTP headers.
 |---|---|
 | [contentSecurityPolicy](https://github.com/helmetjs/csp) for setting Content Security Policy |  |
 | [dnsPrefetchControl](https://github.com/helmetjs/dns-prefetch-control) controls browser DNS prefetching | ✓ |
-| [frameguard](https://github.com/helmetjs/frameguard) to prevent clickjacking | ✓ |
+| [frameguard](https://helmetjs.github.io/docs/frameguard/) to prevent clickjacking | ✓ |
 | [hidePoweredBy](https://github.com/helmetjs/hide-powered-by) to remove the X-Powered-By header | ✓ |
 | [hpkp](https://github.com/helmetjs/hpkp) for HTTP Public Key Pinning |  |
 | [hsts](https://github.com/helmetjs/hsts) for HTTP Strict Transport Security | ✓ |
@@ -157,31 +157,6 @@ app.use(helmet.xssFilter({ setOnOldIE: true }))
 ```
 
 **Limitations:** This isn't anywhere near as thorough as CSP. It's only properly supported on IE9+ and Chrome; no other major browsers support it at this time. Old versions of IE support it in a buggy way, which we disable by default.
-
-### Frame options: frameguard
-
-**Trying to prevent:** Your page being put in a `<frame>` or `<iframe>` without your consent. This can result in [clickjacking attacks](https://en.wikipedia.org/wiki/Clickjacking), among other things.
-
-**How to use Helmet to mitigate this:** The `X-Frame-Options` HTTP header restricts who can put your site in a frame which can help mitigate things like [clickjacking attacks](https://en.wikipedia.org/wiki/Clickjacking). It has three modes: `DENY`, `SAMEORIGIN`, and `ALLOW-FROM`, defaulting to `SAMEORIGIN`. If your app does not need to be framed (and most don't) you can use `DENY`. If your site can be in frames from the same origin, you can set it to `SAMEORIGIN`. If you want to allow it from a specific URL, you can allow that with `ALLOW-FROM` and a URL.
-
-Usage:
-
-```javascript
-// Don't allow me to be in ANY frames:
-app.use(helmet.frameguard({ action: 'deny' }))
-
-// Only let me be framed by people of the same origin:
-app.use(helmet.frameguard({ action: 'sameorigin' }))
-app.use(helmet.frameguard())  // defaults to sameorigin
-
-// Allow from a specific host:
-app.use(helmet.frameguard({
-  action: 'allow-from',
-  domain: 'http://example.com'
-}))
-```
-
-**Limitations:** This has pretty good (but not 100%) browser support: IE8+, Opera 10.50+, Safari 4+, Chrome 4.1+, and Firefox 3.6.9+. It only prevents against a certain class of attack, but does so pretty well. It also prevents your site from being framed, which you might want for legitimate reasons.
 
 ### HTTP Strict Transport Security: hsts
 
