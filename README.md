@@ -46,7 +46,7 @@ Helmet is a collection of 11 smaller middleware functions that set HTTP headers.
 | [dnsPrefetchControl](https://github.com/helmetjs/dns-prefetch-control) controls browser DNS prefetching | ✓ |
 | [frameguard](https://helmetjs.github.io/docs/frameguard/) to prevent clickjacking | ✓ |
 | [hidePoweredBy](https://github.com/helmetjs/hide-powered-by) to remove the X-Powered-By header | ✓ |
-| [hpkp](https://github.com/helmetjs/hpkp) for HTTP Public Key Pinning |  |
+| [hpkp](https://helmetjs.github.io/docs/hpkp/) for HTTP Public Key Pinning |  |
 | [hsts](https://github.com/helmetjs/hsts) for HTTP Strict Transport Security | ✓ |
 | [ieNoOpen](https://github.com/helmetjs/ienoopen) sets X-Download-Options for IE8+ | ✓ |
 | [noCache](https://helmetjs.github.io/docs/nocache/) to disable client-side caching |  |
@@ -280,33 +280,6 @@ app.use(helmet.noSniff())
 [MSDN has a good description](http://msdn.microsoft.com/en-us/library/gg622941%28v=vs.85%29.aspx) of how browsers behave when this header is sent.
 
 **Limitations:** This only prevents against a certain kind of attack.
-
-### Public Key Pinning: hpkp
-
-**Trying to prevent:** HTTPS certificates can be forged, allowing man-in-the middle attacks. [HTTP Public Key Pinning](https://developer.mozilla.org/en-US/docs/Web/Security/Public_Key_Pinning) aims to help that.
-
-**How to use Helmet to mitigate this:** Pass the "Public-Key-Pins" header to better assert your SSL certificates. [See the spec](https://tools.ietf.org/html/draft-ietf-websec-key-pinning-21) for more.
-
-```javascript
-var ninetyDaysInMilliseconds = 7776000000;
-app.use(helmet.hpkp({
-  maxAge: ninetyDaysInMilliseconds,
-  sha256s: ['AbCdEf123=', 'ZyXwVu456='],
-  includeSubdomains: true,         // optional
-  reportUri: 'http://example.com'  // optional
-  reportOnly: false,               // optional
-
-  // Set the header based on a condition.
-  // This is optional.
-  setIf: function (req, res) {
-    return req.secure
-  }
-}))
-```
-
-Setting `reportOnly` to `true` will change the header from `Public-Key-Pins` to `Public-Key-Pins-Report-Only`.
-
-**Limitations:** Don't let these get out of sync with your certs!
 
 ### Prevent DNS prefetching: dnsPrefetchControl
 

@@ -1,6 +1,7 @@
 3.0.0 / UNRELEASED
 ==================
 
+- update: `hpkp`'s `maxAge` parameter is seconds, not milliseconds
 - update: `domain` parameter in `frameguard` cannot be empty
 
 - remove: `noEtag` option no longer present in `noCache`
