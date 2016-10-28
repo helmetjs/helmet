@@ -49,7 +49,7 @@ Helmet is a collection of 11 smaller middleware functions that set HTTP headers.
 | [hpkp](https://github.com/helmetjs/hpkp) for HTTP Public Key Pinning |  |
 | [hsts](https://github.com/helmetjs/hsts) for HTTP Strict Transport Security | ✓ |
 | [ieNoOpen](https://github.com/helmetjs/ienoopen) sets X-Download-Options for IE8+ | ✓ |
-| [noCache](https://github.com/helmetjs/nocache) to disable client-side caching |  |
+| [noCache](https://helmetjs.github.io/docs/nocache/) to disable client-side caching |  |
 | [noSniff](https://github.com/helmetjs/dont-sniff-mimetype) to keep clients from sniffing the MIME type | ✓ |
 | [referrerPolicy](https://github.com/helmetjs/referrer-policy) to hide the Referer header |  |
 | [xssFilter](https://github.com/helmetjs/x-xss-protection) adds some small XSS protections | ✓ |
@@ -280,25 +280,6 @@ app.use(helmet.noSniff())
 [MSDN has a good description](http://msdn.microsoft.com/en-us/library/gg622941%28v=vs.85%29.aspx) of how browsers behave when this header is sent.
 
 **Limitations:** This only prevents against a certain kind of attack.
-
-### Turn off caching: noCache
-
-**Trying to prevent:** Users caching your old, buggy resources. It's possible that you've got bugs in an old HTML or JavaScript file, and with a cache, some users will be stuck with those old versions.
-
-**How to use Helmet to mitigate this:** Use Helmet to disable this kind of caching. This sets a number of HTTP headers that stop caching.
-
-```javascript
-app.use(helmet.noCache())
-```
-
-This sets four headers, disabling a lot of browser caching:
-
-- `Cache-Control: no-store, no-cache, must-revalidate, proxy-revalidate`
-- `Pragma: no-cache`
-- `Expires: 0`
-- `Surrogate-Control: no-store`
-
-**Limitations:** Caching has performance benefits, and you lose them here. It's also possible that you'll introduce new bugs and you'll wish people had old resources cached, but that's less likely.
 
 ### Public Key Pinning: hpkp
 

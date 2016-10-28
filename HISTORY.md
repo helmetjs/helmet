@@ -3,6 +3,8 @@
 
 - update: `domain` parameter in `frameguard` cannot be empty
 
+- remove: `noEtag` option no longer present in `noCache`
+
 2.3.0 / 2016-09-30
 ==================
 
