@@ -33,7 +33,7 @@
     "helmet-csp": "1.2.2",
     "hide-powered-by": "1.0.0",
     "hpkp": "2.0.0",
-    "hsts": "1.0.0",
+    "hsts": "2.0.0",
     "ienoopen": "1.0.0",
     "nocache": "2.0.0",
     "referrer-policy": "1.0.0",

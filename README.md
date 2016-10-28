@@ -65,7 +65,7 @@ Helmet is a collection of 11 smaller middleware functions that set HTTP headers.
 | [frameguard](https://helmetjs.github.io/docs/frameguard/) to prevent clickjacking | ✓ |
 | [hidePoweredBy](https://github.com/helmetjs/hide-powered-by) to remove the X-Powered-By header | ✓ |
 | [hpkp](https://helmetjs.github.io/docs/hpkp/) for HTTP Public Key Pinning |  |
-| [hsts](https://github.com/helmetjs/hsts) for HTTP Strict Transport Security | ✓ |
+| [hsts](https://helmetjs.github.io/docs/hsts/) for HTTP Strict Transport Security | ✓ |
 | [ieNoOpen](https://github.com/helmetjs/ienoopen) sets X-Download-Options for IE8+ | ✓ |
 | [noCache](https://helmetjs.github.io/docs/nocache/) to disable client-side caching |  |
 | [noSniff](https://github.com/helmetjs/dont-sniff-mimetype) to keep clients from sniffing the MIME type | ✓ |

@@ -1,6 +1,8 @@
 3.0.0 / UNRELEASED
 ==================
 
+- update: `hsts`'s `maxAge` parameter is seconds, not milliseconds
+- update: `hsts` includes subdomains by default
 - update: `hpkp`'s `maxAge` parameter is seconds, not milliseconds
 - update: `domain` parameter in `frameguard` cannot be empty
 
