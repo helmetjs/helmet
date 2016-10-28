@@ -1,6 +1,10 @@
 3.0.0 / UNRELEASED
 ==================
 
+- update: CSP will check your directives for common mistakes and throw errors if it finds them. This can be disabled with `loose: true`.
+- update: empty arrays are no longer allowed in CSP. For source lists (like `script-src` or `object-src`), use the standard `scriptSrc: ["'none'"]`. The `sandbox` directive can be `sandbox: true` to block everything.
+- update: `false` can disable a CSP directive. For example, `scriptSrc: false` is the same as not specifying it.
+- update: in CSP, `reportOnly: true` no longer requires a `report-uri` to be set.
 - update: `hsts`'s `maxAge` now defaults to 180 days (instead of 1 day)
 - update: `hsts`'s `maxAge` parameter is seconds, not milliseconds
 - update: `hsts` includes subdomains by default
@@ -8,6 +12,7 @@
 - update: `domain` parameter in `frameguard` cannot be empty
 
 - remove: `noEtag` option no longer present in `noCache`
+- remove: iOS Chrome `connect-src` workaround in CSP module
 
 2.3.0 / 2016-09-30
 ==================

@@ -125,10 +125,10 @@ describe('helmet', function () {
     })
 
     it('lets you enable a normally-disabled middleware', function () {
-      helmet({ contentSecurityPolicy: true })
+      helmet({ noCache: true })
 
-      sinon.assert.calledOnce(helmet.contentSecurityPolicy)
-      sinon.assert.calledWith(helmet.contentSecurityPolicy, {})
+      sinon.assert.calledOnce(helmet.noCache)
+      sinon.assert.calledWith(helmet.noCache, {})
 
       sinon.assert.calledOnce(helmet.dnsPrefetchControl)
       sinon.assert.calledOnce(helmet.frameguard)
@@ -144,8 +144,8 @@ describe('helmet', function () {
       sinon.assert.calledWith(helmet.ieNoOpen, {})
       sinon.assert.calledWith(helmet.noSniff, {})
       sinon.assert.calledWith(helmet.xssFilter, {})
+      sinon.assert.notCalled(helmet.contentSecurityPolicy)
       sinon.assert.notCalled(helmet.hpkp)
-      sinon.assert.notCalled(helmet.noCache)
     })
 
     it('lets you set options for a default middleware', function () {

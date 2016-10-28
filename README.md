@@ -60,7 +60,7 @@ Helmet is a collection of 11 smaller middleware functions that set HTTP headers.
 
 | Module | Default? |
 |---|---|
-| [contentSecurityPolicy](https://github.com/helmetjs/csp) for setting Content Security Policy |  |
+| [contentSecurityPolicy](https://helmetjs.github.io/docs/csp/) for setting Content Security Policy |  |
 | [dnsPrefetchControl](https://github.com/helmetjs/dns-prefetch-control) controls browser DNS prefetching | ✓ |
 | [frameguard](https://helmetjs.github.io/docs/frameguard/) to prevent clickjacking | ✓ |
 | [hidePoweredBy](https://github.com/helmetjs/hide-powered-by) to remove the X-Powered-By header | ✓ |
