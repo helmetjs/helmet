@@ -1,4 +1,4 @@
-3.0.0 / UNRELEASED
+3.0.0 / 2016-10-28
 ==================
 
 - update: CSP will check your directives for common mistakes and throw errors if it finds them. This can be disabled with `loose: true`.
