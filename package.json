@@ -17,6 +17,7 @@
     "hsts",
     "clickjack"
   ],
+  "homepage": "https://helmetjs.github.io/",
   "bugs": "https://github.com/helmetjs/helmet/issues",
   "repository": {
     "type": "git",
