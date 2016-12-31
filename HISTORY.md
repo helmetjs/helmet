@@ -1,3 +1,9 @@
+3.3.0 / 2016-12-31
+==================
+
+- update: `referrerPolicy` allows `strict-origin` and `strict-origin-when-cross-origin` directives
+- update: bump `connect` version
+
 3.2.0 / 2016-12-22
 ==================
 
