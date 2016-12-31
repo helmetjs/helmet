@@ -43,7 +43,7 @@
   "devDependencies": {
     "mocha": "^2.4.5",
     "sinon": "^1.17.3",
-    "standard": "^7.1.0"
+    "standard": "^8.6.0"
   },
   "scripts": {
     "pretest": "standard",
