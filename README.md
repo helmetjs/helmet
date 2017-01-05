@@ -26,6 +26,8 @@ app.use(helmet())
 // ...
 ```
 
+It's best to `use` Helmet early in your middleware stack so that its headers are sure to be set.
+
 You can also use its pieces individually:
 
 ```js
