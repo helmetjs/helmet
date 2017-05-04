@@ -1,3 +1,8 @@
+3.6.0 / 2017-05-04
+==================
+
+- new: `expectCt` middleware for setting the `Expect-CT` header
+
 3.5.0 / 2017-03-06
 ==================
 

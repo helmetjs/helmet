@@ -23,6 +23,11 @@ describe('helmet', function () {
       assert.equal(helmet.noSniff, pkg)
     })
 
+    it('aliases "expect-ct"', function () {
+      var pkg = require('expect-ct')
+      assert.equal(helmet.expectCt, pkg)
+    })
+
     it('aliases "frameguard"', function () {
       var pkg = require('frameguard')
       assert.equal(helmet.frameguard, pkg)
@@ -98,6 +103,7 @@ describe('helmet', function () {
       sinon.assert.calledWith(helmet.xssFilter, {})
 
       sinon.assert.notCalled(helmet.contentSecurityPolicy)
+      sinon.assert.notCalled(helmet.expectCt)
       sinon.assert.notCalled(helmet.hpkp)
       sinon.assert.notCalled(helmet.noCache)
     })
@@ -120,6 +126,7 @@ describe('helmet', function () {
       sinon.assert.calledWith(helmet.noSniff, {})
       sinon.assert.calledWith(helmet.xssFilter, {})
       sinon.assert.notCalled(helmet.contentSecurityPolicy)
+      sinon.assert.notCalled(helmet.expectCt)
       sinon.assert.notCalled(helmet.hpkp)
       sinon.assert.notCalled(helmet.noCache)
     })
@@ -145,6 +152,7 @@ describe('helmet', function () {
       sinon.assert.calledWith(helmet.noSniff, {})
       sinon.assert.calledWith(helmet.xssFilter, {})
       sinon.assert.notCalled(helmet.contentSecurityPolicy)
+      sinon.assert.notCalled(helmet.expectCt)
       sinon.assert.notCalled(helmet.hpkp)
     })
 
@@ -169,6 +177,7 @@ describe('helmet', function () {
       sinon.assert.calledWith(helmet.noSniff, {})
       sinon.assert.calledWith(helmet.xssFilter, {})
       sinon.assert.notCalled(helmet.contentSecurityPolicy)
+      sinon.assert.notCalled(helmet.expectCt)
       sinon.assert.notCalled(helmet.hpkp)
       sinon.assert.notCalled(helmet.noCache)
     })
@@ -199,6 +208,7 @@ describe('helmet', function () {
       sinon.assert.calledWith(helmet.ieNoOpen, {})
       sinon.assert.calledWith(helmet.noSniff, {})
       sinon.assert.calledWith(helmet.xssFilter, {})
+      sinon.assert.notCalled(helmet.expectCt)
       sinon.assert.notCalled(helmet.hpkp)
       sinon.assert.notCalled(helmet.noCache)
     })

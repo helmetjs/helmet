@@ -31,6 +31,7 @@ function helmet (options) {
 
 helmet.contentSecurityPolicy = require('helmet-csp')
 helmet.dnsPrefetchControl = require('dns-prefetch-control')
+helmet.expectCt = require('expect-ct')
 helmet.frameguard = require('frameguard')
 helmet.hidePoweredBy = require('hide-powered-by')
 helmet.hpkp = require('hpkp')
