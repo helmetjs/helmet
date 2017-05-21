@@ -10,17 +10,17 @@ function helmet (options) {
 
   middlewares.forEach(function (middlewareName) {
     var middleware = helmet[middlewareName]
-    var option = options[middlewareName]
+    var middlewareOptions = options[middlewareName]
     var isDefault = config.defaultMiddleware.indexOf(middlewareName) !== -1
 
-    if (option === false) { return }
+    if (middlewareOptions === false) {
+      return
+    } else if (middlewareOptions === true) {
+      middlewareOptions = {}
+    }
 
-    if (option != null) {
-      if (option === true) {
-        chain.use(middleware({}))
-      } else {
-        chain.use(middleware(option))
-      }
+    if (middlewareOptions != null) {
+      chain.use(middleware(middlewareOptions))
     } else if (isDefault) {
       chain.use(middleware({}))
     }
