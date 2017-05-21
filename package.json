@@ -47,7 +47,7 @@
     "standard": "^10.0.2"
   },
   "scripts": {
-    "pretest": "standard",
+    "pretest": "standard --fix",
     "test": "mocha"
   },
   "license": "MIT",
