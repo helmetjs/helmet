@@ -27,7 +27,7 @@
     "node": ">= 0.10.0"
   },
   "dependencies": {
-    "connect": "3.6.0",
+    "connect": "3.6.2",
     "dns-prefetch-control": "0.1.0",
     "dont-sniff-mimetype": "1.0.0",
     "expect-ct": "0.1.0",
