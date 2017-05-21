@@ -1,6 +1,14 @@
 var connect = require('connect')
 
-var config = require('./config')
+var DEFAULT_MIDDLEWARE = [
+  'dnsPrefetchControl',
+  'frameguard',
+  'hidePoweredBy',
+  'hsts',
+  'ieNoOpen',
+  'noSniff',
+  'xssFilter'
+]
 
 var middlewares
 function helmet (options) {
@@ -11,7 +19,7 @@ function helmet (options) {
   middlewares.forEach(function (middlewareName) {
     var middleware = helmet[middlewareName]
     var middlewareOptions = options[middlewareName]
-    var isDefault = config.defaultMiddleware.indexOf(middlewareName) !== -1
+    var isDefault = DEFAULT_MIDDLEWARE.indexOf(middlewareName) !== -1
 
     if (middlewareOptions === false) {
       return
