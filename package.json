@@ -43,8 +43,8 @@
   },
   "devDependencies": {
     "mocha": "^3.2.0",
-    "sinon": "^1.17.7",
-    "standard": "^9.0.1"
+    "sinon": "^2.2.0",
+    "standard": "^10.0.2"
   },
   "scripts": {
     "pretest": "standard",
