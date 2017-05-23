@@ -1,3 +1,8 @@
+unreleased
+==========
+
+- update: add a few documentation files to `npmignore`
+
 3.6.1 / 2017-05-21
 ==================
 
