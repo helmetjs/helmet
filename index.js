@@ -14,6 +14,10 @@ var middlewares
 function helmet (options) {
   options = options || {}
 
+  if (options.constructor.name === 'IncomingMessage') {
+    throw new Error('you must call helmet() when using it in your app')
+  }
+
   var chain = connect()
 
   middlewares.forEach(function (middlewareName) {
