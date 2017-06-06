@@ -212,5 +212,17 @@ describe('helmet', function () {
       sinon.assert.notCalled(helmet.hpkp)
       sinon.assert.notCalled(helmet.noCache)
     })
+
+    it('errors when `used` directly', function () {
+      var fakeRequest = {
+        constructor: {
+          name: 'IncomingMessage'
+        }
+      }
+
+      assert.throws(function () {
+        helmet(fakeRequest)
+      })
+    })
   })
 })
