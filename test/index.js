@@ -213,7 +213,7 @@ describe('helmet', function () {
       sinon.assert.notCalled(helmet.noCache)
     })
 
-    it('errors when `used` directly', function () {
+    it('errors when `use`d directly', function () {
       var fakeRequest = {
         constructor: {
           name: 'IncomingMessage'
