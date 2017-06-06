@@ -15,7 +15,7 @@ function helmet (options) {
   options = options || {}
 
   if (options.constructor.name === 'IncomingMessage') {
-    throw new Error('you must call helmet() when using it in your app')
+    throw new Error('It appears you have done something like `app.use(helmet)`, but it should be `app.use(helmet())`.')
   }
 
   var chain = connect()
