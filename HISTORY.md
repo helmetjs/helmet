@@ -1,3 +1,8 @@
+3.8.0 / 2017-07-21
+==================
+
+- update: `hsts` no longer cares whether it's HTTPS and always sets the header
+
 3.7.0 / 2017-07-21
 ==================
 
