@@ -1,5 +1,5 @@
-unreleased
-==========
+3.7.0 / 2017-07-21
+==================
 
 - new: `csp` now supports `report-to` directive
 
