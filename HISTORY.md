@@ -1,6 +1,8 @@
 unreleased
 ==========
 
+- new: `csp` now supports `report-to` directive
+
 - update: throw an error when used incorrectly
 - update: add a few documentation files to `npmignore`
 
