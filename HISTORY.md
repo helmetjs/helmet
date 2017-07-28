@@ -1,3 +1,8 @@
+3.8.1 / 2017-07-28
+==================
+
+- fix: `csp` does not automatically set `report-to` when setting `report-uri`
+
 3.8.0 / 2017-07-21
 ==================
 
