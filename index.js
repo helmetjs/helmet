@@ -1,5 +1,3 @@
-var connect = require('connect')
-
 var DEFAULT_MIDDLEWARE = [
   'dnsPrefetchControl',
   'frameguard',
@@ -18,27 +16,41 @@ function helmet (options) {
     throw new Error('It appears you have done something like `app.use(helmet)`, but it should be `app.use(helmet())`.')
   }
 
-  var chain = connect()
-
-  middlewares.forEach(function (middlewareName) {
+  var stack = middlewares.reduce(function (result, middlewareName) {
     var middleware = helmet[middlewareName]
     var middlewareOptions = options[middlewareName]
     var isDefault = DEFAULT_MIDDLEWARE.indexOf(middlewareName) !== -1
 
     if (middlewareOptions === false) {
-      return
+      return result
     } else if (middlewareOptions === true) {
       middlewareOptions = {}
     }
 
     if (middlewareOptions != null) {
-      chain.use(middleware(middlewareOptions))
+      return result.concat(middleware(middlewareOptions))
     } else if (isDefault) {
-      chain.use(middleware({}))
+      return result.concat(middleware({}))
     }
-  })
+    return result
+  }, [])
 
-  return chain
+  return function (req, res, next) {
+    var index = 0
+
+    function internalNext () {
+      if (arguments.length > 0) { return next.apply(null, arguments) }
+
+      var middleware = stack[index]
+      if (!middleware) { return next() }
+
+      index++
+
+      middleware(req, res, internalNext)
+    }
+
+    internalNext()
+  }
 }
 
 helmet.contentSecurityPolicy = require('helmet-csp')
