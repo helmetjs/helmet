@@ -1,6 +1,9 @@
 3.9.0 / 2017-10-13
 ==================
 
+- new: `csp` now supports `strict-dynamic` value
+- new: `csp` now supports `require-sri-for` directive
+
 - remove: `connect` dependency
 
 3.8.2 / 2017-09-27
