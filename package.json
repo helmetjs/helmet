@@ -42,9 +42,9 @@
   },
   "devDependencies": {
     "connect": "^3.6.5",
-    "mocha": "^3.2.0",
-    "sinon": "^2.2.0",
-    "standard": "^10.0.2",
+    "mocha": "^5.0.0",
+    "sinon": "^4.2.0",
+    "standard": "^10.0.3",
     "supertest": "^3.0.0"
   },
   "scripts": {
