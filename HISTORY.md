@@ -1,3 +1,12 @@
+3.10.0 / 2018-01-23
+===================
+
+- new: `csp` now supports `prefix-src` directive
+
+- update: `csp` no longer loads JSON files internally, helping some module bundlers
+
+- fix: `false` should be able to disable a CSP directive
+
 3.9.0 / 2017-10-13
 ==================
 
