@@ -224,5 +224,10 @@ describe('helmet', function () {
         helmet(fakeRequest)
       })
     })
+
+    it('names its function and middleware', function () {
+      assert.equal(helmet.name, 'helmet')
+      assert.equal(helmet.name, helmet().name)
+    })
   })
 })

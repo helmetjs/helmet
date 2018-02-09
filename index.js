@@ -35,7 +35,7 @@ function helmet (options) {
     return result
   }, [])
 
-  return function (req, res, next) {
+  return function helmet (req, res, next) {
     var index = 0
 
     function internalNext () {
