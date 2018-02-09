@@ -1,3 +1,8 @@
+3.11.0 / 2018-02-09
+===================
+
+- update: main Helmet middleware is now named to help with debugging
+
 3.10.0 / 2018-01-23
 ===================
 
