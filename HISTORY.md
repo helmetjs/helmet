@@ -1,5 +1,5 @@
-unreleased
-==========
+3.12.0 / 2018-03-02
+===================
 
 - new: `xssFilter` now supports `reportUri` option
 
