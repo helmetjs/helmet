@@ -1,3 +1,8 @@
+3.12.1 / 2018-05-16
+===================
+
+- fix: `expectCt` should use comma instead of semicolon as delimiter
+
 3.12.0 / 2018-03-02
 ===================
 
