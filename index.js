@@ -42,7 +42,7 @@ function helmet (options) {
       if (arguments.length > 0) { return next.apply(null, arguments) }
 
       var middleware = stack[index]
-      if (!middleware) { return next() }
+      if (!middleware) { return next && next() }
 
       index++
 
