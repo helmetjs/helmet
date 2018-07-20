@@ -1,3 +1,8 @@
+unreleased
+==========
+
+- fix: remove `lodash.reduce` dependency from `csp`
+
 3.12.1 / 2018-05-16
 ===================
 
