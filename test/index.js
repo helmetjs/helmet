@@ -28,6 +28,11 @@ describe('helmet', function () {
       assert.equal(helmet.expectCt, pkg)
     })
 
+    it('aliases "helmet-crossdomain"', function () {
+      var pkg = require('helmet-crossdomain')
+      assert.equal(helmet.permittedCrossDomainPolicies, pkg)
+    })
+
     it('aliases "frameguard"', function () {
       var pkg = require('frameguard')
       assert.equal(helmet.frameguard, pkg)
@@ -106,6 +111,7 @@ describe('helmet', function () {
       sinon.assert.notCalled(helmet.expectCt)
       sinon.assert.notCalled(helmet.hpkp)
       sinon.assert.notCalled(helmet.noCache)
+      sinon.assert.notCalled(helmet.permittedCrossDomainPolicies)
     })
 
     it('lets you disable a default middleware', function () {
@@ -180,6 +186,7 @@ describe('helmet', function () {
       sinon.assert.notCalled(helmet.expectCt)
       sinon.assert.notCalled(helmet.hpkp)
       sinon.assert.notCalled(helmet.noCache)
+      sinon.assert.notCalled(helmet.permittedCrossDomainPolicies)
     })
 
     it('lets you set options for a non-default middleware', function () {
@@ -211,6 +218,7 @@ describe('helmet', function () {
       sinon.assert.notCalled(helmet.expectCt)
       sinon.assert.notCalled(helmet.hpkp)
       sinon.assert.notCalled(helmet.noCache)
+      sinon.assert.notCalled(helmet.permittedCrossDomainPolicies)
     })
 
     it('errors when `use`d directly', function () {
