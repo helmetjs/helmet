@@ -1,4 +1,4 @@
-unreleased
+3.13.0 / 2018-07-22
 ===================
 
 - new: `permittedCrossDomainPolicies` middleware
