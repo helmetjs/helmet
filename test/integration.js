@@ -1,17 +1,17 @@
-var helmet = require('..')
+const helmet = require('..')
 
-var connect = require('connect')
-var request = require('supertest')
+const connect = require('connect')
+const request = require('supertest')
 
 describe('helmet() integration test', function () {
   it('sets all default headers', function () {
-    var app = connect()
+    const app = connect()
     app.use(helmet())
-    app.use(function (req, res) {
+    app.use((req, res) => {
       res.end('Hello world!')
     })
 
-    var nonempty = /./
+    const nonempty = /./
     return request(app).get('/')
       .expect('X-DNS-Prefetch-Control', nonempty)
       .expect('X-Frame-Options', nonempty)
