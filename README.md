@@ -15,10 +15,10 @@ Quick start
 First, run `npm install helmet --save` for your app. Then, in an Express (or Connect) app:
 
 ```js
-var express = require('express')
-var helmet = require('helmet')
+const express = require('express')
+const helmet = require('helmet')
 
-var app = express()
+const app = express()
 
 app.use(helmet())
 
