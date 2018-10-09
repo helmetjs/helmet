@@ -28,6 +28,11 @@ describe('helmet', function () {
       assert.equal(helmet.expectCt, pkg)
     })
 
+    it('aliases "feature-policy"', function () {
+      const pkg = require('feature-policy')
+      assert.equal(helmet.featurePolicy, pkg)
+    })
+
     it('aliases "helmet-crossdomain"', function () {
       const pkg = require('helmet-crossdomain')
       assert.equal(helmet.permittedCrossDomainPolicies, pkg)
