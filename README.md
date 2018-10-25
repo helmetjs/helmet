@@ -57,7 +57,7 @@ app.use(helmet({
 How it works
 ------------
 
-Helmet is a collection of 14 smaller middleware functions that set HTTP headers. Running `app.use(helmet())` will not include all of these middleware functions by default.
+Helmet is a collection of 14 smaller middleware functions that set HTTP response headers. Running `app.use(helmet())` will not include all of these middleware functions by default.
 
 | Module | Default? |
 |---|---|
