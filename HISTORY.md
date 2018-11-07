@@ -1,3 +1,8 @@
+3.15.0 / 2018-11-07
+===================
+
+- new: `featurePolicy` now supports four new features
+
 3.14.0 / 2018-10-09
 ===================
 
