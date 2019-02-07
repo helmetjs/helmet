@@ -5,7 +5,7 @@ const sinon = require('sinon')
 
 describe('helmet', function () {
   beforeEach(function () {
-    this.sandbox = sinon.sandbox.create()
+    this.sandbox = sinon.createSandbox()
   })
 
   afterEach(function () {
@@ -15,72 +15,72 @@ describe('helmet', function () {
   describe('module aliases', function () {
     it('aliases "dns-prefetch-control"', function () {
       const pkg = require('dns-prefetch-control')
-      assert.equal(helmet.dnsPrefetchControl, pkg)
+      assert.strictEqual(helmet.dnsPrefetchControl, pkg)
     })
 
     it('aliases "dont-sniff-mimetype"', function () {
       const pkg = require('dont-sniff-mimetype')
-      assert.equal(helmet.noSniff, pkg)
+      assert.strictEqual(helmet.noSniff, pkg)
     })
 
     it('aliases "expect-ct"', function () {
       const pkg = require('expect-ct')
-      assert.equal(helmet.expectCt, pkg)
+      assert.strictEqual(helmet.expectCt, pkg)
     })
 
     it('aliases "feature-policy"', function () {
       const pkg = require('feature-policy')
-      assert.equal(helmet.featurePolicy, pkg)
+      assert.strictEqual(helmet.featurePolicy, pkg)
     })
 
     it('aliases "helmet-crossdomain"', function () {
       const pkg = require('helmet-crossdomain')
-      assert.equal(helmet.permittedCrossDomainPolicies, pkg)
+      assert.strictEqual(helmet.permittedCrossDomainPolicies, pkg)
     })
 
     it('aliases "frameguard"', function () {
       const pkg = require('frameguard')
-      assert.equal(helmet.frameguard, pkg)
+      assert.strictEqual(helmet.frameguard, pkg)
     })
 
     it('aliases "helmet-csp"', function () {
       const pkg = require('helmet-csp')
-      assert.equal(helmet.contentSecurityPolicy, pkg)
+      assert.strictEqual(helmet.contentSecurityPolicy, pkg)
     })
 
     it('aliases "hide-powered-by"', function () {
       const pkg = require('hide-powered-by')
-      assert.equal(helmet.hidePoweredBy, pkg)
+      assert.strictEqual(helmet.hidePoweredBy, pkg)
     })
 
     it('aliases "hpkp"', function () {
       const pkg = require('hpkp')
-      assert.equal(helmet.hpkp, pkg)
+      assert.strictEqual(helmet.hpkp, pkg)
     })
 
     it('aliases "hsts"', function () {
       const pkg = require('hsts')
-      assert.equal(helmet.hsts, pkg)
+      assert.strictEqual(helmet.hsts, pkg)
     })
 
     it('aliases "ienoopen"', function () {
       const pkg = require('ienoopen')
-      assert.equal(helmet.ieNoOpen, pkg)
+      assert.strictEqual(helmet.ieNoOpen, pkg)
     })
 
     it('aliases "nocache"', function () {
       const pkg = require('nocache')
-      assert.equal(helmet.noCache, pkg)
+      assert.strictEqual(helmet.noCache, pkg)
     })
 
     it('aliases "referrer-policy"', function () {
       const pkg = require('referrer-policy')
-      assert.equal(helmet.referrerPolicy, pkg)
+      assert.strictEqual(helmet.referrerPolicy, pkg)
     })
 
     it('aliases "x-xss-protection"', function () {
       const pkg = require('x-xss-protection')
-      assert.equal(helmet.xssFilter, pkg)
+      assert.strictEqual(helmet.xssFilter, pkg)
     })
   })
 
@@ -239,8 +239,8 @@ describe('helmet', function () {
     })
 
     it('names its function and middleware', function () {
-      assert.equal(helmet.name, 'helmet')
-      assert.equal(helmet.name, helmet().name)
+      assert.strictEqual(helmet.name, 'helmet')
+      assert.strictEqual(helmet.name, helmet().name)
     })
   })
 })
