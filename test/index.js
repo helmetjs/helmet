@@ -2,6 +2,8 @@ const helmet = require('..')
 
 const assert = require('assert')
 const sinon = require('sinon')
+const connect = require('connect')
+const request = require('supertest')
 
 describe('helmet', function () {
   beforeEach(function () {
@@ -53,9 +55,26 @@ describe('helmet', function () {
       assert.strictEqual(helmet.hidePoweredBy, pkg)
     })
 
-    it('aliases "hpkp"', function () {
-      const pkg = require('hpkp')
-      assert.strictEqual(helmet.hpkp, pkg)
+    // This test will be removed in helmet@4.
+    it('calls through to hpkp but emits a deprecation warning', function () {
+      const deprecationPromise = new Promise(resolve => {
+        process.on('deprecation', (deprecationError) => {
+          assert(deprecationError.message.indexOf('You can use the `hpkp` module instead.') !== -1)
+          resolve()
+        })
+      })
+
+      const app = connect()
+      app.use(helmet.hpkp({ maxAge: 10, sha256s: ['abc123', 'xyz456'] }))
+      app.use((req, res) => {
+        res.end('Hello world!')
+      })
+      const supertestPromise = request(app).get('/')
+        .expect(200)
+        .expect('Public-Key-Pins', 'pin-sha256="abc123"; pin-sha256="xyz456"; max-age=10')
+        .expect('Hello world!')
+
+      return Promise.all([deprecationPromise, supertestPromise])
     })
 
     it('aliases "hsts"', function () {
