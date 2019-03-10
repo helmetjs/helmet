@@ -4,6 +4,10 @@
 ### Changed
 - Changelog is now in the [Keep A Changelog](https://keepachangelog.com/) format
 
+### Deprecated
+- `helmet.hsts`'s `setIf` option has been deprecated and will be removed in `hsts@3`. See [helmetjs/hsts#22](https://github.com/helmetjs/hsts/issues/22) for more
+* The `includeSubdomains` option (with a lowercase `d`) has been deprecated and will be removed in `hsts@3`. Use the uppercase-D `includeSubDomains` option instead. See [helmetjs/hsts#21](https://github.com/helmetjs/hsts/issues/21) for more
+
 ## 3.15.1 - 2019-02-10
 
 ### Deprecated
