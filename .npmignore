@@ -1,4 +1,4 @@
-test
-.travis.yml
-CODE_OF_CONDUCT.md
-CONTRIBUTING.md
+/test/
+/.travis.yml
+/CODE_OF_CONDUCT.md
+/CONTRIBUTING.md
