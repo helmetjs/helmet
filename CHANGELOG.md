@@ -417,4 +417,4 @@
 0.3.1
 =====
 
-This file was started after the release of 0.3.1.
+This changelog was created after the release of 0.3.1.
