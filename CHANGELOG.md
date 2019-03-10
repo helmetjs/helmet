@@ -5,6 +5,8 @@
 - Add email to `bugs` field in `package.json`
 
 ### Changed
+- Updated `hsts` to v2.2.0
+- Updated `ienoopen` to v1.1.0
 - Changelog is now in the [Keep A Changelog](https://keepachangelog.com/) format
 - Dropped support for Node <4. See [the commit](https://github.com/helmetjs/helmet/commit/a49cec3ca58cce484d2d05e1f908549caa92ed03) for more information
 - Updated Adam Baldwin's contact information
