@@ -1,9 +1,13 @@
 # Changelog
 
 ## Unreleased
+### Added
+- Add email to `bugs` field in `package.json`
+
 ### Changed
 - Changelog is now in the [Keep A Changelog](https://keepachangelog.com/) format
 - Dropped support for Node <4. See [the commit](https://github.com/helmetjs/helmet/commit/a49cec3ca58cce484d2d05e1f908549caa92ed03) for more information
+- Updated Adam Baldwin's contact information
 
 ### Deprecated
 - `helmet.hsts`'s `setIf` option has been deprecated and will be removed in `hsts@3`. See [helmetjs/hsts#22](https://github.com/helmetjs/hsts/issues/22) for more
