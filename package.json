@@ -18,7 +18,10 @@
     "clickjack"
   ],
   "homepage": "https://helmetjs.github.io/",
-  "bugs": "https://github.com/helmetjs/helmet/issues",
+  "bugs": {
+    "url": "https://github.com/helmetjs/helmet/issues",
+    "email": "me@evanhahn.com"
+  },
   "repository": {
     "type": "git",
     "url": "git://github.com/helmetjs/helmet.git"
