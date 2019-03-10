@@ -27,7 +27,7 @@
     "url": "git://github.com/helmetjs/helmet.git"
   },
   "engines": {
-    "node": ">= 0.10.0"
+    "node": ">=4.0.0"
   },
   "dependencies": {
     "depd": "2.0.0",

@@ -3,6 +3,7 @@
 ## Unreleased
 ### Changed
 - Changelog is now in the [Keep A Changelog](https://keepachangelog.com/) format
+- Dropped support for Node <4
 
 ### Deprecated
 - `helmet.hsts`'s `setIf` option has been deprecated and will be removed in `hsts@3`. See [helmetjs/hsts#22](https://github.com/helmetjs/hsts/issues/22) for more
