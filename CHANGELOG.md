@@ -1,6 +1,7 @@
 # Changelog
 
-## Unreleased
+## 3.16.0 - 2019-03-10
+
 ### Added
 - Add email to `bugs` field in `package.json`
 
