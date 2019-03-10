@@ -1,14 +1,18 @@
 # Changelog
 
+## Unreleased
+### Changed
+- Changelog is now in the [Keep A Changelog](https://keepachangelog.com/) format
+
 ## 3.15.1 - 2019-02-10
 
 ### Deprecated
-* The `hpkp` middleware has been deprecated. If you still need to use this module, install the standalone `hpkp` module from npm. See [#180](https://github.com/helmetjs/helmet/issues/180) for more.
+- The `hpkp` middleware has been deprecated. If you still need to use this module, install the standalone `hpkp` module from npm. See [#180](https://github.com/helmetjs/helmet/issues/180) for more.
 
 ## 3.15.0 - 2018-11-07
 
 ### Added
-* `helmet.featurePolicy` now supports four new features
+- `helmet.featurePolicy` now supports four new features
 
 ## 3.14.0 - 2018-10-09
 
