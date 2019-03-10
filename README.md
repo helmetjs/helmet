@@ -30,7 +30,7 @@ It's best to `use` Helmet early in your middleware stack so that its headers are
 You can also use its pieces individually:
 
 ```js
-app.use(helmet.noCache())
+app.use(helmet.xssFilter())
 app.use(helmet.frameguard())
 ```
 
