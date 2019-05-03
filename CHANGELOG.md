@@ -1,5 +1,13 @@
 # Changelog
 
+## 3.17.0 - 2019-05-03
+
+### Added
+- `referrerPolicy` now supports multiple values
+
+### Changed
+- Updated `referrerPolicy` to v1.2.0
+
 ## 3.16.0 - 2019-03-10
 
 ### Added
