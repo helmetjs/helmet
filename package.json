@@ -29,6 +29,15 @@
   "engines": {
     "node": ">=4.0.0"
   },
+  "files": [
+    "CHANGELOG.md",
+    "CODE_OF_CONDUCT.md",
+    "CONTRIBUTING.md",
+    "LICENSE",
+    "README.md",
+    "SECURITY.md",
+    "index.js"
+  ],
   "dependencies": {
     "depd": "2.0.0",
     "dns-prefetch-control": "0.1.0",
