@@ -1,5 +1,15 @@
 # Changelog
 
+## 3.18.0 - 2019-05-05
+### Added
+- `featurePolicy` has 19 new features: `ambientLightSensor`, `documentDomain`, `documentWrite`, `encryptedMedia`, `fontDisplayLateSwap`, `layoutAnimations`, `legacyImageFormats`, `loadingFrameDefaultEager`, `oversizedImages`, `pictureInPicture`, `serial`, `syncScript`, `unoptimizedImages`, `unoptimizedLosslessImages`, `unoptimizedLossyImages`, `unsizedMedia`, `verticalScroll`, `wakeLock`, and `xr`
+
+### Changed
+- Updated `expect-ct` to v0.2.0
+- Updated `feature-policy` to v0.3.0
+- Updated `frameguard` to v3.1.0
+- Updated `nocache` to v2.1.0
+
 ## 3.17.0 - 2019-05-03
 ### Added
 - `referrerPolicy` now supports multiple values
