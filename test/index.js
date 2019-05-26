@@ -2,8 +2,6 @@ const helmet = require('..')
 
 const assert = require('assert')
 const sinon = require('sinon')
-const connect = require('connect')
-const request = require('supertest')
 
 describe('helmet', function () {
   beforeEach(function () {

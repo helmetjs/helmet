@@ -1,5 +1,3 @@
-var deprecate = require('depd')('helmet')
-
 var DEFAULT_MIDDLEWARE = [
   'dnsPrefetchControl',
   'frameguard',
