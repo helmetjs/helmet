@@ -55,28 +55,6 @@ describe('helmet', function () {
       assert.strictEqual(helmet.hidePoweredBy, pkg)
     })
 
-    // This test will be removed in helmet@4.
-    it('calls through to hpkp but emits a deprecation warning', function () {
-      const deprecationPromise = new Promise(resolve => {
-        process.on('deprecation', (deprecationError) => {
-          assert(deprecationError.message.indexOf('You can use the `hpkp` module instead.') !== -1)
-          resolve()
-        })
-      })
-
-      const app = connect()
-      app.use(helmet.hpkp({ maxAge: 10, sha256s: ['abc123', 'xyz456'] }))
-      app.use((req, res) => {
-        res.end('Hello world!')
-      })
-      const supertestPromise = request(app).get('/')
-        .expect(200)
-        .expect('Public-Key-Pins', 'pin-sha256="abc123"; pin-sha256="xyz456"; max-age=10')
-        .expect('Hello world!')
-
-      return Promise.all([deprecationPromise, supertestPromise])
-    })
-
     it('aliases "hsts"', function () {
       const pkg = require('hsts')
       assert.strictEqual(helmet.hsts, pkg)
@@ -133,7 +111,6 @@ describe('helmet', function () {
 
       sinon.assert.notCalled(helmet.contentSecurityPolicy)
       sinon.assert.notCalled(helmet.expectCt)
-      sinon.assert.notCalled(helmet.hpkp)
       sinon.assert.notCalled(helmet.noCache)
       sinon.assert.notCalled(helmet.permittedCrossDomainPolicies)
     })
@@ -157,7 +134,6 @@ describe('helmet', function () {
       sinon.assert.calledWith(helmet.xssFilter, {})
       sinon.assert.notCalled(helmet.contentSecurityPolicy)
       sinon.assert.notCalled(helmet.expectCt)
-      sinon.assert.notCalled(helmet.hpkp)
       sinon.assert.notCalled(helmet.noCache)
     })
 
@@ -183,7 +159,6 @@ describe('helmet', function () {
       sinon.assert.calledWith(helmet.xssFilter, {})
       sinon.assert.notCalled(helmet.contentSecurityPolicy)
       sinon.assert.notCalled(helmet.expectCt)
-      sinon.assert.notCalled(helmet.hpkp)
     })
 
     it('lets you set options for a default middleware', function () {
@@ -208,7 +183,6 @@ describe('helmet', function () {
       sinon.assert.calledWith(helmet.xssFilter, {})
       sinon.assert.notCalled(helmet.contentSecurityPolicy)
       sinon.assert.notCalled(helmet.expectCt)
-      sinon.assert.notCalled(helmet.hpkp)
       sinon.assert.notCalled(helmet.noCache)
       sinon.assert.notCalled(helmet.permittedCrossDomainPolicies)
     })
@@ -240,7 +214,6 @@ describe('helmet', function () {
       sinon.assert.calledWith(helmet.noSniff, {})
       sinon.assert.calledWith(helmet.xssFilter, {})
       sinon.assert.notCalled(helmet.expectCt)
-      sinon.assert.notCalled(helmet.hpkp)
       sinon.assert.notCalled(helmet.noCache)
       sinon.assert.notCalled(helmet.permittedCrossDomainPolicies)
     })

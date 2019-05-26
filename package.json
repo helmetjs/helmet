@@ -48,7 +48,6 @@
     "helmet-crossdomain": "0.3.0",
     "helmet-csp": "2.7.1",
     "hide-powered-by": "1.0.0",
-    "hpkp": "2.0.0",
     "hsts": "2.2.0",
     "ienoopen": "1.1.0",
     "nocache": "2.1.0",
