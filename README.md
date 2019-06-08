@@ -73,7 +73,7 @@ Helmet is a collection of 14 smaller middleware functions that set HTTP response
 | [ieNoOpen](https://helmetjs.github.io/docs/ienoopen) sets X-Download-Options for IE8+ | ✓ |
 | [noCache](https://helmetjs.github.io/docs/nocache/) to disable client-side caching |  |
 | [noSniff](https://helmetjs.github.io/docs/dont-sniff-mimetype) to keep clients from sniffing the MIME type | ✓ |
-| [referrerPolicy](https://helmetjs.github.io/docs/referrer-policy) to hide the Referer header |  |
+| [referrerPolicy](https://helmetjs.github.io/docs/referrer-policy) to hide the Referrer header |  |
 | [xssFilter](https://helmetjs.github.io/docs/xss-filter) adds some small XSS protections | ✓ |
 
 You can see more in [the documentation](https://helmetjs.github.io/docs/).
