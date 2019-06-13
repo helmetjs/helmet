@@ -76,36 +76,6 @@ describe("helmet", function () {
       expect(helmet.hidePoweredBy.name).toBe(xPoweredBy.name);
     });
 
-    // This test will be removed in helmet@4.
-    it("calls through to hpkp but emits a deprecation warning", function () {
-      const deprecationPromise = new Promise((resolve) => {
-        process.once("deprecation", (deprecationError) => {
-          expect(
-            deprecationError.message.indexOf(
-              "You can use the `hpkp` module instead."
-            ) !== -1
-          ).toBeTruthy();
-          resolve();
-        });
-      });
-
-      const app = connect();
-      app.use(helmet.hpkp({ maxAge: 10, sha256s: ["abc123", "xyz456"] }));
-      app.use((_req: IncomingMessage, res: ServerResponse) => {
-        res.end("Hello world!");
-      });
-      const supertestPromise = request(app)
-        .get("/")
-        .expect(200)
-        .expect(
-          "Public-Key-Pins",
-          'pin-sha256="abc123"; pin-sha256="xyz456"; max-age=10'
-        )
-        .expect("Hello world!");
-
-      return Promise.all([deprecationPromise, supertestPromise]);
-    });
-
     it('aliases "hsts"', function () {
       const pkg = require("hsts");
       expect(helmet.hsts).toBe(pkg);
@@ -165,7 +135,6 @@ describe("helmet", function () {
       jest.spyOn(helmet, "expectCt");
       jest.spyOn(helmet, "frameguard");
       jest.spyOn(helmet, "hidePoweredBy");
-      jest.spyOn(helmet, "hpkp");
       jest.spyOn(helmet, "hsts");
       jest.spyOn(helmet, "hsts");
       jest.spyOn(helmet, "ieNoOpen");
@@ -197,7 +166,6 @@ describe("helmet", function () {
 
       expect(helmet.contentSecurityPolicy).not.toHaveBeenCalled();
       expect(helmet.expectCt).not.toHaveBeenCalled();
-      expect(helmet.hpkp).not.toHaveBeenCalled();
       expect(helmet.noCache).not.toHaveBeenCalled();
       expect(helmet.permittedCrossDomainPolicies).not.toHaveBeenCalled();
     });
@@ -221,7 +189,6 @@ describe("helmet", function () {
       expect(helmet.xssFilter).toHaveBeenCalledWith({});
       expect(helmet.contentSecurityPolicy).not.toHaveBeenCalled();
       expect(helmet.expectCt).not.toHaveBeenCalled();
-      expect(helmet.hpkp).not.toHaveBeenCalled();
       expect(helmet.noCache).not.toHaveBeenCalled();
     });
 
@@ -247,7 +214,6 @@ describe("helmet", function () {
       expect(helmet.xssFilter).toHaveBeenCalledWith({});
       expect(helmet.contentSecurityPolicy).not.toHaveBeenCalled();
       expect(helmet.expectCt).not.toHaveBeenCalled();
-      expect(helmet.hpkp).not.toHaveBeenCalled();
       expect(helmet.noCache).not.toHaveBeenCalled();
     });
 
@@ -273,7 +239,6 @@ describe("helmet", function () {
       expect(helmet.xssFilter).toHaveBeenCalledWith({});
       expect(helmet.contentSecurityPolicy).not.toHaveBeenCalled();
       expect(helmet.expectCt).not.toHaveBeenCalled();
-      expect(helmet.hpkp).not.toHaveBeenCalled();
       expect(helmet.noCache).not.toHaveBeenCalled();
       expect(helmet.permittedCrossDomainPolicies).not.toHaveBeenCalled();
     });
@@ -305,7 +270,6 @@ describe("helmet", function () {
       expect(helmet.noSniff).toHaveBeenCalledWith({});
       expect(helmet.xssFilter).toHaveBeenCalledWith({});
       expect(helmet.expectCt).not.toHaveBeenCalled();
-      expect(helmet.hpkp).not.toHaveBeenCalled();
       expect(helmet.noCache).not.toHaveBeenCalled();
       expect(helmet.permittedCrossDomainPolicies).not.toHaveBeenCalled();
     });

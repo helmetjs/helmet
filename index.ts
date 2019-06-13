@@ -22,7 +22,6 @@ interface HelmetOptions {
   permittedCrossDomainPolicies?: any;
   referrerPolicy?: any;
   xssFilter?: any;
-  hpkp?: any;
   noCache?: any;
 }
 
@@ -55,7 +54,6 @@ type MiddlewareName =
   | "permittedCrossDomainPolicies"
   | "referrerPolicy"
   | "xssFilter"
-  | "hpkp"
   | "noCache";
 
 const middlewares: MiddlewareName[] = [
@@ -71,7 +69,6 @@ const middlewares: MiddlewareName[] = [
   "permittedCrossDomainPolicies",
   "referrerPolicy",
   "xssFilter",
-  "hpkp",
   "noCache",
 ];
 
@@ -147,10 +144,6 @@ helmet.xssFilter = require("x-xss-protection");
 helmet.featurePolicy = deprecate.function(
   require("feature-policy"),
   "helmet.featurePolicy is deprecated (along with the HTTP header) and will be removed in helmet@4. You can use the `feature-policy` module instead."
-);
-helmet.hpkp = deprecate.function(
-  require("hpkp"),
-  "helmet.hpkp is deprecated and will be removed in helmet@4. You can use the `hpkp` module instead. For more, see https://github.com/helmetjs/helmet/issues/180."
 );
 helmet.noCache = deprecate.function(
   require("nocache"),
