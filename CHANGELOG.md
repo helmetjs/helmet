@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.0.0 - Unreleased
+
+### Removed
+
+- `helmet.hpkp`. If you still need it, check out the `hpkp` package on npm.
+
 ## Unreleased
 
 ### Changed
