@@ -2,7 +2,11 @@
 
 ## Unreleased
 ### Updated
+- Updated `dns-prefetch-control` to v0.2.0
+- Updated `dont-sniff-mimetype` to v1.1.0
 - Updated `helmet-crossdomain` to v0.4.0
+- Updated `hide-powered-by` to v1.1.0
+- Updated `x-xss-protection` to v1.2.0
 
 ## 3.18.0 - 2019-05-05
 ### Added
