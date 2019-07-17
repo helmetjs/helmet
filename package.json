@@ -59,7 +59,7 @@
     "connect": "^3.7.0",
     "mocha": "^6.1.4",
     "sinon": "^7.3.2",
-    "standard": "^12.0.1",
+    "standard": "^13.0.2",
     "supertest": "^4.0.2"
   },
   "scripts": {
