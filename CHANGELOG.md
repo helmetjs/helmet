@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+### Updated
+- Updated `helmet-crossdomain` to v0.4.0
+
 ## 3.18.0 - 2019-05-05
 ### Added
 - `featurePolicy` has 19 new features: `ambientLightSensor`, `documentDomain`, `documentWrite`, `encryptedMedia`, `fontDisplayLateSwap`, `layoutAnimations`, `legacyImageFormats`, `loadingFrameDefaultEager`, `oversizedImages`, `pictureInPicture`, `serial`, `syncScript`, `unoptimizedImages`, `unoptimizedLosslessImages`, `unoptimizedLossyImages`, `unsizedMedia`, `verticalScroll`, `wakeLock`, and `xr`
