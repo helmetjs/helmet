@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 3.19.0 - 2019-07-17
 ### Updated
 - Updated `dns-prefetch-control` to v0.2.0
 - Updated `dont-sniff-mimetype` to v1.1.0
