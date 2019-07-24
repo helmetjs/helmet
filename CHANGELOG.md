@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 3.20.0 - 2019-07-24
 ### Changed
 - Updated `helmet-csp` to v2.8.0
 
