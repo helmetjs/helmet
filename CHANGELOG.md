@@ -1,7 +1,7 @@
 # Changelog
 
 ## 3.19.0 - 2019-07-17
-### Updated
+### Changed
 - Updated `dns-prefetch-control` to v0.2.0
 - Updated `dont-sniff-mimetype` to v1.1.0
 - Updated `helmet-crossdomain` to v0.4.0
