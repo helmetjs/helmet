@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+### Changed
+- Updated `helmet-csp` to v2.8.0
+
 ## 3.19.0 - 2019-07-17
 ### Changed
 - Updated `dns-prefetch-control` to v0.2.0
