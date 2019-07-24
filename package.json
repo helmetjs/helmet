@@ -57,9 +57,9 @@
   },
   "devDependencies": {
     "connect": "^3.7.0",
-    "mocha": "^6.1.4",
+    "mocha": "^6.2.0",
     "sinon": "^7.3.2",
-    "standard": "^13.0.2",
+    "standard": "^13.1.0",
     "supertest": "^4.0.2"
   },
   "scripts": {
