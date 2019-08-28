@@ -58,8 +58,8 @@
   "devDependencies": {
     "connect": "^3.7.0",
     "mocha": "^6.2.0",
-    "sinon": "^7.3.2",
-    "standard": "^13.1.0",
+    "sinon": "^7.4.1",
+    "standard": "^14.0.2",
     "supertest": "^4.0.2"
   },
   "scripts": {
