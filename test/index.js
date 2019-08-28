@@ -6,12 +6,8 @@ const connect = require('connect')
 const request = require('supertest')
 
 describe('helmet', function () {
-  beforeEach(function () {
-    this.sandbox = sinon.createSandbox()
-  })
-
   afterEach(function () {
-    this.sandbox.restore()
+    sinon.restore()
   })
 
   describe('module aliases', function () {
@@ -107,9 +103,9 @@ describe('helmet', function () {
     beforeEach(function () {
       Object.keys(helmet).forEach(function (key) {
         if (typeof helmet[key] === 'function') {
-          this.sandbox.spy(helmet, key)
+          sinon.spy(helmet, key)
         }
-      }.bind(this))
+      })
     })
 
     it('chains all default middleware', function () {
