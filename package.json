@@ -46,7 +46,7 @@
     "feature-policy": "0.3.0",
     "frameguard": "3.1.0",
     "helmet-crossdomain": "0.4.0",
-    "helmet-csp": "2.8.0",
+    "helmet-csp": "2.9.0",
     "hide-powered-by": "1.1.0",
     "hpkp": "2.0.0",
     "hsts": "2.2.0",
