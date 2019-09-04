@@ -5,6 +5,10 @@
 - Updated `x-xss-protection` to v1.3.0
   - Added `mode: null` to disable `mode=block`
 
+### Changed
+- Updated `helmet-csp` to v2.9.1
+  - Updated `bowser` subdependency from 2.5.3 to 2.5.4. See [helmet-csp#88](https://github.com/helmetjs/csp/pull/88)
+
 ## 3.20.1 - 2019-08-28
 ### Changed
 - Updated `helmet-csp` to v2.9.0
