@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 3.21.0 - 2019-09-04
 ### Added
 - Updated `x-xss-protection` to v1.3.0
   - Added `mode: null` to disable `mode=block`
