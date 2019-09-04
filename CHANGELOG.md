@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+### Added
+- Updated `x-xss-protection` to v1.3.0
+  - Added `mode: null` to disable `mode=block`
+
 ## 3.20.1 - 2019-08-28
 ### Changed
 - Updated `helmet-csp` to v2.9.0
