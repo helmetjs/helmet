@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+### Fixed
+- Updated `helmet-csp` to v2.9.2
+  - Fixed a bug where a request from Firefox 4 could delete `default-src` from future responses
+  - Fixed tablet PC detection by updating `bowser` subdependency to latest version
+
 ## 3.21.0 - 2019-09-04
 ### Added
 - Updated `x-xss-protection` to v1.3.0
