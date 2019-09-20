@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 3.21.1 - 2019-09-20
 ### Fixed
 - Updated `helmet-csp` to v2.9.2
   - Fixed a bug where a request from Firefox 4 could delete `default-src` from future responses
