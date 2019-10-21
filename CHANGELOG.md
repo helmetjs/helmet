@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+### Changed
+- Updated `helmet-csp` to v2.9.4
+  - Updated `bowser` subdependency from 2.6.1 to 2.7.0. See [helmet-csp#94](https://github.com/helmetjs/csp/pull/94)
+
 ## 3.21.1 - 2019-09-20
 ### Fixed
 - Updated `helmet-csp` to v2.9.2
