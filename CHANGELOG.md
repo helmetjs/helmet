@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 3.21.3 - 2020-02-24
 ### Changed
 - Updated `helmet-csp` to v2.9.5
   - Updated `bowser` subdependency from 2.7.0 to 2.9.0
