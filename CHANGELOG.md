@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+### Deprecated
+- `helmet.noCache` is deprecated. Use the `nocache` module instead. See [#215](https://github.com/helmetjs/helmet/issues/215)
+
 ## 3.21.3 - 2020-02-24
 ### Changed
 - Updated `helmet-csp` to v2.9.5

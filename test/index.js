@@ -54,7 +54,7 @@ describe('helmet', function () {
     // This test will be removed in helmet@4.
     it('calls through to hpkp but emits a deprecation warning', function () {
       const deprecationPromise = new Promise(resolve => {
-        process.on('deprecation', (deprecationError) => {
+        process.once('deprecation', (deprecationError) => {
           assert(deprecationError.message.indexOf('You can use the `hpkp` module instead.') !== -1)
           resolve()
         })
@@ -83,9 +83,29 @@ describe('helmet', function () {
       assert.strictEqual(helmet.ieNoOpen, pkg)
     })
 
-    it('aliases "nocache"', function () {
-      const pkg = require('nocache')
-      assert.strictEqual(helmet.noCache, pkg)
+    // This test will be removed in helmet@4.
+    it('calls through to nocache but emits a deprecation warning', function () {
+      const deprecationPromise = new Promise(resolve => {
+        process.once('deprecation', (deprecationError) => {
+          assert(deprecationError.message.indexOf('You can use the `nocache` module instead.') !== -1)
+          resolve()
+        })
+      })
+
+      const app = connect()
+      app.use(helmet.noCache())
+      app.use((req, res) => {
+        res.end('Hello world!')
+      })
+      const supertestPromise = request(app).get('/')
+        .expect(200)
+        .expect('Surrogate-Control', 'no-store')
+        .expect('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate')
+        .expect('Pragma', 'no-cache')
+        .expect('Expires', '0')
+        .expect('Hello world!')
+
+      return Promise.all([deprecationPromise, supertestPromise])
     })
 
     it('aliases "referrer-policy"', function () {
@@ -158,10 +178,10 @@ describe('helmet', function () {
     })
 
     it('lets you enable a normally-disabled middleware', function () {
-      helmet({ noCache: true })
+      helmet({ referrerPolicy: true })
 
-      sinon.assert.calledOnce(helmet.noCache)
-      sinon.assert.calledWith(helmet.noCache, {})
+      sinon.assert.calledOnce(helmet.referrerPolicy)
+      sinon.assert.calledWith(helmet.referrerPolicy, {})
 
       sinon.assert.calledOnce(helmet.dnsPrefetchControl)
       sinon.assert.calledOnce(helmet.frameguard)
@@ -180,6 +200,7 @@ describe('helmet', function () {
       sinon.assert.notCalled(helmet.contentSecurityPolicy)
       sinon.assert.notCalled(helmet.expectCt)
       sinon.assert.notCalled(helmet.hpkp)
+      sinon.assert.notCalled(helmet.noCache)
     })
 
     it('lets you set options for a default middleware', function () {

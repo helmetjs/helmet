@@ -63,13 +63,13 @@ helmet.frameguard = require('frameguard')
 helmet.hidePoweredBy = require('hide-powered-by')
 helmet.hsts = require('hsts')
 helmet.ieNoOpen = require('ienoopen')
-helmet.noCache = require('nocache')
 helmet.noSniff = require('dont-sniff-mimetype')
 helmet.permittedCrossDomainPolicies = require('helmet-crossdomain')
 helmet.referrerPolicy = require('referrer-policy')
 helmet.xssFilter = require('x-xss-protection')
 
 helmet.hpkp = deprecate.function(require('hpkp'), 'helmet.hpkp is deprecated and will be removed in helmet@4. You can use the `hpkp` module instead. For more, see https://github.com/helmetjs/helmet/issues/180.')
+helmet.noCache = deprecate.function(require('nocache'), 'helmet.noCache is deprecated and will be removed in helmet@4. You can use the `nocache` module instead. For more, see https://github.com/helmetjs/helmet/issues/215.')
 
 middlewares = Object.keys(helmet)
 
