@@ -57,7 +57,7 @@ app.use(helmet({
 How it works
 ------------
 
-Helmet is a collection of 14 smaller middleware functions that set HTTP response headers. Running `app.use(helmet())` will not include all of these middleware functions by default.
+Helmet is a collection of 12 smaller middleware functions that set HTTP response headers. Running `app.use(helmet())` will not include all of these middleware functions by default.
 
 | Module | Default? |
 |---|---|
@@ -68,10 +68,8 @@ Helmet is a collection of 14 smaller middleware functions that set HTTP response
 | [featurePolicy](https://helmetjs.github.io/docs/feature-policy/) to limit your site's features |  |
 | [frameguard](https://helmetjs.github.io/docs/frameguard/) to prevent clickjacking | ✓ |
 | [hidePoweredBy](https://helmetjs.github.io/docs/hide-powered-by) to remove the X-Powered-By header | ✓ |
-| [hpkp](https://helmetjs.github.io/docs/hpkp/) for HTTP Public Key Pinning |  |
 | [hsts](https://helmetjs.github.io/docs/hsts/) for HTTP Strict Transport Security | ✓ |
 | [ieNoOpen](https://helmetjs.github.io/docs/ienoopen) sets X-Download-Options for IE8+ | ✓ |
-| [noCache](https://helmetjs.github.io/docs/nocache/) to disable client-side caching |  |
 | [noSniff](https://helmetjs.github.io/docs/dont-sniff-mimetype) to keep clients from sniffing the MIME type | ✓ |
 | [referrerPolicy](https://helmetjs.github.io/docs/referrer-policy) to hide the Referer header |  |
 | [xssFilter](https://helmetjs.github.io/docs/xss-filter) adds some small XSS protections | ✓ |
