@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 3.22.0 - 2020-03-24
 ### Changed
 - Updated `helmet-csp` to v2.10.0
   - Add support for the `allow-downloads` sandbox directive. See [helmet-csp#103](https://github.com/helmetjs/csp/pull/103)
