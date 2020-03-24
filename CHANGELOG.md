@@ -1,6 +1,10 @@
 # Changelog
 
 ## Unreleased
+### Changed
+- Updated `helmet-csp` to v2.10.0
+  - Add support for the `allow-downloads` sandbox directive. See [helmet-csp#103](https://github.com/helmetjs/csp/pull/103)
+
 ### Deprecated
 - `helmet.noCache` is deprecated. Use the `nocache` module instead. See [#215](https://github.com/helmetjs/helmet/issues/215)
 
