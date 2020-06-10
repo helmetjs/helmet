@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.22.1 - 2020-06-10
+
+### Changed
+
+- Rewrote internals in TypeScript. This should have no effect on end users.
+
 ## 3.22.0 - 2020-03-24
 
 ### Changed
