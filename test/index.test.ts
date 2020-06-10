@@ -1,7 +1,8 @@
-const helmet = require("..");
+import helmet = require("..");
 
-const connect = require("connect");
-const request = require("supertest");
+import { IncomingMessage, ServerResponse } from "http";
+import connect = require("connect");
+import request = require("supertest");
 
 describe("helmet", function () {
   describe("module aliases", function () {
@@ -60,7 +61,7 @@ describe("helmet", function () {
 
       const app = connect();
       app.use(helmet.hpkp({ maxAge: 10, sha256s: ["abc123", "xyz456"] }));
-      app.use((req, res) => {
+      app.use((_req: IncomingMessage, res: ServerResponse) => {
         res.end("Hello world!");
       });
       const supertestPromise = request(app)
@@ -100,7 +101,7 @@ describe("helmet", function () {
 
       const app = connect();
       app.use(helmet.noCache());
-      app.use((req, res) => {
+      app.use((_req: IncomingMessage, res: ServerResponse) => {
         res.end("Hello world!");
       });
       const supertestPromise = request(app)
@@ -131,11 +132,20 @@ describe("helmet", function () {
 
   describe("helmet()", function () {
     beforeEach(function () {
-      Object.keys(helmet).forEach(function (key) {
-        if (typeof helmet[key] === "function") {
-          jest.spyOn(helmet, key);
-        }
-      });
+      jest.spyOn(helmet, "contentSecurityPolicy");
+      jest.spyOn(helmet, "dnsPrefetchControl");
+      jest.spyOn(helmet, "expectCt");
+      jest.spyOn(helmet, "frameguard");
+      jest.spyOn(helmet, "hidePoweredBy");
+      jest.spyOn(helmet, "hpkp");
+      jest.spyOn(helmet, "hsts");
+      jest.spyOn(helmet, "hsts");
+      jest.spyOn(helmet, "ieNoOpen");
+      jest.spyOn(helmet, "noCache");
+      jest.spyOn(helmet, "noSniff");
+      jest.spyOn(helmet, "permittedCrossDomainPolicies");
+      jest.spyOn(helmet, "referrerPolicy");
+      jest.spyOn(helmet, "xssFilter");
     });
 
     it("chains all default middleware", function () {
@@ -214,7 +224,7 @@ describe("helmet", function () {
     });
 
     it("lets you set options for a default middleware", function () {
-      var options = { action: "deny" };
+      const options = { action: "deny" };
 
       helmet({ frameguard: options });
 
@@ -241,7 +251,7 @@ describe("helmet", function () {
     });
 
     it("lets you set options for a non-default middleware", function () {
-      var options = {
+      const options = {
         directives: {
           defaultSrc: ["*"],
         },
@@ -273,14 +283,14 @@ describe("helmet", function () {
     });
 
     it("errors when `use`d directly", function () {
-      var fakeRequest = {
+      const fakeRequest = {
         constructor: {
           name: "IncomingMessage",
         },
       };
 
       expect(() => {
-        helmet(fakeRequest);
+        helmet(fakeRequest as any);
       }).toThrow();
     });
 

@@ -1,13 +1,14 @@
-const helmet = require("..");
+import helmet = require("..");
 
-const connect = require("connect");
-const request = require("supertest");
+import { IncomingMessage, ServerResponse } from "http";
+import connect = require("connect");
+import request = require("supertest");
 
 describe("helmet() integration test", function () {
   it("sets all default headers", function () {
     const app = connect();
     app.use(helmet());
-    app.use((req, res) => {
+    app.use((_req: IncomingMessage, res: ServerResponse) => {
       res.end("Hello world!");
     });
 

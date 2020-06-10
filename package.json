@@ -36,7 +36,7 @@
     "LICENSE",
     "README.md",
     "SECURITY.md",
-    "index.js"
+    "dist/index.js"
   ],
   "dependencies": {
     "depd": "2.0.0",
@@ -56,20 +56,30 @@
     "x-xss-protection": "1.3.0"
   },
   "devDependencies": {
+    "@types/connect": "^3.4.33",
+    "@types/depd": "^1.1.32",
+    "@types/jest": "^26.0.0",
+    "@types/supertest": "^2.0.9",
+    "@typescript-eslint/eslint-plugin": "^3.2.0",
+    "@typescript-eslint/parser": "^3.2.0",
     "connect": "^3.7.0",
     "eslint": "^7.2.0",
     "jest": "^26.0.1",
     "prettier": "^2.0.5",
-    "supertest": "^4.0.2"
+    "supertest": "^4.0.2",
+    "ts-jest": "^26.1.0",
+    "typescript": "^3.9.5"
   },
   "scripts": {
     "pretest": "npm run lint",
     "lint": "npm run lint:eslint && npm run lint:prettier",
-    "lint:eslint": "eslint '**/*.js'",
-    "lint:prettier": "prettier --check '**/*{md,js,json}'",
-    "format": "prettier --write '**/*{md,js,json}'",
+    "lint:eslint": "eslint '**/*.ts'",
+    "lint:prettier": "prettier --check '**/*{md,js,json,ts}'",
+    "format": "prettier --write '**/*{md,js,json,ts}'",
+    "clean": "rm -rf dist",
+    "build": "npm run clean && tsc",
     "test": "jest"
   },
   "license": "MIT",
-  "main": "index"
+  "main": "dist/index"
 }

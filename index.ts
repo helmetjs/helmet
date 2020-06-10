@@ -1,6 +1,30 @@
-var deprecate = require("depd")("helmet");
+import { IncomingMessage, ServerResponse } from "http";
+import depd = require("depd");
 
-var DEFAULT_MIDDLEWARE = [
+interface HelmetOptions {
+  contentSecurityPolicy?: any;
+  dnsPrefetchControl?: any;
+  expectCt?: any;
+  featurePolicy?: any;
+  frameguard?: any;
+  hidePoweredBy?: any;
+  hsts?: any;
+  ieNoOpen?: any;
+  noSniff?: any;
+  permittedCrossDomainPolicies?: any;
+  referrerPolicy?: any;
+  xssFilter?: any;
+  hpkp?: any;
+  noCache?: any;
+}
+
+interface MiddlewareFunction {
+  (req: IncomingMessage, res: ServerResponse, next: () => void): void;
+}
+
+const deprecate = depd("helmet");
+
+const DEFAULT_MIDDLEWARE = [
   "dnsPrefetchControl",
   "frameguard",
   "hidePoweredBy",
@@ -10,20 +34,53 @@ var DEFAULT_MIDDLEWARE = [
   "xssFilter",
 ];
 
-var middlewares;
-function helmet(options) {
-  options = options || {};
+type MiddlewareName =
+  | "contentSecurityPolicy"
+  | "dnsPrefetchControl"
+  | "expectCt"
+  | "featurePolicy"
+  | "frameguard"
+  | "hidePoweredBy"
+  | "hsts"
+  | "ieNoOpen"
+  | "noSniff"
+  | "permittedCrossDomainPolicies"
+  | "referrerPolicy"
+  | "xssFilter"
+  | "hpkp"
+  | "noCache";
 
+const middlewares: MiddlewareName[] = [
+  "contentSecurityPolicy",
+  "dnsPrefetchControl",
+  "expectCt",
+  "featurePolicy",
+  "frameguard",
+  "hidePoweredBy",
+  "hsts",
+  "ieNoOpen",
+  "noSniff",
+  "permittedCrossDomainPolicies",
+  "referrerPolicy",
+  "xssFilter",
+  "hpkp",
+  "noCache",
+];
+
+function helmet(options: Readonly<HelmetOptions> = {}) {
   if (options.constructor.name === "IncomingMessage") {
     throw new Error(
       "It appears you have done something like `app.use(helmet)`, but it should be `app.use(helmet())`."
     );
   }
 
-  var stack = middlewares.reduce(function (result, middlewareName) {
-    var middleware = helmet[middlewareName];
-    var middlewareOptions = options[middlewareName];
-    var isDefault = DEFAULT_MIDDLEWARE.indexOf(middlewareName) !== -1;
+  const stack: MiddlewareFunction[] = middlewares.reduce(function (
+    result,
+    middlewareName
+  ) {
+    const middleware = helmet[middlewareName];
+    let middlewareOptions = options[middlewareName];
+    const isDefault = DEFAULT_MIDDLEWARE.indexOf(middlewareName) !== -1;
 
     if (middlewareOptions === false) {
       return result;
@@ -37,17 +94,23 @@ function helmet(options) {
       return result.concat(middleware({}));
     }
     return result;
-  }, []);
+  },
+  []);
 
-  return function helmet(req, res, next) {
-    var index = 0;
+  return function helmet(
+    req: IncomingMessage,
+    res: ServerResponse,
+    next: (...args: unknown[]) => void
+  ) {
+    let index = 0;
 
-    function internalNext() {
-      if (arguments.length > 0) {
-        return next.apply(null, arguments);
+    function internalNext(...args: unknown[]) {
+      if (args.length > 0) {
+        next(...args);
+        return;
       }
 
-      var middleware = stack[index];
+      const middleware = stack[index];
       if (!middleware) {
         return next();
       }
@@ -83,6 +146,4 @@ helmet.noCache = deprecate.function(
   "helmet.noCache is deprecated and will be removed in helmet@4. You can use the `nocache` module instead. For more, see https://github.com/helmetjs/helmet/issues/215."
 );
 
-middlewares = Object.keys(helmet);
-
-module.exports = helmet;
+export = helmet;
