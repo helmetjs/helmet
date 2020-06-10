@@ -1,17 +1,14 @@
-Contributing to Helmet
-======================
+# Contributing to Helmet
 
 Helmet welcomes contributors! This guide should help you submit issues and pull requests.
 
-Got a question, problem, or feature request?
---------------------------------------------
+## Got a question, problem, or feature request?
 
 The documentation and [Stack Overflow](http://stackoverflow.com/questions/tagged/helmet.js) are good places to start.
 
 Feel free to [add an issue](https://github.com/helmetjs/helmet/issues) if those don't help!
 
-Want to submit a change?
-------------------------
+## Want to submit a change?
 
 If you're not sure whether your change will be welcomed, [add an issue](https://github.com/helmetjs/helmet/issues) to ask.
 

@@ -1,49 +1,67 @@
 # Changelog
 
 ## 3.22.0 - 2020-03-24
+
 ### Changed
+
 - Updated `helmet-csp` to v2.10.0
   - Add support for the `allow-downloads` sandbox directive. See [helmet-csp#103](https://github.com/helmetjs/csp/pull/103)
 
 ### Deprecated
+
 - `helmet.noCache` is deprecated. Use the `nocache` module instead. See [#215](https://github.com/helmetjs/helmet/issues/215)
 
 ## 3.21.3 - 2020-02-24
+
 ### Changed
+
 - Updated `helmet-csp` to v2.9.5
   - Updated `bowser` subdependency from 2.7.0 to 2.9.0
   - Fixed an issue some people were having when importing the `bowser` subdependency. See [helmet-csp#96](https://github.com/helmetjs/csp/issues/96) and [#101](https://github.com/helmetjs/csp/pull/101)
 
 ## 3.21.2 - 2019-10-21
+
 ### Changed
+
 - Updated `helmet-csp` to v2.9.4
   - Updated `bowser` subdependency from 2.6.1 to 2.7.0. See [helmet-csp#94](https://github.com/helmetjs/csp/pull/94)
 
 ## 3.21.1 - 2019-09-20
+
 ### Fixed
+
 - Updated `helmet-csp` to v2.9.2
   - Fixed a bug where a request from Firefox 4 could delete `default-src` from future responses
   - Fixed tablet PC detection by updating `bowser` subdependency to latest version
 
 ## 3.21.0 - 2019-09-04
+
 ### Added
+
 - Updated `x-xss-protection` to v1.3.0
   - Added `mode: null` to disable `mode=block`
 
 ### Changed
+
 - Updated `helmet-csp` to v2.9.1
   - Updated `bowser` subdependency from 2.5.3 to 2.5.4. See [helmet-csp#88](https://github.com/helmetjs/csp/pull/88)
 
 ## 3.20.1 - 2019-08-28
+
 ### Changed
+
 - Updated `helmet-csp` to v2.9.0
 
 ## 3.20.0 - 2019-07-24
+
 ### Changed
+
 - Updated `helmet-csp` to v2.8.0
 
 ## 3.19.0 - 2019-07-17
+
 ### Changed
+
 - Updated `dns-prefetch-control` to v0.2.0
 - Updated `dont-sniff-mimetype` to v1.1.0
 - Updated `helmet-crossdomain` to v0.4.0
@@ -51,27 +69,36 @@
 - Updated `x-xss-protection` to v1.2.0
 
 ## 3.18.0 - 2019-05-05
+
 ### Added
+
 - `featurePolicy` has 19 new features: `ambientLightSensor`, `documentDomain`, `documentWrite`, `encryptedMedia`, `fontDisplayLateSwap`, `layoutAnimations`, `legacyImageFormats`, `loadingFrameDefaultEager`, `oversizedImages`, `pictureInPicture`, `serial`, `syncScript`, `unoptimizedImages`, `unoptimizedLosslessImages`, `unoptimizedLossyImages`, `unsizedMedia`, `verticalScroll`, `wakeLock`, and `xr`
 
 ### Changed
+
 - Updated `expect-ct` to v0.2.0
 - Updated `feature-policy` to v0.3.0
 - Updated `frameguard` to v3.1.0
 - Updated `nocache` to v2.1.0
 
 ## 3.17.0 - 2019-05-03
+
 ### Added
+
 - `referrerPolicy` now supports multiple values
 
 ### Changed
+
 - Updated `referrerPolicy` to v1.2.0
 
 ## 3.16.0 - 2019-03-10
+
 ### Added
+
 - Add email to `bugs` field in `package.json`
 
 ### Changed
+
 - Updated `hsts` to v2.2.0
 - Updated `ienoopen` to v1.1.0
 - Changelog is now in the [Keep A Changelog](https://keepachangelog.com/) format
@@ -79,114 +106,166 @@
 - Updated Adam Baldwin's contact information
 
 ### Deprecated
+
 - `helmet.hsts`'s `setIf` option has been deprecated and will be removed in `hsts@3`. See [helmetjs/hsts#22](https://github.com/helmetjs/hsts/issues/22) for more
+
 * The `includeSubdomains` option (with a lowercase `d`) has been deprecated and will be removed in `hsts@3`. Use the uppercase-D `includeSubDomains` option instead. See [helmetjs/hsts#21](https://github.com/helmetjs/hsts/issues/21) for more
 
 ## 3.15.1 - 2019-02-10
+
 ### Deprecated
+
 - The `hpkp` middleware has been deprecated. If you still need to use this module, install the standalone `hpkp` module from npm. See [#180](https://github.com/helmetjs/helmet/issues/180) for more.
 
 ## 3.15.0 - 2018-11-07
+
 ### Added
+
 - `helmet.featurePolicy` now supports four new features
 
 ## 3.14.0 - 2018-10-09
+
 ### Added
+
 - `helmet.featurePolicy` middleware
 
 ## 3.13.0 - 2018-07-22
+
 ### Added
+
 - `helmet.permittedCrossDomainPolicies` middleware
 
 ## 3.12.2 - 2018-07-20
+
 ### Fixed
+
 - Removed `lodash.reduce` dependency from `csp`
 
 ## 3.12.1 - 2018-05-16
+
 ### Fixed
+
 - `expectCt` should use comma instead of semicolon as delimiter
 
 ## 3.12.0 - 2018-03-02
+
 ### Added
+
 - `xssFilter` now supports `reportUri` option
 
 ## 3.11.0 - 2018-02-09
+
 ### Added
+
 - Main Helmet middleware is now named to help with debugging
 
 ## 3.10.0 - 2018-01-23
+
 ### Added
+
 - `csp` now supports `prefix-src` directive
 
 ### Fixed
+
 - `csp` no longer loads JSON files internally, helping some module bundlers
 - `false` should be able to disable a CSP directive
 
 ## 3.9.0 - 2017-10-13
+
 ### Added
+
 - `csp` now supports `strict-dynamic` value
 - `csp` now supports `require-sri-for` directive
 
 ### Changed
+
 - Removed `connect` dependency
 
 ## 3.8.2 - 2017-09-27
+
 ### Changed
+
 - Updated `connect` dependency to latest
 
 ## 3.8.1 - 2017-07-28
+
 ### Fixed
+
 - `csp` does not automatically set `report-to` when setting `report-uri`
 
 ## 3.8.0 - 2017-07-21
+
 ### Changed
+
 - `hsts` no longer cares whether it's HTTPS and always sets the header
 
 ## 3.7.0 - 2017-07-21
+
 ### Added
+
 - `csp` now supports `report-to` directive
 
 ### Changed
+
 - Throw an error when used incorrectly
 - Add a few documentation files to `npmignore`
 
 ## 3.6.1 - 2017-05-21
+
 ### Changed
+
 - Bump `connect` version
 
 ## 3.6.0 - 2017-05-04
+
 ### Added
+
 - `expectCt` middleware for setting the `Expect-CT` header
 
 ## 3.5.0 - 2017-03-06
+
 ### Added
+
 - `csp` now supports the `worker-src` directive
 
 ## 3.4.1 - 2017-02-24
+
 ### Changed
+
 - Bump `connect` version
 
 ## 3.4.0 - 2017-01-13
+
 ### Added
+
 - `csp` now supports more `sandbox` directives
 
 ## 3.3.0 - 2016-12-31
+
 ### Added
+
 - `referrerPolicy` allows `strict-origin` and `strict-origin-when-cross-origin` directives
 
 ### Changed
+
 - Bump `connect` version
 
 ## 3.2.0 - 2016-12-22
+
 ### Added
+
 - `csp` now allows `manifest-src` directive
 
 ## 3.1.0 - 2016-11-03
+
 ### Added
+
 - `csp` now allows `frame-src` directive
 
 ## 3.0.0 - 2016-10-28
+
 ### Changed
+
 - `csp` will check your directives for common mistakes and throw errors if it finds them. This can be disabled with `loose: true`.
 - Empty arrays are no longer allowed in `csp`. For source lists (like `script-src` or `object-src`), use the standard `scriptSrc: ["'none'"]`. The `sandbox` directive can be `sandbox: true` to block everything.
 - `false` can disable a CSP directive. For example, `scriptSrc: false` is the same as not specifying it.
@@ -197,234 +276,322 @@
 - `domain` parameter in `frameguard` cannot be empty
 
 ### Removed
+
 - `noEtag` option no longer present in `noCache`
 - iOS Chrome `connect-src` workaround in CSP module
 
 ## 2.3.0 - 2016-09-30
+
 ### Added
+
 - `hpkp` middleware now supports the `includeSubDomains` property with a capital D
 
 ### Fixed
+
 - `hpkp` was setting `includeSubdomains` instead of `includeSubDomains`
 
 ## 2.2.0 - 2016-09-16
+
 ### Added
+
 - `referrerPolicy` middleware
 
 ## 2.1.3 - 2016-09-07
+
 ### Changed
+
 - Top-level aliases (like `helmet.xssFilter`) are no longer dynamically required
 
 ## 2.1.2 - 2016-07-27
+
 ### Deprecated
+
 - `nocache`'s `noEtag` option is now deprecated
 
 ### Fixed
+
 - `csp` now better handles Firefox on mobile
 
 ## 2.1.1 - 2016-06-10
+
 ### Changed
+
 - Remove several dependencies from `helmet-csp`
 
 ### Fixed
+
 - `frameguard` had a documentation error about its default value
 - `frameguard` docs in main Helmet readme said `frameguard`, not `helmet.frameguard`
 
 ## 2.1.0 - 2016-05-18
+
 ### Added
+
 - `csp` lets you dynamically set `reportOnly`
 
 ## 2.0.0 - 2016-04-29
+
 ### Added
+
 - Pass configuration to enable/disable default middlewares
 
 ### Changed
+
 - `dnsPrefetchControl` middleware is now enabled by default
 
 ### Removed
+
 - No more module aliases. There is now just one way to include each middleware
 - `frameguard` can no longer be initialized with strings; you must use an object
 
 ### Fixed
+
 - Make `hpkp` lowercase in documentation
 - Update `hpkp` spec URL in readmes
 - Update `frameguard` header name in readme
 
 ## 1.3.0 - 2016-03-01
+
 ### Added
+
 - `hpkp` has a `setIf` option to conditionally set the header
 
 ## 1.2.0 - 2016-02-29
+
 ### Added
+
 - `csp` now has a `browserSniff` option to disable all user-agent sniffing
 
 ### Changed
+
 - `frameguard` can now be initialized with options
 - Add `npmignore` file to speed up installs slightly
 
 ## 1.1.0 - 2016-01-12
+
 ### Added
+
 - Code of conduct
 - `dnsPrefetchControl` middleware
 
 ### Fixed
+
 - `csp` readme had syntax errors
 
 ## 1.0.2 - 2016-01-08
+
 ### Fixed
+
 - `csp` wouldn't recognize `IE Mobile` browsers
 - `csp` had some errors in its readme
 - Main readme had a syntax error
 
 ## 1.0.1 - 2015-12-19
+
 ### Fixed
+
 - `csp` with no User Agent would cause errors
 
 ## 1.0.0 - 2015-12-18
+
 ### Added
+
 - `csp` module supports dynamically-generated values
 
 ### Changed
+
 - `csp` directives are now under the `directives` key
 - `hpkp`'s `Report-Only` header is now opt-in, not opt-out
 - Tweak readmes of every sub-repo
 
 ### Removed
+
 - `crossdomain` middleware
 - `csp` no longer throws errors when some directives aren't quoted (`'self'`, for example)
 - `maxage` option in the `hpkp` middleware
 - `safari5` option from `csp` module
 
 ### Fixed
+
 - Old Firefox Content-Security-Policy behavior for `unsafe-inline` and `unsafe-eval`
 - Dynamic `csp` policies is no longer recursive
 
 ## 0.15.0 - 2015-11-26
+
 ### Changed
+
 - `hpkp` allows a `report-uri` without the `Report-Only` header
 
 ## 0.14.0 - 2015-11-01
+
 ### Added
+
 - `nocache` now sends the `Surrogate-Control` header
 
 ### Changed
+
 - `nocache` no longer contains the `private` directive in the `Cache-Control` header
 
 ## 0.13.0 - 2015-10-23
+
 ### Added
+
 - `xssFilter` now has a function name
 - Added new CSP docs to readme
 
 ### Changed
+
 - HSTS option renamed from `includeSubdomains` to `includeSubDomains`
 
 ## 0.11.0 - 2015-09-18
+
 ### Added
+
 - `csp` now supports Microsoft Edge
 - CSP Level 2 support
 
 ### Changed
+
 - Updated `connect` to 3.4.0
 - Updated `depd` to 1.1.0
 
 ### Fixed
+
 - Added `license` key to `csp`'s `package.json`
 - Empty `csp` directives now support every directive, not just `sandbox`
 
 ## 0.10.0 - 2015-07-08
+
 ### Added
+
 - Add "Handling CSP violations" to `csp` readme
 - Add license to `package.json`
 
 ### Changed
+
 - `hpkp` had a link to the wrong place in its readme
 - `hpkp` requires 2 or more pins
 
 ### Fixed
+
 - `hpkp` might have miscalculated `maxAge` slightly wrong
 
 ## 0.9.0 - 2015-04-24
+
 ### Changed
+
 - `nocache` adds `private` to its `Cache-Control` directive
 - Added a description to `package.json`
 
 ## 0.8.0 - 2015-04-21
+
 ### Changed
+
 - Removed hefty Lodash dependency from HSTS and CSP
 - Updated string detection module in Frameguard
 - Changed readme slightly to better reflect project's focus
 
 ### Deprecated
+
 - Deprecated `crossdomain` middleware
 
 ### Removed
+
 - `crossdomain` is no longer a default middleware
 
 ## 0.7.1 - 2015-03-23
+
 ### Changed
+
 - Updated all outdated dependencies (insofar as possible)
 - HSTS now uses Lodash like all the rest of the libraries
 
 ## 0.7.0 - 2015-03-05
+
 ### Added
+
 - `hpkp` middleware
 
 ### Changed
+
 - Travis CI should test 0.10 and 0.12
 - Minor code cleanup
 
 ## 0.6.2 - 2015-03-01
+
 ### Changed
+
 - Improved `xssFilter` performance
 - Updated Lodash versions
 
 ## 0.6.1 - 2015-02-13
+
 ### Added
+
 - "Other recommended modules" in README
 
 ### Changed
+
 - Updated Lodash version
 
 ### Fixed
+
 - `frameguard` middleware exported a function called `xframe`
 
 ## 0.6.0 - 2015-01-21
+
 ### Added
+
 - You can disable `csp` for Android
 
 ### Fixed
+
 - `csp` on Chrome Mobile on Android and iOS
 
 ## 0.5.4 - 2014-12-21
+
 ### Changed
+
 - `nocache` should force revalidation
 
 ## 0.5.3 - 2014-12-08
+
 ### Changed
+
 - `platform` version in CSP and X-XSS-Protection
 
 ### Fixed
+
 - Updated bad wording in frameguard docs
 
 ## 0.5.2 - 2014-11-16
+
 ### Changed
+
 - Updated Connect version
 
 ### Fixed
+
 - Fixed minor `csp` bugfixes
 
 ## 0.5.1 - 2014-11-09
+
 ### Changed
+
 - Updated URLs in `package.json` for new URL
 
 ### Fixed
+
 - CSP would set all headers forever after receiving an unknown user agent
 
 ## 0.5.0 - 2014-10-28
+
 ### Added
+
 - Most middlewares have some aliases now
 
 ### Changed
+
 - `xframe` now called `frameguard` (though `xframe` still works)
 - `frameguard` chooses sameorigin by default
 - `frameguard` understands "SAME-ORIGIN" in addition to "SAMEORIGIN"
@@ -435,45 +602,60 @@
 - Bumped Connect version
 
 ### Removed
+
 - Deprecation warnings
 
 ### Fixed
+
 - Readme link was broken
 
 ## 0.4.2 - 2014-10-16
+
 ### Added
+
 - Support preload in HSTS header
 
 ## 0.4.1 - 2014-08-24
+
 ### Added
+
 - Use [helmet-crossdomain](https://github.com/helmetjs/crossdomain) to test the waters
 - 2 spaces instead of 4 throughout the code
 
 ## 0.4.0 - 2014-07-17
+
 ### Added
+
 - `nocache` now sets the Expires and Pragma headers
 - `nocache` now allows you to crush ETags
 
 ### Changed
+
 - Improved the docs for nosniff
 - Reverted HSTS behavior of requiring a specified max-age
 
 ### Fixed
+
 - Allow HSTS to have a max-age of 0
 
 ## 0.3.2 - 2014-06-30
+
 ### Added
+
 - All middleware functions are named
 - Throw error with non-positive HSTS max-age
 
 ### Changed
+
 - Added semicolons in README
 - Make some Errors more specific
 
 ### Removed
+
 - Removed all comment headers; refer to the readme
 
 ### Fixed
+
 - `helmet()` was having issues
 - Fixed Syntax errors in README
 
