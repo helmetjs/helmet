@@ -72,6 +72,7 @@
   },
   "scripts": {
     "pretest": "npm run lint",
+    "prepublishOnly": "npm run build",
     "lint": "npm run lint:eslint && npm run lint:prettier",
     "lint:eslint": "eslint '**/*.ts'",
     "lint:prettier": "prettier --check '**/*{md,js,json,ts}'",
