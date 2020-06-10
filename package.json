@@ -58,9 +58,8 @@
   "devDependencies": {
     "connect": "^3.7.0",
     "eslint": "^7.2.0",
-    "mocha": "^7.1.1",
+    "jest": "^26.0.1",
     "prettier": "^2.0.5",
-    "sinon": "^9.0.2",
     "supertest": "^4.0.2"
   },
   "scripts": {
@@ -69,7 +68,7 @@
     "lint:eslint": "eslint '**/*.js'",
     "lint:prettier": "prettier --check '**/*{md,js,json}'",
     "format": "prettier --write '**/*{md,js,json}'",
-    "test": "mocha"
+    "test": "jest"
   },
   "license": "MIT",
   "main": "index"
