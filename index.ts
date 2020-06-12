@@ -1,4 +1,5 @@
 import { IncomingMessage, ServerResponse } from "http";
+import xDownloadOptions from "./middlewares/x-download-options";
 import depd = require("depd");
 
 interface HelmetOptions {
@@ -130,7 +131,7 @@ helmet.expectCt = require("expect-ct");
 helmet.frameguard = require("frameguard");
 helmet.hidePoweredBy = require("hide-powered-by");
 helmet.hsts = require("hsts");
-helmet.ieNoOpen = require("ienoopen");
+helmet.ieNoOpen = xDownloadOptions;
 helmet.noSniff = require("dont-sniff-mimetype");
 helmet.permittedCrossDomainPolicies = require("helmet-crossdomain");
 helmet.referrerPolicy = require("referrer-policy");

@@ -1,0 +1,11 @@
+{
+  "name": "ienoopen",
+  "contributors": [
+    "Evan Hahn <me@evanhahn.com> (https://evanhahn.com)",
+    "Nathan Shively-Sanders <nathansa@microsoft.com> (https://github.com/sandersn)"
+  ],
+  "description": "Middleware to set `X-Download-Options` header for IE8 security",
+  "version": "1.1.0",
+  "keywords": ["express", "security", "x-download-options"],
+  "homepage": "https://helmetjs.github.io/docs/ienoopen/"
+}
