@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.23.0 - 2020-06-12
+
+### Deprecated
+
+- `helmet.featurePolicy` is deprecated. Use the `feature-policy` module instead.
+
 ## 3.22.1 - 2020-06-10
 
 ### Changed
