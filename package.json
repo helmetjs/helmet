@@ -48,7 +48,6 @@
   ],
   "dependencies": {
     "depd": "2.0.0",
-    "feature-policy": "0.3.0",
     "helmet-csp": "2.10.0",
     "hsts": "2.2.0",
     "nocache": "2.1.0",

@@ -26,37 +26,6 @@ describe("helmet", function () {
       expect(helmet.expectCt.name).toBe(expectCt.name);
     });
 
-    // This test will be removed in helmet@4.
-    it("calls through to feature-policy but emits a deprecation warning", function () {
-      const deprecationPromise = new Promise((resolve) => {
-        process.once("deprecation", (deprecationError) => {
-          expect(
-            deprecationError.message.indexOf(
-              "You can use the `feature-policy` module instead."
-            ) !== -1
-          ).toBeTruthy();
-          resolve();
-        });
-      });
-
-      const app = connect();
-      app.use(
-        helmet.featurePolicy({
-          features: { vibrate: ["'none'"] },
-        })
-      );
-      app.use((_req: IncomingMessage, res: ServerResponse) => {
-        res.end("Hello world!");
-      });
-      const supertestPromise = request(app)
-        .get("/")
-        .expect(200)
-        .expect("Feature-Policy", "vibrate 'none'")
-        .expect("Hello world!");
-
-      return Promise.all([deprecationPromise, supertestPromise]);
-    });
-
     it("aliases the X-Permitted-Cross-Domain-Policies middleware to helmet.crossdomain", () => {
       expect(helmet.permittedCrossDomainPolicies.name).toBe(
         xPermittedCrossDomainPolicies.name

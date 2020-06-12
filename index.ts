@@ -13,7 +13,6 @@ interface HelmetOptions {
   contentSecurityPolicy?: any;
   dnsPrefetchControl?: any;
   expectCt?: any;
-  featurePolicy?: any;
   frameguard?: any;
   hidePoweredBy?: any;
   hsts?: any;
@@ -45,7 +44,6 @@ type MiddlewareName =
   | "contentSecurityPolicy"
   | "dnsPrefetchControl"
   | "expectCt"
-  | "featurePolicy"
   | "frameguard"
   | "hidePoweredBy"
   | "hsts"
@@ -60,7 +58,6 @@ const middlewares: MiddlewareName[] = [
   "contentSecurityPolicy",
   "dnsPrefetchControl",
   "expectCt",
-  "featurePolicy",
   "frameguard",
   "hidePoweredBy",
   "hsts",
@@ -141,10 +138,6 @@ helmet.permittedCrossDomainPolicies = xPermittedCrossDomainPolicies;
 helmet.referrerPolicy = referrerPolicy;
 helmet.xssFilter = require("x-xss-protection");
 
-helmet.featurePolicy = deprecate.function(
-  require("feature-policy"),
-  "helmet.featurePolicy is deprecated (along with the HTTP header) and will be removed in helmet@4. You can use the `feature-policy` module instead."
-);
 helmet.noCache = deprecate.function(
   require("nocache"),
   "helmet.noCache is deprecated and will be removed in helmet@4. You can use the `nocache` module instead. For more, see https://github.com/helmetjs/helmet/issues/215."

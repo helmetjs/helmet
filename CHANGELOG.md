@@ -4,7 +4,8 @@
 
 ### Removed
 
-- `helmet.hpkp`. If you still need it, check out the `hpkp` package on npm.
+- `helmet.hpkp`. If you still need it, use the `hpkp` package on npm.
+- `helmet.featurePolicy`. If you still need it, use the `feature-policy` package on npm.
 
 ## Unreleased
 
