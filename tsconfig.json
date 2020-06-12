@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "declaration": false,
+    "declaration": true,
     "esModuleInterop": true,
     "module": "commonjs",
     "noFallthroughCasesInSwitch": true,

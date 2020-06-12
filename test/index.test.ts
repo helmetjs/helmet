@@ -3,6 +3,7 @@ import helmet = require("..");
 import { IncomingMessage, ServerResponse } from "http";
 import connect = require("connect");
 import request = require("supertest");
+import xDowloadOptions from "../middlewares/x-download-options";
 
 describe("helmet", function () {
   describe("module aliases", function () {
@@ -107,9 +108,8 @@ describe("helmet", function () {
       expect(helmet.hsts).toBe(pkg);
     });
 
-    it('aliases "ienoopen"', function () {
-      const pkg = require("ienoopen");
-      expect(helmet.ieNoOpen).toBe(pkg);
+    it("aliases the X-Download-Options middleware to helmet.ieNoOpen", () => {
+      expect(helmet.ieNoOpen.name).toBe(xDowloadOptions.name);
     });
 
     // This test will be removed in helmet@4.
