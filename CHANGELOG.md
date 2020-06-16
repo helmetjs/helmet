@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.23.1 - 2020-06-16
+
+### Changed
+
+- `helmet.ieNoOpen` is no longer a separate package. This should have no effect on end users.
+
 ## 3.23.0 - 2020-06-12
 
 ### Deprecated
