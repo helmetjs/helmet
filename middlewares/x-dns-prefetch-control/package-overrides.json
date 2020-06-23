@@ -1,6 +1,7 @@
 {
   "name": "dns-prefetch-control",
   "author": "Evan Hahn <me@evanhahn.com> (https://evanhahn.com)",
+  "contributors": [],
   "description": "Middleware to set X-DNS-Prefetch-Control header.",
   "version": "0.3.0",
   "keywords": ["express", "security", "x-dns-prefetch-control", "prefetch"],
