@@ -60,14 +60,14 @@
     "@types/depd": "^1.1.32",
     "@types/jest": "^26.0.0",
     "@types/supertest": "^2.0.9",
-    "@typescript-eslint/eslint-plugin": "^3.2.0",
-    "@typescript-eslint/parser": "^3.2.0",
+    "@typescript-eslint/eslint-plugin": "^3.4.0",
+    "@typescript-eslint/parser": "^3.4.0",
     "connect": "^3.7.0",
-    "eslint": "^7.2.0",
+    "eslint": "^7.3.1",
     "jest": "^26.0.1",
     "prettier": "^2.0.5",
     "supertest": "^4.0.2",
-    "ts-jest": "^26.1.0",
+    "ts-jest": "^26.1.1",
     "typescript": "^3.9.5"
   },
   "scripts": {
