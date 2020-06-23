@@ -1,4 +1,5 @@
 import { IncomingMessage, ServerResponse } from "http";
+import xDnsPrefetchControl from "./middlewares/x-dns-prefetch-control";
 import xDownloadOptions from "./middlewares/x-download-options";
 import depd = require("depd");
 
@@ -126,7 +127,7 @@ function helmet(options: Readonly<HelmetOptions> = {}) {
 }
 
 helmet.contentSecurityPolicy = require("helmet-csp");
-helmet.dnsPrefetchControl = require("dns-prefetch-control");
+helmet.dnsPrefetchControl = xDnsPrefetchControl;
 helmet.expectCt = require("expect-ct");
 helmet.frameguard = require("frameguard");
 helmet.hidePoweredBy = require("hide-powered-by");

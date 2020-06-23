@@ -3,13 +3,13 @@ import helmet = require("..");
 import { IncomingMessage, ServerResponse } from "http";
 import connect = require("connect");
 import request = require("supertest");
+import xDnsPrefetchControl from "../middlewares/x-dns-prefetch-control";
 import xDowloadOptions from "../middlewares/x-download-options";
 
 describe("helmet", function () {
   describe("module aliases", function () {
-    it('aliases "dns-prefetch-control"', function () {
-      const pkg = require("dns-prefetch-control");
-      expect(helmet.dnsPrefetchControl).toBe(pkg);
+    it("aliases the X-DNS-Prefetch-Control middleware to helmet.dnsPrefetchControl", function () {
+      expect(helmet.dnsPrefetchControl.name).toBe(xDnsPrefetchControl.name);
     });
 
     it('aliases "dont-sniff-mimetype"', function () {

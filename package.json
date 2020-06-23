@@ -37,11 +37,11 @@
     "README.md",
     "SECURITY.md",
     "dist/index.js",
+    "dist/middlewares/x-dns-prefetch-control/index.js",
     "dist/middlewares/x-download-options/index.js"
   ],
   "dependencies": {
     "depd": "2.0.0",
-    "dns-prefetch-control": "0.2.0",
     "dont-sniff-mimetype": "1.1.0",
     "expect-ct": "0.2.0",
     "feature-policy": "0.3.0",
