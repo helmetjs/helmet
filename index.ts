@@ -2,6 +2,7 @@ import { IncomingMessage, ServerResponse } from "http";
 import expectCt from "./middlewares/expect-ct";
 import xDnsPrefetchControl from "./middlewares/x-dns-prefetch-control";
 import xDownloadOptions from "./middlewares/x-download-options";
+import xFrameOptions from "./middlewares/x-frame-options";
 import depd = require("depd");
 
 interface HelmetOptions {
@@ -130,7 +131,7 @@ function helmet(options: Readonly<HelmetOptions> = {}) {
 helmet.contentSecurityPolicy = require("helmet-csp");
 helmet.dnsPrefetchControl = xDnsPrefetchControl;
 helmet.expectCt = expectCt;
-helmet.frameguard = require("frameguard");
+helmet.frameguard = xFrameOptions;
 helmet.hidePoweredBy = require("hide-powered-by");
 helmet.hsts = require("hsts");
 helmet.ieNoOpen = xDownloadOptions;

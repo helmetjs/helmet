@@ -5,6 +5,7 @@
 ### Changed
 
 - `helmet.expectCt` is no longer a separate package. This should have no effect on end users.
+- `helmet.frameguard` is no longer a separate package. This should have no effect on end users.
 
 ## 3.23.2 - 2020-06-23
 

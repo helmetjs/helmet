@@ -6,6 +6,7 @@ import request = require("supertest");
 import expectCt from "../middlewares/expect-ct";
 import xDnsPrefetchControl from "../middlewares/x-dns-prefetch-control";
 import xDowloadOptions from "../middlewares/x-download-options";
+import xFrameOptions from "../middlewares/x-frame-options";
 
 describe("helmet", function () {
   describe("module aliases", function () {
@@ -58,9 +59,8 @@ describe("helmet", function () {
       expect(helmet.permittedCrossDomainPolicies).toBe(pkg);
     });
 
-    it('aliases "frameguard"', function () {
-      const pkg = require("frameguard");
-      expect(helmet.frameguard).toBe(pkg);
+    it("aliases the X-Frame-Options middleware to helmet.frameguard", function () {
+      expect(helmet.frameguard.name).toBe(xFrameOptions.name);
     });
 
     it('aliases "helmet-csp"', function () {
