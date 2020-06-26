@@ -43,7 +43,6 @@
   "dependencies": {
     "depd": "2.0.0",
     "dont-sniff-mimetype": "1.1.0",
-    "expect-ct": "0.2.0",
     "feature-policy": "0.3.0",
     "frameguard": "3.1.0",
     "helmet-crossdomain": "0.4.0",

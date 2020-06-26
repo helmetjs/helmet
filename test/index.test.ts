@@ -3,6 +3,7 @@ import helmet = require("..");
 import { IncomingMessage, ServerResponse } from "http";
 import connect = require("connect");
 import request = require("supertest");
+import expectCt from "../middlewares/expect-ct";
 import xDnsPrefetchControl from "../middlewares/x-dns-prefetch-control";
 import xDowloadOptions from "../middlewares/x-download-options";
 
@@ -17,9 +18,8 @@ describe("helmet", function () {
       expect(helmet.noSniff).toBe(pkg);
     });
 
-    it('aliases "expect-ct"', function () {
-      const pkg = require("expect-ct");
-      expect(helmet.expectCt).toBe(pkg);
+    it("aliases the Expect-CT middleware to helmet.expectCt", function () {
+      expect(helmet.expectCt.name).toBe(expectCt.name);
     });
 
     // This test will be removed in helmet@4.

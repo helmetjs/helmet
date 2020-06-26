@@ -1,0 +1,9 @@
+{
+  "name": "expect-ct",
+  "author": "Evan Hahn <me@evanhahn.com> (https://evanhahn.com)",
+  "contributors": [],
+  "description": "Middleware to set the Expect-CT header",
+  "version": "0.3.0",
+  "keywords": ["express", "security", "expect-ct"],
+  "homepage": "https://helmetjs.github.io/docs/expect-ct/"
+}
