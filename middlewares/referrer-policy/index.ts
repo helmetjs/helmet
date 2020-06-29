@@ -4,61 +4,46 @@ export interface ReferrerPolicyOptions {
   policy?: string | string[];
 }
 
-function getHeaderValueFromOptions(
-  options: Readonly<ReferrerPolicyOptions>
-): string {
-  const DEFAULT_POLICY = "no-referrer";
-  const ALLOWED_POLICIES: string[] = [
-    "no-referrer",
-    "no-referrer-when-downgrade",
-    "same-origin",
-    "origin",
-    "strict-origin",
-    "origin-when-cross-origin",
-    "strict-origin-when-cross-origin",
-    "unsafe-url",
-    "",
-  ];
+const ALLOWED_TOKENS = new Set<string>([
+  "no-referrer",
+  "no-referrer-when-downgrade",
+  "same-origin",
+  "origin",
+  "strict-origin",
+  "origin-when-cross-origin",
+  "strict-origin-when-cross-origin",
+  "unsafe-url",
+  "",
+]);
 
-  let policyOption: unknown;
-  if (options.policy === undefined) {
-    policyOption = DEFAULT_POLICY;
-  } else {
-    policyOption = options.policy;
+function getHeaderValueFromOptions({
+  policy = ["no-referrer"],
+}: Readonly<ReferrerPolicyOptions>): string {
+  const tokens = typeof policy === "string" ? [policy] : policy;
+
+  if (tokens.length === 0) {
+    throw new Error("Referrer-Policy received no policy tokens");
   }
 
-  const policies: unknown[] = Array.isArray(policyOption)
-    ? policyOption
-    : [policyOption];
-
-  if (policies.length === 0) {
-    throw new Error("At least one policy must be supplied.");
-  }
-
-  const policiesSeen: Set<string> = new Set();
-  policies.forEach((policy) => {
-    if (typeof policy !== "string" || ALLOWED_POLICIES.indexOf(policy) === -1) {
-      const allowedPoliciesErrorList = ALLOWED_POLICIES.map((policy) => {
-        if (policy.length) {
-          return `"${policy}"`;
-        } else {
-          return "and the empty string";
-        }
-      }).join(", ");
+  const tokensSeen = new Set<string>();
+  tokens.forEach((token) => {
+    if (!ALLOWED_TOKENS.has(token)) {
       throw new Error(
-        `"${policy}" is not a valid policy. Allowed policies: ${allowedPoliciesErrorList}.`
+        `Referrer-Policy received an unexpected policy token ${JSON.stringify(
+          token
+        )}`
+      );
+    } else if (tokensSeen.has(token)) {
+      throw new Error(
+        `Referrer-Policy received a duplicate policy token ${JSON.stringify(
+          token
+        )}`
       );
     }
-
-    if (policiesSeen.has(policy)) {
-      throw new Error(
-        `"${policy}" specified more than once. No duplicates are allowed.`
-      );
-    }
-    policiesSeen.add(policy);
+    tokensSeen.add(token);
   });
 
-  return policies.join(",");
+  return tokens.join(",");
 }
 
 function referrerPolicy(options: Readonly<ReferrerPolicyOptions> = {}) {
