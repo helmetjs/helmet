@@ -7,6 +7,7 @@
 - `helmet.featurePolicy`. If you still need it, use the `feature-policy` package on npm.
 - `helmet.hpkp`. If you still need it, use the `hpkp` package on npm.
 - `helmet.noCache`. If you still need it, use the `nocache` package on npm.
+- `helmet.frameguard` no longer supports the `ALLOW-FROM` action. [Read more here.](https://github.com/helmetjs/helmet/wiki/How-to-use-X%E2%80%93Frame%E2%80%93Options's-%60ALLOW%E2%80%93FROM%60-directive)
 
 ## Unreleased
 
