@@ -59,7 +59,7 @@
     "@types/connect": "^3.4.33",
     "@types/depd": "^1.1.32",
     "@types/jest": "^26.0.3",
-    "@types/supertest": "^2.0.9",
+    "@types/supertest": "^2.0.10",
     "@typescript-eslint/eslint-plugin": "^3.4.0",
     "@typescript-eslint/parser": "^3.4.0",
     "connect": "^3.7.0",
