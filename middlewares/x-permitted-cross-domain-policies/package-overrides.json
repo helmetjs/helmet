@@ -1,0 +1,14 @@
+{
+  "name": "helmet-crossdomain",
+  "author": "Evan Hahn <me@evanhahn.com> (https://evanhahn.com)",
+  "contributors": [],
+  "description": "Set the X-Permitted-Cross-Domain-Policies header in Express apps",
+  "version": "0.5.0",
+  "keywords": [
+    "express",
+    "security",
+    "crossdomain.xml",
+    "x-permitted-cross-domain-policies"
+  ],
+  "homepage": "https://helmetjs.github.io/docs/crossdomain/"
+}

@@ -8,6 +8,7 @@ import xContentTypeOptions from "../middlewares/x-content-type-options";
 import xDnsPrefetchControl from "../middlewares/x-dns-prefetch-control";
 import xDowloadOptions from "../middlewares/x-download-options";
 import xFrameOptions from "../middlewares/x-frame-options";
+import xPermittedCrossDomainPolicies from "../middlewares/x-permitted-cross-domain-policies";
 import xPoweredBy from "../middlewares/x-powered-by";
 
 describe("helmet", function () {
@@ -55,9 +56,10 @@ describe("helmet", function () {
       return Promise.all([deprecationPromise, supertestPromise]);
     });
 
-    it('aliases "helmet-crossdomain"', function () {
-      const pkg = require("helmet-crossdomain");
-      expect(helmet.permittedCrossDomainPolicies).toBe(pkg);
+    it("aliases the X-Permitted-Cross-Domain-Policies middleware to helmet.crossdomain", () => {
+      expect(helmet.permittedCrossDomainPolicies.name).toBe(
+        xPermittedCrossDomainPolicies.name
+      );
     });
 
     it("aliases the X-Frame-Options middleware to helmet.frameguard", function () {

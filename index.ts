@@ -4,6 +4,7 @@ import xContentTypeOptions from "./middlewares/x-content-type-options";
 import xDnsPrefetchControl from "./middlewares/x-dns-prefetch-control";
 import xDownloadOptions from "./middlewares/x-download-options";
 import xFrameOptions from "./middlewares/x-frame-options";
+import xPermittedCrossDomainPolicies from "./middlewares/x-permitted-cross-domain-policies";
 import xPoweredBy from "./middlewares/x-powered-by";
 import depd = require("depd");
 
@@ -138,7 +139,7 @@ helmet.hidePoweredBy = xPoweredBy;
 helmet.hsts = require("hsts");
 helmet.ieNoOpen = xDownloadOptions;
 helmet.noSniff = xContentTypeOptions;
-helmet.permittedCrossDomainPolicies = require("helmet-crossdomain");
+helmet.permittedCrossDomainPolicies = xPermittedCrossDomainPolicies;
 helmet.referrerPolicy = require("referrer-policy");
 helmet.xssFilter = require("x-xss-protection");
 
