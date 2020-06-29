@@ -4,6 +4,7 @@ import { IncomingMessage, ServerResponse } from "http";
 import connect = require("connect");
 import request = require("supertest");
 import expectCt from "../middlewares/expect-ct";
+import referrerPolicy from "../middlewares/referrer-policy";
 import xContentTypeOptions from "../middlewares/x-content-type-options";
 import xDnsPrefetchControl from "../middlewares/x-dns-prefetch-control";
 import xDowloadOptions from "../middlewares/x-download-options";
@@ -147,9 +148,8 @@ describe("helmet", function () {
       return Promise.all([deprecationPromise, supertestPromise]);
     });
 
-    it('aliases "referrer-policy"', function () {
-      const pkg = require("referrer-policy");
-      expect(helmet.referrerPolicy).toBe(pkg);
+    it("aliases the Referrer-Policy middleware to helmet.referrerPolicy", () => {
+      expect(helmet.referrerPolicy.name).toBe(referrerPolicy.name);
     });
 
     it('aliases "x-xss-protection"', function () {

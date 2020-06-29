@@ -1,5 +1,6 @@
 import { IncomingMessage, ServerResponse } from "http";
 import expectCt from "./middlewares/expect-ct";
+import referrerPolicy from "./middlewares/referrer-policy";
 import xContentTypeOptions from "./middlewares/x-content-type-options";
 import xDnsPrefetchControl from "./middlewares/x-dns-prefetch-control";
 import xDownloadOptions from "./middlewares/x-download-options";
@@ -140,7 +141,7 @@ helmet.hsts = require("hsts");
 helmet.ieNoOpen = xDownloadOptions;
 helmet.noSniff = xContentTypeOptions;
 helmet.permittedCrossDomainPolicies = xPermittedCrossDomainPolicies;
-helmet.referrerPolicy = require("referrer-policy");
+helmet.referrerPolicy = referrerPolicy;
 helmet.xssFilter = require("x-xss-protection");
 
 helmet.featurePolicy = deprecate.function(

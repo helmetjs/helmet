@@ -1,0 +1,16 @@
+{
+  "name": "referrer-policy",
+  "author": "Evan Hahn <me@evanhahn.com> (https://evanhahn.com)",
+  "contributors": [],
+  "description": "Middleware to set the Referrer-Policy HTTP header",
+  "version": "1.2.0",
+  "keywords": [
+    "express",
+    "security",
+    "referer",
+    "referrer",
+    "referrer-policy",
+    "privacy"
+  ],
+  "homepage": "https://helmetjs.github.io/docs/referrer-policy/"
+}
