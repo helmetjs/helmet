@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+### Removed
+
+- Dropped support for old Node versions. Node 10+ is now required
+
 ## 0.3.0 - 2019-09-01
 
 ### Changed

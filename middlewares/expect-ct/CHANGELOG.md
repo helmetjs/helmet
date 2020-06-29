@@ -7,6 +7,10 @@
 - If `maxAge` is `undefined`, it will be set to `0`
 - If `maxAge` is not an integer, it will be rounded down
 
+### Removed
+
+- Dropped support for old Node versions. Node 10+ is now required
+
 ## 0.3.0 - 2019-09-01
 
 ### Changed
