@@ -4,6 +4,7 @@ import { IncomingMessage, ServerResponse } from "http";
 import connect = require("connect");
 import request = require("supertest");
 import expectCt from "../middlewares/expect-ct";
+import xContentTypeOptions from "../middlewares/x-content-type-options";
 import xDnsPrefetchControl from "../middlewares/x-dns-prefetch-control";
 import xDowloadOptions from "../middlewares/x-download-options";
 import xFrameOptions from "../middlewares/x-frame-options";
@@ -15,9 +16,8 @@ describe("helmet", function () {
       expect(helmet.dnsPrefetchControl.name).toBe(xDnsPrefetchControl.name);
     });
 
-    it('aliases "dont-sniff-mimetype"', function () {
-      const pkg = require("dont-sniff-mimetype");
-      expect(helmet.noSniff).toBe(pkg);
+    it("aliases the X-Content-Type-Options middleware to helmet.noSniff", () => {
+      expect(helmet.noSniff.name).toBe(xContentTypeOptions.name);
     });
 
     it("aliases the Expect-CT middleware to helmet.expectCt", function () {

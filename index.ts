@@ -1,5 +1,6 @@
 import { IncomingMessage, ServerResponse } from "http";
 import expectCt from "./middlewares/expect-ct";
+import xContentTypeOptions from "./middlewares/x-content-type-options";
 import xDnsPrefetchControl from "./middlewares/x-dns-prefetch-control";
 import xDownloadOptions from "./middlewares/x-download-options";
 import xFrameOptions from "./middlewares/x-frame-options";
@@ -136,7 +137,7 @@ helmet.frameguard = xFrameOptions;
 helmet.hidePoweredBy = xPoweredBy;
 helmet.hsts = require("hsts");
 helmet.ieNoOpen = xDownloadOptions;
-helmet.noSniff = require("dont-sniff-mimetype");
+helmet.noSniff = xContentTypeOptions;
 helmet.permittedCrossDomainPolicies = require("helmet-crossdomain");
 helmet.referrerPolicy = require("referrer-policy");
 helmet.xssFilter = require("x-xss-protection");

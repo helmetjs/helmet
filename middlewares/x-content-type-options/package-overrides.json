@@ -1,0 +1,7 @@
+{
+  "name": "dont-sniff-mimetype",
+  "description": "Middleware to prevent mimetype from being sniffed",
+  "version": "1.1.0",
+  "keywords": ["express", "security", "mimetype", "x-content-type-options"],
+  "homepage": "https://helmetjs.github.io/docs/dont-sniff-mimetype"
+}

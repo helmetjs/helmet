@@ -5,6 +5,7 @@
 ### Changed
 
 - `helmet.hidePoweredBy` is no longer a separate package. This should have no effect on end users.
+- `helmet.noSniff` is no longer a separate package. This should have no effect on end users.
 
 ## 3.23.3 - 2020-06-26
 
