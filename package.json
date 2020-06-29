@@ -40,7 +40,8 @@
     "dist/middlewares/expect-ct/index.js",
     "dist/middlewares/x-dns-prefetch-control/index.js",
     "dist/middlewares/x-download-options/index.js",
-    "dist/middlewares/x-frame-options/index.js"
+    "dist/middlewares/x-frame-options/index.js",
+    "dist/middlewares/x-powered-by/index.js"
   ],
   "dependencies": {
     "depd": "2.0.0",
@@ -48,7 +49,6 @@
     "feature-policy": "0.3.0",
     "helmet-crossdomain": "0.4.0",
     "helmet-csp": "2.10.0",
-    "hide-powered-by": "1.1.0",
     "hpkp": "2.0.0",
     "hsts": "2.2.0",
     "nocache": "2.1.0",

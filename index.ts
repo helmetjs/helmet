@@ -3,6 +3,7 @@ import expectCt from "./middlewares/expect-ct";
 import xDnsPrefetchControl from "./middlewares/x-dns-prefetch-control";
 import xDownloadOptions from "./middlewares/x-download-options";
 import xFrameOptions from "./middlewares/x-frame-options";
+import xPoweredBy from "./middlewares/x-powered-by";
 import depd = require("depd");
 
 interface HelmetOptions {
@@ -132,7 +133,7 @@ helmet.contentSecurityPolicy = require("helmet-csp");
 helmet.dnsPrefetchControl = xDnsPrefetchControl;
 helmet.expectCt = expectCt;
 helmet.frameguard = xFrameOptions;
-helmet.hidePoweredBy = require("hide-powered-by");
+helmet.hidePoweredBy = xPoweredBy;
 helmet.hsts = require("hsts");
 helmet.ieNoOpen = xDownloadOptions;
 helmet.noSniff = require("dont-sniff-mimetype");

@@ -7,6 +7,7 @@ import expectCt from "../middlewares/expect-ct";
 import xDnsPrefetchControl from "../middlewares/x-dns-prefetch-control";
 import xDowloadOptions from "../middlewares/x-download-options";
 import xFrameOptions from "../middlewares/x-frame-options";
+import xPoweredBy from "../middlewares/x-powered-by";
 
 describe("helmet", function () {
   describe("module aliases", function () {
@@ -68,9 +69,8 @@ describe("helmet", function () {
       expect(helmet.contentSecurityPolicy).toBe(pkg);
     });
 
-    it('aliases "hide-powered-by"', function () {
-      const pkg = require("hide-powered-by");
-      expect(helmet.hidePoweredBy).toBe(pkg);
+    it("aliases the X-Powered-By middleware to helmet.hidePoweredBy", () => {
+      expect(helmet.hidePoweredBy.name).toBe(xPoweredBy.name);
     });
 
     // This test will be removed in helmet@4.
