@@ -8,7 +8,7 @@
 - `helmet.noSniff` is no longer a separate package. This should have no effect on end users.
 - `helmet.permittedCrossDomainPolicies` is no longer a separate package. This should have no effect on end users.
 - `helmet.referrerPolicy` is no longer a separate package. This should have no effect on end users.
-- `helmet.hidePoweredBy` no longer accepts arguments. Remove `setTo` option.
+- `helmet.hidePoweredBy` no longer accepts arguments. Remove `setTo` option. See [#224](https://github.com/helmetjs/helmet/wiki/How-to-set-a-custom-X%E2%80%93Powered%E2%80%93By-header)
 
 ## 3.23.3 - 2020-06-26
 
