@@ -1,25 +1,14 @@
 import { IncomingMessage, ServerResponse } from "http";
 
-export interface XPoweredByOptions {
-  setTo?: string;
-}
-
 function getUpdaterFn(
-  value: string | undefined
 ): (res: ServerResponse) => void {
-  if (value) {
-    return (res) => {
-      res.setHeader("X-Powered-By", value);
-    };
-  } else {
     return (res) => {
       res.removeHeader("X-Powered-By");
     };
-  }
 }
 
-function xPoweredBy(options: Readonly<XPoweredByOptions> = {}) {
-  const updateResponse = getUpdaterFn(options.setTo);
+function xPoweredBy() {
+  const updateResponse = getUpdaterFn();
 
   return function xPoweredByMiddleware(
     _req: IncomingMessage,

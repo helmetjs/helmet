@@ -8,6 +8,7 @@
 - `helmet.noSniff` is no longer a separate package. This should have no effect on end users.
 - `helmet.permittedCrossDomainPolicies` is no longer a separate package. This should have no effect on end users.
 - `helmet.referrerPolicy` is no longer a separate package. This should have no effect on end users.
+- `helmet.hidePoweredBy` no longer accepts arguments. Remove `setTo` option.
 
 ## 3.23.3 - 2020-06-26
 

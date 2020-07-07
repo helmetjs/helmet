@@ -12,3 +12,9 @@
 - Excluded some files from npm package
 
 Changes in versions 1.0.0 and below can be found in [Helmet's changelog](https://github.com/helmetjs/helmet/blob/master/CHANGELOG.md).
+
+### Changed
+
+- Removed setTo option from x-powered-by middleware. x-powered-by middleware no longer accepts any arguments.
+
+Changes in versions 4.0.0 and below can be found in [Helmet's changelog](https://github.com/helmetjs/helmet/blob/master/CHANGELOG.md).
