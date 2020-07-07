@@ -1,10 +1,9 @@
 import { IncomingMessage, ServerResponse } from "http";
 
-function getUpdaterFn(
-): (res: ServerResponse) => void {
-    return (res) => {
-      res.removeHeader("X-Powered-By");
-    };
+function getUpdaterFn(): (res: ServerResponse) => void {
+  return (res) => {
+    res.removeHeader("X-Powered-By");
+  };
 }
 
 function xPoweredBy() {
