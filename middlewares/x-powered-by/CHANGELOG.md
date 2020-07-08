@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+### Changed
+
+- Removed `setTo` option. See [this article](https://github.com/helmetjs/helmet/wiki/How-to-set-a-custom-X%E2%80%93Powered%E2%80%93By-header) to see how to replicate the removed behavior. See [#224](https://github.com/helmetjs/helmet/issues/224).
+
 ## 1.1.0 - 2019-05-26
 
 ### Added
@@ -12,9 +18,3 @@
 - Excluded some files from npm package
 
 Changes in versions 1.0.0 and below can be found in [Helmet's changelog](https://github.com/helmetjs/helmet/blob/master/CHANGELOG.md).
-
-### Changed
-
-- Removed setTo option from x-powered-by middleware. x-powered-by middleware no longer accepts any arguments.
-
-Changes in versions 4.0.0 and below can be found in [Helmet's changelog](https://github.com/helmetjs/helmet/blob/master/CHANGELOG.md).
