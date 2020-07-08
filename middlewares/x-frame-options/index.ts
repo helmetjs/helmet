@@ -2,64 +2,25 @@ import { IncomingMessage, ServerResponse } from "http";
 
 export interface XFrameOptionsOptions {
   action?: string;
-  domain?: string;
 }
 
-function parseActionOption(actionOption: unknown): string {
-  const invalidActionErr = new Error(
-    'action must be undefined, "DENY", "ALLOW-FROM", or "SAMEORIGIN".'
-  );
+function getHeaderValueFromOptions({
+  action = "SAMEORIGIN",
+}: Readonly<XFrameOptionsOptions>): string {
+  action = String(action).toUpperCase();
 
-  if (actionOption === undefined) {
-    actionOption = "SAMEORIGIN";
-  } else if (actionOption instanceof String) {
-    actionOption = actionOption.valueOf();
-  }
-
-  let result: string;
-  if (typeof actionOption === "string") {
-    result = actionOption.toUpperCase();
-  } else {
-    throw invalidActionErr;
-  }
-
-  if (result === "ALLOWFROM") {
-    result = "ALLOW-FROM";
-  } else if (result === "SAME-ORIGIN") {
-    result = "SAMEORIGIN";
-  }
-
-  if (["DENY", "ALLOW-FROM", "SAMEORIGIN"].indexOf(result) === -1) {
-    throw invalidActionErr;
-  }
-
-  return result;
-}
-
-function parseDomainOption(domainOption: unknown): string {
-  if (domainOption instanceof String) {
-    domainOption = domainOption.valueOf();
-  }
-
-  if (typeof domainOption !== "string") {
-    throw new Error("ALLOW-FROM action requires a string domain parameter.");
-  } else if (!domainOption.length) {
-    throw new Error("domain parameter must not be empty.");
-  }
-
-  return domainOption;
-}
-
-function getHeaderValueFromOptions(
-  options: Readonly<XFrameOptionsOptions>
-): string {
-  const action = parseActionOption(options.action);
-
-  if (action === "ALLOW-FROM") {
-    const domain = parseDomainOption(options.domain);
-    return `${action} ${domain}`;
-  } else {
+  if (action === "SAME-ORIGIN") {
+    return "SAMEORIGIN";
+  } else if (action === "DENY" || action === "SAMEORIGIN") {
     return action;
+  } else if (action === "ALLOW-FROM") {
+    throw new Error(
+      "X-Frame-Options no longer supports `ALLOW-FROM` due to poor browser support. See <https://github.com/helmetjs/helmet/wiki/How-to-use-X%E2%80%93Frame%E2%80%93Options's-%60ALLOW%E2%80%93FROM%60-directive> for more info."
+    );
+  } else {
+    throw new Error(
+      `X-Frame-Options received an invalid action ${JSON.stringify(action)}`
+    );
   }
 }
 

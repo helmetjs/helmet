@@ -27,7 +27,7 @@
     "url": "git://github.com/helmetjs/helmet.git"
   },
   "engines": {
-    "node": ">=4.0.0"
+    "node": ">=10.0.0"
   },
   "files": [
     "CHANGELOG.md",
@@ -47,17 +47,12 @@
     "dist/middlewares/x-powered-by/index.js"
   ],
   "dependencies": {
-    "depd": "2.0.0",
-    "feature-policy": "0.3.0",
     "helmet-csp": "2.10.0",
-    "hpkp": "2.0.0",
     "hsts": "2.2.0",
-    "nocache": "2.1.0",
     "x-xss-protection": "1.3.0"
   },
   "devDependencies": {
     "@types/connect": "^3.4.33",
-    "@types/depd": "^1.1.32",
     "@types/jest": "^26.0.3",
     "@types/supertest": "^2.0.10",
     "@typescript-eslint/eslint-plugin": "^3.4.0",

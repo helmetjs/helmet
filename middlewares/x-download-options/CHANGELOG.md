@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.0 - Unreleased
+
+- Dropped support for old Node versions. Node 10+ is now required
+
 ## 1.1.1 - 2020-06-16
 
 ### Changed

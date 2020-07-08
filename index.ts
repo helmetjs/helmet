@@ -7,13 +7,11 @@ import xDownloadOptions from "./middlewares/x-download-options";
 import xFrameOptions from "./middlewares/x-frame-options";
 import xPermittedCrossDomainPolicies from "./middlewares/x-permitted-cross-domain-policies";
 import xPoweredBy from "./middlewares/x-powered-by";
-import depd = require("depd");
 
 interface HelmetOptions {
   contentSecurityPolicy?: any;
   dnsPrefetchControl?: any;
   expectCt?: any;
-  featurePolicy?: any;
   frameguard?: any;
   hidePoweredBy?: any;
   hsts?: any;
@@ -22,15 +20,11 @@ interface HelmetOptions {
   permittedCrossDomainPolicies?: any;
   referrerPolicy?: any;
   xssFilter?: any;
-  hpkp?: any;
-  noCache?: any;
 }
 
 interface MiddlewareFunction {
   (req: IncomingMessage, res: ServerResponse, next: () => void): void;
 }
-
-const deprecate = depd("helmet");
 
 const DEFAULT_MIDDLEWARE = [
   "dnsPrefetchControl",
@@ -46,7 +40,6 @@ type MiddlewareName =
   | "contentSecurityPolicy"
   | "dnsPrefetchControl"
   | "expectCt"
-  | "featurePolicy"
   | "frameguard"
   | "hidePoweredBy"
   | "hsts"
@@ -54,15 +47,12 @@ type MiddlewareName =
   | "noSniff"
   | "permittedCrossDomainPolicies"
   | "referrerPolicy"
-  | "xssFilter"
-  | "hpkp"
-  | "noCache";
+  | "xssFilter";
 
 const middlewares: MiddlewareName[] = [
   "contentSecurityPolicy",
   "dnsPrefetchControl",
   "expectCt",
-  "featurePolicy",
   "frameguard",
   "hidePoweredBy",
   "hsts",
@@ -71,8 +61,6 @@ const middlewares: MiddlewareName[] = [
   "permittedCrossDomainPolicies",
   "referrerPolicy",
   "xssFilter",
-  "hpkp",
-  "noCache",
 ];
 
 function helmet(options: Readonly<HelmetOptions> = {}) {
@@ -143,18 +131,5 @@ helmet.noSniff = xContentTypeOptions;
 helmet.permittedCrossDomainPolicies = xPermittedCrossDomainPolicies;
 helmet.referrerPolicy = referrerPolicy;
 helmet.xssFilter = require("x-xss-protection");
-
-helmet.featurePolicy = deprecate.function(
-  require("feature-policy"),
-  "helmet.featurePolicy is deprecated (along with the HTTP header) and will be removed in helmet@4. You can use the `feature-policy` module instead."
-);
-helmet.hpkp = deprecate.function(
-  require("hpkp"),
-  "helmet.hpkp is deprecated and will be removed in helmet@4. You can use the `hpkp` module instead. For more, see https://github.com/helmetjs/helmet/issues/180."
-);
-helmet.noCache = deprecate.function(
-  require("nocache"),
-  "helmet.noCache is deprecated and will be removed in helmet@4. You can use the `nocache` module instead. For more, see https://github.com/helmetjs/helmet/issues/215."
-);
 
 export = helmet;
