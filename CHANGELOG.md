@@ -2,12 +2,34 @@
 
 ## 4.0.0 - Unreleased
 
+### Added
+
+- `helmet.contentSecurityPolicy`:
+  - If no `default-src` directive is supplied, an error is thrown
+  - Directive lists can be any iterable, not just arrays
+
+### Changed
+
+- `helmet.contentSecurityPolicy`:
+  - There is now a default set of directives if none are supplied
+  - Duplicate keys now throw an error
+  - This middleware is more lenient
+
 ### Removed
 
 - `helmet.featurePolicy`. If you still need it, use the `feature-policy` package on npm.
 - `helmet.hpkp`. If you still need it, use the `hpkp` package on npm.
 - `helmet.noCache`. If you still need it, use the `nocache` package on npm.
-- `helmet.frameguard` no longer supports the `ALLOW-FROM` action. [Read more here.](https://github.com/helmetjs/helmet/wiki/How-to-use-X%E2%80%93Frame%E2%80%93Options's-%60ALLOW%E2%80%93FROM%60-directive)
+- `helmet.contentSecurityPolicy`:
+  - Removed browser sniffing (including the `browserSniff` parameter)
+  - Removed conditional support. This includes directive functions and support for a function as the `reportOnly`. [Read this if you need help.](https://github.com/helmetjs/helmet/wiki/Conditionally-using-middleware)
+  - Removed a lot of checks—you should be checking your CSP with a different tool
+  - Removed support for legacy headers (and therefore the `setAllHeaders` parameter). [Read this if you need help.](https://github.com/helmetjs/helmet/wiki/Setting-legacy-Content-Security-Policy-headers-in-Helmet-4)
+  - Dropped support for old Node versions. Node 10+ is now required
+  - Removed the `loose` option
+  - Removed the `disableAndroid` option
+- `helmet.frameguard`:
+  - Dropped support for the `ALLOW-FROM` action. [Read more here.](https://github.com/helmetjs/helmet/wiki/How-to-use-X%E2%80%93Frame%E2%80%93Options's-%60ALLOW%E2%80%93FROM%60-directive)
 
 ## Unreleased
 

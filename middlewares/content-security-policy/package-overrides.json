@@ -1,0 +1,12 @@
+{
+  "name": "helmet-csp",
+  "author": "Adam Baldwin <adam@npmjs.com> (https://evilpacket.net)",
+  "contributors": [
+    "Evan Hahn <me@evanhahn.com> (https://evanhahn.com)",
+    "Ryan Cannon <ryan@ryancannon.com> (https://ryancannon.com)"
+  ],
+  "description": "Content Security Policy middleware",
+  "version": "2.9.5",
+  "keywords": ["express", "security", "content-security-policy", "csp", "xss"],
+  "homepage": "https://helmetjs.github.io/docs/csp/"
+}

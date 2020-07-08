@@ -1,4 +1,5 @@
 import { IncomingMessage, ServerResponse } from "http";
+import contentSecurityPolicy from "./middlewares/content-security-policy";
 import expectCt from "./middlewares/expect-ct";
 import referrerPolicy from "./middlewares/referrer-policy";
 import xContentTypeOptions from "./middlewares/x-content-type-options";
@@ -120,7 +121,7 @@ function helmet(options: Readonly<HelmetOptions> = {}) {
   };
 }
 
-helmet.contentSecurityPolicy = require("helmet-csp");
+helmet.contentSecurityPolicy = contentSecurityPolicy;
 helmet.dnsPrefetchControl = xDnsPrefetchControl;
 helmet.expectCt = expectCt;
 helmet.frameguard = xFrameOptions;

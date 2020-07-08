@@ -1,5 +1,6 @@
 import helmet = require("..");
 
+import contentSecurityPolicy from "../middlewares/content-security-policy";
 import expectCt from "../middlewares/expect-ct";
 import referrerPolicy from "../middlewares/referrer-policy";
 import xContentTypeOptions from "../middlewares/x-content-type-options";
@@ -33,9 +34,10 @@ describe("helmet", function () {
       expect(helmet.frameguard.name).toBe(xFrameOptions.name);
     });
 
-    it('aliases "helmet-csp"', function () {
-      const pkg = require("helmet-csp");
-      expect(helmet.contentSecurityPolicy).toBe(pkg);
+    it("aliases the Content-Security-Policy middleware to helmet.contentSecurityPolicy", () => {
+      expect(helmet.contentSecurityPolicy.name).toBe(
+        contentSecurityPolicy.name
+      );
     });
 
     it("aliases the X-Powered-By middleware to helmet.hidePoweredBy", () => {

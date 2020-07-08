@@ -37,6 +37,7 @@
     "README.md",
     "SECURITY.md",
     "dist/index.js",
+    "dist/middlewares/content-security-policy/index.js",
     "dist/middlewares/expect-ct/index.js",
     "dist/middlewares/referrer-policy/index.js",
     "dist/middlewares/x-content-type-options/index.js",
@@ -47,7 +48,6 @@
     "dist/middlewares/x-powered-by/index.js"
   ],
   "dependencies": {
-    "helmet-csp": "2.10.0",
     "hsts": "2.2.0",
     "x-xss-protection": "1.3.0"
   },
