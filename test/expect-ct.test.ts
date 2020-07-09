@@ -39,7 +39,7 @@ describe("Expect-CT middleware", () => {
 
   it("can enable enforcement", async () => {
     await check(expectCt({ enforce: true }), {
-      "expect-ct": "enforce, max-age=0",
+      "expect-ct": "max-age=0, enforce",
     });
   });
 
@@ -55,7 +55,7 @@ describe("Expect-CT middleware", () => {
     });
   });
 
-  it("can set enforcement, max-age, and a report-uri", async () => {
+  it("can set max-age, enforcement, and a report-uri", async () => {
     await check(
       expectCt({
         enforce: true,
@@ -64,7 +64,7 @@ describe("Expect-CT middleware", () => {
       }),
       {
         "expect-ct":
-          'enforce, max-age=123, report-uri="https://example.com/report"',
+          'max-age=123, enforce, report-uri="https://example.com/report"',
       }
     );
   });
