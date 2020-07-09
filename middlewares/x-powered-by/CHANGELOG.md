@@ -10,8 +10,6 @@
 
 ### Removed
 
-- Dropped support for old Node versions. Node 10+ is now required
-
 ## 1.1.0 - 2019-05-26
 
 ### Added
