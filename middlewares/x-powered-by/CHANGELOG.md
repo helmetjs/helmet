@@ -1,10 +1,14 @@
 # Changelog
 
+## Unreleased
+
+### Changed
+
+- Removed `setTo` option. See [this article](https://github.com/helmetjs/helmet/wiki/How-to-set-a-custom-X%E2%80%93Powered%E2%80%93By-header) to see how to replicate the removed behavior. See [#224](https://github.com/helmetjs/helmet/issues/224).
+
 ## 2.0.0 - Unreleased
 
 ### Removed
-
-- Dropped support for old Node versions. Node 10+ is now required
 
 ## 1.1.0 - 2019-05-26
 

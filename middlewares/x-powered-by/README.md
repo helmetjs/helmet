@@ -9,12 +9,6 @@ const hidePoweredBy = require("hide-powered-by");
 app.use(hidePoweredBy());
 ```
 
-You can also explicitly set the header to something else, if you want. This could throw people off:
-
-```javascript
-app.use(hidePoweredBy({ setTo: "PHP 4.2.0" }));
-```
-
 Note: if you're using Express, you don't need this middleware and can just do this:
 
 ```javascript
