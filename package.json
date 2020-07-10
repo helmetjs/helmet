@@ -2,7 +2,8 @@
   "name": "helmet",
   "author": "Adam Baldwin <adam@npmjs.com> (https://evilpacket.net)",
   "contributors": [
-    "Evan Hahn <me@evanhahn.com> (https://evanhahn.com)"
+    "Evan Hahn <me@evanhahn.com> (https://evanhahn.com)",
+    "Ameen Abdeen <ameen.abdeen.se@gmail.com>"
   ],
   "description": "help secure Express/Connect apps with various HTTP headers",
   "version": "3.23.3",

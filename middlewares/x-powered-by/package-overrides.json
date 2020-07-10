@@ -1,5 +1,9 @@
 {
   "name": "hide-powered-by",
+  "contributors": [
+    "Evan Hahn <me@evanhahn.com> (https://evanhahn.com)",
+    "Ameen Abdeen <ameen.abdeen.se@gmail.com>"
+  ],
   "description": "Middleware to remove the X-Powered-By header",
   "version": "1.1.0",
   "keywords": ["express", "security", "x-powered-by", "powered-by"],
