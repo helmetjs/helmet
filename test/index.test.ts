@@ -3,6 +3,7 @@ import helmet = require("..");
 import contentSecurityPolicy from "../middlewares/content-security-policy";
 import expectCt from "../middlewares/expect-ct";
 import referrerPolicy from "../middlewares/referrer-policy";
+import strictTransportSecurity from "../middlewares/strict-transport-security";
 import xContentTypeOptions from "../middlewares/x-content-type-options";
 import xDnsPrefetchControl from "../middlewares/x-dns-prefetch-control";
 import xDowloadOptions from "../middlewares/x-download-options";
@@ -45,9 +46,8 @@ describe("helmet", function () {
       expect(helmet.hidePoweredBy.name).toBe(xPoweredBy.name);
     });
 
-    it('aliases "hsts"', function () {
-      const pkg = require("hsts");
-      expect(helmet.hsts).toBe(pkg);
+    it("aliases the Strict-Transport-Security middleware to helmet.hsts", function () {
+      expect(helmet.hsts.name).toBe(strictTransportSecurity.name);
     });
 
     it("aliases the X-Download-Options middleware to helmet.ieNoOpen", () => {

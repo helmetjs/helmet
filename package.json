@@ -41,6 +41,7 @@
     "dist/middlewares/content-security-policy/index.js",
     "dist/middlewares/expect-ct/index.js",
     "dist/middlewares/referrer-policy/index.js",
+    "dist/middlewares/strict-transport-security/index.js",
     "dist/middlewares/x-content-type-options/index.js",
     "dist/middlewares/x-dns-prefetch-control/index.js",
     "dist/middlewares/x-download-options/index.js",
@@ -49,9 +50,7 @@
     "dist/middlewares/x-powered-by/index.js",
     "dist/middlewares/x-xss-protection/index.js"
   ],
-  "dependencies": {
-    "hsts": "2.2.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@types/connect": "^3.4.33",
     "@types/jest": "^26.0.3",
