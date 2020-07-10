@@ -18,6 +18,7 @@
 
 ### Removed
 
+- Dropped support for old Node versions. Node 10+ is now required
 - `helmet.featurePolicy`. If you still need it, use the `feature-policy` package on npm.
 - `helmet.hpkp`. If you still need it, use the `hpkp` package on npm.
 - `helmet.noCache`. If you still need it, use the `nocache` package on npm.
@@ -26,7 +27,6 @@
   - Removed conditional support. This includes directive functions and support for a function as the `reportOnly`. [Read this if you need help.](https://github.com/helmetjs/helmet/wiki/Conditionally-using-middleware)
   - Removed a lot of checks—you should be checking your CSP with a different tool
   - Removed support for legacy headers (and therefore the `setAllHeaders` parameter). [Read this if you need help.](https://github.com/helmetjs/helmet/wiki/Setting-legacy-Content-Security-Policy-headers-in-Helmet-4)
-  - Dropped support for old Node versions. Node 10+ is now required
   - Removed the `loose` option
   - Removed the `disableAndroid` option
 - `helmet.frameguard`:
