@@ -9,6 +9,7 @@ import xDowloadOptions from "../middlewares/x-download-options";
 import xFrameOptions from "../middlewares/x-frame-options";
 import xPermittedCrossDomainPolicies from "../middlewares/x-permitted-cross-domain-policies";
 import xPoweredBy from "../middlewares/x-powered-by";
+import xXssProtection from "../middlewares/x-xss-protection";
 
 describe("helmet", function () {
   describe("module aliases", function () {
@@ -57,9 +58,8 @@ describe("helmet", function () {
       expect(helmet.referrerPolicy.name).toBe(referrerPolicy.name);
     });
 
-    it('aliases "x-xss-protection"', function () {
-      const pkg = require("x-xss-protection");
-      expect(helmet.xssFilter).toBe(pkg);
+    it("aliases the X-XSS-Protection middleware to helmet.xssFilter", function () {
+      expect(helmet.xssFilter.name).toBe(xXssProtection.name);
     });
   });
 

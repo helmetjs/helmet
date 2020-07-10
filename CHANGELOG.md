@@ -14,6 +14,7 @@
   - There is now a default set of directives if none are supplied
   - Duplicate keys now throw an error
   - This middleware is more lenient
+- `helmet.xssFilter` now disables the buggy XSS filter by default. See [#230](https://github.com/helmetjs/helmet/issues/230)
 
 ### Removed
 
@@ -30,6 +31,7 @@
   - Removed the `disableAndroid` option
 - `helmet.frameguard`:
   - Dropped support for the `ALLOW-FROM` action. [Read more here.](https://github.com/helmetjs/helmet/wiki/How-to-use-X%E2%80%93Frame%E2%80%93Options's-%60ALLOW%E2%80%93FROM%60-directive)
+- `helmet.xssFilter` no longer accepts options. Read ["How to disable blocking with X–XSS–Protection"](https://github.com/helmetjs/helmet/wiki/How-to-disable-blocking-with-X%E2%80%93XSS%E2%80%93Protection) and ["How to enable the `report` directive with X–XSS–Protection"](https://github.com/helmetjs/helmet/wiki/How-to-enable-the-%60report%60-directive-with-X%E2%80%93XSS%E2%80%93Protection) if you need the legacy behavior.
 
 ## Unreleased
 

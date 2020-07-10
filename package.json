@@ -46,11 +46,11 @@
     "dist/middlewares/x-download-options/index.js",
     "dist/middlewares/x-frame-options/index.js",
     "dist/middlewares/x-permitted-cross-domain-policies/index.js",
-    "dist/middlewares/x-powered-by/index.js"
+    "dist/middlewares/x-powered-by/index.js",
+    "dist/middlewares/x-xss-protection/index.js"
   ],
   "dependencies": {
-    "hsts": "2.2.0",
-    "x-xss-protection": "1.3.0"
+    "hsts": "2.2.0"
   },
   "devDependencies": {
     "@types/connect": "^3.4.33",

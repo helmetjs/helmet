@@ -8,6 +8,7 @@ import xDownloadOptions from "./middlewares/x-download-options";
 import xFrameOptions from "./middlewares/x-frame-options";
 import xPermittedCrossDomainPolicies from "./middlewares/x-permitted-cross-domain-policies";
 import xPoweredBy from "./middlewares/x-powered-by";
+import xXssProtection from "./middlewares/x-xss-protection";
 
 interface HelmetOptions {
   contentSecurityPolicy?: any;
@@ -131,6 +132,6 @@ helmet.ieNoOpen = xDownloadOptions;
 helmet.noSniff = xContentTypeOptions;
 helmet.permittedCrossDomainPolicies = xPermittedCrossDomainPolicies;
 helmet.referrerPolicy = referrerPolicy;
-helmet.xssFilter = require("x-xss-protection");
+helmet.xssFilter = xXssProtection;
 
 export = helmet;
