@@ -1,6 +1,6 @@
 import { IncomingMessage, ServerResponse } from "http";
 
-interface XPermittedCrossDomainPoliciesOptions {
+export interface XPermittedCrossDomainPoliciesOptions {
   permittedPolicies?: string;
 }
 
