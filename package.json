@@ -8,15 +8,9 @@
   "description": "help secure Express/Connect apps with various HTTP headers",
   "version": "3.23.3",
   "keywords": [
-    "security",
-    "headers",
     "express",
-    "connect",
-    "x-frame-options",
-    "x-powered-by",
-    "csp",
-    "hsts",
-    "clickjack"
+    "security",
+    "headers"
   ],
   "homepage": "https://helmetjs.github.io/",
   "bugs": {
