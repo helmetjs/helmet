@@ -24,12 +24,11 @@
 - `helmet.hpkp`. If you still need it, use the `hpkp` package on npm.
 - `helmet.noCache`. If you still need it, use the `nocache` package on npm.
 - `helmet.contentSecurityPolicy`:
-  - Removed browser sniffing (including the `browserSniff` parameter)
+  - Removed browser sniffing (including the `browserSniff` and `disableAndroid` parameters)
   - Removed conditional support. This includes directive functions and support for a function as the `reportOnly`. [Read this if you need help.](https://github.com/helmetjs/helmet/wiki/Conditionally-using-middleware)
   - Removed a lot of checks—you should be checking your CSP with a different tool
   - Removed support for legacy headers (and therefore the `setAllHeaders` parameter). [Read this if you need help.](https://github.com/helmetjs/helmet/wiki/Setting-legacy-Content-Security-Policy-headers-in-Helmet-4)
   - Removed the `loose` option
-  - Removed the `disableAndroid` option
 - `helmet.frameguard`:
   - Dropped support for the `ALLOW-FROM` action. [Read more here.](https://github.com/helmetjs/helmet/wiki/How-to-use-X%E2%80%93Frame%E2%80%93Options's-%60ALLOW%E2%80%93FROM%60-directive)
 - `helmet.hidePoweredBy` no longer accepts arguments. See [this article](https://github.com/helmetjs/helmet/wiki/How-to-set-a-custom-X%E2%80%93Powered%E2%80%93By-header) to see how to replicate the removed behavior. See [#224](https://github.com/helmetjs/helmet/issues/224).
