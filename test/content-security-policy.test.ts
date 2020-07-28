@@ -213,6 +213,18 @@ describe("Content-Security-Policy middleware", () => {
     }).toThrow(
       /^Content-Security-Policy received a duplicate directive "default-src"$/
     );
+
+    expect(() => {
+      contentSecurityPolicy({
+        directives: {
+          defaultSrc: ["'self'"],
+          scriptSrc: ["foo"],
+          "script-src": ["foo"],
+        },
+      });
+    }).toThrow(
+      /^Content-Security-Policy received a duplicate directive "script-src"$/
+    );
   });
 
   it("throws if any directive values are invalid", () => {
@@ -232,6 +244,13 @@ describe("Content-Security-Policy middleware", () => {
   });
 
   it("throws if default-src is missing", () => {
+    expect(() => {
+      contentSecurityPolicy({
+        directives: {},
+      });
+    }).toThrow(
+      /^Content-Security-Policy needs a default-src but none was provided$/
+    );
     expect(() => {
       contentSecurityPolicy({
         directives: {
