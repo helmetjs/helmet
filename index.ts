@@ -23,7 +23,7 @@ import xPermittedCrossDomainPolicies, {
 import xPoweredBy from "./middlewares/x-powered-by";
 import xXssProtection from "./middlewares/x-xss-protection";
 
-interface HelmetOptions {
+export interface HelmetOptions {
   contentSecurityPolicy?: MiddlewareOption<ContentSecurityPolicyOptions>;
   dnsPrefetchControl?: MiddlewareOption<XDnsPrefetchControlOptions>;
   expectCt?: MiddlewareOption<ExpectCtOptions>;
