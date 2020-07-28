@@ -20,7 +20,7 @@ function getHeaderValueFromOptions({
     throw new Error(
       `X-Permitted-Cross-Domain-Policies does not support ${JSON.stringify(
         permittedPolicies
-      )} as a permitted policy`
+      )}`
     );
   }
 }
