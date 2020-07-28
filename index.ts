@@ -180,13 +180,13 @@ helmet.featurePolicy = () => {
 
 helmet.hpkp = () => {
   throw new Error(
-    "helmet.hpkp was removed because the header has been deprecated. If you still need this header, you can use the `hpkp` module. For more, see https://github.com/helmetjs/helmet/issues/180."
+    "helmet.hpkp was removed because the header has been deprecated. If you still need this header, you can use the `hpkp` module. For more, see <https://github.com/helmetjs/helmet/issues/180>."
   );
 };
 
 helmet.noCache = () => {
   throw new Error(
-    "helmet.noCache was removed. You can use the `nocache` module instead. For more, see https://github.com/helmetjs/helmet/issues/215."
+    "helmet.noCache was removed. You can use the `nocache` module instead. For more, see <https://github.com/helmetjs/helmet/issues/215>."
   );
 };
 

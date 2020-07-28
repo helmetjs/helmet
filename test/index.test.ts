@@ -184,10 +184,10 @@ describe("helmet", () => {
         /^helmet.featurePolicy was removed because the Feature-Policy header is deprecated. If you still need this header, you can use the `feature-policy` module.$/
       );
       expect(helmet.hpkp).toThrow(
-        /^helmet.hpkp was removed because the header has been deprecated. If you still need this header, you can use the `hpkp` module. For more, see https:\/\/github.com\/helmetjs\/helmet\/issues\/180.$/
+        /^helmet.hpkp was removed because the header has been deprecated. If you still need this header, you can use the `hpkp` module. For more, see <https:\/\/github.com\/helmetjs\/helmet\/issues\/180>.$/
       );
       expect(helmet.noCache).toThrow(
-        /^helmet.noCache was removed. You can use the `nocache` module instead. For more, see https:\/\/github.com\/helmetjs\/helmet\/issues\/215.$/
+        /^helmet.noCache was removed. You can use the `nocache` module instead. For more, see <https:\/\/github.com\/helmetjs\/helmet\/issues\/215>.$/
       );
     });
   });
