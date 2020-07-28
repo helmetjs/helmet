@@ -31,7 +31,7 @@ function getHeaderValueFromOptions(
 ): string {
   if ("maxage" in options) {
     throw new Error(
-      'maxage is not a supported property. Did you mean to pass "maxAge" instead of "maxage"?'
+      "Strict-Transport-Security received an unsupported property, `maxage`. Did you mean to pass `maxAge`?"
     );
   }
   if ("includeSubdomains" in options) {
