@@ -10,12 +10,12 @@
 ### Changed
 
 - There is now a default set of directives if none are supplied
-- Duplicate keys now throw an error
-- This middleware is more lenient
+- Duplicate keys now throw an error. See [helmetjs/csp#73](https://github.com/helmetjs/csp/issues/73)
+- This middleware is more lenient, allowing more directive names or values
 
 ### Removed
 
-- Removed browser sniffing (including the `browserSniff` parameter)
+- Removed browser sniffing (including the `browserSniff` parameter). See [#97](https://github.com/helmetjs/csp/issues/97)
 - Removed conditional support. This includes directive functions and support for a function as the `reportOnly`. [Read this if you need help.](https://github.com/helmetjs/helmet/wiki/Conditionally-using-middleware)
 - Removed a lot of checks—you should be checking your CSP with a different tool
 - Removed support for legacy headers (and therefore the `setAllHeaders` parameter). [Read this if you need help.](https://github.com/helmetjs/helmet/wiki/Setting-legacy-Content-Security-Policy-headers-in-Helmet-4)

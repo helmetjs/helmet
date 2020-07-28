@@ -13,8 +13,8 @@
 - This package no longer has dependencies. This should have no effect on end users, other than speeding up installation time.
 - `helmet.contentSecurityPolicy`:
   - There is now a default set of directives if none are supplied
-  - Duplicate keys now throw an error
-  - This middleware is more lenient
+  - Duplicate keys now throw an error. See [helmetjs/csp#73](https://github.com/helmetjs/csp/issues/73)
+  - This middleware is more lenient, allowing more directive names or values
 - `helmet.xssFilter` now disables the buggy XSS filter by default. See [#230](https://github.com/helmetjs/helmet/issues/230)
 
 ### Removed
@@ -24,7 +24,7 @@
 - `helmet.hpkp`. If you still need it, use the `hpkp` package on npm.
 - `helmet.noCache`. If you still need it, use the `nocache` package on npm.
 - `helmet.contentSecurityPolicy`:
-  - Removed browser sniffing (including the `browserSniff` and `disableAndroid` parameters)
+  - Removed browser sniffing (including the `browserSniff` and `disableAndroid` parameters). See See [helmetjs/csp#97](https://github.com/helmetjs/csp/issues/97)
   - Removed conditional support. This includes directive functions and support for a function as the `reportOnly`. [Read this if you need help.](https://github.com/helmetjs/helmet/wiki/Conditionally-using-middleware)
   - Removed a lot of checks—you should be checking your CSP with a different tool
   - Removed support for legacy headers (and therefore the `setAllHeaders` parameter). [Read this if you need help.](https://github.com/helmetjs/helmet/wiki/Setting-legacy-Content-Security-Policy-headers-in-Helmet-4)
