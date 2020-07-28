@@ -172,5 +172,23 @@ helmet.permittedCrossDomainPolicies = xPermittedCrossDomainPolicies;
 helmet.referrerPolicy = referrerPolicy;
 helmet.xssFilter = xXssProtection;
 
+helmet.featurePolicy = () => {
+  throw new Error(
+    "helmet.featurePolicy was removed because the Feature-Policy header is deprecated. If you still need this header, you can use the `feature-policy` module."
+  );
+};
+
+helmet.hpkp = () => {
+  throw new Error(
+    "helmet.hpkp was removed because the header has been deprecated. If you still need this header, you can use the `hpkp` module. For more, see https://github.com/helmetjs/helmet/issues/180."
+  );
+};
+
+helmet.noCache = () => {
+  throw new Error(
+    "helmet.noCache was removed. You can use the `nocache` module instead. For more, see https://github.com/helmetjs/helmet/issues/215."
+  );
+};
+
 module.exports = helmet;
 export default helmet;
