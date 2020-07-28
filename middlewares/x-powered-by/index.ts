@@ -1,16 +1,14 @@
 import { IncomingMessage, ServerResponse } from "http";
 
-function xPoweredByMiddleware(
-  _req: IncomingMessage,
-  res: ServerResponse,
-  next: () => void
-) {
-  res.removeHeader("X-Powered-By");
-  next();
-}
-
 function xPoweredBy() {
-  return xPoweredByMiddleware;
+  return function xPoweredByMiddleware(
+    _req: IncomingMessage,
+    res: ServerResponse,
+    next: () => void
+  ) {
+    res.removeHeader("X-Powered-By");
+    next();
+  };
 }
 
 module.exports = xPoweredBy;
