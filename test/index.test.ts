@@ -70,8 +70,6 @@ describe("helmet", () => {
     });
 
     it("logs a warning when passing options to hidePoweredBy", () => {
-      expect(console.warn).not.toHaveBeenCalled();
-
       helmet({ hidePoweredBy: { setTo: "deprecated option" } as any });
 
       expect(console.warn).toHaveBeenCalledTimes(1);
@@ -81,8 +79,6 @@ describe("helmet", () => {
     });
 
     it("logs a warning when passing options to ieNoOpen", () => {
-      expect(console.warn).not.toHaveBeenCalled();
-
       helmet({ ieNoOpen: { option: "foo" } as any });
 
       expect(console.warn).toHaveBeenCalledTimes(1);
@@ -92,8 +88,6 @@ describe("helmet", () => {
     });
 
     it("logs a warning when passing options to noSniff", () => {
-      expect(console.warn).not.toHaveBeenCalled();
-
       helmet({ noSniff: { option: "foo" } as any });
 
       expect(console.warn).toHaveBeenCalledTimes(1);
@@ -103,8 +97,6 @@ describe("helmet", () => {
     });
 
     it("logs a warning when passing options to xssFilter", () => {
-      expect(console.warn).not.toHaveBeenCalled();
-
       helmet({ xssFilter: { setOnOldIe: true } as any });
 
       expect(console.warn).toHaveBeenCalledTimes(1);
@@ -114,8 +106,6 @@ describe("helmet", () => {
     });
 
     it("logs a warning when passing options to hidePoweredBy", () => {
-      expect(console.warn).not.toHaveBeenCalled();
-
       helmet({ hidePoweredBy: { setTo: "deprecated option" } as any });
 
       expect(console.warn).toHaveBeenCalledTimes(1);

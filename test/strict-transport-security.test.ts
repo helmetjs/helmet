@@ -94,8 +94,6 @@ describe("Strict-Transport-Security middleware", () => {
     });
 
     it("logs a warning when using the `includeSubdomains` parameter", () => {
-      expect(console.warn).not.toHaveBeenCalled();
-
       strictTransportSecurity({ includeSubdomains: false } as any);
 
       expect(console.warn).toHaveBeenCalledTimes(1);
@@ -105,8 +103,6 @@ describe("Strict-Transport-Security middleware", () => {
     });
 
     it("logs a warning when using the `setIf` parameter", () => {
-      expect(console.warn).not.toHaveBeenCalled();
-
       strictTransportSecurity({ setIf: () => false } as any);
 
       expect(console.warn).toHaveBeenCalledTimes(1);

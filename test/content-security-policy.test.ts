@@ -300,8 +300,6 @@ describe("Content-Security-Policy middleware", () => {
     });
 
     it("logs a warning when using the `loose` parameter", () => {
-      expect(console.warn).not.toHaveBeenCalled();
-
       contentSecurityPolicy({
         directives: {
           "default-src": ["foo"],
@@ -316,8 +314,6 @@ describe("Content-Security-Policy middleware", () => {
     });
 
     it("logs a warning when using the `setAllHeaders` parameter", () => {
-      expect(console.warn).not.toHaveBeenCalled();
-
       contentSecurityPolicy({
         directives: {
           "default-src": ["foo"],
@@ -332,8 +328,6 @@ describe("Content-Security-Policy middleware", () => {
     });
 
     it("logs a warning when using the `disableAndroid` parameter", () => {
-      expect(console.warn).not.toHaveBeenCalled();
-
       contentSecurityPolicy({
         directives: {
           "default-src": ["foo"],
@@ -348,8 +342,6 @@ describe("Content-Security-Policy middleware", () => {
     });
 
     it("logs a warning when using the `browserSniff` parameter", () => {
-      expect(console.warn).not.toHaveBeenCalled();
-
       contentSecurityPolicy({
         directives: {
           "default-src": ["foo"],
