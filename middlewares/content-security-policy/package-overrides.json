@@ -7,6 +7,5 @@
   ],
   "description": "Content Security Policy middleware",
   "version": "2.9.5",
-  "keywords": ["express", "security", "content-security-policy", "csp", "xss"],
-  "homepage": "https://helmetjs.github.io/docs/csp/"
+  "keywords": ["express", "security", "content-security-policy", "csp", "xss"]
 }

@@ -2,6 +2,5 @@
   "name": "x-xss-protection",
   "description": "Middleware to disable the X-XSS-Protection header",
   "version": "1.3.0",
-  "keywords": ["express", "security", "x-xss-protection"],
-  "homepage": "https://helmetjs.github.io/docs/xss-filter/"
+  "keywords": ["express", "security", "x-xss-protection"]
 }

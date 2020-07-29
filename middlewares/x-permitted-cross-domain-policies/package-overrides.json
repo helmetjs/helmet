@@ -9,6 +9,5 @@
     "security",
     "crossdomain.xml",
     "x-permitted-cross-domain-policies"
-  ],
-  "homepage": "https://helmetjs.github.io/docs/crossdomain/"
+  ]
 }

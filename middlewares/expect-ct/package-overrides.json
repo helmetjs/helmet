@@ -4,6 +4,5 @@
   "contributors": [],
   "description": "Middleware to set the Expect-CT header",
   "version": "0.3.0",
-  "keywords": ["express", "security", "expect-ct"],
-  "homepage": "https://helmetjs.github.io/docs/expect-ct/"
+  "keywords": ["express", "security", "expect-ct"]
 }

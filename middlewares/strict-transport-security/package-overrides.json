@@ -8,6 +8,5 @@
     "hsts",
     "strict-transport-security",
     "https"
-  ],
-  "homepage": "https://helmetjs.github.io/docs/hsts/"
+  ]
 }

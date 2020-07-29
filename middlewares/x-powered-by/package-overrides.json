@@ -6,6 +6,5 @@
   ],
   "description": "Middleware to remove the X-Powered-By header",
   "version": "1.1.0",
-  "keywords": ["express", "security", "x-powered-by", "powered-by"],
-  "homepage": "https://helmetjs.github.io/docs/hide-powered-by/"
+  "keywords": ["express", "security", "x-powered-by", "powered-by"]
 }

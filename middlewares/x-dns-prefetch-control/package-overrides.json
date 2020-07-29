@@ -4,6 +4,5 @@
   "contributors": [],
   "description": "Middleware to set X-DNS-Prefetch-Control header.",
   "version": "0.3.0",
-  "keywords": ["express", "security", "x-dns-prefetch-control", "prefetch"],
-  "homepage": "https://helmetjs.github.io/docs/dns-prefetch-control"
+  "keywords": ["express", "security", "x-dns-prefetch-control", "prefetch"]
 }
