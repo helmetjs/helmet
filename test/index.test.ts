@@ -1,330 +1,194 @@
-import helmet = require("..");
+import { check } from "./helpers";
 
-import { IncomingMessage, ServerResponse } from "http";
-import connect = require("connect");
-import request = require("supertest");
+import helmet from "..";
+
+import contentSecurityPolicy from "../middlewares/content-security-policy";
 import expectCt from "../middlewares/expect-ct";
 import referrerPolicy from "../middlewares/referrer-policy";
+import strictTransportSecurity from "../middlewares/strict-transport-security";
 import xContentTypeOptions from "../middlewares/x-content-type-options";
 import xDnsPrefetchControl from "../middlewares/x-dns-prefetch-control";
 import xDowloadOptions from "../middlewares/x-download-options";
 import xFrameOptions from "../middlewares/x-frame-options";
 import xPermittedCrossDomainPolicies from "../middlewares/x-permitted-cross-domain-policies";
 import xPoweredBy from "../middlewares/x-powered-by";
+import xXssProtection from "../middlewares/x-xss-protection";
 
-describe("helmet", function () {
-  describe("module aliases", function () {
-    it("aliases the X-DNS-Prefetch-Control middleware to helmet.dnsPrefetchControl", function () {
+describe("helmet", () => {
+  it("includes all middleware with their default options", async () => {
+    await check(helmet(), {
+      // NOTE: This test relies on the object being ordered a certain way,
+      // which could change (and be non-breaking). If that becomes a problem,
+      // we should update this test to be more robust.
+      "content-security-policy":
+        "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests",
+      "expect-ct": "max-age=0",
+      "referrer-policy": "no-referrer",
+      "strict-transport-security": "max-age=15552000; includeSubDomains",
+      "x-content-type-options": "nosniff",
+      "x-dns-prefetch-control": "off",
+      "x-download-options": "noopen",
+      "x-frame-options": "SAMEORIGIN",
+      "x-permitted-cross-domain-policies": "none",
+      "x-powered-by": null,
+      "x-xss-protection": "0",
+    });
+  });
+
+  it("allows individual middlewares to be disabled", async () => {
+    await check(helmet({ contentSecurityPolicy: false }), {
+      "content-security-policy": null,
+    });
+    await check(helmet({ dnsPrefetchControl: false }), {
+      "x-dns-prefetch-control": null,
+    });
+  });
+
+  it("errors when `use`d directly", () => {
+    const fakeRequest = {
+      constructor: {
+        name: "IncomingMessage",
+      },
+    };
+
+    expect(() => {
+      helmet(fakeRequest as any);
+    }).toThrow();
+  });
+
+  it("errors when passing `true` as a middleware option", () => {
+    expect(() => {
+      helmet({ contentSecurityPolicy: true as any });
+    }).toThrow(
+      "Helmet no longer supports `true` as a middleware option. Remove the property from your options to fix this error."
+    );
+  });
+
+  describe("warnings", () => {
+    beforeEach(() => {
+      jest.spyOn(console, "warn").mockImplementation(() => {});
+    });
+
+    it("logs a warning when passing options to hidePoweredBy", () => {
+      helmet({ hidePoweredBy: { setTo: "deprecated option" } as any });
+
+      expect(console.warn).toHaveBeenCalledTimes(1);
+      expect(console.warn).toHaveBeenCalledWith(
+        "hidePoweredBy does not take options. Remove the property to silence this warning."
+      );
+    });
+
+    it("logs a warning when passing options to ieNoOpen", () => {
+      helmet({ ieNoOpen: { option: "foo" } as any });
+
+      expect(console.warn).toHaveBeenCalledTimes(1);
+      expect(console.warn).toHaveBeenCalledWith(
+        "ieNoOpen does not take options. Remove the property to silence this warning."
+      );
+    });
+
+    it("logs a warning when passing options to noSniff", () => {
+      helmet({ noSniff: { option: "foo" } as any });
+
+      expect(console.warn).toHaveBeenCalledTimes(1);
+      expect(console.warn).toHaveBeenCalledWith(
+        "noSniff does not take options. Remove the property to silence this warning."
+      );
+    });
+
+    it("logs a warning when passing options to xssFilter", () => {
+      helmet({ xssFilter: { setOnOldIe: true } as any });
+
+      expect(console.warn).toHaveBeenCalledTimes(1);
+      expect(console.warn).toHaveBeenCalledWith(
+        "xssFilter does not take options. Remove the property to silence this warning."
+      );
+    });
+
+    it("logs a warning when passing options to hidePoweredBy", () => {
+      helmet({ hidePoweredBy: { setTo: "deprecated option" } as any });
+
+      expect(console.warn).toHaveBeenCalledTimes(1);
+      expect(console.warn).toHaveBeenCalledWith(
+        "hidePoweredBy does not take options. Remove the property to silence this warning."
+      );
+    });
+  });
+
+  describe("module aliases", () => {
+    it("aliases the X-DNS-Prefetch-Control middleware to helmet.dnsPrefetchControl", () => {
       expect(helmet.dnsPrefetchControl.name).toBe(xDnsPrefetchControl.name);
+      expect(helmet.dnsPrefetchControl.name).toBe("xDnsPrefetchControl");
     });
 
     it("aliases the X-Content-Type-Options middleware to helmet.noSniff", () => {
       expect(helmet.noSniff.name).toBe(xContentTypeOptions.name);
+      expect(helmet.noSniff.name).toBe("xContentTypeOptions");
     });
 
-    it("aliases the Expect-CT middleware to helmet.expectCt", function () {
+    it("aliases the Expect-CT middleware to helmet.expectCt", () => {
       expect(helmet.expectCt.name).toBe(expectCt.name);
-    });
-
-    // This test will be removed in helmet@4.
-    it("calls through to feature-policy but emits a deprecation warning", function () {
-      const deprecationPromise = new Promise((resolve) => {
-        process.once("deprecation", (deprecationError) => {
-          expect(
-            deprecationError.message.indexOf(
-              "You can use the `feature-policy` module instead."
-            ) !== -1
-          ).toBeTruthy();
-          resolve();
-        });
-      });
-
-      const app = connect();
-      app.use(
-        helmet.featurePolicy({
-          features: { vibrate: ["'none'"] },
-        })
-      );
-      app.use((_req: IncomingMessage, res: ServerResponse) => {
-        res.end("Hello world!");
-      });
-      const supertestPromise = request(app)
-        .get("/")
-        .expect(200)
-        .expect("Feature-Policy", "vibrate 'none'")
-        .expect("Hello world!");
-
-      return Promise.all([deprecationPromise, supertestPromise]);
+      expect(helmet.expectCt.name).toBe("expectCt");
     });
 
     it("aliases the X-Permitted-Cross-Domain-Policies middleware to helmet.crossdomain", () => {
       expect(helmet.permittedCrossDomainPolicies.name).toBe(
         xPermittedCrossDomainPolicies.name
       );
+      expect(helmet.permittedCrossDomainPolicies.name).toBe(
+        "xPermittedCrossDomainPolicies"
+      );
     });
 
-    it("aliases the X-Frame-Options middleware to helmet.frameguard", function () {
+    it("aliases the X-Frame-Options middleware to helmet.frameguard", () => {
       expect(helmet.frameguard.name).toBe(xFrameOptions.name);
+      expect(helmet.frameguard.name).toBe("xFrameOptions");
     });
 
-    it('aliases "helmet-csp"', function () {
-      const pkg = require("helmet-csp");
-      expect(helmet.contentSecurityPolicy).toBe(pkg);
+    it("aliases the Content-Security-Policy middleware to helmet.contentSecurityPolicy", () => {
+      expect(helmet.contentSecurityPolicy.name).toBe(
+        contentSecurityPolicy.name
+      );
+      expect(helmet.contentSecurityPolicy.name).toBe("contentSecurityPolicy");
     });
 
     it("aliases the X-Powered-By middleware to helmet.hidePoweredBy", () => {
       expect(helmet.hidePoweredBy.name).toBe(xPoweredBy.name);
+      expect(helmet.hidePoweredBy.name).toBe("xPoweredBy");
     });
 
-    // This test will be removed in helmet@4.
-    it("calls through to hpkp but emits a deprecation warning", function () {
-      const deprecationPromise = new Promise((resolve) => {
-        process.once("deprecation", (deprecationError) => {
-          expect(
-            deprecationError.message.indexOf(
-              "You can use the `hpkp` module instead."
-            ) !== -1
-          ).toBeTruthy();
-          resolve();
-        });
-      });
-
-      const app = connect();
-      app.use(helmet.hpkp({ maxAge: 10, sha256s: ["abc123", "xyz456"] }));
-      app.use((_req: IncomingMessage, res: ServerResponse) => {
-        res.end("Hello world!");
-      });
-      const supertestPromise = request(app)
-        .get("/")
-        .expect(200)
-        .expect(
-          "Public-Key-Pins",
-          'pin-sha256="abc123"; pin-sha256="xyz456"; max-age=10'
-        )
-        .expect("Hello world!");
-
-      return Promise.all([deprecationPromise, supertestPromise]);
-    });
-
-    it('aliases "hsts"', function () {
-      const pkg = require("hsts");
-      expect(helmet.hsts).toBe(pkg);
+    it("aliases the Strict-Transport-Security middleware to helmet.hsts", () => {
+      expect(helmet.hsts.name).toBe(strictTransportSecurity.name);
+      expect(helmet.hsts.name).toBe("strictTransportSecurity");
     });
 
     it("aliases the X-Download-Options middleware to helmet.ieNoOpen", () => {
       expect(helmet.ieNoOpen.name).toBe(xDowloadOptions.name);
-    });
-
-    // This test will be removed in helmet@4.
-    it("calls through to nocache but emits a deprecation warning", function () {
-      const deprecationPromise = new Promise((resolve) => {
-        process.once("deprecation", (deprecationError) => {
-          expect(
-            deprecationError.message.indexOf(
-              "You can use the `nocache` module instead."
-            ) !== -1
-          ).toBeTruthy();
-          resolve();
-        });
-      });
-
-      const app = connect();
-      app.use(helmet.noCache());
-      app.use((_req: IncomingMessage, res: ServerResponse) => {
-        res.end("Hello world!");
-      });
-      const supertestPromise = request(app)
-        .get("/")
-        .expect(200)
-        .expect("Surrogate-Control", "no-store")
-        .expect(
-          "Cache-Control",
-          "no-store, no-cache, must-revalidate, proxy-revalidate"
-        )
-        .expect("Pragma", "no-cache")
-        .expect("Expires", "0")
-        .expect("Hello world!");
-
-      return Promise.all([deprecationPromise, supertestPromise]);
+      expect(helmet.ieNoOpen.name).toBe("xDownloadOptions");
     });
 
     it("aliases the Referrer-Policy middleware to helmet.referrerPolicy", () => {
       expect(helmet.referrerPolicy.name).toBe(referrerPolicy.name);
+      expect(helmet.referrerPolicy.name).toBe("referrerPolicy");
     });
 
-    it('aliases "x-xss-protection"', function () {
-      const pkg = require("x-xss-protection");
-      expect(helmet.xssFilter).toBe(pkg);
-    });
-  });
-
-  describe("helmet()", function () {
-    beforeEach(function () {
-      jest.spyOn(helmet, "contentSecurityPolicy");
-      jest.spyOn(helmet, "dnsPrefetchControl");
-      jest.spyOn(helmet, "expectCt");
-      jest.spyOn(helmet, "frameguard");
-      jest.spyOn(helmet, "hidePoweredBy");
-      jest.spyOn(helmet, "hpkp");
-      jest.spyOn(helmet, "hsts");
-      jest.spyOn(helmet, "hsts");
-      jest.spyOn(helmet, "ieNoOpen");
-      jest.spyOn(helmet, "noCache");
-      jest.spyOn(helmet, "noSniff");
-      jest.spyOn(helmet, "permittedCrossDomainPolicies");
-      jest.spyOn(helmet, "referrerPolicy");
-      jest.spyOn(helmet, "xssFilter");
+    it("aliases the X-XSS-Protection middleware to helmet.xssFilter", () => {
+      expect(helmet.xssFilter.name).toBe(xXssProtection.name);
+      expect(helmet.xssFilter.name).toBe("xXssProtection");
     });
 
-    it("chains all default middleware", function () {
-      helmet();
-
-      expect(helmet.dnsPrefetchControl).toHaveBeenCalledTimes(1);
-      expect(helmet.frameguard).toHaveBeenCalledTimes(1);
-      expect(helmet.hidePoweredBy).toHaveBeenCalledTimes(1);
-      expect(helmet.hsts).toHaveBeenCalledTimes(1);
-      expect(helmet.ieNoOpen).toHaveBeenCalledTimes(1);
-      expect(helmet.noSniff).toHaveBeenCalledTimes(1);
-      expect(helmet.xssFilter).toHaveBeenCalledTimes(1);
-
-      expect(helmet.dnsPrefetchControl).toHaveBeenCalledWith({});
-      expect(helmet.frameguard).toHaveBeenCalledWith({});
-      expect(helmet.hidePoweredBy).toHaveBeenCalledWith({});
-      expect(helmet.hsts).toHaveBeenCalledWith({});
-      expect(helmet.ieNoOpen).toHaveBeenCalledWith({});
-      expect(helmet.noSniff).toHaveBeenCalledWith({});
-      expect(helmet.xssFilter).toHaveBeenCalledWith({});
-
-      expect(helmet.contentSecurityPolicy).not.toHaveBeenCalled();
-      expect(helmet.expectCt).not.toHaveBeenCalled();
-      expect(helmet.hpkp).not.toHaveBeenCalled();
-      expect(helmet.noCache).not.toHaveBeenCalled();
-      expect(helmet.permittedCrossDomainPolicies).not.toHaveBeenCalled();
-    });
-
-    it("lets you disable a default middleware", function () {
-      helmet({ frameguard: false });
-
-      expect(helmet.frameguard).not.toHaveBeenCalled();
-
-      expect(helmet.dnsPrefetchControl).toHaveBeenCalledTimes(1);
-      expect(helmet.hidePoweredBy).toHaveBeenCalledTimes(1);
-      expect(helmet.hsts).toHaveBeenCalledTimes(1);
-      expect(helmet.ieNoOpen).toHaveBeenCalledTimes(1);
-      expect(helmet.noSniff).toHaveBeenCalledTimes(1);
-      expect(helmet.xssFilter).toHaveBeenCalledTimes(1);
-      expect(helmet.dnsPrefetchControl).toHaveBeenCalledWith({});
-      expect(helmet.hidePoweredBy).toHaveBeenCalledWith({});
-      expect(helmet.hsts).toHaveBeenCalledWith({});
-      expect(helmet.ieNoOpen).toHaveBeenCalledWith({});
-      expect(helmet.noSniff).toHaveBeenCalledWith({});
-      expect(helmet.xssFilter).toHaveBeenCalledWith({});
-      expect(helmet.contentSecurityPolicy).not.toHaveBeenCalled();
-      expect(helmet.expectCt).not.toHaveBeenCalled();
-      expect(helmet.hpkp).not.toHaveBeenCalled();
-      expect(helmet.noCache).not.toHaveBeenCalled();
-    });
-
-    it("lets you enable a normally-disabled middleware", function () {
-      helmet({ referrerPolicy: true });
-
-      expect(helmet.referrerPolicy).toHaveBeenCalledTimes(1);
-      expect(helmet.referrerPolicy).toHaveBeenCalledWith({});
-
-      expect(helmet.dnsPrefetchControl).toHaveBeenCalledTimes(1);
-      expect(helmet.frameguard).toHaveBeenCalledTimes(1);
-      expect(helmet.hidePoweredBy).toHaveBeenCalledTimes(1);
-      expect(helmet.hsts).toHaveBeenCalledTimes(1);
-      expect(helmet.ieNoOpen).toHaveBeenCalledTimes(1);
-      expect(helmet.noSniff).toHaveBeenCalledTimes(1);
-      expect(helmet.xssFilter).toHaveBeenCalledTimes(1);
-      expect(helmet.dnsPrefetchControl).toHaveBeenCalledWith({});
-      expect(helmet.frameguard).toHaveBeenCalledWith({});
-      expect(helmet.hidePoweredBy).toHaveBeenCalledWith({});
-      expect(helmet.hsts).toHaveBeenCalledWith({});
-      expect(helmet.ieNoOpen).toHaveBeenCalledWith({});
-      expect(helmet.noSniff).toHaveBeenCalledWith({});
-      expect(helmet.xssFilter).toHaveBeenCalledWith({});
-      expect(helmet.contentSecurityPolicy).not.toHaveBeenCalled();
-      expect(helmet.expectCt).not.toHaveBeenCalled();
-      expect(helmet.hpkp).not.toHaveBeenCalled();
-      expect(helmet.noCache).not.toHaveBeenCalled();
-    });
-
-    it("lets you set options for a default middleware", function () {
-      const options = { action: "deny" };
-
-      helmet({ frameguard: options });
-
-      expect(helmet.frameguard).toHaveBeenCalledTimes(1);
-      expect(helmet.frameguard).toHaveBeenCalledWith(options);
-
-      expect(helmet.dnsPrefetchControl).toHaveBeenCalledTimes(1);
-      expect(helmet.hidePoweredBy).toHaveBeenCalledTimes(1);
-      expect(helmet.hsts).toHaveBeenCalledTimes(1);
-      expect(helmet.ieNoOpen).toHaveBeenCalledTimes(1);
-      expect(helmet.noSniff).toHaveBeenCalledTimes(1);
-      expect(helmet.xssFilter).toHaveBeenCalledTimes(1);
-      expect(helmet.dnsPrefetchControl).toHaveBeenCalledWith({});
-      expect(helmet.hidePoweredBy).toHaveBeenCalledWith({});
-      expect(helmet.hsts).toHaveBeenCalledWith({});
-      expect(helmet.ieNoOpen).toHaveBeenCalledWith({});
-      expect(helmet.noSniff).toHaveBeenCalledWith({});
-      expect(helmet.xssFilter).toHaveBeenCalledWith({});
-      expect(helmet.contentSecurityPolicy).not.toHaveBeenCalled();
-      expect(helmet.expectCt).not.toHaveBeenCalled();
-      expect(helmet.hpkp).not.toHaveBeenCalled();
-      expect(helmet.noCache).not.toHaveBeenCalled();
-      expect(helmet.permittedCrossDomainPolicies).not.toHaveBeenCalled();
-    });
-
-    it("lets you set options for a non-default middleware", function () {
-      const options = {
-        directives: {
-          defaultSrc: ["*"],
-        },
-      };
-
-      helmet({ contentSecurityPolicy: options });
-
-      expect(helmet.contentSecurityPolicy).toHaveBeenCalledTimes(1);
-      expect(helmet.contentSecurityPolicy).toHaveBeenCalledWith(options);
-
-      expect(helmet.dnsPrefetchControl).toHaveBeenCalledTimes(1);
-      expect(helmet.frameguard).toHaveBeenCalledTimes(1);
-      expect(helmet.hidePoweredBy).toHaveBeenCalledTimes(1);
-      expect(helmet.hsts).toHaveBeenCalledTimes(1);
-      expect(helmet.ieNoOpen).toHaveBeenCalledTimes(1);
-      expect(helmet.noSniff).toHaveBeenCalledTimes(1);
-      expect(helmet.xssFilter).toHaveBeenCalledTimes(1);
-      expect(helmet.dnsPrefetchControl).toHaveBeenCalledWith({});
-      expect(helmet.frameguard).toHaveBeenCalledWith({});
-      expect(helmet.hidePoweredBy).toHaveBeenCalledWith({});
-      expect(helmet.hsts).toHaveBeenCalledWith({});
-      expect(helmet.ieNoOpen).toHaveBeenCalledWith({});
-      expect(helmet.noSniff).toHaveBeenCalledWith({});
-      expect(helmet.xssFilter).toHaveBeenCalledWith({});
-      expect(helmet.expectCt).not.toHaveBeenCalled();
-      expect(helmet.hpkp).not.toHaveBeenCalled();
-      expect(helmet.noCache).not.toHaveBeenCalled();
-      expect(helmet.permittedCrossDomainPolicies).not.toHaveBeenCalled();
-    });
-
-    it("errors when `use`d directly", function () {
-      const fakeRequest = {
-        constructor: {
-          name: "IncomingMessage",
-        },
-      };
-
-      expect(() => {
-        helmet(fakeRequest as any);
-      }).toThrow();
-    });
-
-    it("names its function and middleware", function () {
-      expect(helmet.name).toBe("helmet");
-      expect(helmet.name).toBe(helmet().name);
+    // These errors exist to ease the major version transition. The code (and these tests)
+    // can safely be removed without a breaking change.
+    it("aliases deprecated middlewares", () => {
+      expect(helmet.featurePolicy).toThrow(
+        /^helmet.featurePolicy was removed because the Feature-Policy header is deprecated. If you still need this header, you can use the `feature-policy` module.$/
+      );
+      expect(helmet.hpkp).toThrow(
+        /^helmet.hpkp was removed because the header has been deprecated. If you still need this header, you can use the `hpkp` module. For more, see <https:\/\/github.com\/helmetjs\/helmet\/issues\/180>.$/
+      );
+      expect(helmet.noCache).toThrow(
+        /^helmet.noCache was removed. You can use the `nocache` module instead. For more, see <https:\/\/github.com\/helmetjs\/helmet\/issues\/215>.$/
+      );
     });
   });
 });

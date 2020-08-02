@@ -1,0 +1,12 @@
+{
+  "name": "hsts",
+  "description": "HTTP Strict Transport Security middleware",
+  "version": "2.2.0",
+  "keywords": [
+    "express",
+    "security",
+    "hsts",
+    "strict-transport-security",
+    "https"
+  ]
+}

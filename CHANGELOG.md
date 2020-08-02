@@ -1,13 +1,41 @@
 # Changelog
 
-## Unreleased
+## 4.0.0 - 2020-08-02
+
+### Added
+
+- `helmet.contentSecurityPolicy`:
+  - If no `default-src` directive is supplied, an error is thrown
+  - Directive lists can be any iterable, not just arrays
 
 ### Changed
 
-- `helmet.hidePoweredBy` is no longer a separate package. This should have no effect on end users.
-- `helmet.noSniff` is no longer a separate package. This should have no effect on end users.
-- `helmet.permittedCrossDomainPolicies` is no longer a separate package. This should have no effect on end users.
-- `helmet.referrerPolicy` is no longer a separate package. This should have no effect on end users.
+- This package no longer has dependencies. This should have no effect on end users, other than speeding up installation time.
+- `helmet.contentSecurityPolicy`:
+  - There is now a default set of directives if none are supplied
+  - Duplicate keys now throw an error. See [helmetjs/csp#73](https://github.com/helmetjs/csp/issues/73)
+  - This middleware is more lenient, allowing more directive names or values
+- `helmet.xssFilter` now disables the buggy XSS filter by default. See [#230](https://github.com/helmetjs/helmet/issues/230)
+
+### Removed
+
+- Dropped support for old Node versions. Node 10+ is now required
+- `helmet.featurePolicy`. If you still need it, use the `feature-policy` package on npm.
+- `helmet.hpkp`. If you still need it, use the `hpkp` package on npm.
+- `helmet.noCache`. If you still need it, use the `nocache` package on npm.
+- `helmet.contentSecurityPolicy`:
+  - Removed browser sniffing (including the `browserSniff` and `disableAndroid` parameters). See See [helmetjs/csp#97](https://github.com/helmetjs/csp/issues/97)
+  - Removed conditional support. This includes directive functions and support for a function as the `reportOnly`. [Read this if you need help.](https://github.com/helmetjs/helmet/wiki/Conditionally-using-middleware)
+  - Removed a lot of checks—you should be checking your CSP with a different tool
+  - Removed support for legacy headers (and therefore the `setAllHeaders` parameter). [Read this if you need help.](https://github.com/helmetjs/helmet/wiki/Setting-legacy-Content-Security-Policy-headers-in-Helmet-4)
+  - Removed the `loose` option
+- `helmet.frameguard`:
+  - Dropped support for the `ALLOW-FROM` action. [Read more here.](https://github.com/helmetjs/helmet/wiki/How-to-use-X%E2%80%93Frame%E2%80%93Options's-%60ALLOW%E2%80%93FROM%60-directive)
+- `helmet.hidePoweredBy` no longer accepts arguments. See [this article](https://github.com/helmetjs/helmet/wiki/How-to-set-a-custom-X%E2%80%93Powered%E2%80%93By-header) to see how to replicate the removed behavior. See [#224](https://github.com/helmetjs/helmet/issues/224).
+- `helmet.hsts`:
+  - Dropped support for `includeSubdomains` with a lowercase D. See [#231](https://github.com/helmetjs/helmet/issues/231)
+  - Dropped support for `setIf`. [Read this if you need help.](https://github.com/helmetjs/helmet/wiki/Conditionally-using-middleware). See [#232](https://github.com/helmetjs/helmet/issues/232)
+- `helmet.xssFilter` no longer accepts options. Read ["How to disable blocking with X–XSS–Protection"](https://github.com/helmetjs/helmet/wiki/How-to-disable-blocking-with-X%E2%80%93XSS%E2%80%93Protection) and ["How to enable the `report` directive with X–XSS–Protection"](https://github.com/helmetjs/helmet/wiki/How-to-enable-the-%60report%60-directive-with-X%E2%80%93XSS%E2%80%93Protection) if you need the legacy behavior.
 
 ## 3.23.3 - 2020-06-26
 

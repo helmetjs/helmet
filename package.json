@@ -2,20 +2,15 @@
   "name": "helmet",
   "author": "Adam Baldwin <adam@npmjs.com> (https://evilpacket.net)",
   "contributors": [
-    "Evan Hahn <me@evanhahn.com> (https://evanhahn.com)"
+    "Evan Hahn <me@evanhahn.com> (https://evanhahn.com)",
+    "Ameen Abdeen <ameen.abdeen.se@gmail.com>"
   ],
   "description": "help secure Express/Connect apps with various HTTP headers",
-  "version": "3.23.3",
+  "version": "4.0.0-rc.2",
   "keywords": [
-    "security",
-    "headers",
     "express",
-    "connect",
-    "x-frame-options",
-    "x-powered-by",
-    "csp",
-    "hsts",
-    "clickjack"
+    "security",
+    "headers"
   ],
   "homepage": "https://helmetjs.github.io/",
   "bugs": {
@@ -27,7 +22,7 @@
     "url": "git://github.com/helmetjs/helmet.git"
   },
   "engines": {
-    "node": ">=4.0.0"
+    "node": ">=10.0.0"
   },
   "files": [
     "CHANGELOG.md",
@@ -37,38 +32,44 @@
     "README.md",
     "SECURITY.md",
     "dist/index.js",
+    "dist/index.d.ts",
+    "dist/middlewares/content-security-policy/index.js",
+    "dist/middlewares/content-security-policy/index.d.ts",
     "dist/middlewares/expect-ct/index.js",
+    "dist/middlewares/expect-ct/index.d.ts",
     "dist/middlewares/referrer-policy/index.js",
+    "dist/middlewares/referrer-policy/index.d.ts",
+    "dist/middlewares/strict-transport-security/index.js",
+    "dist/middlewares/strict-transport-security/index.d.ts",
     "dist/middlewares/x-content-type-options/index.js",
+    "dist/middlewares/x-content-type-options/index.d.ts",
     "dist/middlewares/x-dns-prefetch-control/index.js",
+    "dist/middlewares/x-dns-prefetch-control/index.d.ts",
     "dist/middlewares/x-download-options/index.js",
+    "dist/middlewares/x-download-options/index.d.ts",
     "dist/middlewares/x-frame-options/index.js",
+    "dist/middlewares/x-frame-options/index.d.ts",
     "dist/middlewares/x-permitted-cross-domain-policies/index.js",
-    "dist/middlewares/x-powered-by/index.js"
+    "dist/middlewares/x-permitted-cross-domain-policies/index.d.ts",
+    "dist/middlewares/x-powered-by/index.js",
+    "dist/middlewares/x-powered-by/index.d.ts",
+    "dist/middlewares/x-xss-protection/index.js",
+    "dist/middlewares/x-xss-protection/index.d.ts"
   ],
-  "dependencies": {
-    "depd": "2.0.0",
-    "feature-policy": "0.3.0",
-    "helmet-csp": "2.10.0",
-    "hpkp": "2.0.0",
-    "hsts": "2.2.0",
-    "nocache": "2.1.0",
-    "x-xss-protection": "1.3.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@types/connect": "^3.4.33",
-    "@types/depd": "^1.1.32",
-    "@types/jest": "^26.0.3",
+    "@types/jest": "^26.0.8",
     "@types/supertest": "^2.0.10",
-    "@typescript-eslint/eslint-plugin": "^3.4.0",
-    "@typescript-eslint/parser": "^3.4.0",
+    "@typescript-eslint/eslint-plugin": "^3.7.1",
+    "@typescript-eslint/parser": "^3.7.1",
     "connect": "^3.7.0",
-    "eslint": "^7.3.1",
-    "jest": "^26.1.0",
+    "eslint": "^7.6.0",
+    "jest": "^26.2.2",
     "prettier": "^2.0.5",
     "supertest": "^4.0.2",
-    "ts-jest": "^26.1.1",
-    "typescript": "^3.9.5"
+    "ts-jest": "^26.1.4",
+    "typescript": "^3.9.7"
   },
   "scripts": {
     "pretest": "npm run lint",

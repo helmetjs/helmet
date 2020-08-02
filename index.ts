@@ -1,79 +1,51 @@
 import { IncomingMessage, ServerResponse } from "http";
-import expectCt from "./middlewares/expect-ct";
-import referrerPolicy from "./middlewares/referrer-policy";
+import contentSecurityPolicy, {
+  ContentSecurityPolicyOptions,
+} from "./middlewares/content-security-policy";
+import expectCt, { ExpectCtOptions } from "./middlewares/expect-ct";
+import referrerPolicy, {
+  ReferrerPolicyOptions,
+} from "./middlewares/referrer-policy";
+import strictTransportSecurity, {
+  StrictTransportSecurityOptions,
+} from "./middlewares/strict-transport-security";
 import xContentTypeOptions from "./middlewares/x-content-type-options";
-import xDnsPrefetchControl from "./middlewares/x-dns-prefetch-control";
+import xDnsPrefetchControl, {
+  XDnsPrefetchControlOptions,
+} from "./middlewares/x-dns-prefetch-control";
 import xDownloadOptions from "./middlewares/x-download-options";
-import xFrameOptions from "./middlewares/x-frame-options";
-import xPermittedCrossDomainPolicies from "./middlewares/x-permitted-cross-domain-policies";
+import xFrameOptions, {
+  XFrameOptionsOptions,
+} from "./middlewares/x-frame-options";
+import xPermittedCrossDomainPolicies, {
+  XPermittedCrossDomainPoliciesOptions,
+} from "./middlewares/x-permitted-cross-domain-policies";
 import xPoweredBy from "./middlewares/x-powered-by";
-import depd = require("depd");
+import xXssProtection from "./middlewares/x-xss-protection";
 
-interface HelmetOptions {
-  contentSecurityPolicy?: any;
-  dnsPrefetchControl?: any;
-  expectCt?: any;
-  featurePolicy?: any;
-  frameguard?: any;
-  hidePoweredBy?: any;
-  hsts?: any;
-  ieNoOpen?: any;
-  noSniff?: any;
-  permittedCrossDomainPolicies?: any;
-  referrerPolicy?: any;
-  xssFilter?: any;
-  hpkp?: any;
-  noCache?: any;
+export interface HelmetOptions {
+  contentSecurityPolicy?: MiddlewareOption<ContentSecurityPolicyOptions>;
+  dnsPrefetchControl?: MiddlewareOption<XDnsPrefetchControlOptions>;
+  expectCt?: MiddlewareOption<ExpectCtOptions>;
+  frameguard?: MiddlewareOption<XFrameOptionsOptions>;
+  hidePoweredBy?: MiddlewareOption<never>;
+  hsts?: MiddlewareOption<StrictTransportSecurityOptions>;
+  ieNoOpen?: MiddlewareOption<never>;
+  noSniff?: MiddlewareOption<never>;
+  permittedCrossDomainPolicies?: MiddlewareOption<
+    XPermittedCrossDomainPoliciesOptions
+  >;
+  referrerPolicy?: MiddlewareOption<ReferrerPolicyOptions>;
+  xssFilter?: MiddlewareOption<never>;
 }
+
+type MiddlewareOption<T> = false | T;
 
 interface MiddlewareFunction {
   (req: IncomingMessage, res: ServerResponse, next: () => void): void;
 }
 
-const deprecate = depd("helmet");
-
-const DEFAULT_MIDDLEWARE = [
-  "dnsPrefetchControl",
-  "frameguard",
-  "hidePoweredBy",
-  "hsts",
-  "ieNoOpen",
-  "noSniff",
-  "xssFilter",
-];
-
-type MiddlewareName =
-  | "contentSecurityPolicy"
-  | "dnsPrefetchControl"
-  | "expectCt"
-  | "featurePolicy"
-  | "frameguard"
-  | "hidePoweredBy"
-  | "hsts"
-  | "ieNoOpen"
-  | "noSniff"
-  | "permittedCrossDomainPolicies"
-  | "referrerPolicy"
-  | "xssFilter"
-  | "hpkp"
-  | "noCache";
-
-const middlewares: MiddlewareName[] = [
-  "contentSecurityPolicy",
-  "dnsPrefetchControl",
-  "expectCt",
-  "featurePolicy",
-  "frameguard",
-  "hidePoweredBy",
-  "hsts",
-  "ieNoOpen",
-  "noSniff",
-  "permittedCrossDomainPolicies",
-  "referrerPolicy",
-  "xssFilter",
-  "hpkp",
-  "noCache",
-];
+function noop() {}
 
 function helmet(options: Readonly<HelmetOptions> = {}) {
   if (options.constructor.name === "IncomingMessage") {
@@ -82,79 +54,141 @@ function helmet(options: Readonly<HelmetOptions> = {}) {
     );
   }
 
-  const stack: MiddlewareFunction[] = middlewares.reduce(function (
-    result,
-    middlewareName
-  ) {
-    const middleware = helmet[middlewareName];
-    let middlewareOptions = options[middlewareName];
-    const isDefault = DEFAULT_MIDDLEWARE.indexOf(middlewareName) !== -1;
+  // This is overly verbose. It'd be nice to condense this while still being type-safe.
 
-    if (middlewareOptions === false) {
-      return result;
-    } else if (middlewareOptions === true) {
-      middlewareOptions = {};
+  if (Object.values(options).some((option) => option === true)) {
+    throw new Error(
+      "Helmet no longer supports `true` as a middleware option. Remove the property from your options to fix this error."
+    );
+  }
+
+  const middlewareFunctions: MiddlewareFunction[] = [];
+
+  if (options.contentSecurityPolicy === undefined) {
+    middlewareFunctions.push(contentSecurityPolicy());
+  } else if (options.contentSecurityPolicy !== false) {
+    middlewareFunctions.push(
+      contentSecurityPolicy(options.contentSecurityPolicy)
+    );
+  }
+
+  if (options.dnsPrefetchControl === undefined) {
+    middlewareFunctions.push(xDnsPrefetchControl());
+  } else if (options.dnsPrefetchControl !== false) {
+    middlewareFunctions.push(xDnsPrefetchControl(options.dnsPrefetchControl));
+  }
+
+  if (options.expectCt === undefined) {
+    middlewareFunctions.push(expectCt());
+  } else if (options.expectCt !== false) {
+    middlewareFunctions.push(expectCt(options.expectCt));
+  }
+
+  if (options.frameguard === undefined) {
+    middlewareFunctions.push(xFrameOptions());
+  } else if (options.frameguard !== false) {
+    middlewareFunctions.push(xFrameOptions(options.frameguard));
+  }
+
+  if (options.hidePoweredBy !== false) {
+    if (options.hidePoweredBy !== undefined) {
+      console.warn(
+        "hidePoweredBy does not take options. Remove the property to silence this warning."
+      );
     }
+    middlewareFunctions.push(xPoweredBy());
+  }
 
-    if (middlewareOptions != null) {
-      return result.concat(middleware(middlewareOptions));
-    } else if (isDefault) {
-      return result.concat(middleware({}));
+  if (options.hsts === undefined || options.hsts === true) {
+    middlewareFunctions.push(strictTransportSecurity());
+  } else if (options.hsts !== false) {
+    middlewareFunctions.push(strictTransportSecurity(options.hsts));
+  }
+
+  if (options.ieNoOpen !== false) {
+    if (options.ieNoOpen !== undefined) {
+      console.warn(
+        "ieNoOpen does not take options. Remove the property to silence this warning."
+      );
     }
-    return result;
-  },
-  []);
+    middlewareFunctions.push(xDownloadOptions());
+  }
 
-  return function helmet(
+  if (options.noSniff !== false) {
+    if (options.noSniff !== undefined) {
+      console.warn(
+        "noSniff does not take options. Remove the property to silence this warning."
+      );
+    }
+    middlewareFunctions.push(xContentTypeOptions());
+  }
+
+  if (options.permittedCrossDomainPolicies === undefined) {
+    middlewareFunctions.push(xPermittedCrossDomainPolicies());
+  } else if (options.permittedCrossDomainPolicies !== false) {
+    middlewareFunctions.push(
+      xPermittedCrossDomainPolicies(options.permittedCrossDomainPolicies)
+    );
+  }
+
+  if (options.referrerPolicy === undefined) {
+    middlewareFunctions.push(referrerPolicy());
+  } else if (options.referrerPolicy !== false) {
+    middlewareFunctions.push(referrerPolicy(options.referrerPolicy));
+  }
+
+  if (options.xssFilter !== false) {
+    if (options.xssFilter !== undefined) {
+      console.warn(
+        "xssFilter does not take options. Remove the property to silence this warning."
+      );
+    }
+    middlewareFunctions.push(xXssProtection());
+  }
+
+  return function helmetMiddleware(
     req: IncomingMessage,
     res: ServerResponse,
-    next: (...args: unknown[]) => void
-  ) {
-    let index = 0;
-
-    function internalNext(...args: unknown[]) {
-      if (args.length > 0) {
-        next(...args);
-        return;
-      }
-
-      const middleware = stack[index];
-      if (!middleware) {
-        return next();
-      }
-
-      index++;
-
-      middleware(req, res, internalNext);
+    next: () => void
+  ): void {
+    // All of Helmet's middleware is synchronous today, so we can get away with this.
+    // If that changes, we'll need to do something smarter here.
+    for (const middlewareFunction of middlewareFunctions) {
+      middlewareFunction(req, res, noop);
     }
-
-    internalNext();
+    next();
   };
 }
 
-helmet.contentSecurityPolicy = require("helmet-csp");
+helmet.contentSecurityPolicy = contentSecurityPolicy;
 helmet.dnsPrefetchControl = xDnsPrefetchControl;
 helmet.expectCt = expectCt;
 helmet.frameguard = xFrameOptions;
 helmet.hidePoweredBy = xPoweredBy;
-helmet.hsts = require("hsts");
+helmet.hsts = strictTransportSecurity;
 helmet.ieNoOpen = xDownloadOptions;
 helmet.noSniff = xContentTypeOptions;
 helmet.permittedCrossDomainPolicies = xPermittedCrossDomainPolicies;
 helmet.referrerPolicy = referrerPolicy;
-helmet.xssFilter = require("x-xss-protection");
+helmet.xssFilter = xXssProtection;
 
-helmet.featurePolicy = deprecate.function(
-  require("feature-policy"),
-  "helmet.featurePolicy is deprecated (along with the HTTP header) and will be removed in helmet@4. You can use the `feature-policy` module instead."
-);
-helmet.hpkp = deprecate.function(
-  require("hpkp"),
-  "helmet.hpkp is deprecated and will be removed in helmet@4. You can use the `hpkp` module instead. For more, see https://github.com/helmetjs/helmet/issues/180."
-);
-helmet.noCache = deprecate.function(
-  require("nocache"),
-  "helmet.noCache is deprecated and will be removed in helmet@4. You can use the `nocache` module instead. For more, see https://github.com/helmetjs/helmet/issues/215."
-);
+helmet.featurePolicy = () => {
+  throw new Error(
+    "helmet.featurePolicy was removed because the Feature-Policy header is deprecated. If you still need this header, you can use the `feature-policy` module."
+  );
+};
 
-export = helmet;
+helmet.hpkp = () => {
+  throw new Error(
+    "helmet.hpkp was removed because the header has been deprecated. If you still need this header, you can use the `hpkp` module. For more, see <https://github.com/helmetjs/helmet/issues/180>."
+  );
+};
+
+helmet.noCache = () => {
+  throw new Error(
+    "helmet.noCache was removed. You can use the `nocache` module instead. For more, see <https://github.com/helmetjs/helmet/issues/215>."
+  );
+};
+
+module.exports = helmet;
+export default helmet;

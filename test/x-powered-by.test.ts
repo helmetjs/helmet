@@ -19,10 +19,4 @@ describe("X-Powered-By middleware", () => {
       }
     );
   });
-
-  it("allows you to explicitly set the header", async () => {
-    await check(xPoweredBy({ setTo: "steampowered" }), {
-      "x-powered-by": "steampowered",
-    });
-  });
 });

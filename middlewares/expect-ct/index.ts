@@ -9,11 +9,17 @@ export interface ExpectCtOptions {
 function parseMaxAge(value: void | number): number {
   if (value === undefined) {
     return 0;
-  } else if (typeof value === "number" && value >= 0) {
+  } else if (
+    typeof value === "number" &&
+    value >= 0 &&
+    Number.isFinite(value)
+  ) {
     return Math.floor(value);
   } else {
     throw new Error(
-      `${value} is not a valid value for maxAge. Please choose a positive integer.`
+      `Expect-CT: ${JSON.stringify(
+        value
+      )} is not a valid value for maxAge. Please choose a positive integer.`
     );
   }
 }

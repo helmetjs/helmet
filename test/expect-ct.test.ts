@@ -32,9 +32,13 @@ describe("Expect-CT middleware", () => {
     });
   });
 
-  it("rejects negative max-ages", async () => {
+  it("rejects invalid max-ages", async () => {
     expect(() => expectCt({ maxAge: -123 })).toThrow();
     expect(() => expectCt({ maxAge: -0.1 })).toThrow();
+    expect(() => expectCt({ maxAge: Infinity })).toThrow();
+    expect(() => expectCt({ maxAge: NaN })).toThrow();
+    expect(() => expectCt({ maxAge: "123" as any })).toThrow();
+    expect(() => expectCt({ maxAge: BigInt(12) as any })).toThrow();
   });
 
   it("can enable enforcement", async () => {
