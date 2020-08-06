@@ -29,6 +29,7 @@
   - Removed a lot of checks—you should be checking your CSP with a different tool
   - Removed support for legacy headers (and therefore the `setAllHeaders` parameter). [Read this if you need help.](https://github.com/helmetjs/helmet/wiki/Setting-legacy-Content-Security-Policy-headers-in-Helmet-4)
   - Removed the `loose` option
+  - Removed support for functions as directive values. You must supply an iterable of strings
 - `helmet.frameguard`:
   - Dropped support for the `ALLOW-FROM` action. [Read more here.](https://github.com/helmetjs/helmet/wiki/How-to-use-X%E2%80%93Frame%E2%80%93Options's-%60ALLOW%E2%80%93FROM%60-directive)
 - `helmet.hidePoweredBy` no longer accepts arguments. See [this article](https://github.com/helmetjs/helmet/wiki/How-to-set-a-custom-X%E2%80%93Powered%E2%80%93By-header) to see how to replicate the removed behavior. See [#224](https://github.com/helmetjs/helmet/issues/224).

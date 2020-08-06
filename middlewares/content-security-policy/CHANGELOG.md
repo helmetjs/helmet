@@ -21,6 +21,7 @@
 - Removed support for legacy headers (and therefore the `setAllHeaders` parameter). [Read this if you need help.](https://github.com/helmetjs/helmet/wiki/Setting-legacy-Content-Security-Policy-headers-in-Helmet-4)
 - Dropped support for old Node versions. Node 10+ is now required
 - Removed the `loose` option
+- Removed support for functions as directive values. You must supply an iterable of strings
 - Removed the `disableAndroid` option
 
 ## 2.9.5 - 2020-02-22
