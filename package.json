@@ -59,10 +59,10 @@
   "dependencies": {},
   "devDependencies": {
     "@types/connect": "^3.4.33",
-    "@types/jest": "^26.0.8",
+    "@types/jest": "^26.0.9",
     "@types/supertest": "^2.0.10",
-    "@typescript-eslint/eslint-plugin": "^3.7.1",
-    "@typescript-eslint/parser": "^3.7.1",
+    "@typescript-eslint/eslint-plugin": "^3.8.0",
+    "@typescript-eslint/parser": "^3.8.0",
     "connect": "^3.7.0",
     "eslint": "^7.6.0",
     "jest": "^26.2.2",
