@@ -2,6 +2,8 @@
 
 ## 4.0.0 - 2020-08-02
 
+See the [Helmet 4 upgrade guide](https://github.com/helmetjs/helmet/wiki/Helmet-4-upgrade-guide) for help upgrading from Helmet 3.
+
 ### Added
 
 - `helmet.contentSecurityPolicy`:
