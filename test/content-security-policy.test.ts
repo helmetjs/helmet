@@ -1,4 +1,7 @@
+import { IncomingMessage, ServerResponse } from "http";
 import { check } from "./helpers";
+import connect = require("connect");
+import supertest = require("supertest");
 import contentSecurityPolicy from "../middlewares/content-security-policy";
 
 async function checkCsp({
@@ -162,6 +165,29 @@ describe("Content-Security-Policy middleware", () => {
     });
   });
 
+  it("allows functions in directive values to generate dynamic directives", async () => {
+    await checkCsp({
+      middlewareArgs: [
+        {
+          directives: {
+            "default-src": [
+              "'self'",
+              (req: IncomingMessage, res: ServerResponse) => {
+                expect(req).toBeInstanceOf(IncomingMessage);
+                expect(res).toBeInstanceOf(ServerResponse);
+                return "foo.example.com";
+              },
+              "bar.example.com",
+            ],
+          },
+        },
+      ],
+      expectedDirectives: new Set([
+        "default-src 'self' foo.example.com bar.example.com",
+      ]),
+    });
+  });
+
   it('can set the "report only" version of the header instead', async () => {
     await checkCsp({
       middlewareArgs: [
@@ -241,6 +267,35 @@ describe("Content-Security-Policy middleware", () => {
         /^Content-Security-Policy received an invalid directive value for "something-else"$/
       );
     }
+  });
+
+  it("errors if any directive values are invalid when a function returns", async () => {
+    const app = connect()
+      .use(
+        contentSecurityPolicy({
+          directives: {
+            defaultSrc: ["'self'", () => "bad;value"],
+          },
+        })
+      )
+      .use(
+        (
+          err: Error,
+          _req: IncomingMessage,
+          res: ServerResponse,
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          _next: () => void
+        ) => {
+          res.statusCode = 500;
+          res.setHeader("Content-Type", "application/json");
+          res.end(JSON.stringify({ message: err.message }));
+        }
+      );
+
+    await supertest(app).get("/").expect(500, {
+      message:
+        'Content-Security-Policy received an invalid directive value for "default-src"',
+    });
   });
 
   it("throws if default-src is missing", () => {

@@ -1,4 +1,7 @@
+import { IncomingMessage, ServerResponse } from "http";
 import { check } from "./helpers";
+import connect = require("connect");
+import supertest = require("supertest");
 
 import helmet from "..";
 
@@ -62,6 +65,37 @@ describe("helmet", () => {
     }).toThrow(
       "Helmet no longer supports `true` as a middleware option. Remove the property from your options to fix this error."
     );
+  });
+
+  it("properly handles a middleware calling `next()` with an error", async () => {
+    const app = connect()
+      .use(
+        helmet({
+          contentSecurityPolicy: {
+            directives: {
+              defaultSrc: ["'self'", () => "bad;value"],
+            },
+          },
+        })
+      )
+      .use(
+        (
+          err: Error,
+          _req: IncomingMessage,
+          res: ServerResponse,
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          _next: () => void
+        ) => {
+          res.statusCode = 500;
+          res.setHeader("Content-Type", "application/json");
+          res.end(JSON.stringify({ message: err.message }));
+        }
+      );
+
+    await supertest(app).get("/").expect(500, {
+      message:
+        'Content-Security-Policy received an invalid directive value for "default-src"',
+    });
   });
 
   describe("warnings", () => {

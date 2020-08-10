@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.1.0 - Unreleased
+
+### Added
+
+- Directive values can now include functions, as they could in Helmet 3. See [#243](https://github.com/helmetjs/helmet/issues/243)
+
 ## 3.0.0 - 2020-08-02
 
 ### Added

@@ -1,11 +1,35 @@
 import { IncomingMessage, ServerResponse } from "http";
 
+interface ContentSecurityPolicyDirectiveValueFunction {
+  (req: IncomingMessage, res: ServerResponse): string;
+}
+
+type ContentSecurityPolicyDirectiveValue =
+  | string
+  | ContentSecurityPolicyDirectiveValueFunction;
+
+interface ContentSecurityPolicyDirectives {
+  [directiveName: string]: Iterable<ContentSecurityPolicyDirectiveValue>;
+}
+
 export interface ContentSecurityPolicyOptions {
-  directives?: {
-    [directiveName: string]: Iterable<string>;
-  };
+  directives?: ContentSecurityPolicyDirectives;
   reportOnly?: boolean;
 }
+
+const DEFAULT_DIRECTIVES: ContentSecurityPolicyDirectives = {
+  "default-src": ["'self'"],
+  "base-uri": ["'self'"],
+  "block-all-mixed-content": [],
+  "font-src": ["'self'", "https:", "data:"],
+  "frame-ancestors": ["'self'"],
+  "img-src": ["'self'", "data:"],
+  "object-src": ["'none'"],
+  "script-src": ["'self'"],
+  "script-src-attr": ["'none'"],
+  "style-src": ["'self'", "https:", "'unsafe-inline'"],
+  "upgrade-insecure-requests": [],
+};
 
 const isRawPolicyDirectiveNameInvalid = (rawDirectiveName: string): boolean =>
   rawDirectiveName.length === 0 || /[^a-zA-Z0-9-]/.test(rawDirectiveName);
@@ -13,9 +37,15 @@ const isRawPolicyDirectiveNameInvalid = (rawDirectiveName: string): boolean =>
 const dashify = (str: string): string =>
   str.replace(/[A-Z]/g, (capitalLetter) => "-" + capitalLetter.toLowerCase());
 
-function getHeaderNameFromOptions({
+const isDirectiveValueInvalid = (directiveValue: string): boolean =>
+  /;|,/.test(directiveValue);
+
+const has = (obj: Readonly<object>, key: string): boolean =>
+  Object.prototype.hasOwnProperty.call(obj, key);
+
+function getHeaderName({
   reportOnly,
-}: ContentSecurityPolicyOptions): string {
+}: Readonly<ContentSecurityPolicyOptions>): string {
   if (reportOnly) {
     return "Content-Security-Policy-Report-Only";
   } else {
@@ -23,9 +53,108 @@ function getHeaderNameFromOptions({
   }
 }
 
-function getHeaderValueFromOptions(
-  options: ContentSecurityPolicyOptions
-): string {
+function normalizeDirectives(
+  options: Readonly<ContentSecurityPolicyOptions>
+): ContentSecurityPolicyDirectives {
+  const result: ContentSecurityPolicyDirectives = {};
+
+  const { directives: rawDirectives = DEFAULT_DIRECTIVES } = options;
+
+  for (const rawDirectiveName in rawDirectives) {
+    if (!has(rawDirectives, rawDirectiveName)) {
+      continue;
+    }
+
+    if (isRawPolicyDirectiveNameInvalid(rawDirectiveName)) {
+      throw new Error(
+        `Content-Security-Policy received an invalid directive name ${JSON.stringify(
+          rawDirectiveName
+        )}`
+      );
+    }
+    const directiveName = dashify(rawDirectiveName);
+    if (has(result, directiveName)) {
+      throw new Error(
+        `Content-Security-Policy received a duplicate directive ${JSON.stringify(
+          directiveName
+        )}`
+      );
+    }
+
+    const rawDirectiveValue = rawDirectives[rawDirectiveName];
+    let directiveValue: Iterable<ContentSecurityPolicyDirectiveValue>;
+    if (typeof rawDirectiveValue === "string") {
+      directiveValue = [rawDirectiveValue];
+    } else {
+      directiveValue = rawDirectiveValue;
+    }
+    for (const element of directiveValue) {
+      if (typeof element === "string" && isDirectiveValueInvalid(element)) {
+        throw new Error(
+          `Content-Security-Policy received an invalid directive value for ${JSON.stringify(
+            directiveName
+          )}`
+        );
+      }
+    }
+
+    result[directiveName] = directiveValue;
+  }
+
+  if (!("default-src" in result)) {
+    throw new Error(
+      "Content-Security-Policy needs a default-src but none was provided"
+    );
+  }
+
+  return result;
+}
+
+function getHeaderValue(
+  req: IncomingMessage,
+  res: ServerResponse,
+  directives: ContentSecurityPolicyDirectives
+): string | Error {
+  const result: string[] = [];
+
+  for (const directiveName in directives) {
+    if (!has(directives, directiveName)) {
+      continue;
+    }
+
+    const rawDirectiveValue = directives[directiveName];
+    let directiveValue = "";
+    for (const element of rawDirectiveValue) {
+      if (element instanceof Function) {
+        directiveValue += " " + element(req, res);
+      } else {
+        directiveValue += " " + element;
+      }
+    }
+
+    if (!directiveValue) {
+      result.push(directiveName);
+    } else if (isDirectiveValueInvalid(directiveValue)) {
+      return new Error(
+        `Content-Security-Policy received an invalid directive value for ${JSON.stringify(
+          directiveName
+        )}`
+      );
+    } else {
+      result.push(`${directiveName}${directiveValue}`);
+    }
+  }
+
+  return result.join(";");
+}
+
+function contentSecurityPolicy(
+  options: Readonly<ContentSecurityPolicyOptions> = {}
+): (
+  req: IncomingMessage,
+  res: ServerResponse,
+  next: (err?: Error) => void
+) => void {
   if ("loose" in options) {
     console.warn(
       "Content-Security-Policy middleware no longer needs the `loose` parameter. You should remove it."
@@ -44,91 +173,21 @@ function getHeaderValueFromOptions(
     }
   });
 
-  const {
-    directives = {
-      "default-src": ["'self'"],
-      "base-uri": ["'self'"],
-      "block-all-mixed-content": [],
-      "font-src": ["'self'", "https:", "data:"],
-      "frame-ancestors": ["'self'"],
-      "img-src": ["'self'", "data:"],
-      "object-src": ["'none'"],
-      "script-src": ["'self'"],
-      "script-src-attr": ["'none'"],
-      "style-src": ["'self'", "https:", "'unsafe-inline'"],
-      "upgrade-insecure-requests": [],
-    },
-  } = options;
-
-  const directiveNamesUsed = new Set<string>();
-
-  const result = Object.entries(directives)
-    .map(([rawDirectiveName, rawDirectiveValue]) => {
-      if (isRawPolicyDirectiveNameInvalid(rawDirectiveName)) {
-        throw new Error(
-          `Content-Security-Policy received an invalid directive name ${JSON.stringify(
-            rawDirectiveName
-          )}`
-        );
-      }
-      const directiveName = dashify(rawDirectiveName);
-      if (directiveNamesUsed.has(directiveName)) {
-        throw new Error(
-          `Content-Security-Policy received a duplicate directive ${JSON.stringify(
-            directiveName
-          )}`
-        );
-      }
-      directiveNamesUsed.add(directiveName);
-
-      let directiveValue: string;
-      if (typeof rawDirectiveValue === "string") {
-        directiveValue = " " + rawDirectiveValue;
-      } else {
-        directiveValue = "";
-        for (const element of rawDirectiveValue) {
-          directiveValue += " " + element;
-        }
-      }
-
-      if (!directiveValue) {
-        return directiveName;
-      }
-
-      if (/;|,/.test(directiveValue)) {
-        throw new Error(
-          `Content-Security-Policy received an invalid directive value for ${JSON.stringify(
-            directiveName
-          )}`
-        );
-      }
-
-      return `${directiveName}${directiveValue}`;
-    })
-    .join(";");
-
-  if (!directiveNamesUsed.has("default-src")) {
-    throw new Error(
-      "Content-Security-Policy needs a default-src but none was provided"
-    );
-  }
-
-  return result;
-}
-
-function contentSecurityPolicy(
-  options: Readonly<ContentSecurityPolicyOptions> = {}
-) {
-  const headerName = getHeaderNameFromOptions(options);
-  const headerValue = getHeaderValueFromOptions(options);
+  const headerName = getHeaderName(options);
+  const directives = normalizeDirectives(options);
 
   return function contentSecurityPolicyMiddleware(
-    _req: IncomingMessage,
+    req: IncomingMessage,
     res: ServerResponse,
-    next: () => void
+    next: (error?: Error) => void
   ) {
-    res.setHeader(headerName, headerValue);
-    next();
+    const result = getHeaderValue(req, res, directives);
+    if (result instanceof Error) {
+      next(result);
+    } else {
+      res.setHeader(headerName, result);
+      next();
+    }
   };
 }
 

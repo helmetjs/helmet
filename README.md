@@ -97,7 +97,7 @@ Each middleware's name is listed below.
 
 This middleware performs very little validation. You should rely on CSP checkers like [CSP Evaluator](https://csp-evaluator.withgoogle.com/) instead.
 
-`options.directives` is an object. Each key is a directive name in camel case (such as `defaultSrc`) or kebab case (such as `default-src`). Each value is an iterable (usually an array) of strings for that directive.
+`options.directives` is an object. Each key is a directive name in camel case (such as `defaultSrc`) or kebab case (such as `default-src`). Each value is an iterable (usually an array) of strings or functions for that directive. If a function appears in the iterable, it will be called with the request and response.
 
 `options.reportOnly` is a boolean, defaulting to `false`. If `true`, [the `Content-Security-Policy-Report-Only` header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy-Report-Only) will be set instead.
 
@@ -150,9 +150,21 @@ app.use(
     reportOnly: true,
   })
 );
-```
 
-See [this wiki page](https://github.com/helmetjs/helmet/wiki/Conditionally-using-middleware#i-want-to-use-some-middleware-with-different-options) to see how to set directives conditionally (to set per-request nonces, for example).
+// Sets "Content-Security-Policy: default-src 'self';script-src 'self' 'nonce-e33ccde670f149c1789b1e1e113b0916'"
+app.use((req, res, next) => {
+  res.locals.cspNonce = crypto.randomBytes(16).toString("hex");
+  next();
+});
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", (req, res) => `'nonce-${res.locals.cspNonce}'`],
+    },
+  })
+);
+```
 
 You can install this module separately as `helmet-csp`.
 

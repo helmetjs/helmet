@@ -1,5 +1,12 @@
 # Changelog
 
+## 4.1.0 - Unreleased
+
+### Added
+
+- `helmet.contentSecurityPolicy`:
+  - Directive values can now include functions, as they could in Helmet 3. See [#243](https://github.com/helmetjs/helmet/issues/243)
+
 ## 4.0.0 - 2020-08-02
 
 See the [Helmet 4 upgrade guide](https://github.com/helmetjs/helmet/wiki/Helmet-4-upgrade-guide) for help upgrading from Helmet 3.
