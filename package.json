@@ -6,7 +6,7 @@
     "Ameen Abdeen <ameen.abdeen.se@gmail.com>"
   ],
   "description": "help secure Express/Connect apps with various HTTP headers",
-  "version": "4.0.0",
+  "version": "4.1.0-rc.1",
   "keywords": [
     "express",
     "security",
