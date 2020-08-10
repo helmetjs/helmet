@@ -190,5 +190,18 @@ helmet.noCache = () => {
   );
 };
 
-module.exports = helmet;
-export default helmet;
+export { helmet };
+export { contentSecurityPolicy };
+export const dnsPrefetchControl = xDnsPrefetchControl;
+export { expectCt };
+export const frameguard = xFrameOptions;
+export const hidePoweredBy = xPoweredBy;
+export const hsts = strictTransportSecurity;
+export const ieNoOpen = xDownloadOptions;
+export const noSniff = xContentTypeOptions;
+export const permittedCrossDomainPolicies = xPermittedCrossDomainPolicies;
+export { referrerPolicy };
+export const xssFilter = xXssProtection;
+export const featurePolicy = helmet.featurePolicy;
+export const hpkp = helmet.hpkp;
+export const noCache = helmet.noCache;

@@ -1,6 +1,6 @@
 import { check } from "./helpers";
 
-import helmet from "..";
+import { helmet } from "..";
 
 import contentSecurityPolicy from "../middlewares/content-security-policy";
 import expectCt from "../middlewares/expect-ct";
