@@ -42,10 +42,12 @@ export interface HelmetOptions {
 type MiddlewareOption<T> = false | T;
 
 interface MiddlewareFunction {
-  (req: IncomingMessage, res: ServerResponse, next: () => void): void;
+  (
+    req: IncomingMessage,
+    res: ServerResponse,
+    next: (error?: Error) => void
+  ): void;
 }
-
-function noop() {}
 
 function helmet(options: Readonly<HelmetOptions> = {}) {
   if (options.constructor.name === "IncomingMessage") {
@@ -149,14 +151,24 @@ function helmet(options: Readonly<HelmetOptions> = {}) {
   return function helmetMiddleware(
     req: IncomingMessage,
     res: ServerResponse,
-    next: () => void
+    next: (err?: unknown) => void
   ): void {
-    // All of Helmet's middleware is synchronous today, so we can get away with this.
-    // If that changes, we'll need to do something smarter here.
-    for (const middlewareFunction of middlewareFunctions) {
-      middlewareFunction(req, res, noop);
-    }
-    next();
+    const iterator = middlewareFunctions[Symbol.iterator]();
+
+    (function internalNext(err?: unknown) {
+      if (err) {
+        next(err);
+        return;
+      }
+
+      const iteration = iterator.next();
+      if (iteration.done) {
+        next();
+      } else {
+        const middlewareFunction = iteration.value;
+        middlewareFunction(req, res, internalNext);
+      }
+    })();
   };
 }
 
