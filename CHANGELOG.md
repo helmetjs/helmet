@@ -7,6 +7,14 @@
 - `helmet.contentSecurityPolicy`:
   - Directive values can now include functions, as they could in Helmet 3. See [#243](https://github.com/helmetjs/helmet/issues/243)
 
+### Changed
+
+- Helmet should now play more nicely with TypeScript
+
+### Removed
+
+- The `HelmetOptions` interface is no longer exported. This only affects TypeScript users.
+
 ## 4.0.0 - 2020-08-02
 
 See the [Helmet 4 upgrade guide](https://github.com/helmetjs/helmet/wiki/Helmet-4-upgrade-guide) for help upgrading from Helmet 3.

@@ -23,7 +23,7 @@ import xPermittedCrossDomainPolicies, {
 import xPoweredBy from "./middlewares/x-powered-by";
 import xXssProtection from "./middlewares/x-xss-protection";
 
-export interface HelmetOptions {
+interface HelmetOptions {
   contentSecurityPolicy?: MiddlewareOption<ContentSecurityPolicyOptions>;
   dnsPrefetchControl?: MiddlewareOption<XDnsPrefetchControlOptions>;
   expectCt?: MiddlewareOption<ExpectCtOptions>;
@@ -202,5 +202,4 @@ helmet.noCache = () => {
   );
 };
 
-module.exports = helmet;
-export default helmet;
+export = helmet;
