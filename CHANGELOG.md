@@ -13,7 +13,7 @@
 
 ### Removed
 
-- The `HelmetOptions` interface is no longer exported. This only affects TypeScript users.
+- The `HelmetOptions` interface is no longer exported. This only affects TypeScript users. If you need the functionality back, see [this comment](https://github.com/helmetjs/helmet/issues/235#issuecomment-674016883)
 
 ## 4.0.0 - 2020-08-02
 
