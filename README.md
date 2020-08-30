@@ -48,6 +48,28 @@ app.use(helmet.referrerPolicy());
 app.use(helmet.xssFilter());
 ```
 
+To set custom options for one of the middleware, add options like this:
+
+```js
+// This sets custom options for the `referrerPolicy` middleware.
+app.use(
+  helmet({
+    referrerPolicy: { policy: "no-referrer" },
+  })
+);
+```
+
+You can also disable a middleware:
+
+```js
+// This disables the `contentSecurityPolicy` middleware but keeps the rest.
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+  })
+);
+```
+
 ## Reference
 
 <details>
