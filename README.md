@@ -272,14 +272,14 @@ Examples:
 ```js
 // Sets "Strict-Transport-Security: max-age=123456; includeSubDomains"
 app.use(
-  helmet.strictTransportSecurity({
+  helmet.hsts({
     maxAge: 123456,
   })
 );
 
 // Sets "Strict-Transport-Security: max-age=123456"
 app.use(
-  helmet.strictTransportSecurity({
+  helmet.hsts({
     maxAge: 123456,
     includeSubDomains: false,
   })
@@ -287,7 +287,7 @@ app.use(
 
 // Sets "Strict-Transport-Security: max-age=123456; includeSubDomains; preload"
 app.use(
-  helmet.strictTransportSecurity({
+  helmet.hsts({
     maxAge: 63072000,
     preload: true,
   })
