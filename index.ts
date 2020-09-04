@@ -1,55 +1,45 @@
 import { IncomingMessage, ServerResponse } from "http";
-import contentSecurityPolicy, {
-  ContentSecurityPolicyOptions,
-} from "./middlewares/content-security-policy";
-import expectCt, { ExpectCtOptions } from "./middlewares/expect-ct";
-import referrerPolicy, {
-  ReferrerPolicyOptions,
-} from "./middlewares/referrer-policy";
-import strictTransportSecurity, {
-  StrictTransportSecurityOptions,
-} from "./middlewares/strict-transport-security";
+import contentSecurityPolicy from "./middlewares/content-security-policy";
+import expectCt from "./middlewares/expect-ct";
+import referrerPolicy from "./middlewares/referrer-policy";
+import strictTransportSecurity from "./middlewares/strict-transport-security";
 import xContentTypeOptions from "./middlewares/x-content-type-options";
-import xDnsPrefetchControl, {
-  XDnsPrefetchControlOptions,
-} from "./middlewares/x-dns-prefetch-control";
+import xDnsPrefetchControl from "./middlewares/x-dns-prefetch-control";
 import xDownloadOptions from "./middlewares/x-download-options";
-import xFrameOptions, {
-  XFrameOptionsOptions,
-} from "./middlewares/x-frame-options";
-import xPermittedCrossDomainPolicies, {
-  XPermittedCrossDomainPoliciesOptions,
-} from "./middlewares/x-permitted-cross-domain-policies";
+import xFrameOptions from "./middlewares/x-frame-options";
+import xPermittedCrossDomainPolicies from "./middlewares/x-permitted-cross-domain-policies";
 import xPoweredBy from "./middlewares/x-powered-by";
 import xXssProtection from "./middlewares/x-xss-protection";
 
-interface HelmetOptions {
-  contentSecurityPolicy?: MiddlewareOption<ContentSecurityPolicyOptions>;
-  dnsPrefetchControl?: MiddlewareOption<XDnsPrefetchControlOptions>;
-  expectCt?: MiddlewareOption<ExpectCtOptions>;
-  frameguard?: MiddlewareOption<XFrameOptionsOptions>;
-  hidePoweredBy?: MiddlewareOption<never>;
-  hsts?: MiddlewareOption<StrictTransportSecurityOptions>;
-  ieNoOpen?: MiddlewareOption<never>;
-  noSniff?: MiddlewareOption<never>;
-  permittedCrossDomainPolicies?: MiddlewareOption<
-    XPermittedCrossDomainPoliciesOptions
-  >;
-  referrerPolicy?: MiddlewareOption<ReferrerPolicyOptions>;
-  xssFilter?: MiddlewareOption<never>;
+declare module helmet {
+  export interface HelmetOptions {
+    contentSecurityPolicy?: MiddlewareOption<contentSecurityPolicy.Options>;
+    dnsPrefetchControl?: MiddlewareOption<xDnsPrefetchControl.Options>;
+    expectCt?: MiddlewareOption<expectCt.Options>;
+    frameguard?: MiddlewareOption<xFrameOptions.Options>;
+    hidePoweredBy?: MiddlewareOption<never>;
+    hsts?: MiddlewareOption<strictTransportSecurity.Options>;
+    ieNoOpen?: MiddlewareOption<never>;
+    noSniff?: MiddlewareOption<never>;
+    permittedCrossDomainPolicies?: MiddlewareOption<
+      xPermittedCrossDomainPolicies.Options
+    >;
+    referrerPolicy?: MiddlewareOption<referrerPolicy.Options>;
+    xssFilter?: MiddlewareOption<never>;
+  }
+
+  export type MiddlewareOption<T> = false | T;
+
+  export interface MiddlewareFunction {
+    (
+      req: IncomingMessage,
+      res: ServerResponse,
+      next: (error?: Error) => void
+    ): void;
+  }
 }
 
-type MiddlewareOption<T> = false | T;
-
-interface MiddlewareFunction {
-  (
-    req: IncomingMessage,
-    res: ServerResponse,
-    next: (error?: Error) => void
-  ): void;
-}
-
-function helmet(options: Readonly<HelmetOptions> = {}) {
+function helmet(options: Readonly<helmet.HelmetOptions> = {}) {
   if (options.constructor.name === "IncomingMessage") {
     throw new Error(
       "It appears you have done something like `app.use(helmet)`, but it should be `app.use(helmet())`."
@@ -64,7 +54,7 @@ function helmet(options: Readonly<HelmetOptions> = {}) {
     );
   }
 
-  const middlewareFunctions: MiddlewareFunction[] = [];
+  const middlewareFunctions: helmet.MiddlewareFunction[] = [];
 
   if (options.contentSecurityPolicy === undefined) {
     middlewareFunctions.push(contentSecurityPolicy());
