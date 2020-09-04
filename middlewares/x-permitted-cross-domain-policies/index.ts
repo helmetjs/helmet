@@ -1,7 +1,9 @@
 import { IncomingMessage, ServerResponse } from "http";
 
-export interface XPermittedCrossDomainPoliciesOptions {
-  permittedPolicies?: string;
+declare module xPermittedCrossDomainPolicies {
+  export interface Options {
+    permittedPolicies?: string;
+  }
 }
 
 const ALLOWED_PERMITTED_POLICIES = new Set([
@@ -13,7 +15,7 @@ const ALLOWED_PERMITTED_POLICIES = new Set([
 
 function getHeaderValueFromOptions({
   permittedPolicies = "none",
-}: Readonly<XPermittedCrossDomainPoliciesOptions>): string {
+}: Readonly<xPermittedCrossDomainPolicies.Options>): string {
   if (ALLOWED_PERMITTED_POLICIES.has(permittedPolicies)) {
     return permittedPolicies;
   } else {
@@ -26,7 +28,7 @@ function getHeaderValueFromOptions({
 }
 
 function xPermittedCrossDomainPolicies(
-  options: Readonly<XPermittedCrossDomainPoliciesOptions> = {}
+  options: Readonly<xPermittedCrossDomainPolicies.Options> = {}
 ) {
   const headerValue = getHeaderValueFromOptions(options);
 

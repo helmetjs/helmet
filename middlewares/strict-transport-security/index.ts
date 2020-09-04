@@ -1,12 +1,14 @@
 import { IncomingMessage, ServerResponse } from "http";
 
-const DEFAULT_MAX_AGE = 180 * 24 * 60 * 60;
-
-export interface StrictTransportSecurityOptions {
-  maxAge?: number;
-  includeSubDomains?: boolean;
-  preload?: boolean;
+declare module strictTransportSecurity {
+  export interface Options {
+    maxAge?: number;
+    includeSubDomains?: boolean;
+    preload?: boolean;
+  }
 }
+
+const DEFAULT_MAX_AGE = 180 * 24 * 60 * 60;
 
 function parseMaxAge(value: void | number): number {
   if (value === undefined) {
@@ -27,7 +29,7 @@ function parseMaxAge(value: void | number): number {
 }
 
 function getHeaderValueFromOptions(
-  options: Readonly<StrictTransportSecurityOptions>
+  options: Readonly<strictTransportSecurity.Options>
 ): string {
   if ("maxage" in options) {
     throw new Error(
@@ -59,7 +61,7 @@ function getHeaderValueFromOptions(
 }
 
 function strictTransportSecurity(
-  options: Readonly<StrictTransportSecurityOptions> = {}
+  options: Readonly<strictTransportSecurity.Options> = {}
 ) {
   const headerValue = getHeaderValueFromOptions(options);
 

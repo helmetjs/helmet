@@ -1,12 +1,14 @@
 import { IncomingMessage, ServerResponse } from "http";
 
-export interface XFrameOptionsOptions {
-  action?: string;
+declare module xFrameOptions {
+  export interface Options {
+    action?: string;
+  }
 }
 
 function getHeaderValueFromOptions({
   action = "SAMEORIGIN",
-}: Readonly<XFrameOptionsOptions>): string {
+}: Readonly<xFrameOptions.Options>): string {
   action = String(action).toUpperCase();
 
   if (action === "SAME-ORIGIN") {
@@ -24,7 +26,7 @@ function getHeaderValueFromOptions({
   }
 }
 
-function xFrameOptions(options: Readonly<XFrameOptionsOptions> = {}) {
+function xFrameOptions(options: Readonly<xFrameOptions.Options> = {}) {
   const headerValue = getHeaderValueFromOptions(options);
 
   return function xFrameOptionsMiddleware(

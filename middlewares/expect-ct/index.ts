@@ -1,9 +1,11 @@
 import { IncomingMessage, ServerResponse } from "http";
 
-export interface ExpectCtOptions {
-  maxAge?: number;
-  enforce?: boolean;
-  reportUri?: string;
+declare module expectCt {
+  export interface Options {
+    maxAge?: number;
+    enforce?: boolean;
+    reportUri?: string;
+  }
 }
 
 function parseMaxAge(value: void | number): number {
@@ -24,7 +26,9 @@ function parseMaxAge(value: void | number): number {
   }
 }
 
-function getHeaderValueFromOptions(options: Readonly<ExpectCtOptions>): string {
+function getHeaderValueFromOptions(
+  options: Readonly<expectCt.Options>
+): string {
   const directives: string[] = [];
 
   if (options.enforce) {
@@ -40,7 +44,7 @@ function getHeaderValueFromOptions(options: Readonly<ExpectCtOptions>): string {
   return directives.join(", ");
 }
 
-function expectCt(options: Readonly<ExpectCtOptions> = {}) {
+function expectCt(options: Readonly<expectCt.Options> = {}) {
   const headerValue = getHeaderValueFromOptions(options);
 
   return function expectCtMiddleware(

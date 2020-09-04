@@ -1,11 +1,13 @@
 import { IncomingMessage, ServerResponse } from "http";
 
-export interface XDnsPrefetchControlOptions {
-  allow?: boolean;
+declare module xDnsPrefetchControl {
+  export interface Options {
+    allow?: boolean;
+  }
 }
 
 function xDnsPrefetchControl(
-  options: Readonly<XDnsPrefetchControlOptions> = {}
+  options: Readonly<xDnsPrefetchControl.Options> = {}
 ) {
   const headerValue = options.allow ? "on" : "off";
 

@@ -1,23 +1,23 @@
 import { IncomingMessage, ServerResponse } from "http";
 
-interface ContentSecurityPolicyDirectiveValueFunction {
-  (req: IncomingMessage, res: ServerResponse): string;
+declare module contentSecurityPolicy {
+  export interface DirectiveValueFunction {
+    (req: IncomingMessage, res: ServerResponse): string;
+  }
+
+  export type DirectiveValue = string | DirectiveValueFunction;
+
+  export interface Directives {
+    [directiveName: string]: Iterable<DirectiveValue>;
+  }
+
+  export interface Options {
+    directives?: Directives;
+    reportOnly?: boolean;
+  }
 }
 
-type ContentSecurityPolicyDirectiveValue =
-  | string
-  | ContentSecurityPolicyDirectiveValueFunction;
-
-interface ContentSecurityPolicyDirectives {
-  [directiveName: string]: Iterable<ContentSecurityPolicyDirectiveValue>;
-}
-
-export interface ContentSecurityPolicyOptions {
-  directives?: ContentSecurityPolicyDirectives;
-  reportOnly?: boolean;
-}
-
-const DEFAULT_DIRECTIVES: ContentSecurityPolicyDirectives = {
+const DEFAULT_DIRECTIVES: contentSecurityPolicy.Directives = {
   "default-src": ["'self'"],
   "base-uri": ["'self'"],
   "block-all-mixed-content": [],
@@ -45,7 +45,7 @@ const has = (obj: Readonly<object>, key: string): boolean =>
 
 function getHeaderName({
   reportOnly,
-}: Readonly<ContentSecurityPolicyOptions>): string {
+}: Readonly<contentSecurityPolicy.Options>): string {
   if (reportOnly) {
     return "Content-Security-Policy-Report-Only";
   } else {
@@ -54,9 +54,9 @@ function getHeaderName({
 }
 
 function normalizeDirectives(
-  options: Readonly<ContentSecurityPolicyOptions>
-): ContentSecurityPolicyDirectives {
-  const result: ContentSecurityPolicyDirectives = {};
+  options: Readonly<contentSecurityPolicy.Options>
+): contentSecurityPolicy.Directives {
+  const result: contentSecurityPolicy.Directives = {};
 
   const { directives: rawDirectives = DEFAULT_DIRECTIVES } = options;
 
@@ -82,7 +82,7 @@ function normalizeDirectives(
     }
 
     const rawDirectiveValue = rawDirectives[rawDirectiveName];
-    let directiveValue: Iterable<ContentSecurityPolicyDirectiveValue>;
+    let directiveValue: Iterable<contentSecurityPolicy.DirectiveValue>;
     if (typeof rawDirectiveValue === "string") {
       directiveValue = [rawDirectiveValue];
     } else {
@@ -113,7 +113,7 @@ function normalizeDirectives(
 function getHeaderValue(
   req: IncomingMessage,
   res: ServerResponse,
-  directives: ContentSecurityPolicyDirectives
+  directives: contentSecurityPolicy.Directives
 ): string | Error {
   const result: string[] = [];
 
@@ -149,7 +149,7 @@ function getHeaderValue(
 }
 
 function contentSecurityPolicy(
-  options: Readonly<ContentSecurityPolicyOptions> = {}
+  options: Readonly<contentSecurityPolicy.Options> = {}
 ): (
   req: IncomingMessage,
   res: ServerResponse,

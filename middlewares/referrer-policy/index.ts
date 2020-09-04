@@ -1,7 +1,9 @@
 import { IncomingMessage, ServerResponse } from "http";
 
-export interface ReferrerPolicyOptions {
-  policy?: string | string[];
+declare module referrerPolicy {
+  export interface Options {
+    policy?: string | string[];
+  }
 }
 
 const ALLOWED_TOKENS = new Set<string>([
@@ -18,7 +20,7 @@ const ALLOWED_TOKENS = new Set<string>([
 
 function getHeaderValueFromOptions({
   policy = ["no-referrer"],
-}: Readonly<ReferrerPolicyOptions>): string {
+}: Readonly<referrerPolicy.Options>): string {
   const tokens = typeof policy === "string" ? [policy] : policy;
 
   if (tokens.length === 0) {
@@ -46,7 +48,7 @@ function getHeaderValueFromOptions({
   return tokens.join(",");
 }
 
-function referrerPolicy(options: Readonly<ReferrerPolicyOptions> = {}) {
+function referrerPolicy(options: Readonly<referrerPolicy.Options> = {}) {
   const headerValue = getHeaderValueFromOptions(options);
 
   return function referrerPolicyMiddleware(
