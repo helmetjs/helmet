@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.1.1 - 2020-09-10
+
+### Changed
+
+- Fixed a few errors in the README
+
 ## 4.1.0 - 2020-08-15
 
 ### Added
