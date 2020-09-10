@@ -422,7 +422,7 @@ You can install this module separately as `helmet-crossdomain`.
 </details>
 
 <details>
-<summary><code>helmet.hidePoweredBy(options)</code></summary>
+<summary><code>helmet.hidePoweredBy()</code></summary>
 
 `helmet.hidePoweredBy` removes the `X-Powered-By` header, which is set by default in some frameworks (like Express). Removing the header offers very limited security benefits (see [this discussion](https://github.com/expressjs/express/pull/2813#issuecomment-159270428)) and is mostly removed to save bandwidth.
 
@@ -442,7 +442,7 @@ You can install this module separately as `hide-powered-by`.
 </details>
 
 <details>
-<summary><code>helmet.xssFilter(options)</code></summary>
+<summary><code>helmet.xssFilter()</code></summary>
 
 `helmet.xssFilter` disables browsers' buggy cross-site scripting filter by setting the `X-XSS-Protection` header to `0`. See [discussion about disabling the header here](https://github.com/helmetjs/helmet/issues/230) and [documentation on MDN](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-XSS-Protection).
 
