@@ -78,9 +78,9 @@
     "lint:eslint": "eslint \"**/*.ts\"",
     "lint:prettier": "prettier --check \"**/*{md,js,json,ts}\"",
     "format": "prettier --write \"**/*{md,js,json,ts}\"",
-    "clean": "rm -rf dist",
+    "clean": "node ./bin/clean.js",
     "build": "npm run clean && tsc",
-    "build-middleware-package": "npm run build && ./bin/build-middleware-package.js",
+    "build-middleware-package": "npm run build && node ./bin/build-middleware-package.js",
     "test": "jest"
   },
   "license": "MIT",
