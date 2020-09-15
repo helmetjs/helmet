@@ -101,7 +101,7 @@ function helmet(options: Readonly<HelmetOptions> = {}) {
     middlewareFunctions.push(xPoweredBy());
   }
 
-  if (options.hsts === undefined || options.hsts === true) {
+  if (options.hsts === undefined) {
     middlewareFunctions.push(strictTransportSecurity());
   } else if (options.hsts !== false) {
     middlewareFunctions.push(strictTransportSecurity(options.hsts));
