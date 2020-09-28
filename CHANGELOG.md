@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+### Changed
+
+- `helmet.expectCt`: `max-age` is now first. See [#264](https://github.com/helmetjs/helmet/pull/264)
+
 ## 4.1.1 - 2020-09-10
 
 ### Changed
