@@ -191,5 +191,13 @@ function contentSecurityPolicy(
   };
 }
 
+/**
+ * Expose the default directives
+ *
+ * If the internal default directives structure is ever changed,
+ * i.e. a to a string, this would have to parse them to the external interface object structure
+ */
+contentSecurityPolicy.getDefaultDirectives = () => DEFAULT_DIRECTIVES;
+
 module.exports = contentSecurityPolicy;
 export default contentSecurityPolicy;
