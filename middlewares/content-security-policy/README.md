@@ -37,7 +37,7 @@ You can dynamically generate nonces to allow inline `<script>` tags to be safely
 ```js
 const crypto = require("crypto");
 
-app.use((req, res, next) {
+app.use((req, res, next) => {
   res.locals.nonce = crypto.randomBytes(16).toString("hex");
   next();
 });
