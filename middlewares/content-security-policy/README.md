@@ -9,10 +9,10 @@ This middleware helps set Content Security Policies.
 Basic usage:
 
 ```javascript
-const csp = require("helmet-csp");
+const contentSecurityPolicy = require("helmet-csp");
 
 app.use(
-  csp({
+  contentSecurityPolicy({
     directives: {
       defaultSrc: ["'self'", "default.example"],
       scriptSrc: ["'self'", "'unsafe-inline'"],
@@ -23,6 +23,8 @@ app.use(
   })
 );
 ```
+
+To get the defaults, use `contentSecurityPolicy.getDefaultDirectives()`.
 
 You can set any directives you wish. `defaultSrc` is required. Directives can be kebab-cased (like `script-src`) or camel-cased (like `scriptSrc`). They are equivalent, but duplicates are not allowed.
 

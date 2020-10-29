@@ -2,7 +2,9 @@ import { IncomingMessage, ServerResponse } from "http";
 import { check } from "./helpers";
 import connect = require("connect");
 import supertest = require("supertest");
-import contentSecurityPolicy from "../middlewares/content-security-policy";
+import contentSecurityPolicy, {
+  getDefaultDirectives,
+} from "../middlewares/content-security-policy";
 
 async function checkCsp({
   middlewareArgs,
@@ -409,5 +411,29 @@ describe("Content-Security-Policy middleware", () => {
         "Content-Security-Policy middleware no longer does browser sniffing, so you can remove the `browserSniff` option. See <https://github.com/helmetjs/csp/issues/97> for discussion."
       );
     });
+  });
+});
+
+describe("getDefaultDirectives", () => {
+  it("returns the middleware's default directives", () => {
+    expect(getDefaultDirectives()).toEqual({
+      "base-uri": ["'self'"],
+      "block-all-mixed-content": [],
+      "default-src": ["'self'"],
+      "font-src": ["'self'", "https:", "data:"],
+      "frame-ancestors": ["'self'"],
+      "img-src": ["'self'", "data:"],
+      "object-src": ["'none'"],
+      "script-src": ["'self'"],
+      "script-src-attr": ["'none'"],
+      "style-src": ["'self'", "https:", "'unsafe-inline'"],
+      "upgrade-insecure-requests": [],
+    });
+  });
+
+  it("attaches itself to the top-level function", () => {
+    expect(getDefaultDirectives).toBe(
+      contentSecurityPolicy.getDefaultDirectives
+    );
   });
 });

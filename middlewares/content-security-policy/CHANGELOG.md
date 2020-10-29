@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+### Added
+
+- Get the default directives with `contentSecurityPolicy.getDefaultDirectives()`
+
 ## 3.1.0 - 2020-08-15
 
 ### Added
