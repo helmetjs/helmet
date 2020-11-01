@@ -19,10 +19,10 @@ import xXssProtection from "../middlewares/x-xss-protection";
 
 describe("helmet", () => {
   it("includes all middleware with their default options", async () => {
-    await check(helmet(), {
-      // NOTE: This test relies on the object being ordered a certain way,
-      // which could change (and be non-breaking). If that becomes a problem,
-      // we should update this test to be more robust.
+    // NOTE: This test relies on the CSP object being ordered a certain way,
+    // which could change (and be non-breaking). If that becomes a problem,
+    // we should update this test to be more robust.
+    const expectedHeaders = {
       "content-security-policy":
         "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests",
       "expect-ct": "max-age=0",
@@ -35,7 +35,10 @@ describe("helmet", () => {
       "x-permitted-cross-domain-policies": "none",
       "x-powered-by": null,
       "x-xss-protection": "0",
-    });
+    };
+
+    await check(helmet(), expectedHeaders);
+    await check(helmet({}), expectedHeaders);
   });
 
   it("allows individual middlewares to be disabled", async () => {
