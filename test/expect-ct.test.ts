@@ -9,6 +9,9 @@ describe("Expect-CT middleware", () => {
     await check(expectCt({}), {
       "expect-ct": "max-age=0",
     });
+    await check(expectCt(Object.create(null)), {
+      "expect-ct": "max-age=0",
+    });
     await check(expectCt({ maxAge: undefined }), {
       "expect-ct": "max-age=0",
     });

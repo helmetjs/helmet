@@ -50,7 +50,7 @@ interface MiddlewareFunction {
 }
 
 function helmet(options: Readonly<HelmetOptions> = {}) {
-  if (options.constructor.name === "IncomingMessage") {
+  if (options.constructor?.name === "IncomingMessage") {
     throw new Error(
       "It appears you have done something like `app.use(helmet)`, but it should be `app.use(helmet())`."
     );

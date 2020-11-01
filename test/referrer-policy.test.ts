@@ -9,6 +9,9 @@ describe("Referrer-Policy middleware", () => {
     await check(referrerPolicy({}), {
       "referrer-policy": "no-referrer",
     });
+    await check(referrerPolicy(Object.create(null)), {
+      "referrer-policy": "no-referrer",
+    });
     await check(referrerPolicy({ policy: undefined }), {
       "referrer-policy": "no-referrer",
     });

@@ -8,6 +8,7 @@
 
 ### Changed
 
+- `helmet()` now supports objects that don't have `Object.prototype` in their chain, such as `Object.create(null)`, as options
 - `helmet.expectCt`: `max-age` is now first. See [#264](https://github.com/helmetjs/helmet/pull/264)
 
 ## 4.1.1 - 2020-09-10

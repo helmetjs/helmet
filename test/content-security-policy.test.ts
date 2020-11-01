@@ -49,6 +49,10 @@ describe("Content-Security-Policy middleware", () => {
       expectedDirectives,
     });
     await checkCsp({
+      middlewareArgs: [Object.create(null)],
+      expectedDirectives,
+    });
+    await checkCsp({
       middlewareArgs: [{ directives: undefined }],
       expectedDirectives,
     });

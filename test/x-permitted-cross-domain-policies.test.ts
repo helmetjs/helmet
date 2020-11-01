@@ -9,6 +9,10 @@ describe("X-Permitted-Cross-Domain-Policies middleware", () => {
     await check(xPermittedCrossDomainPolicies(), expectedHeaders);
     await check(xPermittedCrossDomainPolicies({}), expectedHeaders);
     await check(
+      xPermittedCrossDomainPolicies(Object.create(null)),
+      expectedHeaders
+    );
+    await check(
       xPermittedCrossDomainPolicies({ permittedPolicies: undefined }),
       expectedHeaders
     );

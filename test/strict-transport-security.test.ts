@@ -11,6 +11,7 @@ describe("Strict-Transport-Security middleware", () => {
 
     await check(strictTransportSecurity(), expectedHeaders);
     await check(strictTransportSecurity({}), expectedHeaders);
+    await check(strictTransportSecurity(Object.create(null)), expectedHeaders);
     await check(
       strictTransportSecurity({ maxAge: undefined }),
       expectedHeaders

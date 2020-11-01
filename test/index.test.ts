@@ -39,6 +39,7 @@ describe("helmet", () => {
 
     await check(helmet(), expectedHeaders);
     await check(helmet({}), expectedHeaders);
+    await check(helmet(Object.create(null)), expectedHeaders);
   });
 
   it("allows individual middlewares to be disabled", async () => {

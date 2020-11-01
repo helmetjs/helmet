@@ -9,6 +9,9 @@ describe("X-Frame-Options middleware", () => {
     await check(xFrameOptions({}), {
       "x-frame-options": "SAMEORIGIN",
     });
+    await check(xFrameOptions(Object.create(null)), {
+      "x-frame-options": "SAMEORIGIN",
+    });
     await check(xFrameOptions({ action: undefined }), {
       "x-frame-options": "SAMEORIGIN",
     });
