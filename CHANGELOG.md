@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Added
+
+- `helmet.contentSecurityPolicy`: get the default directives with `contentSecurityPolicy.getDefaultDirectives()`
+
 ### Changed
 
 - `helmet.expectCt`: `max-age` is now first. See [#264](https://github.com/helmetjs/helmet/pull/264)

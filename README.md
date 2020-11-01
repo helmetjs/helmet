@@ -137,6 +137,8 @@ If no directives are supplied, the following policy is set (whitespace added for
     style-src 'self' https: 'unsafe-inline';
     upgrade-insecure-requests
 
+You can fetch this default with `helmet.contentSecurityPolicy.getDefaultDirectives()`.
+
 Examples:
 
 ```js
@@ -159,6 +161,16 @@ app.use(
       "default-src": ["'self'"],
       "script-src": ["'self'", "example.com"],
       "object-src": ["'none'"],
+    },
+  })
+);
+
+// Sets all of the defaults, but overrides script-src
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+      "script-src": ["'self'", "example.com"],
     },
   })
 );

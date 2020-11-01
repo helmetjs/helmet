@@ -31,6 +31,8 @@ const DEFAULT_DIRECTIVES: ContentSecurityPolicyDirectives = {
   "upgrade-insecure-requests": [],
 };
 
+const getDefaultDirectives = () => ({ ...DEFAULT_DIRECTIVES });
+
 const isRawPolicyDirectiveNameInvalid = (rawDirectiveName: string): boolean =>
   rawDirectiveName.length === 0 || /[^a-zA-Z0-9-]/.test(rawDirectiveName);
 
@@ -58,7 +60,7 @@ function normalizeDirectives(
 ): ContentSecurityPolicyDirectives {
   const result: ContentSecurityPolicyDirectives = {};
 
-  const { directives: rawDirectives = DEFAULT_DIRECTIVES } = options;
+  const { directives: rawDirectives = getDefaultDirectives() } = options;
 
   for (const rawDirectiveName in rawDirectives) {
     if (!has(rawDirectives, rawDirectiveName)) {
@@ -190,6 +192,8 @@ function contentSecurityPolicy(
     }
   };
 }
+contentSecurityPolicy.getDefaultDirectives = getDefaultDirectives;
 
 module.exports = contentSecurityPolicy;
 export default contentSecurityPolicy;
+export { getDefaultDirectives };
