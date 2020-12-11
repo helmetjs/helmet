@@ -219,6 +219,8 @@ describe("Content-Security-Policy middleware", () => {
       "default,src",
       "default!src",
       "defáult-src",
+      "default_src",
+      "__proto__",
     ];
     for (const name of invalidNames) {
       expect(() => {
