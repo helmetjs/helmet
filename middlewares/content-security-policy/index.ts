@@ -33,9 +33,6 @@ const DEFAULT_DIRECTIVES: ContentSecurityPolicyDirectives = {
 
 const getDefaultDirectives = () => ({ ...DEFAULT_DIRECTIVES });
 
-const isRawPolicyDirectiveNameInvalid = (rawDirectiveName: string): boolean =>
-  rawDirectiveName.length === 0 || /[^a-zA-Z0-9-]/.test(rawDirectiveName);
-
 const dashify = (str: string): string =>
   str.replace(/[A-Z]/g, (capitalLetter) => "-" + capitalLetter.toLowerCase());
 
@@ -44,16 +41,6 @@ const isDirectiveValueInvalid = (directiveValue: string): boolean =>
 
 const has = (obj: Readonly<object>, key: string): boolean =>
   Object.prototype.hasOwnProperty.call(obj, key);
-
-function getHeaderName({
-  reportOnly,
-}: Readonly<ContentSecurityPolicyOptions>): string {
-  if (reportOnly) {
-    return "Content-Security-Policy-Report-Only";
-  } else {
-    return "Content-Security-Policy";
-  }
-}
 
 function normalizeDirectives(
   options: Readonly<ContentSecurityPolicyOptions>
@@ -67,14 +54,19 @@ function normalizeDirectives(
       continue;
     }
 
-    if (isRawPolicyDirectiveNameInvalid(rawDirectiveName)) {
+    if (
+      rawDirectiveName.length === 0 ||
+      /[^a-zA-Z0-9-]/.test(rawDirectiveName)
+    ) {
       throw new Error(
         `Content-Security-Policy received an invalid directive name ${JSON.stringify(
           rawDirectiveName
         )}`
       );
     }
+
     const directiveName = dashify(rawDirectiveName);
+
     if (has(result, directiveName)) {
       throw new Error(
         `Content-Security-Policy received a duplicate directive ${JSON.stringify(
@@ -175,7 +167,10 @@ function contentSecurityPolicy(
     }
   });
 
-  const headerName = getHeaderName(options);
+  const headerName = options.reportOnly
+    ? "Content-Security-Policy-Report-Only"
+    : "Content-Security-Policy";
+
   const directives = normalizeDirectives(options);
 
   return function contentSecurityPolicyMiddleware(
