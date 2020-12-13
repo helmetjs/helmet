@@ -7,13 +7,14 @@ export interface XFrameOptionsOptions {
 function getHeaderValueFromOptions({
   action = "SAMEORIGIN",
 }: Readonly<XFrameOptionsOptions>): string {
-  action = String(action).toUpperCase();
+  const normalizedAction =
+    typeof action === "string" ? action.toUpperCase() : action;
 
-  if (action === "SAME-ORIGIN") {
+  if (normalizedAction === "SAME-ORIGIN") {
     return "SAMEORIGIN";
-  } else if (action === "DENY" || action === "SAMEORIGIN") {
-    return action;
-  } else if (action === "ALLOW-FROM") {
+  } else if (normalizedAction === "DENY" || normalizedAction === "SAMEORIGIN") {
+    return normalizedAction;
+  } else if (normalizedAction === "ALLOW-FROM") {
     throw new Error(
       "X-Frame-Options no longer supports `ALLOW-FROM` due to poor browser support. See <https://github.com/helmetjs/helmet/wiki/How-to-use-X%E2%80%93Frame%E2%80%93Options's-%60ALLOW%E2%80%93FROM%60-directive> for more info."
     );
