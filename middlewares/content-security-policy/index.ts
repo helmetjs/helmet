@@ -17,6 +17,11 @@ export interface ContentSecurityPolicyOptions {
   reportOnly?: boolean;
 }
 
+type NormalizedDirectives = Array<{
+  directiveName: string;
+  directiveValue: Iterable<ContentSecurityPolicyDirectiveValue>;
+}>;
+
 const DEFAULT_DIRECTIVES: ContentSecurityPolicyDirectives = {
   "default-src": ["'self'"],
   "base-uri": ["'self'"],
@@ -44,10 +49,11 @@ const has = (obj: Readonly<object>, key: string): boolean =>
 
 function normalizeDirectives(
   options: Readonly<ContentSecurityPolicyOptions>
-): ContentSecurityPolicyDirectives {
-  const result: ContentSecurityPolicyDirectives = {};
-
+): NormalizedDirectives {
   const { directives: rawDirectives = getDefaultDirectives() } = options;
+
+  const result: NormalizedDirectives = [];
+  const directiveNamesSeen = new Set<string>();
 
   for (const rawDirectiveName in rawDirectives) {
     if (!has(rawDirectives, rawDirectiveName)) {
@@ -67,20 +73,27 @@ function normalizeDirectives(
 
     const directiveName = dashify(rawDirectiveName);
 
-    if (has(result, directiveName)) {
+    if (directiveNamesSeen.has(directiveName)) {
       throw new Error(
         `Content-Security-Policy received a duplicate directive ${JSON.stringify(
           directiveName
         )}`
       );
     }
+    directiveNamesSeen.add(directiveName);
 
     const rawDirectiveValue = rawDirectives[rawDirectiveName];
     let directiveValue: Iterable<ContentSecurityPolicyDirectiveValue>;
     if (typeof rawDirectiveValue === "string") {
       directiveValue = [rawDirectiveValue];
-    } else {
+    } else if (rawDirectiveValue) {
       directiveValue = rawDirectiveValue;
+    } else {
+      throw new Error(
+        `Content-Security-Policy received an invalid directive value for ${JSON.stringify(
+          directiveName
+        )}`
+      );
     }
     for (const element of directiveValue) {
       if (typeof element === "string" && isDirectiveValueInvalid(element)) {
@@ -92,10 +105,10 @@ function normalizeDirectives(
       }
     }
 
-    result[directiveName] = directiveValue;
+    result.push({ directiveName, directiveValue });
   }
 
-  if (!("default-src" in result)) {
+  if (!directiveNamesSeen.has("default-src")) {
     throw new Error(
       "Content-Security-Policy needs a default-src but none was provided"
     );
@@ -107,16 +120,14 @@ function normalizeDirectives(
 function getHeaderValue(
   req: IncomingMessage,
   res: ServerResponse,
-  directives: ContentSecurityPolicyDirectives
+  normalizedDirectives: NormalizedDirectives
 ): string | Error {
   const result: string[] = [];
 
-  for (const directiveName in directives) {
-    if (!has(directives, directiveName)) {
-      continue;
-    }
-
-    const rawDirectiveValue = directives[directiveName];
+  for (const {
+    directiveName,
+    directiveValue: rawDirectiveValue,
+  } of normalizedDirectives) {
     let directiveValue = "";
     for (const element of rawDirectiveValue) {
       if (element instanceof Function) {
@@ -171,14 +182,14 @@ function contentSecurityPolicy(
     ? "Content-Security-Policy-Report-Only"
     : "Content-Security-Policy";
 
-  const directives = normalizeDirectives(options);
+  const normalizedDirectives = normalizeDirectives(options);
 
   return function contentSecurityPolicyMiddleware(
     req: IncomingMessage,
     res: ServerResponse,
     next: (error?: Error) => void
   ) {
-    const result = getHeaderValue(req, res, directives);
+    const result = getHeaderValue(req, res, normalizedDirectives);
     if (result instanceof Error) {
       next(result);
     } else {
