@@ -120,7 +120,7 @@ function normalizeDirectives(
 function getHeaderValue(
   req: IncomingMessage,
   res: ServerResponse,
-  normalizedDirectives: NormalizedDirectives
+  normalizedDirectives: Readonly<NormalizedDirectives>
 ): string | Error {
   const result: string[] = [];
 
