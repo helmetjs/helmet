@@ -142,15 +142,6 @@ describe("helmet", () => {
         "xssFilter does not take options. Remove the property to silence this warning."
       );
     });
-
-    it("logs a warning when passing options to hidePoweredBy", () => {
-      helmet({ hidePoweredBy: { setTo: "deprecated option" } as any });
-
-      expect(console.warn).toHaveBeenCalledTimes(1);
-      expect(console.warn).toHaveBeenCalledWith(
-        "hidePoweredBy does not take options. Remove the property to silence this warning."
-      );
-    });
   });
 
   describe("module aliases", () => {
