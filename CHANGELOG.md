@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+### Fixed
+
+- `helmet.contentSecurityPolicy`: broken TypeScript types. See [#283](https://github.com/helmetjs/helmet/issues/283)
+
 ## 4.3.0 - 2020-12-27
 
 ### Added
