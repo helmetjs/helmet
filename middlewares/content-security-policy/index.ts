@@ -9,7 +9,9 @@ type ContentSecurityPolicyDirectiveValue =
   | ContentSecurityPolicyDirectiveValueFunction;
 
 interface ContentSecurityPolicyDirectives {
-  [directiveName: string]: Iterable<ContentSecurityPolicyDirectiveValue>;
+  [directiveName: string]:
+    | Iterable<ContentSecurityPolicyDirectiveValue>
+    | typeof dangerouslyDisableDefaultSrc;
 }
 
 export interface ContentSecurityPolicyOptions {
@@ -21,6 +23,10 @@ type NormalizedDirectives = Array<{
   directiveName: string;
   directiveValue: Iterable<ContentSecurityPolicyDirectiveValue>;
 }>;
+
+const dangerouslyDisableDefaultSrc: unique symbol = Symbol(
+  "dangerouslyDisableDefaultSrc"
+);
 
 const DEFAULT_DIRECTIVES: ContentSecurityPolicyDirectives = {
   "default-src": ["'self'"],
@@ -86,14 +92,24 @@ function normalizeDirectives(
     let directiveValue: Iterable<ContentSecurityPolicyDirectiveValue>;
     if (typeof rawDirectiveValue === "string") {
       directiveValue = [rawDirectiveValue];
-    } else if (rawDirectiveValue) {
-      directiveValue = rawDirectiveValue;
-    } else {
+    } else if (!rawDirectiveValue) {
       throw new Error(
         `Content-Security-Policy received an invalid directive value for ${JSON.stringify(
           directiveName
         )}`
       );
+    } else if (rawDirectiveValue === dangerouslyDisableDefaultSrc) {
+      if (directiveName === "default-src") {
+        continue;
+      } else {
+        throw new Error(
+          `Content-Security-Policy: tried to disable ${JSON.stringify(
+            directiveName
+          )} as if it were default-src; simply omit the key`
+        );
+      }
+    } else {
+      directiveValue = rawDirectiveValue;
     }
     for (const element of directiveValue) {
       if (typeof element === "string" && isDirectiveValueInvalid(element)) {
@@ -108,6 +124,11 @@ function normalizeDirectives(
     result.push({ directiveName, directiveValue });
   }
 
+  if (!result.length) {
+    throw new Error(
+      "Content-Security-Policy has no directives. Either set some or disable the header"
+    );
+  }
   if (!directiveNamesSeen.has("default-src")) {
     throw new Error(
       "Content-Security-Policy needs a default-src but none was provided"
@@ -199,7 +220,8 @@ function contentSecurityPolicy(
   };
 }
 contentSecurityPolicy.getDefaultDirectives = getDefaultDirectives;
+contentSecurityPolicy.dangerouslyDisableDefaultSrc = dangerouslyDisableDefaultSrc;
 
 module.exports = contentSecurityPolicy;
 export default contentSecurityPolicy;
-export { getDefaultDirectives };
+export { getDefaultDirectives, dangerouslyDisableDefaultSrc };

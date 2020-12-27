@@ -26,7 +26,7 @@ app.use(
 
 To get the defaults, use `contentSecurityPolicy.getDefaultDirectives()`.
 
-You can set any directives you wish. `defaultSrc` is required. Directives can be kebab-cased (like `script-src`) or camel-cased (like `scriptSrc`). They are equivalent, but duplicates are not allowed.
+You can set any directives you wish. `defaultSrc` is required, but can be explicitly disabled by setting its value to `contentSecurityPolicy.dangerouslyDisableDefaultSrc`. Directives can be kebab-cased (like `script-src`) or camel-cased (like `scriptSrc`). They are equivalent, but duplicates are not allowed.
 
 The `reportOnly` option, if set to `true`, sets the `Content-Security-Policy-Report-Only` header instead.
 

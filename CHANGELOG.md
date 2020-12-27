@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Added
+
+- `helmet.contentSecurityPolicy`: setting the `default-src` to `helmet.contentSecurityPolicy.dangerouslyDisableDefaultSrc` disables it
+
 ### Changed
 
 - `helmet.frameguard`: slightly improved error messages for non-strings
