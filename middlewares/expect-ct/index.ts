@@ -6,14 +6,8 @@ export interface ExpectCtOptions {
   reportUri?: string;
 }
 
-function parseMaxAge(value: void | number): number {
-  if (value === undefined) {
-    return 0;
-  } else if (
-    typeof value === "number" &&
-    value >= 0 &&
-    Number.isFinite(value)
-  ) {
+function parseMaxAge(value: number = 0): number {
+  if (value >= 0 && Number.isFinite(value)) {
     return Math.floor(value);
   } else {
     throw new Error(

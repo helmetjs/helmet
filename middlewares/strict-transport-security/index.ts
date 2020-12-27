@@ -8,14 +8,8 @@ export interface StrictTransportSecurityOptions {
   preload?: boolean;
 }
 
-function parseMaxAge(value: void | number): number {
-  if (value === undefined) {
-    return DEFAULT_MAX_AGE;
-  } else if (
-    typeof value === "number" &&
-    value >= 0 &&
-    Number.isFinite(value)
-  ) {
+function parseMaxAge(value: number = DEFAULT_MAX_AGE): number {
+  if (value >= 0 && Number.isFinite(value)) {
     return Math.floor(value);
   } else {
     throw new Error(
