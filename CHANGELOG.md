@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 4.3.1 - 2020-12-27
 
 ### Fixed
 
