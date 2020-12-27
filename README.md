@@ -2,7 +2,6 @@
 
 [![npm version](https://badge.fury.io/js/helmet.svg)](http://badge.fury.io/js/helmet)
 [![npm dependency status](https://david-dm.org/helmetjs/helmet.svg)](https://david-dm.org/helmetjs/helmet)
-[![Build Status](https://travis-ci.org/helmetjs/helmet.svg?branch=master)](https://travis-ci.org/helmetjs/helmet)
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fhelmetjs%2Fhelmet.svg?type=shield)](https://app.fossa.io/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fhelmetjs%2Fhelmet?ref=badge_shield)
 
 Helmet helps you secure your Express apps by setting various HTTP headers. _It's not a silver bullet_, but it can help!
