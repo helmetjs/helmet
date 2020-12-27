@@ -64,29 +64,21 @@ function helmet(options: Readonly<HelmetOptions> = {}) {
 
   const middlewareFunctions: MiddlewareFunction[] = [];
 
-  if (options.contentSecurityPolicy === undefined) {
-    middlewareFunctions.push(contentSecurityPolicy());
-  } else if (options.contentSecurityPolicy !== false) {
+  if (options.contentSecurityPolicy !== false) {
     middlewareFunctions.push(
       contentSecurityPolicy(options.contentSecurityPolicy)
     );
   }
 
-  if (options.dnsPrefetchControl === undefined) {
-    middlewareFunctions.push(xDnsPrefetchControl());
-  } else if (options.dnsPrefetchControl !== false) {
+  if (options.dnsPrefetchControl !== false) {
     middlewareFunctions.push(xDnsPrefetchControl(options.dnsPrefetchControl));
   }
 
-  if (options.expectCt === undefined) {
-    middlewareFunctions.push(expectCt());
-  } else if (options.expectCt !== false) {
+  if (options.expectCt !== false) {
     middlewareFunctions.push(expectCt(options.expectCt));
   }
 
-  if (options.frameguard === undefined) {
-    middlewareFunctions.push(xFrameOptions());
-  } else if (options.frameguard !== false) {
+  if (options.frameguard !== false) {
     middlewareFunctions.push(xFrameOptions(options.frameguard));
   }
 
@@ -99,9 +91,7 @@ function helmet(options: Readonly<HelmetOptions> = {}) {
     middlewareFunctions.push(xPoweredBy());
   }
 
-  if (options.hsts === undefined) {
-    middlewareFunctions.push(strictTransportSecurity());
-  } else if (options.hsts !== false) {
+  if (options.hsts !== false) {
     middlewareFunctions.push(strictTransportSecurity(options.hsts));
   }
 
@@ -123,17 +113,13 @@ function helmet(options: Readonly<HelmetOptions> = {}) {
     middlewareFunctions.push(xContentTypeOptions());
   }
 
-  if (options.permittedCrossDomainPolicies === undefined) {
-    middlewareFunctions.push(xPermittedCrossDomainPolicies());
-  } else if (options.permittedCrossDomainPolicies !== false) {
+  if (options.permittedCrossDomainPolicies !== false) {
     middlewareFunctions.push(
       xPermittedCrossDomainPolicies(options.permittedCrossDomainPolicies)
     );
   }
 
-  if (options.referrerPolicy === undefined) {
-    middlewareFunctions.push(referrerPolicy());
-  } else if (options.referrerPolicy !== false) {
+  if (options.referrerPolicy !== false) {
     middlewareFunctions.push(referrerPolicy(options.referrerPolicy));
   }
 
