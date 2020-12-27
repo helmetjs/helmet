@@ -47,131 +47,155 @@ interface MiddlewareFunction {
   ): void;
 }
 
-function helmet(options: Readonly<HelmetOptions> = {}) {
-  if (options.constructor?.name === "IncomingMessage") {
-    throw new Error(
-      "It appears you have done something like `app.use(helmet)`, but it should be `app.use(helmet())`."
-    );
-  }
-
-  if (Object.values(options).some((option) => option === true)) {
-    throw new Error(
-      "Helmet no longer supports `true` as a middleware option. Remove the property from your options to fix this error."
-    );
-  }
-
-  const middlewareFunctions: MiddlewareFunction[] = [];
-
-  if (options.contentSecurityPolicy !== false) {
-    middlewareFunctions.push(
-      contentSecurityPolicy(options.contentSecurityPolicy)
-    );
-  }
-  if (options.dnsPrefetchControl !== false) {
-    middlewareFunctions.push(xDnsPrefetchControl(options.dnsPrefetchControl));
-  }
-  if (options.expectCt !== false) {
-    middlewareFunctions.push(expectCt(options.expectCt));
-  }
-  if (options.frameguard !== false) {
-    middlewareFunctions.push(xFrameOptions(options.frameguard));
-  }
-  if (options.hidePoweredBy !== false) {
-    if (options.hidePoweredBy !== undefined) {
-      console.warn(
-        "hidePoweredBy does not take options. Remove the property to silence this warning."
-      );
-    }
-    middlewareFunctions.push(xPoweredBy());
-  }
-  if (options.hsts !== false) {
-    middlewareFunctions.push(strictTransportSecurity(options.hsts));
-  }
-  if (options.ieNoOpen !== false) {
-    if (options.ieNoOpen !== undefined) {
-      console.warn(
-        "ieNoOpen does not take options. Remove the property to silence this warning."
-      );
-    }
-    middlewareFunctions.push(xDownloadOptions());
-  }
-  if (options.noSniff !== false) {
-    if (options.noSniff !== undefined) {
-      console.warn(
-        "noSniff does not take options. Remove the property to silence this warning."
-      );
-    }
-    middlewareFunctions.push(xContentTypeOptions());
-  }
-  if (options.permittedCrossDomainPolicies !== false) {
-    middlewareFunctions.push(
-      xPermittedCrossDomainPolicies(options.permittedCrossDomainPolicies)
-    );
-  }
-  if (options.referrerPolicy !== false) {
-    middlewareFunctions.push(referrerPolicy(options.referrerPolicy));
-  }
-  if (options.xssFilter !== false) {
-    if (options.xssFilter !== undefined) {
-      console.warn(
-        "xssFilter does not take options. Remove the property to silence this warning."
-      );
-    }
-    middlewareFunctions.push(xXssProtection());
-  }
-
-  return function helmetMiddleware(
+interface Helmet {
+  (options?: Readonly<HelmetOptions>): (
     req: IncomingMessage,
     res: ServerResponse,
     next: (err?: unknown) => void
-  ): void {
-    const iterator = middlewareFunctions[Symbol.iterator]();
+  ) => void;
 
-    (function internalNext(err?: unknown) {
-      if (err) {
-        next(err);
-        return;
-      }
+  contentSecurityPolicy: typeof contentSecurityPolicy;
+  dnsPrefetchControl: typeof xDnsPrefetchControl;
+  expectCt: typeof expectCt;
+  frameguard: typeof xFrameOptions;
+  hidePoweredBy: typeof xPoweredBy;
+  hsts: typeof strictTransportSecurity;
+  ieNoOpen: typeof xDownloadOptions;
+  noSniff: typeof xContentTypeOptions;
+  permittedCrossDomainPolicies: typeof xPermittedCrossDomainPolicies;
+  referrerPolicy: typeof referrerPolicy;
+  xssFilter: typeof xXssProtection;
 
-      const iteration = iterator.next();
-      if (iteration.done) {
-        next();
-      } else {
-        const middlewareFunction = iteration.value;
-        middlewareFunction(req, res, internalNext);
-      }
-    })();
-  };
+  featurePolicy: () => never;
+  hpkp: () => never;
+  noCache: () => never;
 }
 
-helmet.contentSecurityPolicy = contentSecurityPolicy;
-helmet.dnsPrefetchControl = xDnsPrefetchControl;
-helmet.expectCt = expectCt;
-helmet.frameguard = xFrameOptions;
-helmet.hidePoweredBy = xPoweredBy;
-helmet.hsts = strictTransportSecurity;
-helmet.ieNoOpen = xDownloadOptions;
-helmet.noSniff = xContentTypeOptions;
-helmet.permittedCrossDomainPolicies = xPermittedCrossDomainPolicies;
-helmet.referrerPolicy = referrerPolicy;
-helmet.xssFilter = xXssProtection;
+const helmet: Helmet = Object.assign(
+  function helmet(options: Readonly<HelmetOptions> = {}) {
+    if (options.constructor?.name === "IncomingMessage") {
+      throw new Error(
+        "It appears you have done something like `app.use(helmet)`, but it should be `app.use(helmet())`."
+      );
+    }
 
-helmet.featurePolicy = () => {
-  throw new Error(
-    "helmet.featurePolicy was removed because the Feature-Policy header is deprecated. If you still need this header, you can use the `feature-policy` module."
-  );
-};
+    if (Object.values(options).some((option) => option === true)) {
+      throw new Error(
+        "Helmet no longer supports `true` as a middleware option. Remove the property from your options to fix this error."
+      );
+    }
 
-helmet.hpkp = () => {
-  throw new Error(
-    "helmet.hpkp was removed because the header has been deprecated. If you still need this header, you can use the `hpkp` module. For more, see <https://github.com/helmetjs/helmet/issues/180>."
-  );
-};
+    const middlewareFunctions: MiddlewareFunction[] = [];
 
-helmet.noCache = () => {
-  throw new Error(
-    "helmet.noCache was removed. You can use the `nocache` module instead. For more, see <https://github.com/helmetjs/helmet/issues/215>."
-  );
-};
+    if (options.contentSecurityPolicy !== false) {
+      middlewareFunctions.push(
+        contentSecurityPolicy(options.contentSecurityPolicy)
+      );
+    }
+    if (options.dnsPrefetchControl !== false) {
+      middlewareFunctions.push(xDnsPrefetchControl(options.dnsPrefetchControl));
+    }
+    if (options.expectCt !== false) {
+      middlewareFunctions.push(expectCt(options.expectCt));
+    }
+    if (options.frameguard !== false) {
+      middlewareFunctions.push(xFrameOptions(options.frameguard));
+    }
+    if (options.hidePoweredBy !== false) {
+      if (options.hidePoweredBy !== undefined) {
+        console.warn(
+          "hidePoweredBy does not take options. Remove the property to silence this warning."
+        );
+      }
+      middlewareFunctions.push(xPoweredBy());
+    }
+    if (options.hsts !== false) {
+      middlewareFunctions.push(strictTransportSecurity(options.hsts));
+    }
+    if (options.ieNoOpen !== false) {
+      if (options.ieNoOpen !== undefined) {
+        console.warn(
+          "ieNoOpen does not take options. Remove the property to silence this warning."
+        );
+      }
+      middlewareFunctions.push(xDownloadOptions());
+    }
+    if (options.noSniff !== false) {
+      if (options.noSniff !== undefined) {
+        console.warn(
+          "noSniff does not take options. Remove the property to silence this warning."
+        );
+      }
+      middlewareFunctions.push(xContentTypeOptions());
+    }
+    if (options.permittedCrossDomainPolicies !== false) {
+      middlewareFunctions.push(
+        xPermittedCrossDomainPolicies(options.permittedCrossDomainPolicies)
+      );
+    }
+    if (options.referrerPolicy !== false) {
+      middlewareFunctions.push(referrerPolicy(options.referrerPolicy));
+    }
+    if (options.xssFilter !== false) {
+      if (options.xssFilter !== undefined) {
+        console.warn(
+          "xssFilter does not take options. Remove the property to silence this warning."
+        );
+      }
+      middlewareFunctions.push(xXssProtection());
+    }
+
+    return function helmetMiddleware(
+      req: IncomingMessage,
+      res: ServerResponse,
+      next: (err?: unknown) => void
+    ): void {
+      const iterator = middlewareFunctions[Symbol.iterator]();
+
+      (function internalNext(err?: unknown) {
+        if (err) {
+          next(err);
+          return;
+        }
+
+        const iteration = iterator.next();
+        if (iteration.done) {
+          next();
+        } else {
+          const middlewareFunction = iteration.value;
+          middlewareFunction(req, res, internalNext);
+        }
+      })();
+    };
+  },
+  {
+    contentSecurityPolicy: contentSecurityPolicy,
+    dnsPrefetchControl: xDnsPrefetchControl,
+    expectCt: expectCt,
+    frameguard: xFrameOptions,
+    hidePoweredBy: xPoweredBy,
+    hsts: strictTransportSecurity,
+    ieNoOpen: xDownloadOptions,
+    noSniff: xContentTypeOptions,
+    permittedCrossDomainPolicies: xPermittedCrossDomainPolicies,
+    referrerPolicy: referrerPolicy,
+    xssFilter: xXssProtection,
+    featurePolicy() {
+      throw new Error(
+        "helmet.featurePolicy was removed because the Feature-Policy header is deprecated. If you still need this header, you can use the `feature-policy` module."
+      );
+    },
+    hpkp() {
+      throw new Error(
+        "helmet.hpkp was removed because the header has been deprecated. If you still need this header, you can use the `hpkp` module. For more, see <https://github.com/helmetjs/helmet/issues/180>."
+      );
+    },
+    noCache() {
+      throw new Error(
+        "helmet.noCache was removed. You can use the `nocache` module instead. For more, see <https://github.com/helmetjs/helmet/issues/215>."
+      );
+    },
+  }
+);
 
 export = helmet;

@@ -8,14 +8,12 @@ type ContentSecurityPolicyDirectiveValue =
   | string
   | ContentSecurityPolicyDirectiveValueFunction;
 
-interface ContentSecurityPolicyDirectives {
-  [directiveName: string]:
-    | Iterable<ContentSecurityPolicyDirectiveValue>
-    | typeof dangerouslyDisableDefaultSrc;
-}
-
 export interface ContentSecurityPolicyOptions {
-  directives?: ContentSecurityPolicyDirectives;
+  directives?: Record<
+    string,
+    | Iterable<ContentSecurityPolicyDirectiveValue>
+    | typeof dangerouslyDisableDefaultSrc
+  >;
   reportOnly?: boolean;
 }
 
@@ -24,11 +22,22 @@ type NormalizedDirectives = Array<{
   directiveValue: Iterable<ContentSecurityPolicyDirectiveValue>;
 }>;
 
-const dangerouslyDisableDefaultSrc: unique symbol = Symbol(
-  "dangerouslyDisableDefaultSrc"
-);
+interface ContentSecurityPolicy {
+  (options?: Readonly<ContentSecurityPolicyOptions>): (
+    req: IncomingMessage,
+    res: ServerResponse,
+    next: (err?: Error) => void
+  ) => void;
+  getDefaultDirectives: typeof getDefaultDirectives;
+  dangerouslyDisableDefaultSrc: typeof dangerouslyDisableDefaultSrc;
+}
 
-const DEFAULT_DIRECTIVES: ContentSecurityPolicyDirectives = {
+const dangerouslyDisableDefaultSrc = Symbol("dangerouslyDisableDefaultSrc");
+
+const DEFAULT_DIRECTIVES: Record<
+  string,
+  Iterable<ContentSecurityPolicyDirectiveValue>
+> = {
   "default-src": ["'self'"],
   "base-uri": ["'self'"],
   "block-all-mixed-content": [],
@@ -174,7 +183,7 @@ function getHeaderValue(
   return result.join(";");
 }
 
-function contentSecurityPolicy(
+const contentSecurityPolicy: ContentSecurityPolicy = function contentSecurityPolicy(
   options: Readonly<ContentSecurityPolicyOptions> = {}
 ): (
   req: IncomingMessage,
@@ -218,7 +227,7 @@ function contentSecurityPolicy(
       next();
     }
   };
-}
+};
 contentSecurityPolicy.getDefaultDirectives = getDefaultDirectives;
 contentSecurityPolicy.dangerouslyDisableDefaultSrc = dangerouslyDisableDefaultSrc;
 
