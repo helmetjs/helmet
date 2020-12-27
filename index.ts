@@ -54,8 +54,6 @@ function helmet(options: Readonly<HelmetOptions> = {}) {
     );
   }
 
-  // This is overly verbose. It'd be nice to condense this while still being type-safe.
-
   if (Object.values(options).some((option) => option === true)) {
     throw new Error(
       "Helmet no longer supports `true` as a middleware option. Remove the property from your options to fix this error."
@@ -69,19 +67,15 @@ function helmet(options: Readonly<HelmetOptions> = {}) {
       contentSecurityPolicy(options.contentSecurityPolicy)
     );
   }
-
   if (options.dnsPrefetchControl !== false) {
     middlewareFunctions.push(xDnsPrefetchControl(options.dnsPrefetchControl));
   }
-
   if (options.expectCt !== false) {
     middlewareFunctions.push(expectCt(options.expectCt));
   }
-
   if (options.frameguard !== false) {
     middlewareFunctions.push(xFrameOptions(options.frameguard));
   }
-
   if (options.hidePoweredBy !== false) {
     if (options.hidePoweredBy !== undefined) {
       console.warn(
@@ -90,11 +84,9 @@ function helmet(options: Readonly<HelmetOptions> = {}) {
     }
     middlewareFunctions.push(xPoweredBy());
   }
-
   if (options.hsts !== false) {
     middlewareFunctions.push(strictTransportSecurity(options.hsts));
   }
-
   if (options.ieNoOpen !== false) {
     if (options.ieNoOpen !== undefined) {
       console.warn(
@@ -103,7 +95,6 @@ function helmet(options: Readonly<HelmetOptions> = {}) {
     }
     middlewareFunctions.push(xDownloadOptions());
   }
-
   if (options.noSniff !== false) {
     if (options.noSniff !== undefined) {
       console.warn(
@@ -112,17 +103,14 @@ function helmet(options: Readonly<HelmetOptions> = {}) {
     }
     middlewareFunctions.push(xContentTypeOptions());
   }
-
   if (options.permittedCrossDomainPolicies !== false) {
     middlewareFunctions.push(
       xPermittedCrossDomainPolicies(options.permittedCrossDomainPolicies)
     );
   }
-
   if (options.referrerPolicy !== false) {
     middlewareFunctions.push(referrerPolicy(options.referrerPolicy));
   }
-
   if (options.xssFilter !== false) {
     if (options.xssFilter !== undefined) {
       console.warn(
