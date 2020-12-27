@@ -19,9 +19,7 @@ function parseMaxAge(value: number = 0): number {
 }
 
 function getHeaderValueFromOptions(options: Readonly<ExpectCtOptions>): string {
-  const directives: string[] = [];
-
-  directives.push(`max-age=${parseMaxAge(options.maxAge)}`);
+  const directives: string[] = [`max-age=${parseMaxAge(options.maxAge)}`];
 
   if (options.enforce) {
     directives.push("enforce");
