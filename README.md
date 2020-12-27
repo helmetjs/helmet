@@ -119,7 +119,7 @@ Each middleware's name is listed below.
 
 This middleware performs very little validation. You should rely on CSP checkers like [CSP Evaluator](https://csp-evaluator.withgoogle.com/) instead.
 
-`options.directives` is an object. Each key is a directive name in camel case (such as `defaultSrc`) or kebab case (such as `default-src`). Each value is an iterable (usually an array) of strings or functions for that directive. If a function appears in the iterable, it will be called with the request and response.
+`options.directives` is an object. Each key is a directive name in camel case (such as `defaultSrc`) or kebab case (such as `default-src`). Each value is an iterable (usually an array) of strings or functions for that directive. If a function appears in the iterable, it will be called with the request and response. The `default-src` can be explicitly disabled by setting its value to `helmet.contentSecurityPolicy.dangerouslyDisableDefaultSrc`.
 
 `options.reportOnly` is a boolean, defaulting to `false`. If `true`, [the `Content-Security-Policy-Report-Only` header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy-Report-Only) will be set instead.
 
@@ -195,6 +195,16 @@ app.use(
     directives: {
       defaultSrc: ["'self'"],
       scriptSrc: ["'self'", (req, res) => `'nonce-${res.locals.cspNonce}'`],
+    },
+  })
+);
+
+// Sets "Content-Security-Policy: script-src 'self'"
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      "default-src": helmet.contentSecurityPolicy.dangerouslyDisableDefaultSrc,
+      "script-src": ["'self'"],
     },
   })
 );

@@ -4,6 +4,7 @@ import connect = require("connect");
 import supertest = require("supertest");
 import contentSecurityPolicy, {
   getDefaultDirectives,
+  dangerouslyDisableDefaultSrc,
 } from "../middlewares/content-security-policy";
 
 async function checkCsp({
@@ -312,7 +313,7 @@ describe("Content-Security-Policy middleware", () => {
         directives: {},
       });
     }).toThrow(
-      /^Content-Security-Policy needs a default-src but none was provided$/
+      /^Content-Security-Policy has no directives. Either set some or disable the header$/
     );
     expect(() => {
       contentSecurityPolicy({
@@ -352,6 +353,67 @@ describe("Content-Security-Policy middleware", () => {
         },
       });
     }).not.toThrow();
+  });
+
+  it("allows default-src to be explicitly disabled", async () => {
+    await checkCsp({
+      middlewareArgs: [
+        {
+          directives: {
+            defaultSrc: dangerouslyDisableDefaultSrc,
+            scriptSrc: ["example.com"],
+          },
+        },
+      ],
+      expectedDirectives: new Set(["script-src example.com"]),
+    });
+
+    await checkCsp({
+      middlewareArgs: [
+        {
+          directives: {
+            "default-src": dangerouslyDisableDefaultSrc,
+            "script-src": ["example.com"],
+          },
+        },
+      ],
+      expectedDirectives: new Set(["script-src example.com"]),
+    });
+  });
+
+  it("throws an error if default-src is disabled and there are no other directives", () => {
+    expect(() => {
+      contentSecurityPolicy({
+        directives: {
+          defaultSrc: dangerouslyDisableDefaultSrc,
+        },
+      });
+    }).toThrow(
+      /^Content-Security-Policy has no directives. Either set some or disable the header$/
+    );
+
+    expect(() => {
+      contentSecurityPolicy({
+        directives: {
+          "default-src": dangerouslyDisableDefaultSrc,
+        },
+      });
+    }).toThrow(
+      /^Content-Security-Policy has no directives. Either set some or disable the header$/
+    );
+  });
+
+  it("throws an error if directives other than default-src are `dangerouslyDisableDefaultSrc`", () => {
+    expect(() => {
+      contentSecurityPolicy({
+        directives: {
+          "default-src": "'self'",
+          "script-src": dangerouslyDisableDefaultSrc,
+        },
+      });
+    }).toThrow(
+      /^Content-Security-Policy: tried to disable "script-src" as if it were default-src; simply omit the key$/
+    );
   });
 
   // This functionality only exists to ease the transition to this major version.

@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+### Added
+
+- Setting the `default-src` to `contentSecurityPolicy.dangerouslyDisableDefaultSrc` disables it
+
 ## 3.2.0 - 2020-11-01
 
 ### Added
