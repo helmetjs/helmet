@@ -81,18 +81,15 @@ const helmet: Helmet = Object.assign(
         "It appears you have done something like `app.use(helmet)`, but it should be `app.use(helmet())`."
       );
     }
-    const arrayOfOptions = Object.values(options);
-    if (arrayOfOptions.some((option) => option === true)) {
-      if (
-        !(
-          options.originAgentCluster &&
-          arrayOfOptions.filter(Boolean).length === 1
-        )
-      ) {
-        throw new Error(
-          "Helmet no longer supports `true` as a middleware option, except for Origin-Agent-Cluster. Remove the property from your options to fix this error."
-        );
-      }
+
+    if (
+      Object.entries(options).some(
+        ([key, option]) => option === true && key !== "originAgentCluster"
+      )
+    ) {
+      throw new Error(
+        "Helmet no longer supports `true` as a middleware option, except for Origin-Agent-Cluster. Remove the property from your options to fix this error."
+      );
     }
 
     const middlewareFunctions: MiddlewareFunction[] = [];
