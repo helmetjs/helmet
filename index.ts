@@ -33,7 +33,7 @@ interface HelmetOptions {
   hsts?: MiddlewareOption<StrictTransportSecurityOptions>;
   ieNoOpen?: MiddlewareOption<never>;
   noSniff?: MiddlewareOption<never>;
-  originAgentCluster?: MiddlewareOption<never>;
+  originAgentCluster?: boolean;
   permittedCrossDomainPolicies?: MiddlewareOption<XPermittedCrossDomainPoliciesOptions>;
   referrerPolicy?: MiddlewareOption<ReferrerPolicyOptions>;
   xssFilter?: MiddlewareOption<never>;

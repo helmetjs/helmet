@@ -72,10 +72,16 @@ describe("helmet", () => {
     );
   });
 
+  it("allows Origin-Agent-Cluster middleware to be enabled", async () => {
+    await check(helmet({ originAgentCluster: true }), {
+      "origin-agent-cluster": "?1",
+    });
+  });
+
   it("errors when Origin-Agent-Cluster and one or more of others is set as a `true` as a middleware option", () => {
     expect(() => {
       helmet({
-        originAgentCluster: true as any,
+        originAgentCluster: true,
         contentSecurityPolicy: true as any,
       });
     }).toThrow(
