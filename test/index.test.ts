@@ -16,6 +16,7 @@ import xFrameOptions from "../middlewares/x-frame-options";
 import xPermittedCrossDomainPolicies from "../middlewares/x-permitted-cross-domain-policies";
 import xPoweredBy from "../middlewares/x-powered-by";
 import xXssProtection from "../middlewares/x-xss-protection";
+import originAgentCluster from "../middlewares/origin-agent-cluster";
 
 describe("helmet", () => {
   it("includes all middleware with their default options", async () => {
@@ -67,7 +68,18 @@ describe("helmet", () => {
     expect(() => {
       helmet({ contentSecurityPolicy: true as any });
     }).toThrow(
-      "Helmet no longer supports `true` as a middleware option. Remove the property from your options to fix this error."
+      "Helmet no longer supports `true` as a middleware option, exception is Origin-Agent-Cluster. Remove the property from your options to fix this error."
+    );
+  });
+
+  it("errors when Origin-Agent-Cluster and one or more of others is set as a `true` as a middleware option", () => {
+    expect(() => {
+      helmet({
+        originAgentCluster: true as any,
+        contentSecurityPolicy: true as any,
+      });
+    }).toThrow(
+      "Helmet no longer supports `true` as a middleware option, exception is Origin-Agent-Cluster. Remove the property from your options to fix this error."
     );
   });
 
@@ -204,6 +216,11 @@ describe("helmet", () => {
     it("aliases the X-XSS-Protection middleware to helmet.xssFilter", () => {
       expect(helmet.xssFilter.name).toBe(xXssProtection.name);
       expect(helmet.xssFilter.name).toBe("xXssProtection");
+    });
+
+    it("aliases the Origin-Agent-Cluster middleware to helmet.originAgentCluster", () => {
+      expect(helmet.originAgentCluster.name).toBe(originAgentCluster.name);
+      expect(helmet.originAgentCluster.name).toBe("originAgentCluster");
     });
 
     // These errors exist to ease the major version transition. The code (and these tests)
