@@ -45,7 +45,6 @@ app.use(helmet.noSniff());
 app.use(helmet.permittedCrossDomainPolicies());
 app.use(helmet.referrerPolicy());
 app.use(helmet.xssFilter());
-app.use(helmet.originAgentCluster());
 ```
 
 To set custom options for one of the middleware, add options like this:
@@ -484,7 +483,7 @@ You can install this module separately as `x-xss-protection`.
 <details>
 <summary><code>helmet.originAgentCluster()</code></summary>
 
-`helmet.originAgentCluster` The Origin-Agent-Cluster header provides a mechanism to allow web applications to isolate their origins.
+`helmet.originAgentCluster` sets the `Origin-Agent-Cluster` header, which provides a mechanism to allow web applications to isolate their origins. Read more about it [in the spec](https://whatpr.org/html/6214/origin.html#origin-keyed-agent-clusters).
 
 This middleware takes no options.
 
