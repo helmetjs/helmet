@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.3.2 - 2021-01-17
+
+### Added
+
+- `helmet.originAgentCluster`: disabled by default, set `true` enables it
+
 ## 4.3.1 - 2020-12-27
 
 ### Fixed
