@@ -68,7 +68,7 @@ describe("helmet", () => {
     expect(() => {
       helmet({ contentSecurityPolicy: true as any });
     }).toThrow(
-      "Helmet no longer supports `true` as a middleware option, exception is Origin-Agent-Cluster. Remove the property from your options to fix this error."
+      "Helmet no longer supports `true` as a middleware option, except for Origin-Agent-Cluster. Remove the property from your options to fix this error."
     );
   });
 
@@ -79,7 +79,7 @@ describe("helmet", () => {
         contentSecurityPolicy: true as any,
       });
     }).toThrow(
-      "Helmet no longer supports `true` as a middleware option, exception is Origin-Agent-Cluster. Remove the property from your options to fix this error."
+      "Helmet no longer supports `true` as a middleware option, except for Origin-Agent-Cluster. Remove the property from your options to fix this error."
     );
   });
 
