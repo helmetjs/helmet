@@ -182,18 +182,18 @@ const helmet: Helmet = Object.assign(
     };
   },
   {
-    contentSecurityPolicy: contentSecurityPolicy,
+    contentSecurityPolicy,
     dnsPrefetchControl: xDnsPrefetchControl,
-    expectCt: expectCt,
+    expectCt,
     frameguard: xFrameOptions,
     hidePoweredBy: xPoweredBy,
     hsts: strictTransportSecurity,
     ieNoOpen: xDownloadOptions,
     noSniff: xContentTypeOptions,
     permittedCrossDomainPolicies: xPermittedCrossDomainPolicies,
-    referrerPolicy: referrerPolicy,
+    referrerPolicy,
     xssFilter: xXssProtection,
-    originAgentCluster: originAgentCluster,
+    originAgentCluster,
     featurePolicy() {
       throw new Error(
         "helmet.featurePolicy was removed because the Feature-Policy header is deprecated. If you still need this header, you can use the `feature-policy` module."
