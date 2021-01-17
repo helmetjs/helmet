@@ -8,6 +8,7 @@ import helmet from "..";
 import contentSecurityPolicy from "../middlewares/content-security-policy";
 import expectCt from "../middlewares/expect-ct";
 import referrerPolicy from "../middlewares/referrer-policy";
+import originAgentCluster from "../middlewares/origin-agent-cluster";
 import strictTransportSecurity from "../middlewares/strict-transport-security";
 import xContentTypeOptions from "../middlewares/x-content-type-options";
 import xDnsPrefetchControl from "../middlewares/x-dns-prefetch-control";
@@ -16,7 +17,6 @@ import xFrameOptions from "../middlewares/x-frame-options";
 import xPermittedCrossDomainPolicies from "../middlewares/x-permitted-cross-domain-policies";
 import xPoweredBy from "../middlewares/x-powered-by";
 import xXssProtection from "../middlewares/x-xss-protection";
-import originAgentCluster from "../middlewares/origin-agent-cluster";
 
 describe("helmet", () => {
   it("includes all middleware with their default options", async () => {
@@ -213,14 +213,14 @@ describe("helmet", () => {
       expect(helmet.referrerPolicy.name).toBe("referrerPolicy");
     });
 
-    it("aliases the X-XSS-Protection middleware to helmet.xssFilter", () => {
-      expect(helmet.xssFilter.name).toBe(xXssProtection.name);
-      expect(helmet.xssFilter.name).toBe("xXssProtection");
-    });
-
     it("aliases the Origin-Agent-Cluster middleware to helmet.originAgentCluster", () => {
       expect(helmet.originAgentCluster.name).toBe(originAgentCluster.name);
       expect(helmet.originAgentCluster.name).toBe("originAgentCluster");
+    });
+
+    it("aliases the X-XSS-Protection middleware to helmet.xssFilter", () => {
+      expect(helmet.xssFilter.name).toBe(xXssProtection.name);
+      expect(helmet.xssFilter.name).toBe("xXssProtection");
     });
 
     // These errors exist to ease the major version transition. The code (and these tests)

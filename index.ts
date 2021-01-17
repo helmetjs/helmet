@@ -3,6 +3,7 @@ import contentSecurityPolicy, {
   ContentSecurityPolicyOptions,
 } from "./middlewares/content-security-policy";
 import expectCt, { ExpectCtOptions } from "./middlewares/expect-ct";
+import originAgentCluster from "./middlewares/origin-agent-cluster";
 import referrerPolicy, {
   ReferrerPolicyOptions,
 } from "./middlewares/referrer-policy";
@@ -22,7 +23,6 @@ import xPermittedCrossDomainPolicies, {
 } from "./middlewares/x-permitted-cross-domain-policies";
 import xPoweredBy from "./middlewares/x-powered-by";
 import xXssProtection from "./middlewares/x-xss-protection";
-import originAgentCluster from "./middlewares/origin-agent-cluster";
 
 interface HelmetOptions {
   contentSecurityPolicy?: MiddlewareOption<ContentSecurityPolicyOptions>;
@@ -33,10 +33,10 @@ interface HelmetOptions {
   hsts?: MiddlewareOption<StrictTransportSecurityOptions>;
   ieNoOpen?: MiddlewareOption<never>;
   noSniff?: MiddlewareOption<never>;
+  originAgentCluster?: MiddlewareOption<never>;
   permittedCrossDomainPolicies?: MiddlewareOption<XPermittedCrossDomainPoliciesOptions>;
   referrerPolicy?: MiddlewareOption<ReferrerPolicyOptions>;
   xssFilter?: MiddlewareOption<never>;
-  originAgentCluster?: MiddlewareOption<never>;
 }
 
 type MiddlewareOption<T> = false | T;
@@ -138,6 +138,12 @@ const helmet: Helmet = Object.assign(
       }
       middlewareFunctions.push(xContentTypeOptions());
     }
+    if (
+      options.originAgentCluster !== undefined &&
+      options.originAgentCluster !== false
+    ) {
+      middlewareFunctions.push(originAgentCluster());
+    }
     if (options.permittedCrossDomainPolicies !== false) {
       middlewareFunctions.push(
         xPermittedCrossDomainPolicies(options.permittedCrossDomainPolicies)
@@ -153,12 +159,6 @@ const helmet: Helmet = Object.assign(
         );
       }
       middlewareFunctions.push(xXssProtection());
-    }
-    if (
-      options.originAgentCluster !== undefined &&
-      options.originAgentCluster !== false
-    ) {
-      middlewareFunctions.push(originAgentCluster());
     }
 
     return function helmetMiddleware(
