@@ -8,6 +8,7 @@ import helmet from "..";
 import contentSecurityPolicy from "../middlewares/content-security-policy";
 import expectCt from "../middlewares/expect-ct";
 import referrerPolicy from "../middlewares/referrer-policy";
+import originAgentCluster from "../middlewares/origin-agent-cluster";
 import strictTransportSecurity from "../middlewares/strict-transport-security";
 import xContentTypeOptions from "../middlewares/x-content-type-options";
 import xDnsPrefetchControl from "../middlewares/x-dns-prefetch-control";
@@ -67,7 +68,24 @@ describe("helmet", () => {
     expect(() => {
       helmet({ contentSecurityPolicy: true as any });
     }).toThrow(
-      "Helmet no longer supports `true` as a middleware option. Remove the property from your options to fix this error."
+      "Helmet no longer supports `true` as a middleware option, except for Origin-Agent-Cluster. Remove the property from your options to fix this error."
+    );
+  });
+
+  it("allows Origin-Agent-Cluster middleware to be enabled", async () => {
+    await check(helmet({ originAgentCluster: true }), {
+      "origin-agent-cluster": "?1",
+    });
+  });
+
+  it("errors when Origin-Agent-Cluster and one or more of others is set as a `true` as a middleware option", () => {
+    expect(() => {
+      helmet({
+        originAgentCluster: true,
+        contentSecurityPolicy: true as any,
+      });
+    }).toThrow(
+      "Helmet no longer supports `true` as a middleware option, except for Origin-Agent-Cluster. Remove the property from your options to fix this error."
     );
   });
 
@@ -199,6 +217,11 @@ describe("helmet", () => {
     it("aliases the Referrer-Policy middleware to helmet.referrerPolicy", () => {
       expect(helmet.referrerPolicy.name).toBe(referrerPolicy.name);
       expect(helmet.referrerPolicy.name).toBe("referrerPolicy");
+    });
+
+    it("aliases the Origin-Agent-Cluster middleware to helmet.originAgentCluster", () => {
+      expect(helmet.originAgentCluster.name).toBe(originAgentCluster.name);
+      expect(helmet.originAgentCluster.name).toBe("originAgentCluster");
     });
 
     it("aliases the X-XSS-Protection middleware to helmet.xssFilter", () => {

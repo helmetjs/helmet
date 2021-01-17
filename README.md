@@ -338,6 +338,24 @@ You can install this module separately as `dont-sniff-mimetype`.
 </details>
 
 <details>
+<summary><code>helmet.originAgentCluster()</code></summary>
+
+`helmet.originAgentCluster` sets the `Origin-Agent-Cluster` header, which provides a mechanism to allow web applications to isolate their origins. Read more about it [in the spec](https://whatpr.org/html/6214/origin.html#origin-keyed-agent-clusters).
+
+This middleware takes no options.
+
+Examples:
+
+```js
+// Sets "Origin-Agent-Cluster: ?1"
+app.use(helmet.originAgentCluster());
+```
+
+You can't install this module separately.
+
+</details>
+
+<details>
 <summary><code>helmet.dnsPrefetchControl(options)</code></summary>
 
 `helmet.dnsPrefetchControl` sets the `X-DNS-Prefetch-Control` header to help control DNS prefetching, which can improve user privacy at the expense of performance. See [documentation on MDN](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-DNS-Prefetch-Control) for more.

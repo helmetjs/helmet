@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+### Added
+
+- `helmet.originAgentCluster`: a new middleware for the `Origin-Agent-Cluster` middleware, disabled by default
+
 ## 4.3.1 - 2020-12-27
 
 ### Fixed

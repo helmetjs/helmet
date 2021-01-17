@@ -3,6 +3,7 @@ import contentSecurityPolicy, {
   ContentSecurityPolicyOptions,
 } from "./middlewares/content-security-policy";
 import expectCt, { ExpectCtOptions } from "./middlewares/expect-ct";
+import originAgentCluster from "./middlewares/origin-agent-cluster";
 import referrerPolicy, {
   ReferrerPolicyOptions,
 } from "./middlewares/referrer-policy";
@@ -32,6 +33,7 @@ interface HelmetOptions {
   hsts?: MiddlewareOption<StrictTransportSecurityOptions>;
   ieNoOpen?: MiddlewareOption<never>;
   noSniff?: MiddlewareOption<never>;
+  originAgentCluster?: boolean;
   permittedCrossDomainPolicies?: MiddlewareOption<XPermittedCrossDomainPoliciesOptions>;
   referrerPolicy?: MiddlewareOption<ReferrerPolicyOptions>;
   xssFilter?: MiddlewareOption<never>;
@@ -65,6 +67,7 @@ interface Helmet {
   permittedCrossDomainPolicies: typeof xPermittedCrossDomainPolicies;
   referrerPolicy: typeof referrerPolicy;
   xssFilter: typeof xXssProtection;
+  originAgentCluster: typeof originAgentCluster;
 
   featurePolicy: () => never;
   hpkp: () => never;
@@ -79,9 +82,13 @@ const helmet: Helmet = Object.assign(
       );
     }
 
-    if (Object.values(options).some((option) => option === true)) {
+    if (
+      Object.entries(options).some(
+        ([key, option]) => option === true && key !== "originAgentCluster"
+      )
+    ) {
       throw new Error(
-        "Helmet no longer supports `true` as a middleware option. Remove the property from your options to fix this error."
+        "Helmet no longer supports `true` as a middleware option, except for Origin-Agent-Cluster. Remove the property from your options to fix this error."
       );
     }
 
@@ -127,6 +134,12 @@ const helmet: Helmet = Object.assign(
         );
       }
       middlewareFunctions.push(xContentTypeOptions());
+    }
+    if (
+      options.originAgentCluster !== undefined &&
+      options.originAgentCluster !== false
+    ) {
+      middlewareFunctions.push(originAgentCluster());
     }
     if (options.permittedCrossDomainPolicies !== false) {
       middlewareFunctions.push(
@@ -180,6 +193,7 @@ const helmet: Helmet = Object.assign(
     permittedCrossDomainPolicies: xPermittedCrossDomainPolicies,
     referrerPolicy: referrerPolicy,
     xssFilter: xXssProtection,
+    originAgentCluster: originAgentCluster,
     featurePolicy() {
       throw new Error(
         "helmet.featurePolicy was removed because the Feature-Policy header is deprecated. If you still need this header, you can use the `feature-policy` module."

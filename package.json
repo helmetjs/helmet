@@ -54,7 +54,9 @@
     "dist/middlewares/x-powered-by/index.js",
     "dist/middlewares/x-powered-by/index.d.ts",
     "dist/middlewares/x-xss-protection/index.js",
-    "dist/middlewares/x-xss-protection/index.d.ts"
+    "dist/middlewares/x-xss-protection/index.d.ts",
+    "dist/middlewares/origin-agent-cluster/index.js",
+    "dist/middlewares/origin-agent-cluster/index.d.ts"
   ],
   "devDependencies": {
     "@types/connect": "^3.4.34",
