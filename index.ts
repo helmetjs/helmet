@@ -190,10 +190,10 @@ const helmet: Helmet = Object.assign(
     hsts: strictTransportSecurity,
     ieNoOpen: xDownloadOptions,
     noSniff: xContentTypeOptions,
+    originAgentCluster,
     permittedCrossDomainPolicies: xPermittedCrossDomainPolicies,
     referrerPolicy,
     xssFilter: xXssProtection,
-    originAgentCluster,
     featurePolicy() {
       throw new Error(
         "helmet.featurePolicy was removed because the Feature-Policy header is deprecated. If you still need this header, you can use the `feature-policy` module."
