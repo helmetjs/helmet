@@ -53,6 +53,29 @@ describe("helmet", () => {
     });
   });
 
+  it("works with all middlewares disabled", async () => {
+    await check(
+      helmet({
+        contentSecurityPolicy: false,
+        dnsPrefetchControl: false,
+        expectCt: false,
+        frameguard: false,
+        hidePoweredBy: false,
+        hsts: false,
+        ieNoOpen: false,
+        noSniff: false,
+        originAgentCluster: false,
+        permittedCrossDomainPolicies: false,
+        referrerPolicy: false,
+        xssFilter: false,
+      }),
+      {
+        "content-security-policy": null,
+        "x-frame-options": null,
+      }
+    );
+  });
+
   it("errors when `use`d directly", () => {
     const fakeRequest = {
       constructor: {
