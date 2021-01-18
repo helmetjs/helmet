@@ -80,7 +80,7 @@
     "lint:prettier": "prettier --check \"**/*{md,js,json,ts}\"",
     "format": "prettier --write \"**/*{md,js,json,ts}\"",
     "clean": "node ./bin/clean.js",
-    "build": "npm run clean && tsc",
+    "build": "npm run clean && tsc && npm run format",
     "build-middleware-package": "npm run build && node ./bin/build-middleware-package.js",
     "test": "jest"
   },
