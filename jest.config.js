@@ -1,5 +1,6 @@
 module.exports = {
   collectCoverage: true,
+  collectCoverageFrom: ["/index.ts", "/middlewares/**/*.ts"],
   coverageThreshold: {
     global: {
       branches: 50,
