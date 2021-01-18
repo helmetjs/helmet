@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+### Changed
+
+- Shrink the published package by about 2.5 kB
+
 ## 4.4.0 - 2021-01-17
 
 ### Added
