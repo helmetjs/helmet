@@ -54,7 +54,7 @@ async function main(argv) {
   await Promise.all([
     fs.writeFile(
       getStagingFilePath("package.json"),
-      JSON.stringify(packageJson, null, 2)
+      JSON.stringify(packageJson)
     ),
     fs.copyFile(
       getSourceFilePath("README.md"),
