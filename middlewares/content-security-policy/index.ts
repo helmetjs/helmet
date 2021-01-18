@@ -160,11 +160,8 @@ function getHeaderValue(
   } of normalizedDirectives) {
     let directiveValue = "";
     for (const element of rawDirectiveValue) {
-      if (element instanceof Function) {
-        directiveValue += " " + element(req, res);
-      } else {
-        directiveValue += " " + element;
-      }
+      directiveValue +=
+        " " + (element instanceof Function ? element(req, res) : element);
     }
 
     if (!directiveValue) {
