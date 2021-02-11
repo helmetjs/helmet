@@ -98,7 +98,7 @@ See the [Helmet 4 upgrade guide](https://github.com/helmetjs/helmet/wiki/Helmet-
 - `helmet.hsts`:
   - Dropped support for `includeSubdomains` with a lowercase D. See [#231](https://github.com/helmetjs/helmet/issues/231)
   - Dropped support for `setIf`. [Read this if you need help.](https://github.com/helmetjs/helmet/wiki/Conditionally-using-middleware) See [#232](https://github.com/helmetjs/helmet/issues/232)
-- `helmet.xssFilter` no longer accepts options. Read ["How to disable blocking with X–XSS–Protection"](https://github.com/helmetjs/helmet/wiki/How-to-disable-blocking-with-X%E2%80%93XSS%E2%80%93Protection) and ["How to enable the `report` directive with X–XSS–Protection"](https://github.com/helmetjs/helmet/wiki/How-to-enable-the-%60report%60-directive-with-X%E2%80%93XSS%E2%80%93Protection) if you need the legacy behavior.
+- `helmet.xssFilter` no longer accepts options. Read ["How to disable blocking with X-XSS-Protection"](https://github.com/helmetjs/helmet/wiki/How-to-disable-blocking-with-X%E2%80%93XSS%E2%80%93Protection) and ["How to enable the `report` directive with X-XSS-Protection"](https://github.com/helmetjs/helmet/wiki/How-to-enable-the-%60report%60-directive-with-X%E2%80%93XSS%E2%80%93Protection) if you need the legacy behavior.
 
 ## 3.23.3 - 2020-06-26
 
