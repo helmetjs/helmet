@@ -1,6 +1,6 @@
 # Content Security Policy middleware
 
-Content Security Policy (CSP) helps prevent unwanted content from being injected/loaded into your webpages. This can mitigate cross-site scripting (XSS) vulnerabilities, Clickjacking, formajacking, malicious frames, unwanted trackers, client-side injected malware, and other [web client-side attacks](https://cspscanner.com/client-side-attacks).
+Content Security Policy (CSP) helps prevent unwanted content from being injected/loaded into your webpages. This can mitigate cross-site scripting (XSS) vulnerabilities, clickjacking, formjacking, malicious frames, unwanted trackers, and other web client-side attacks.
 
 If you want to learn how CSP works, check out the fantastic [HTML5 Rocks guide](http://www.html5rocks.com/en/tutorials/security/content-security-policy/), the [Content Security Policy Reference](http://content-security-policy.com/), and the [Content Security Policy specification](http://www.w3.org/TR/CSP/).
 
@@ -30,7 +30,7 @@ You can set any directives you wish. `defaultSrc` is required, but can be explic
 
 The `reportOnly` option, if set to `true`, sets the `Content-Security-Policy-Report-Only` header instead.
 
-This middleware does minimal validation. You should use a more sophisticated CSP validator, like [Google's CSP Evaluator](https://csp-evaluator.withgoogle.com/), or [CSP Scanner](https://cspscanner.com/) to make sure your CSP is both valid, and effective at mitigating attacks.
+This middleware does minimal validation. You should use a more sophisticated CSP validator, like [Google's CSP Evaluator](https://csp-evaluator.withgoogle.com/), to make sure your CSP looks good.
 
 ## Recipe: generating nonces
 
@@ -61,6 +61,6 @@ app.use((req, res) => {
 ## See also
 
 - [Google's CSP Evaluator tool](https://csp-evaluator.withgoogle.com/)
-- [CSP Scanner - Validate and Improve a Content Security Policy](https://cspscanner.com/)
+- [CSP Scanner](https://cspscanner.com/)
 - [GitHub's CSP journey](http://githubengineering.com/githubs-csp-journey/)
 - [Content Security Policy for Single Page Web Apps](https://developer.squareup.com/blog/content-security-policy-for-single-page-web-apps/)
