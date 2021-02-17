@@ -1,6 +1,6 @@
 # Content Security Policy middleware
 
-Content Security Policy helps prevent unwanted content being injected into your webpages. This can mitigate cross-site scripting (XSS) vulnerabilities, malicious frames, unwanted trackers, and much more.
+Content Security Policy (CSP) helps prevent unwanted content from being injected/loaded into your webpages. This can mitigate cross-site scripting (XSS) vulnerabilities, clickjacking, formjacking, malicious frames, unwanted trackers, and other web client-side attacks.
 
 If you want to learn how CSP works, check out the fantastic [HTML5 Rocks guide](http://www.html5rocks.com/en/tutorials/security/content-security-policy/), the [Content Security Policy Reference](http://content-security-policy.com/), and the [Content Security Policy specification](http://www.w3.org/TR/CSP/).
 
@@ -61,5 +61,6 @@ app.use((req, res) => {
 ## See also
 
 - [Google's CSP Evaluator tool](https://csp-evaluator.withgoogle.com/)
+- [CSP Scanner](https://cspscanner.com/)
 - [GitHub's CSP journey](http://githubengineering.com/githubs-csp-journey/)
 - [Content Security Policy for Single Page Web Apps](https://developer.squareup.com/blog/content-security-policy-for-single-page-web-apps/)
