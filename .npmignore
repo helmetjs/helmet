@@ -13,6 +13,12 @@
 
 !dist/middlewares/content-security-policy/index.d.ts
 !dist/middlewares/content-security-policy/index.js
+!dist/middlewares/cross-origin-embedder-policy/index.d.ts
+!dist/middlewares/cross-origin-embedder-policy/index.js
+!dist/middlewares/cross-origin-opener-policy/index.d.ts
+!dist/middlewares/cross-origin-opener-policy/index.js
+!dist/middlewares/cross-origin-resource-policy/index.d.ts
+!dist/middlewares/cross-origin-resource-policy/index.js
 !dist/middlewares/expect-ct/index.d.ts
 !dist/middlewares/expect-ct/index.js
 !dist/middlewares/origin-agent-cluster/index.d.ts
