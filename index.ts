@@ -32,24 +32,22 @@ import xPoweredBy from "./middlewares/x-powered-by";
 import xXssProtection from "./middlewares/x-xss-protection";
 
 interface HelmetOptions {
-  contentSecurityPolicy?: MiddlewareOption<ContentSecurityPolicyOptions>;
+  contentSecurityPolicy?: ContentSecurityPolicyOptions | boolean;
   crossOriginEmbedderPolicy?: boolean;
-  crossOriginOpenerPolicy?: MiddlewareOption<CrossOriginOpenerPolicyOptions>;
-  crossOriginResourcePolicy?: MiddlewareOption<CrossOriginResourcePolicyOptions>;
-  dnsPrefetchControl?: MiddlewareOption<XDnsPrefetchControlOptions>;
-  expectCt?: MiddlewareOption<ExpectCtOptions>;
-  frameguard?: MiddlewareOption<XFrameOptionsOptions>;
-  hidePoweredBy?: MiddlewareOption<never>;
-  hsts?: MiddlewareOption<StrictTransportSecurityOptions>;
-  ieNoOpen?: MiddlewareOption<never>;
-  noSniff?: MiddlewareOption<never>;
+  crossOriginOpenerPolicy?: CrossOriginOpenerPolicyOptions | boolean;
+  crossOriginResourcePolicy?: CrossOriginResourcePolicyOptions | boolean;
+  dnsPrefetchControl?: XDnsPrefetchControlOptions | boolean;
+  expectCt?: ExpectCtOptions | boolean;
+  frameguard?: XFrameOptionsOptions | boolean;
+  hidePoweredBy?: boolean;
+  hsts?: StrictTransportSecurityOptions | boolean;
+  ieNoOpen?: boolean;
+  noSniff?: boolean;
   originAgentCluster?: boolean;
-  permittedCrossDomainPolicies?: MiddlewareOption<XPermittedCrossDomainPoliciesOptions>;
-  referrerPolicy?: MiddlewareOption<ReferrerPolicyOptions>;
-  xssFilter?: MiddlewareOption<never>;
+  permittedCrossDomainPolicies?: XPermittedCrossDomainPoliciesOptions | boolean;
+  referrerPolicy?: ReferrerPolicyOptions | boolean;
+  xssFilter?: boolean;
 }
-
-type MiddlewareOption<T> = boolean | T;
 
 interface MiddlewareFunction {
   (
@@ -88,7 +86,7 @@ interface Helmet {
 }
 
 function getArgs<T>(
-  option: undefined | Readonly<MiddlewareOption<T>>,
+  option: undefined | boolean | Readonly<T>,
   middlewareConfig: Readonly<
     {
       enabledByDefault?: boolean;
