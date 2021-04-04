@@ -7,6 +7,7 @@ import helmet from "..";
 
 import contentSecurityPolicy from "../middlewares/content-security-policy";
 import crossOriginEmbedderPolicy from "../middlewares/cross-origin-embedder-policy";
+import crossOriginResourcePolicy from "../middlewares/cross-origin-resource-policy";
 import expectCt from "../middlewares/expect-ct";
 import referrerPolicy from "../middlewares/referrer-policy";
 import originAgentCluster from "../middlewares/origin-agent-cluster";
@@ -28,6 +29,7 @@ describe("helmet", () => {
       "content-security-policy":
         "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests",
       "cross-origin-embedder-policy": null,
+      "cross-origin-resource-policy": null,
       "expect-ct": "max-age=0",
       "origin-agent-cluster": null,
       "referrer-policy": "no-referrer",
@@ -55,7 +57,7 @@ describe("helmet", () => {
     });
   });
 
-  it("works with all middlewares disabled", async () => {
+  it("works with all default middlewares disabled", async () => {
     await check(
       helmet({
         contentSecurityPolicy: false,
@@ -105,6 +107,27 @@ describe("helmet", () => {
   it("allows Cross-Origin-Embedder-Policy middleware to be explicitly disabled (a no-op, because it is disabled by default)", async () => {
     await check(helmet({ crossOriginEmbedderPolicy: false }), {
       "cross-origin-embedder-policy": null,
+    });
+  });
+
+  it("allows Cross-Origin-Resource-Policy middleware to be enabled with its default", async () => {
+    await check(helmet({ crossOriginResourcePolicy: true }), {
+      "cross-origin-resource-policy": "same-origin",
+    });
+  });
+
+  it("allows Cross-Origin-Resource-Policy middleware to be enabled with custom arguments", async () => {
+    await check(
+      helmet({ crossOriginResourcePolicy: { policy: "same-site" } }),
+      {
+        "cross-origin-resource-policy": "same-site",
+      }
+    );
+  });
+
+  it("allows Cross-Origin-Resource-Policy middleware to be explicitly disabled (a no-op, because it is disabled by default)", async () => {
+    await check(helmet({ crossOriginResourcePolicy: false }), {
+      "cross-origin-resource-policy": null,
     });
   });
 
@@ -223,6 +246,15 @@ describe("helmet", () => {
       );
       expect(helmet.crossOriginEmbedderPolicy.name).toBe(
         "crossOriginEmbedderPolicy"
+      );
+    });
+
+    it("aliases the Cross-Origin-Resource-Policy middleware to helmet.crossOriginResourcePolicy", () => {
+      expect(helmet.crossOriginResourcePolicy.name).toBe(
+        crossOriginResourcePolicy.name
+      );
+      expect(helmet.crossOriginResourcePolicy.name).toBe(
+        "crossOriginResourcePolicy"
       );
     });
 

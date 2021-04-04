@@ -5,6 +5,7 @@
 ### Added
 
 - `helmet.crossOriginEmbedderPolicy`: a new middleware for the `Cross-Origin-Embedder-Policy` header, disabled by default
+- `helmet.crossOriginResourcePolicy`: a new middleware for the `Cross-Origin-Resource-Policy` header, disabled by default
 
 ### Changed
 
