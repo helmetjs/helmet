@@ -25,7 +25,7 @@ app.use(helmet());
 
 Helmet is [Connect](https://github.com/senchalabs/connect)-style middleware, which is compatible with frameworks like [Express](https://expressjs.com/). (If you need support for Koa, see [`koa-helmet`](https://github.com/venables/koa-helmet).)
 
-The top-level `helmet` function is a wrapper around 11 smaller middlewares.
+The top-level `helmet` function is a wrapper around 13 smaller middlewares, 11 of which are enabled by default.
 
 In other words, these two things are equivalent:
 
@@ -74,9 +74,9 @@ app.use(
 <details>
 <summary><code>helmet(options)</code></summary>
 
-Helmet is the top-level middleware for this module, including all 11 others.
+Helmet is the top-level middleware for this module, including all 13 others.
 
-All 11 middlewares are enabled by default.
+11 of 13 middlewares are included by default. `crossOriginEmbedderPolicy` and `originAgentCluster` are not included by default, and must be explicitly enabled. They will be turned on by default in the next major version of Helmet.
 
 ```js
 // Includes all 11 middlewares
@@ -214,6 +214,32 @@ You can install this module separately as `helmet-csp`.
 </details>
 
 <details>
+<summary><code>helmet.crossOriginEmbedderPolicy()</code></summary>
+
+`helmet.crossOriginEmbedderPolicy` sets the `Cross-Origin-Embedder-Policy` header to `require-corp`. See [MDN's article on this header](https://developer.cdn.mozilla.net/en-US/docs/Web/HTTP/Headers/Cross-Origin-Embedder-Policy) for more.
+
+This middleware is not included when calling `helmet()` by default, and must be enabled explicitly. It will be enabled by default in the next major version of Helmet.
+
+Example usage with Helmet:
+
+```js
+// Uses the default Helmet options and adds the `crossOriginEmbedderPolicy` middleware.
+// Sets "Cross-Origin-Embedder-Policy: require-corp"
+app.use(helmet({ crossOriginEmbedderPolicy: true }));
+```
+
+Standalone example:
+
+```js
+// Sets "Cross-Origin-Embedder-Policy: require-corp"
+app.use(helmet.crossOriginEmbedderPolicy());
+```
+
+You can't install this module separately.
+
+</details>
+
+<details>
 <summary><code>helmet.expectCt(options)</code></summary>
 
 `helmet.expectCt` sets the `Expect-CT` header which helps mitigate misissued SSL certificates. See [MDN's article on Certificate Transparency](https://developer.mozilla.org/en-US/docs/Web/Security/Certificate_Transparency) and the [`Expect-CT` header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Expect-CT) for more.
@@ -342,9 +368,17 @@ You can install this module separately as `dont-sniff-mimetype`.
 
 `helmet.originAgentCluster` sets the `Origin-Agent-Cluster` header, which provides a mechanism to allow web applications to isolate their origins. Read more about it [in the spec](https://whatpr.org/html/6214/origin.html#origin-keyed-agent-clusters).
 
-This middleware takes no options.
+This middleware is not included when calling `helmet()` by default, and must be enabled explicitly. It will be enabled by default in the next major version of Helmet.
 
-Examples:
+Example usage with Helmet:
+
+```js
+// Uses the default Helmet options and adds the `originAgentCluster` middleware.
+// Sets "Origin-Agent-Cluster: ?1"
+app.use(helmet({ originAgentCluster: true }));
+```
+
+Standalone example:
 
 ```js
 // Sets "Origin-Agent-Cluster: ?1"

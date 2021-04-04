@@ -1,5 +1,20 @@
 # Changelog
 
+## Unreleased
+
+### Added
+
+- `helmet.crossOriginEmbedderPolicy`: a new middleware for the `Cross-Origin-Embedder-Policy` header, disabled by default
+
+### Changed
+
+- `true` enables a middleware with default options. Previously, this would fail with an error if the middleware was already enabled by default.
+- Log a warning when passing options to `originAgentCluster` at the top level
+
+### Fixed
+
+- Incorrect documentation
+
 ## 4.4.1 - 2021-01-18
 
 ### Changed
@@ -10,7 +25,7 @@
 
 ### Added
 
-- `helmet.originAgentCluster`: a new middleware for the `Origin-Agent-Cluster` middleware, disabled by default
+- `helmet.originAgentCluster`: a new middleware for the `Origin-Agent-Cluster` header, disabled by default
 
 ## 4.3.1 - 2020-12-27
 
