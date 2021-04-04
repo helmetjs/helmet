@@ -3,6 +3,9 @@ import contentSecurityPolicy, {
   ContentSecurityPolicyOptions,
 } from "./middlewares/content-security-policy";
 import crossOriginEmbedderPolicy from "./middlewares/cross-origin-embedder-policy";
+import crossOriginResourcePolicy, {
+  CrossOriginResourcePolicyOptions,
+} from "./middlewares/cross-origin-resource-policy";
 import expectCt, { ExpectCtOptions } from "./middlewares/expect-ct";
 import originAgentCluster from "./middlewares/origin-agent-cluster";
 import referrerPolicy, {
@@ -28,6 +31,7 @@ import xXssProtection from "./middlewares/x-xss-protection";
 interface HelmetOptions {
   contentSecurityPolicy?: MiddlewareOption<ContentSecurityPolicyOptions>;
   crossOriginEmbedderPolicy?: boolean;
+  crossOriginResourcePolicy?: MiddlewareOption<CrossOriginResourcePolicyOptions>;
   dnsPrefetchControl?: MiddlewareOption<XDnsPrefetchControlOptions>;
   expectCt?: MiddlewareOption<ExpectCtOptions>;
   frameguard?: MiddlewareOption<XFrameOptionsOptions>;
@@ -60,6 +64,7 @@ interface Helmet {
 
   contentSecurityPolicy: typeof contentSecurityPolicy;
   crossOriginEmbedderPolicy: typeof crossOriginEmbedderPolicy;
+  crossOriginResourcePolicy: typeof crossOriginResourcePolicy;
   dnsPrefetchControl: typeof xDnsPrefetchControl;
   expectCt: typeof expectCt;
   frameguard: typeof xFrameOptions;
@@ -136,6 +141,14 @@ function getMiddlewareFunctionsFromOptions(
   );
   if (crossOriginEmbedderPolicyArgs) {
     result.push(crossOriginEmbedderPolicy());
+  }
+
+  const crossOriginResourcePolicyArgs = getArgs(
+    options.crossOriginResourcePolicy,
+    { enabledByDefault: false }
+  );
+  if (crossOriginResourcePolicyArgs) {
+    result.push(crossOriginResourcePolicy(...crossOriginResourcePolicyArgs));
   }
 
   const xDnsPrefetchControlArgs = getArgs(options.dnsPrefetchControl);
@@ -252,6 +265,7 @@ const helmet: Helmet = Object.assign(
   {
     contentSecurityPolicy,
     crossOriginEmbedderPolicy,
+    crossOriginResourcePolicy,
     dnsPrefetchControl: xDnsPrefetchControl,
     expectCt,
     frameguard: xFrameOptions,
