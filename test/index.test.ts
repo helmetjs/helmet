@@ -6,6 +6,7 @@ import supertest = require("supertest");
 import helmet from "..";
 
 import contentSecurityPolicy from "../middlewares/content-security-policy";
+import crossOriginEmbedderPolicy from "../middlewares/cross-origin-embedder-policy";
 import expectCt from "../middlewares/expect-ct";
 import referrerPolicy from "../middlewares/referrer-policy";
 import originAgentCluster from "../middlewares/origin-agent-cluster";
@@ -26,6 +27,7 @@ describe("helmet", () => {
     const expectedHeaders = {
       "content-security-policy":
         "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests",
+      "cross-origin-embedder-policy": null,
       "expect-ct": "max-age=0",
       "origin-agent-cluster": null,
       "referrer-policy": "no-referrer",
@@ -88,12 +90,22 @@ describe("helmet", () => {
     }).toThrow();
   });
 
-  it("errors when passing `true` as a middleware option", () => {
-    expect(() => {
-      helmet({ contentSecurityPolicy: true as any });
-    }).toThrow(
-      "Helmet no longer supports `true` as a middleware option, except for Origin-Agent-Cluster. Remove the property from your options to fix this error."
-    );
+  it("allows default middleware to be explicitly enabled (a no-op)", async () => {
+    await check(helmet({ frameguard: true }), {
+      "x-frame-options": "SAMEORIGIN",
+    });
+  });
+
+  it("allows Cross-Origin-Embedder-Policy middleware to be enabled", async () => {
+    await check(helmet({ crossOriginEmbedderPolicy: true }), {
+      "cross-origin-embedder-policy": "require-corp",
+    });
+  });
+
+  it("allows Cross-Origin-Embedder-Policy middleware to be explicitly disabled (a no-op, because it is disabled by default)", async () => {
+    await check(helmet({ crossOriginEmbedderPolicy: false }), {
+      "cross-origin-embedder-policy": null,
+    });
   });
 
   it("allows Origin-Agent-Cluster middleware to be enabled", async () => {
@@ -102,15 +114,10 @@ describe("helmet", () => {
     });
   });
 
-  it("errors when Origin-Agent-Cluster and one or more of others is set as a `true` as a middleware option", () => {
-    expect(() => {
-      helmet({
-        originAgentCluster: true,
-        contentSecurityPolicy: true as any,
-      });
-    }).toThrow(
-      "Helmet no longer supports `true` as a middleware option, except for Origin-Agent-Cluster. Remove the property from your options to fix this error."
-    );
+  it("allows Origin-Agent-Cluster middleware to be explicitly disabled (a no-op, because it is disabled by default)", async () => {
+    await check(helmet({ originAgentCluster: false }), {
+      "origin-agent-cluster": null,
+    });
   });
 
   it("properly handles a middleware calling `next()` with an error", async () => {
@@ -149,6 +156,15 @@ describe("helmet", () => {
       jest.spyOn(console, "warn").mockImplementation(() => {});
     });
 
+    it("logs a warning when passing options to crossOriginEmbedderPolicy", () => {
+      helmet({ crossOriginEmbedderPolicy: { option: "foo" } as any });
+
+      expect(console.warn).toHaveBeenCalledTimes(1);
+      expect(console.warn).toHaveBeenCalledWith(
+        "crossOriginEmbedderPolicy does not take options. Set the property to `true` to silence this warning."
+      );
+    });
+
     it("logs a warning when passing options to hidePoweredBy", () => {
       helmet({ hidePoweredBy: { setTo: "deprecated option" } as any });
 
@@ -164,6 +180,15 @@ describe("helmet", () => {
       expect(console.warn).toHaveBeenCalledTimes(1);
       expect(console.warn).toHaveBeenCalledWith(
         "ieNoOpen does not take options. Remove the property to silence this warning."
+      );
+    });
+
+    it("logs a warning when passing options to originAgentCluster", () => {
+      helmet({ originAgentCluster: { option: "foo" } as any });
+
+      expect(console.warn).toHaveBeenCalledTimes(1);
+      expect(console.warn).toHaveBeenCalledWith(
+        "originAgentCluster does not take options. Set the property to `true` to silence this warning."
       );
     });
 
@@ -190,6 +215,15 @@ describe("helmet", () => {
     it("aliases the X-DNS-Prefetch-Control middleware to helmet.dnsPrefetchControl", () => {
       expect(helmet.dnsPrefetchControl.name).toBe(xDnsPrefetchControl.name);
       expect(helmet.dnsPrefetchControl.name).toBe("xDnsPrefetchControl");
+    });
+
+    it("aliases the Cross-Origin-Embedder-Policy middleware to helmet.crossOriginEmbedderPolicy", () => {
+      expect(helmet.crossOriginEmbedderPolicy.name).toBe(
+        crossOriginEmbedderPolicy.name
+      );
+      expect(helmet.crossOriginEmbedderPolicy.name).toBe(
+        "crossOriginEmbedderPolicy"
+      );
     });
 
     it("aliases the X-Content-Type-Options middleware to helmet.noSniff", () => {
