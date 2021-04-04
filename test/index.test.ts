@@ -7,6 +7,7 @@ import helmet from "..";
 
 import contentSecurityPolicy from "../middlewares/content-security-policy";
 import crossOriginEmbedderPolicy from "../middlewares/cross-origin-embedder-policy";
+import crossOriginOpenerPolicy from "../middlewares/cross-origin-opener-policy";
 import crossOriginResourcePolicy from "../middlewares/cross-origin-resource-policy";
 import expectCt from "../middlewares/expect-ct";
 import referrerPolicy from "../middlewares/referrer-policy";
@@ -29,6 +30,7 @@ describe("helmet", () => {
       "content-security-policy":
         "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests",
       "cross-origin-embedder-policy": null,
+      "cross-origin-opener-policy": null,
       "cross-origin-resource-policy": null,
       "expect-ct": "max-age=0",
       "origin-agent-cluster": null,
@@ -107,6 +109,29 @@ describe("helmet", () => {
   it("allows Cross-Origin-Embedder-Policy middleware to be explicitly disabled (a no-op, because it is disabled by default)", async () => {
     await check(helmet({ crossOriginEmbedderPolicy: false }), {
       "cross-origin-embedder-policy": null,
+    });
+  });
+
+  it("allows Cross-Origin-Opener-Policy middleware to be enabled with its default", async () => {
+    await check(helmet({ crossOriginOpenerPolicy: true }), {
+      "cross-origin-opener-policy": "same-origin",
+    });
+  });
+
+  it("allows Cross-Origin-Opener-Policy middleware to be enabled with custom arguments", async () => {
+    await check(
+      helmet({
+        crossOriginOpenerPolicy: { policy: "same-origin-allow-popups" },
+      }),
+      {
+        "cross-origin-opener-policy": "same-origin-allow-popups",
+      }
+    );
+  });
+
+  it("allows Cross-Origin-Opener-Policy middleware to be explicitly disabled (a no-op, because it is disabled by default)", async () => {
+    await check(helmet({ crossOriginOpenerPolicy: false }), {
+      "cross-origin-opener-policy": null,
     });
   });
 
@@ -246,6 +271,15 @@ describe("helmet", () => {
       );
       expect(helmet.crossOriginEmbedderPolicy.name).toBe(
         "crossOriginEmbedderPolicy"
+      );
+    });
+
+    it("aliases the Cross-Origin-Opener-Policy middleware to helmet.crossOriginOpenerPolicy", () => {
+      expect(helmet.crossOriginOpenerPolicy.name).toBe(
+        crossOriginOpenerPolicy.name
+      );
+      expect(helmet.crossOriginOpenerPolicy.name).toBe(
+        "crossOriginOpenerPolicy"
       );
     });
 

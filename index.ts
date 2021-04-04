@@ -3,6 +3,9 @@ import contentSecurityPolicy, {
   ContentSecurityPolicyOptions,
 } from "./middlewares/content-security-policy";
 import crossOriginEmbedderPolicy from "./middlewares/cross-origin-embedder-policy";
+import crossOriginOpenerPolicy, {
+  CrossOriginOpenerPolicyOptions,
+} from "./middlewares/cross-origin-opener-policy";
 import crossOriginResourcePolicy, {
   CrossOriginResourcePolicyOptions,
 } from "./middlewares/cross-origin-resource-policy";
@@ -31,6 +34,7 @@ import xXssProtection from "./middlewares/x-xss-protection";
 interface HelmetOptions {
   contentSecurityPolicy?: MiddlewareOption<ContentSecurityPolicyOptions>;
   crossOriginEmbedderPolicy?: boolean;
+  crossOriginOpenerPolicy?: MiddlewareOption<CrossOriginOpenerPolicyOptions>;
   crossOriginResourcePolicy?: MiddlewareOption<CrossOriginResourcePolicyOptions>;
   dnsPrefetchControl?: MiddlewareOption<XDnsPrefetchControlOptions>;
   expectCt?: MiddlewareOption<ExpectCtOptions>;
@@ -64,6 +68,7 @@ interface Helmet {
 
   contentSecurityPolicy: typeof contentSecurityPolicy;
   crossOriginEmbedderPolicy: typeof crossOriginEmbedderPolicy;
+  crossOriginOpenerPolicy: typeof crossOriginOpenerPolicy;
   crossOriginResourcePolicy: typeof crossOriginResourcePolicy;
   dnsPrefetchControl: typeof xDnsPrefetchControl;
   expectCt: typeof expectCt;
@@ -141,6 +146,13 @@ function getMiddlewareFunctionsFromOptions(
   );
   if (crossOriginEmbedderPolicyArgs) {
     result.push(crossOriginEmbedderPolicy());
+  }
+
+  const crossOriginOpenerPolicyArgs = getArgs(options.crossOriginOpenerPolicy, {
+    enabledByDefault: false,
+  });
+  if (crossOriginOpenerPolicyArgs) {
+    result.push(crossOriginOpenerPolicy(...crossOriginOpenerPolicyArgs));
   }
 
   const crossOriginResourcePolicyArgs = getArgs(
@@ -265,6 +277,7 @@ const helmet: Helmet = Object.assign(
   {
     contentSecurityPolicy,
     crossOriginEmbedderPolicy,
+    crossOriginOpenerPolicy,
     crossOriginResourcePolicy,
     dnsPrefetchControl: xDnsPrefetchControl,
     expectCt,
