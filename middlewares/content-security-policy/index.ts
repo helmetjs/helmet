@@ -9,18 +9,20 @@ type ContentSecurityPolicyDirectiveValue =
   | ContentSecurityPolicyDirectiveValueFunction;
 
 export interface ContentSecurityPolicyOptions {
+  useDefaults?: boolean;
   directives?: Record<
     string,
+    | null
     | Iterable<ContentSecurityPolicyDirectiveValue>
     | typeof dangerouslyDisableDefaultSrc
   >;
   reportOnly?: boolean;
 }
 
-type NormalizedDirectives = Array<{
-  directiveName: string;
-  directiveValue: Iterable<ContentSecurityPolicyDirectiveValue>;
-}>;
+type NormalizedDirectives = Map<
+  string,
+  Iterable<ContentSecurityPolicyDirectiveValue>
+>;
 
 interface ContentSecurityPolicy {
   (options?: Readonly<ContentSecurityPolicyOptions>): (
@@ -65,10 +67,16 @@ const has = (obj: Readonly<object>, key: string): boolean =>
 function normalizeDirectives(
   options: Readonly<ContentSecurityPolicyOptions>
 ): NormalizedDirectives {
-  const { directives: rawDirectives = getDefaultDirectives() } = options;
+  const defaultDirectives = getDefaultDirectives();
 
-  const result: NormalizedDirectives = [];
+  const {
+    useDefaults = false,
+    directives: rawDirectives = defaultDirectives,
+  } = options;
+
+  const result: NormalizedDirectives = new Map();
   const directiveNamesSeen = new Set<string>();
+  const directivesExplicitlyDisabled = new Set<string>();
 
   for (const rawDirectiveName in rawDirectives) {
     if (!has(rawDirectives, rawDirectiveName)) {
@@ -99,7 +107,15 @@ function normalizeDirectives(
 
     const rawDirectiveValue = rawDirectives[rawDirectiveName];
     let directiveValue: Iterable<ContentSecurityPolicyDirectiveValue>;
-    if (typeof rawDirectiveValue === "string") {
+    if (rawDirectiveValue === null) {
+      if (directiveName === "default-src") {
+        throw new Error(
+          "Content-Security-Policy needs a default-src but it was set to `null`. If you really want to disable it, set it to `contentSecurityPolicy.dangerouslyDisableDefaultSrc`."
+        );
+      }
+      directivesExplicitlyDisabled.add(directiveName);
+      continue;
+    } else if (typeof rawDirectiveValue === "string") {
       directiveValue = [rawDirectiveValue];
     } else if (!rawDirectiveValue) {
       throw new Error(
@@ -109,6 +125,7 @@ function normalizeDirectives(
       );
     } else if (rawDirectiveValue === dangerouslyDisableDefaultSrc) {
       if (directiveName === "default-src") {
+        directivesExplicitlyDisabled.add("default-src");
         continue;
       } else {
         throw new Error(
@@ -130,17 +147,33 @@ function normalizeDirectives(
       }
     }
 
-    result.push({ directiveName, directiveValue });
+    result.set(directiveName, directiveValue);
   }
 
-  if (!result.length) {
+  if (useDefaults) {
+    Object.entries(defaultDirectives).forEach(
+      ([defaultDirectiveName, defaultDirectiveValue]) => {
+        if (
+          !result.has(defaultDirectiveName) &&
+          !directivesExplicitlyDisabled.has(defaultDirectiveName)
+        ) {
+          result.set(defaultDirectiveName, defaultDirectiveValue);
+        }
+      }
+    );
+  }
+
+  if (!result.size) {
     throw new Error(
       "Content-Security-Policy has no directives. Either set some or disable the header"
     );
   }
-  if (!directiveNamesSeen.has("default-src")) {
+  if (
+    !result.has("default-src") &&
+    !directivesExplicitlyDisabled.has("default-src")
+  ) {
     throw new Error(
-      "Content-Security-Policy needs a default-src but none was provided"
+      "Content-Security-Policy needs a default-src but none was provided. If you really want to disable it, set it to `contentSecurityPolicy.dangerouslyDisableDefaultSrc`."
     );
   }
 
@@ -152,12 +185,10 @@ function getHeaderValue(
   res: ServerResponse,
   normalizedDirectives: Readonly<NormalizedDirectives>
 ): string | Error {
+  let err: undefined | Error;
   const result: string[] = [];
 
-  for (const {
-    directiveName,
-    directiveValue: rawDirectiveValue,
-  } of normalizedDirectives) {
+  normalizedDirectives.forEach((rawDirectiveValue, directiveName) => {
     let directiveValue = "";
     for (const element of rawDirectiveValue) {
       directiveValue +=
@@ -167,7 +198,7 @@ function getHeaderValue(
     if (!directiveValue) {
       result.push(directiveName);
     } else if (isDirectiveValueInvalid(directiveValue)) {
-      return new Error(
+      err = new Error(
         `Content-Security-Policy received an invalid directive value for ${JSON.stringify(
           directiveName
         )}`
@@ -175,9 +206,9 @@ function getHeaderValue(
     } else {
       result.push(`${directiveName}${directiveValue}`);
     }
-  }
+  });
 
-  return result.join(";");
+  return err ? err : result.join(";");
 }
 
 const contentSecurityPolicy: ContentSecurityPolicy = function contentSecurityPolicy(

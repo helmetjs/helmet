@@ -57,12 +57,17 @@ describe("Content-Security-Policy middleware", () => {
       middlewareArgs: [{ directives: undefined }],
       expectedDirectives,
     });
+    await checkCsp({
+      middlewareArgs: [{ useDefaults: true }],
+      expectedDirectives,
+    });
   });
 
   it("sets directives when named with snake-case", async () => {
     await checkCsp({
       middlewareArgs: [
         {
+          useDefaults: false,
           directives: {
             "default-src": ["'self'"],
             "script-src": ["example.com"],
@@ -82,6 +87,7 @@ describe("Content-Security-Policy middleware", () => {
     await checkCsp({
       middlewareArgs: [
         {
+          useDefaults: false,
           directives: {
             defaultSrc: ["'self'"],
             scriptSrc: ["example.com"],
@@ -101,6 +107,7 @@ describe("Content-Security-Policy middleware", () => {
     await checkCsp({
       middlewareArgs: [
         {
+          useDefaults: false,
           directives: {
             "default-src": ["'self'"],
             "script-src": ["example.com"],
@@ -122,6 +129,7 @@ describe("Content-Security-Policy middleware", () => {
     await checkCsp({
       middlewareArgs: [
         {
+          useDefaults: false,
           directives: {
             "default-src": ["'self'"],
             sandbox: [],
@@ -136,6 +144,7 @@ describe("Content-Security-Policy middleware", () => {
     await checkCsp({
       middlewareArgs: [
         {
+          useDefaults: false,
           directives: {
             "default-src": new Set(["'self'"]),
             sandbox: {
@@ -157,6 +166,7 @@ describe("Content-Security-Policy middleware", () => {
     await checkCsp({
       middlewareArgs: [
         {
+          useDefaults: false,
           directives: {
             "default-src": "'self'  example.com",
             scriptSrc: "'none'",
@@ -172,10 +182,26 @@ describe("Content-Security-Policy middleware", () => {
     });
   });
 
+  it("treats null directive values as nothing, as if they weren't set", async () => {
+    await checkCsp({
+      middlewareArgs: [
+        {
+          useDefaults: false,
+          directives: {
+            "default-src": "'self'",
+            scriptSrc: null,
+          },
+        },
+      ],
+      expectedDirectives: new Set(["default-src 'self'"]),
+    });
+  });
+
   it("allows functions in directive values to generate dynamic directives", async () => {
     await checkCsp({
       middlewareArgs: [
         {
+          useDefaults: false,
           directives: {
             "default-src": [
               "'self'",
@@ -195,10 +221,40 @@ describe("Content-Security-Policy middleware", () => {
     });
   });
 
+  it("can override the default options", async () => {
+    const expectedDirectives = new Set([
+      "default-src 'self' example.com",
+      "block-all-mixed-content",
+      "font-src 'self' https: data:",
+      "frame-ancestors 'self'",
+      "img-src 'self' data:",
+      "object-src 'none'",
+      "script-src example.com",
+      "script-src-attr 'none'",
+      "style-src 'self' https: 'unsafe-inline'",
+      "upgrade-insecure-requests",
+    ]);
+
+    await checkCsp({
+      middlewareArgs: [
+        {
+          useDefaults: true,
+          directives: {
+            "default-src": ["'self'", "example.com"],
+            "base-uri": null,
+            scriptSrc: ["example.com"],
+          },
+        },
+      ],
+      expectedDirectives,
+    });
+  });
+
   it('can set the "report only" version of the header instead', async () => {
     await checkCsp({
       middlewareArgs: [
         {
+          useDefaults: false,
           directives: {
             "default-src": "'self'",
           },
@@ -226,8 +282,8 @@ describe("Content-Security-Policy middleware", () => {
     for (const name of invalidNames) {
       expect(() => {
         contentSecurityPolicy({
+          useDefaults: true,
           directives: {
-            "default-src": "'self'",
             [name]: ["value"],
           },
         });
@@ -240,6 +296,7 @@ describe("Content-Security-Policy middleware", () => {
   it("throws if duplicate directive names are found", () => {
     expect(() => {
       contentSecurityPolicy({
+        useDefaults: false,
         directives: {
           defaultSrc: ["foo"],
           "default-src": ["foo"],
@@ -251,6 +308,7 @@ describe("Content-Security-Policy middleware", () => {
 
     expect(() => {
       contentSecurityPolicy({
+        useDefaults: false,
         directives: {
           defaultSrc: ["'self'"],
           scriptSrc: ["foo"],
@@ -267,6 +325,7 @@ describe("Content-Security-Policy middleware", () => {
     for (const invalidValue of invalidValues) {
       expect(() => {
         contentSecurityPolicy({
+          useDefaults: false,
           directives: {
             "default-src": "'self'",
             "something-else": [invalidValue],
@@ -282,6 +341,7 @@ describe("Content-Security-Policy middleware", () => {
     const app = connect()
       .use(
         contentSecurityPolicy({
+          useDefaults: false,
           directives: {
             defaultSrc: ["'self'", () => "bad;value"],
           },
@@ -317,16 +377,25 @@ describe("Content-Security-Policy middleware", () => {
     );
     expect(() => {
       contentSecurityPolicy({
+        useDefaults: false,
         directives: {
           scriptSrc: ["example.com"],
         },
       });
     }).toThrow(
-      /^Content-Security-Policy needs a default-src but none was provided$/
+      /^Content-Security-Policy needs a default-src but none was provided. If you really want to disable it, set it to `contentSecurityPolicy.dangerouslyDisableDefaultSrc`.$/
+    );
+    expect(() => {
+      contentSecurityPolicy({
+        directives: { defaultSrc: null },
+      });
+    }).toThrow(
+      /^Content-Security-Policy needs a default-src but it was set to `null`. If you really want to disable it, set it to `contentSecurityPolicy.dangerouslyDisableDefaultSrc`.$/
     );
 
     expect(() => {
       contentSecurityPolicy({
+        useDefaults: false,
         directives: {
           defaultSrc: ["foo"],
         },
@@ -334,6 +403,7 @@ describe("Content-Security-Policy middleware", () => {
     }).not.toThrow();
     expect(() => {
       contentSecurityPolicy({
+        useDefaults: false,
         directives: {
           "default-src": ["foo"],
         },
@@ -341,6 +411,7 @@ describe("Content-Security-Policy middleware", () => {
     }).not.toThrow();
     expect(() => {
       contentSecurityPolicy({
+        useDefaults: false,
         directives: {
           defaultSrc: [],
         },
@@ -348,6 +419,7 @@ describe("Content-Security-Policy middleware", () => {
     }).not.toThrow();
     expect(() => {
       contentSecurityPolicy({
+        useDefaults: false,
         directives: {
           defaultSrc: "",
         },
@@ -359,6 +431,7 @@ describe("Content-Security-Policy middleware", () => {
     await checkCsp({
       middlewareArgs: [
         {
+          useDefaults: false,
           directives: {
             defaultSrc: dangerouslyDisableDefaultSrc,
             scriptSrc: ["example.com"],
@@ -371,6 +444,7 @@ describe("Content-Security-Policy middleware", () => {
     await checkCsp({
       middlewareArgs: [
         {
+          useDefaults: false,
           directives: {
             "default-src": dangerouslyDisableDefaultSrc,
             "script-src": ["example.com"],
@@ -379,11 +453,35 @@ describe("Content-Security-Policy middleware", () => {
       ],
       expectedDirectives: new Set(["script-src example.com"]),
     });
+
+    await checkCsp({
+      middlewareArgs: [
+        {
+          useDefaults: true,
+          directives: {
+            "default-src": dangerouslyDisableDefaultSrc,
+          },
+        },
+      ],
+      expectedDirectives: new Set([
+        "base-uri 'self'",
+        "block-all-mixed-content",
+        "font-src 'self' https: data:",
+        "frame-ancestors 'self'",
+        "img-src 'self' data:",
+        "object-src 'none'",
+        "script-src 'self'",
+        "script-src-attr 'none'",
+        "style-src 'self' https: 'unsafe-inline'",
+        "upgrade-insecure-requests",
+      ]),
+    });
   });
 
   it("throws an error if default-src is disabled and there are no other directives", () => {
     expect(() => {
       contentSecurityPolicy({
+        useDefaults: false,
         directives: {
           defaultSrc: dangerouslyDisableDefaultSrc,
         },
@@ -394,6 +492,7 @@ describe("Content-Security-Policy middleware", () => {
 
     expect(() => {
       contentSecurityPolicy({
+        useDefaults: false,
         directives: {
           "default-src": dangerouslyDisableDefaultSrc,
         },

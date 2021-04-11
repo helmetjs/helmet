@@ -4,6 +4,7 @@
 
 ### Added
 
+- `helmet.contentSecurityPolicy`: the `useDefaults` option, defaulting to `false`, lets you selectively override defaults more easily
 - Explicitly define TypeScript types in `package.json`. See [#303](https://github.com/helmetjs/helmet/pull/303)
 
 ## 4.5.0 - 2021-04-17
