@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+### Added
+
+- New `useDefaults` option, defaulting to `false`, lets you selectively override defaults more easily
+
 ## 3.3.1 - 2020-12-27
 
 ### Fixed

@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+### Added
+
+- `helmet.contentSecurityPolicy`: the `useDefaults` option, defaulting to `false`, lets you selectively override defaults more easily
+
 ## 4.5.0 - 2021-04-17
 
 ### Added
