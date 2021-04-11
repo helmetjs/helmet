@@ -136,14 +136,28 @@ If no directives are supplied, the following policy is set (whitespace added for
     style-src 'self' https: 'unsafe-inline';
     upgrade-insecure-requests
 
-You can fetch this default with `helmet.contentSecurityPolicy.getDefaultDirectives()`.
+You can use this default with the `options.useDefaults` option. `options.useDefaults` is `false` by default, but will be `true` in the next major version of Helmet.
+
+You can also get the default directives object with `helmet.contentSecurityPolicy.getDefaultDirectives()`.
 
 Examples:
 
 ```js
+// Sets all of the defaults, but overrides `script-src` and disables the default `style-src`
+app.use(
+  helmet.contentSecurityPolicy({
+    useDefaults: true,
+    directives: {
+      "script-src": ["'self'", "example.com"],
+      "style-src": null,
+    },
+  })
+);
+
 // Sets "Content-Security-Policy: default-src 'self';script-src 'self' example.com;object-src 'none';upgrade-insecure-requests"
 app.use(
   helmet.contentSecurityPolicy({
+    useDefaults: false,
     directives: {
       defaultSrc: ["'self'"],
       scriptSrc: ["'self'", "example.com"],
@@ -153,30 +167,10 @@ app.use(
   })
 );
 
-// Sets "Content-Security-Policy: default-src 'self';script-src 'self' example.com;object-src 'none'"
-app.use(
-  helmet.contentSecurityPolicy({
-    directives: {
-      "default-src": ["'self'"],
-      "script-src": ["'self'", "example.com"],
-      "object-src": ["'none'"],
-    },
-  })
-);
-
-// Sets all of the defaults, but overrides script-src
-app.use(
-  helmet.contentSecurityPolicy({
-    directives: {
-      ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-      "script-src": ["'self'", "example.com"],
-    },
-  })
-);
-
 // Sets the "Content-Security-Policy-Report-Only" header instead
 app.use(
   helmet.contentSecurityPolicy({
+    useDefaults: true,
     directives: {
       /* ... */
     },
@@ -184,15 +178,15 @@ app.use(
   })
 );
 
-// Sets "Content-Security-Policy: default-src 'self';script-src 'self' 'nonce-e33ccde670f149c1789b1e1e113b0916'"
+// Sets the `script-src` directive to "'self' 'nonce-e33ccde670f149c1789b1e1e113b0916'" (or similar)
 app.use((req, res, next) => {
   res.locals.cspNonce = crypto.randomBytes(16).toString("hex");
   next();
 });
 app.use(
   helmet.contentSecurityPolicy({
+    useDefaults: true,
     directives: {
-      defaultSrc: ["'self'"],
       scriptSrc: ["'self'", (req, res) => `'nonce-${res.locals.cspNonce}'`],
     },
   })
@@ -201,6 +195,7 @@ app.use(
 // Sets "Content-Security-Policy: script-src 'self'"
 app.use(
   helmet.contentSecurityPolicy({
+    useDefaults: false,
     directives: {
       "default-src": helmet.contentSecurityPolicy.dangerouslyDisableDefaultSrc,
       "script-src": ["'self'"],

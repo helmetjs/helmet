@@ -13,9 +13,10 @@ const contentSecurityPolicy = require("helmet-csp");
 
 app.use(
   contentSecurityPolicy({
+    useDefaults: true,
     directives: {
       defaultSrc: ["'self'", "default.example"],
-      scriptSrc: ["'self'", "'unsafe-inline'"],
+      scriptSrc: ["'self'", "js.example.com"],
       objectSrc: ["'none'"],
       upgradeInsecureRequests: [],
     },
@@ -24,7 +25,23 @@ app.use(
 );
 ```
 
-To get the defaults, use `contentSecurityPolicy.getDefaultDirectives()`.
+If no directives are supplied, the following policy is set (whitespace added for readability):
+
+    default-src 'self';
+    base-uri 'self';
+    block-all-mixed-content;
+    font-src 'self' https: data:;
+    frame-ancestors 'self';
+    img-src 'self' data:;
+    object-src 'none';
+    script-src 'self';
+    script-src-attr 'none';
+    style-src 'self' https: 'unsafe-inline';
+    upgrade-insecure-requests
+
+You can use this default with the `useDefaults` option. `useDefaults` is `false` by default, but will be `true` in the next major version of this module.
+
+You can also get the default directives object with `contentSecurityPolicy.getDefaultDirectives()`.
 
 You can set any directives you wish. `defaultSrc` is required, but can be explicitly disabled by setting its value to `contentSecurityPolicy.dangerouslyDisableDefaultSrc`. Directives can be kebab-cased (like `script-src`) or camel-cased (like `scriptSrc`). They are equivalent, but duplicates are not allowed.
 
@@ -46,8 +63,8 @@ app.use((req, res, next) => {
 
 app.use((req, res, next) => {
   csp({
+    useDefaults: true,
     directives: {
-      defaultSrc: ["'self'"],
       scriptSrc: ["'self'", `'nonce-${res.locals.nonce}'`],
     },
   })(req, res, next);
