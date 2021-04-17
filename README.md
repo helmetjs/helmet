@@ -309,7 +309,7 @@ app.use(helmet.crossOriginResourcePolicy({ policy: "same-site" }));
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 ```
 
-You can't install this module separately.
+You can install this module separately as `cross-origin-resource-policy`.
 
 </details>
 
