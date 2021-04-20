@@ -31,7 +31,7 @@ import xPermittedCrossDomainPolicies, {
 import xPoweredBy from "./middlewares/x-powered-by";
 import xXssProtection from "./middlewares/x-xss-protection";
 
-interface HelmetOptions {
+export interface HelmetOptions {
   contentSecurityPolicy?: ContentSecurityPolicyOptions | boolean;
   crossOriginEmbedderPolicy?: boolean;
   crossOriginOpenerPolicy?: CrossOriginOpenerPolicyOptions | boolean;
@@ -49,7 +49,7 @@ interface HelmetOptions {
   xssFilter?: boolean;
 }
 
-interface MiddlewareFunction {
+export interface MiddlewareFunction {
   (
     req: IncomingMessage,
     res: ServerResponse,
@@ -57,7 +57,7 @@ interface MiddlewareFunction {
   ): void;
 }
 
-interface Helmet {
+export interface Helmet {
   (options?: Readonly<HelmetOptions>): (
     req: IncomingMessage,
     res: ServerResponse,
