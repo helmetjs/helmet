@@ -79,10 +79,6 @@ interface Helmet {
   permittedCrossDomainPolicies: typeof xPermittedCrossDomainPolicies;
   referrerPolicy: typeof referrerPolicy;
   xssFilter: typeof xXssProtection;
-
-  featurePolicy: () => never;
-  hpkp: () => never;
-  noCache: () => never;
 }
 
 function getArgs<T>(
@@ -288,21 +284,6 @@ const helmet: Helmet = Object.assign(
     permittedCrossDomainPolicies: xPermittedCrossDomainPolicies,
     referrerPolicy,
     xssFilter: xXssProtection,
-    featurePolicy() {
-      throw new Error(
-        "helmet.featurePolicy was removed because the Feature-Policy header is deprecated. If you still need this header, you can use the `feature-policy` module."
-      );
-    },
-    hpkp() {
-      throw new Error(
-        "helmet.hpkp was removed because the header has been deprecated. If you still need this header, you can use the `hpkp` module. For more, see <https://github.com/helmetjs/helmet/issues/180>."
-      );
-    },
-    noCache() {
-      throw new Error(
-        "helmet.noCache was removed. You can use the `nocache` module instead. For more, see <https://github.com/helmetjs/helmet/issues/215>."
-      );
-    },
   }
 );
 
