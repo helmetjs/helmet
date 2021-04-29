@@ -1,6 +1,6 @@
 # HTTP Strict Transport Security middleware
 
-This middleware adds the `Strict-Transport-Security` header to the response. This tells browsers, "hey, only use HTTPS for the next period of time". ([See the spec](http://tools.ietf.org/html/rfc6797) for more.) Note that the header won't tell users on HTTP to _switch_ to HTTPS, it will just tell HTTPS users to stick around. You can enforce HTTPS with the [express-enforces-ssl](https://github.com/aredo/express-enforces-ssl) module.
+This middleware adds the `Strict-Transport-Security` header to the response. This tells browsers, "hey, only use HTTPS for the next period of time". ([See the spec](https://tools.ietf.org/html/rfc6797) for more.) Note that the header won't tell users on HTTP to _switch_ to HTTPS, it will just tell HTTPS users to stick around. You can enforce HTTPS with the [express-enforces-ssl](https://github.com/aredo/express-enforces-ssl) module.
 
 This will set the Strict Transport Security header, telling browsers to visit by HTTPS for the next 180 days:
 
