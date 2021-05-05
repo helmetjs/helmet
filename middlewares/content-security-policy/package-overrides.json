@@ -6,6 +6,6 @@
     "Ryan Cannon <ryan@ryancannon.com> (https://ryancannon.com)"
   ],
   "description": "Content Security Policy middleware",
-  "version": "3.4.0",
+  "version": "4.0.0",
   "keywords": ["express", "security", "content-security-policy", "csp", "xss"]
 }

@@ -70,7 +70,7 @@ function normalizeDirectives(
   const defaultDirectives = getDefaultDirectives();
 
   const {
-    useDefaults = false,
+    useDefaults = true,
     directives: rawDirectives = defaultDirectives,
   } = options;
 

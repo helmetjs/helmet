@@ -372,9 +372,7 @@ describe("Content-Security-Policy middleware", () => {
       contentSecurityPolicy({
         directives: {},
       });
-    }).toThrow(
-      /^Content-Security-Policy has no directives. Either set some or disable the header$/
-    );
+    }).not.toThrow();
     expect(() => {
       contentSecurityPolicy({
         useDefaults: false,
