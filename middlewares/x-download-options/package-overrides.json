@@ -6,5 +6,8 @@
   ],
   "description": "Middleware to set `X-Download-Options` header for IE8 security",
   "version": "1.1.1",
-  "keywords": ["express", "security", "x-download-options"]
+  "keywords": ["express", "security", "x-download-options"],
+  "engines": {
+    "node": ">=10.0.0"
+  }
 }

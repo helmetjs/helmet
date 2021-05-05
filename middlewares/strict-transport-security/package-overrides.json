@@ -8,5 +8,8 @@
     "hsts",
     "strict-transport-security",
     "https"
-  ]
+  ],
+  "engines": {
+    "node": ">=10.0.0"
+  }
 }
