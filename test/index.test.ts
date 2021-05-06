@@ -101,6 +101,12 @@ describe("helmet", () => {
     });
   });
 
+  it("allows Cross-Origin-Embedder-Policy middleware to be enabled", async () => {
+    await check(helmet({ crossOriginEmbedderPolicy: true }), {
+      "cross-origin-embedder-policy": "require-corp",
+    });
+  });
+
   it("allows Cross-Origin-Embedder-Policy middleware to be explicitly disabled", async () => {
     await check(helmet({ crossOriginEmbedderPolicy: false }), {
       "cross-origin-embedder-policy": null,
