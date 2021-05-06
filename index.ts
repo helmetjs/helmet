@@ -139,23 +139,19 @@ function getMiddlewareFunctionsFromOptions(
     {
       name: "crossOriginEmbedderPolicy",
       takesOptions: false,
-      enabledByDefault: false,
     }
   );
   if (crossOriginEmbedderPolicyArgs) {
     result.push(crossOriginEmbedderPolicy());
   }
 
-  const crossOriginOpenerPolicyArgs = getArgs(options.crossOriginOpenerPolicy, {
-    enabledByDefault: false,
-  });
+  const crossOriginOpenerPolicyArgs = getArgs(options.crossOriginOpenerPolicy);
   if (crossOriginOpenerPolicyArgs) {
     result.push(crossOriginOpenerPolicy(...crossOriginOpenerPolicyArgs));
   }
 
   const crossOriginResourcePolicyArgs = getArgs(
-    options.crossOriginResourcePolicy,
-    { enabledByDefault: false }
+    options.crossOriginResourcePolicy
   );
   if (crossOriginResourcePolicyArgs) {
     result.push(crossOriginResourcePolicy(...crossOriginResourcePolicyArgs));
@@ -208,7 +204,6 @@ function getMiddlewareFunctionsFromOptions(
   const originAgentClusterArgs = getArgs(options.originAgentCluster, {
     name: "originAgentCluster",
     takesOptions: false,
-    enabledByDefault: false,
   });
   if (originAgentClusterArgs) {
     result.push(originAgentCluster());
