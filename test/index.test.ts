@@ -157,6 +157,12 @@ describe("helmet", () => {
     });
   });
 
+  it("allows Origin-Agent-Cluster middleware to be enabled", async () => {
+    await check(helmet({ originAgentCluster: true }), {
+      "origin-agent-cluster": "?1",
+    });
+  });
+
   it("allows Origin-Agent-Cluster middleware to be explicitly disabled", async () => {
     await check(helmet({ originAgentCluster: false }), {
       "origin-agent-cluster": null,
