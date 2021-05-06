@@ -1,5 +1,15 @@
 # Changelog
 
+## Unreleased
+
+### Added
+
+- `helmet.crossOriginEmbedderPolicy`: enabled by default
+- `helmet.crossOriginOpenerPolicy`: enabled by default
+- `helmet.crossOriginResourcePolicy`: enabled by default
+- `helmet.originAgentCluster`: enabled by default
+- Updated tests in `index.test.ts` to reflect the above middlewares being enabled by default
+
 ## 4.6.0 - 2021-05-01
 
 ### Added
