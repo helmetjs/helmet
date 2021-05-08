@@ -4,5 +4,8 @@
   "contributors": [],
   "description": "Middleware to set the Expect-CT header",
   "version": "1.0.0",
-  "keywords": ["express", "security", "expect-ct"]
+  "keywords": ["express", "security", "expect-ct"],
+  "engines": {
+    "node": ">=10.0.0"
+  }
 }

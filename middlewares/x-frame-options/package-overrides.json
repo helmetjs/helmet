@@ -2,5 +2,8 @@
   "name": "frameguard",
   "description": "Middleware to set X-Frame-Options headers",
   "version": "4.0.0",
-  "keywords": ["express", "security", "x-frame-options", "clickjack"]
+  "keywords": ["express", "security", "x-frame-options", "clickjack"],
+  "engines": {
+    "node": ">=10.0.0"
+  }
 }

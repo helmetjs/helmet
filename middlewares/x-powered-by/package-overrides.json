@@ -6,5 +6,8 @@
   ],
   "description": "Middleware to remove the X-Powered-By header",
   "version": "1.1.0",
-  "keywords": ["express", "security", "x-powered-by", "powered-by"]
+  "keywords": ["express", "security", "x-powered-by", "powered-by"],
+  "engines": {
+    "node": ">=10.0.0"
+  }
 }

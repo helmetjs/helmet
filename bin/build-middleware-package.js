@@ -42,7 +42,7 @@ async function main(argv) {
       url: "git://github.com/helmetjs/helmet.git",
     },
     engines: {
-      node: ">=10.0.0",
+      node: ">=12.0.0",
     },
     files: ["CHANGELOG.md", "LICENSE", "README.md", ...packageFiles],
     main: "index.js",
