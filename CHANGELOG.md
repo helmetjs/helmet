@@ -8,6 +8,10 @@
 - **Breaking:** `helmet.crossOriginOpenerPolicy` is enabled by default
 - **Breaking:** `helmet.crossOriginResourcePolicy` is enabled by default
 
+### Removed
+
+- **Breaking:** Drop support for Node 10 and 11. Node 12+ is now required
+
 ## Unreleased
 
 ### Changed

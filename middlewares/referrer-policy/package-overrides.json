@@ -11,5 +11,8 @@
     "referrer",
     "referrer-policy",
     "privacy"
-  ]
+  ],
+  "engines": {
+    "node": ">=10.0.0"
+  }
 }
