@@ -4,5 +4,8 @@
   "contributors": [],
   "description": "Middleware to set X-DNS-Prefetch-Control header.",
   "version": "0.3.0",
-  "keywords": ["express", "security", "x-dns-prefetch-control", "prefetch"]
+  "keywords": ["express", "security", "x-dns-prefetch-control", "prefetch"],
+  "engines": {
+    "node": ">=10.0.0"
+  }
 }

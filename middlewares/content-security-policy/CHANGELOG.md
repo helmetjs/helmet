@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+### Removed
+
+- Drop support for Node 10 and 11. Node 12+ is now required
+
 ## 3.4.0 - 2021-05-02
 
 ### Added
