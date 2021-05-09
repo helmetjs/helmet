@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Changed
+
+- `helmet.contentSecurityPolicy`: `useDefaults` option now defaults to `true`
+
 ### Removed
 
 - Drop support for Node 10 and 11. Node 12+ is now required
