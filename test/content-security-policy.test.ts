@@ -370,9 +370,12 @@ describe("Content-Security-Policy middleware", () => {
   it("throws if default-src is missing", () => {
     expect(() => {
       contentSecurityPolicy({
+        useDefaults: false,
         directives: {},
       });
-    }).not.toThrow();
+    }).toThrow(
+      /^Content-Security-Policy has no directives. Either set some or disable the header$/
+    );
     expect(() => {
       contentSecurityPolicy({
         useDefaults: false,
