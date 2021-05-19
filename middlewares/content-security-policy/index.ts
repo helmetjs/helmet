@@ -69,10 +69,8 @@ function normalizeDirectives(
 ): NormalizedDirectives {
   const defaultDirectives = getDefaultDirectives();
 
-  const {
-    useDefaults = false,
-    directives: rawDirectives = defaultDirectives,
-  } = options;
+  const { useDefaults = false, directives: rawDirectives = defaultDirectives } =
+    options;
 
   const result: NormalizedDirectives = new Map();
   const directiveNamesSeen = new Set<string>();
@@ -211,53 +209,55 @@ function getHeaderValue(
   return err ? err : result.join(";");
 }
 
-const contentSecurityPolicy: ContentSecurityPolicy = function contentSecurityPolicy(
-  options: Readonly<ContentSecurityPolicyOptions> = {}
-): (
-  req: IncomingMessage,
-  res: ServerResponse,
-  next: (err?: Error) => void
-) => void {
-  if ("loose" in options) {
-    console.warn(
-      "Content-Security-Policy middleware no longer needs the `loose` parameter. You should remove it."
-    );
-  }
-  if ("setAllHeaders" in options) {
-    console.warn(
-      "Content-Security-Policy middleware no longer supports the `setAllHeaders` parameter. See <https://github.com/helmetjs/helmet/wiki/Setting-legacy-Content-Security-Policy-headers-in-Helmet-4>."
-    );
-  }
-  ["disableAndroid", "browserSniff"].forEach((deprecatedOption) => {
-    if (deprecatedOption in options) {
-      console.warn(
-        `Content-Security-Policy middleware no longer does browser sniffing, so you can remove the \`${deprecatedOption}\` option. See <https://github.com/helmetjs/csp/issues/97> for discussion.`
-      );
-    }
-  });
-
-  const headerName = options.reportOnly
-    ? "Content-Security-Policy-Report-Only"
-    : "Content-Security-Policy";
-
-  const normalizedDirectives = normalizeDirectives(options);
-
-  return function contentSecurityPolicyMiddleware(
+const contentSecurityPolicy: ContentSecurityPolicy =
+  function contentSecurityPolicy(
+    options: Readonly<ContentSecurityPolicyOptions> = {}
+  ): (
     req: IncomingMessage,
     res: ServerResponse,
-    next: (error?: Error) => void
-  ) {
-    const result = getHeaderValue(req, res, normalizedDirectives);
-    if (result instanceof Error) {
-      next(result);
-    } else {
-      res.setHeader(headerName, result);
-      next();
+    next: (err?: Error) => void
+  ) => void {
+    if ("loose" in options) {
+      console.warn(
+        "Content-Security-Policy middleware no longer needs the `loose` parameter. You should remove it."
+      );
     }
+    if ("setAllHeaders" in options) {
+      console.warn(
+        "Content-Security-Policy middleware no longer supports the `setAllHeaders` parameter. See <https://github.com/helmetjs/helmet/wiki/Setting-legacy-Content-Security-Policy-headers-in-Helmet-4>."
+      );
+    }
+    ["disableAndroid", "browserSniff"].forEach((deprecatedOption) => {
+      if (deprecatedOption in options) {
+        console.warn(
+          `Content-Security-Policy middleware no longer does browser sniffing, so you can remove the \`${deprecatedOption}\` option. See <https://github.com/helmetjs/csp/issues/97> for discussion.`
+        );
+      }
+    });
+
+    const headerName = options.reportOnly
+      ? "Content-Security-Policy-Report-Only"
+      : "Content-Security-Policy";
+
+    const normalizedDirectives = normalizeDirectives(options);
+
+    return function contentSecurityPolicyMiddleware(
+      req: IncomingMessage,
+      res: ServerResponse,
+      next: (error?: Error) => void
+    ) {
+      const result = getHeaderValue(req, res, normalizedDirectives);
+      if (result instanceof Error) {
+        next(result);
+      } else {
+        res.setHeader(headerName, result);
+        next();
+      }
+    };
   };
-};
 contentSecurityPolicy.getDefaultDirectives = getDefaultDirectives;
-contentSecurityPolicy.dangerouslyDisableDefaultSrc = dangerouslyDisableDefaultSrc;
+contentSecurityPolicy.dangerouslyDisableDefaultSrc =
+  dangerouslyDisableDefaultSrc;
 
 module.exports = contentSecurityPolicy;
 export default contentSecurityPolicy;
