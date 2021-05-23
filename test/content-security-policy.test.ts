@@ -248,6 +248,19 @@ describe("Content-Security-Policy middleware", () => {
       ],
       expectedDirectives,
     });
+
+    await checkCsp({
+      middlewareArgs: [
+        {
+          directives: {
+            "default-src": ["'self'", "example.com"],
+            "base-uri": null,
+            scriptSrc: ["example.com"],
+          },
+        },
+      ],
+      expectedDirectives,
+    });
   });
 
   it('can set the "report only" version of the header instead', async () => {
@@ -370,6 +383,7 @@ describe("Content-Security-Policy middleware", () => {
   it("throws if default-src is missing", () => {
     expect(() => {
       contentSecurityPolicy({
+        useDefaults: false,
         directives: {},
       });
     }).toThrow(

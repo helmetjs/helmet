@@ -4,6 +4,7 @@
 
 ### Changed
 
+- **Breaking:** `helmet.contentSecurityPolicy`: `useDefaults` option now defaults to `true`
 - **Breaking:** `helmet.crossOriginEmbedderPolicy` is enabled by default
 - **Breaking:** `helmet.crossOriginOpenerPolicy` is enabled by default
 - **Breaking:** `helmet.crossOriginResourcePolicy` is enabled by default

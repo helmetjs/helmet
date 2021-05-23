@@ -69,7 +69,7 @@ function normalizeDirectives(
 ): NormalizedDirectives {
   const defaultDirectives = getDefaultDirectives();
 
-  const { useDefaults = false, directives: rawDirectives = defaultDirectives } =
+  const { useDefaults = true, directives: rawDirectives = defaultDirectives } =
     options;
 
   const result: NormalizedDirectives = new Map();
