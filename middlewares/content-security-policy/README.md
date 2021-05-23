@@ -39,7 +39,7 @@ If no directives are supplied, the following policy is set (whitespace added for
     style-src 'self' https: 'unsafe-inline';
     upgrade-insecure-requests
 
-You can use this default with the `useDefaults` option. `useDefaults` is `false` by default, but will be `true` in the next major version of this module.
+You can use this default with the `useDefaults` option. `useDefaults` is `true` by default.
 
 You can also get the default directives object with `contentSecurityPolicy.getDefaultDirectives()`.
 

@@ -135,7 +135,7 @@ If no directives are supplied, the following policy is set (whitespace added for
     style-src 'self' https: 'unsafe-inline';
     upgrade-insecure-requests
 
-You can use this default with the `options.useDefaults` option. `options.useDefaults` is `false` by default, but will be `true` in the next major version of Helmet.
+You can use this default with the `options.useDefaults` option. `options.useDefaults` is `true` by default.
 
 You can also get the default directives object with `helmet.contentSecurityPolicy.getDefaultDirectives()`.
 
