@@ -29,11 +29,11 @@ describe("helmet", () => {
     const expectedHeaders = {
       "content-security-policy":
         "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests",
-      "cross-origin-embedder-policy": null,
-      "cross-origin-opener-policy": null,
-      "cross-origin-resource-policy": null,
+      "cross-origin-embedder-policy": "require-corp",
+      "cross-origin-opener-policy": "same-origin",
+      "cross-origin-resource-policy": "same-origin",
       "expect-ct": "max-age=0",
-      "origin-agent-cluster": null,
+      "origin-agent-cluster": "?1",
       "referrer-policy": "no-referrer",
       "strict-transport-security": "max-age=15552000; includeSubDomains",
       "x-content-type-options": "nosniff",
@@ -74,6 +74,7 @@ describe("helmet", () => {
         permittedCrossDomainPolicies: false,
         referrerPolicy: false,
         xssFilter: false,
+        crossOriginEmbedderPolicy: false,
       }),
       {
         "content-security-policy": null,
@@ -106,7 +107,7 @@ describe("helmet", () => {
     });
   });
 
-  it("allows Cross-Origin-Embedder-Policy middleware to be explicitly disabled (a no-op, because it is disabled by default)", async () => {
+  it("allows Cross-Origin-Embedder-Policy middleware to be explicitly disabled", async () => {
     await check(helmet({ crossOriginEmbedderPolicy: false }), {
       "cross-origin-embedder-policy": null,
     });
@@ -129,7 +130,7 @@ describe("helmet", () => {
     );
   });
 
-  it("allows Cross-Origin-Opener-Policy middleware to be explicitly disabled (a no-op, because it is disabled by default)", async () => {
+  it("allows Cross-Origin-Opener-Policy middleware to be explicitly disabled", async () => {
     await check(helmet({ crossOriginOpenerPolicy: false }), {
       "cross-origin-opener-policy": null,
     });
@@ -150,7 +151,7 @@ describe("helmet", () => {
     );
   });
 
-  it("allows Cross-Origin-Resource-Policy middleware to be explicitly disabled (a no-op, because it is disabled by default)", async () => {
+  it("allows Cross-Origin-Resource-Policy middleware to be explicitly disabled", async () => {
     await check(helmet({ crossOriginResourcePolicy: false }), {
       "cross-origin-resource-policy": null,
     });
@@ -162,7 +163,7 @@ describe("helmet", () => {
     });
   });
 
-  it("allows Origin-Agent-Cluster middleware to be explicitly disabled (a no-op, because it is disabled by default)", async () => {
+  it("allows Origin-Agent-Cluster middleware to be explicitly disabled", async () => {
     await check(helmet({ originAgentCluster: false }), {
       "origin-agent-cluster": null,
     });
@@ -209,7 +210,7 @@ describe("helmet", () => {
 
       expect(console.warn).toHaveBeenCalledTimes(1);
       expect(console.warn).toHaveBeenCalledWith(
-        "crossOriginEmbedderPolicy does not take options. Set the property to `true` to silence this warning."
+        "crossOriginEmbedderPolicy does not take options. Remove the property to silence this warning."
       );
     });
 
@@ -236,7 +237,7 @@ describe("helmet", () => {
 
       expect(console.warn).toHaveBeenCalledTimes(1);
       expect(console.warn).toHaveBeenCalledWith(
-        "originAgentCluster does not take options. Set the property to `true` to silence this warning."
+        "originAgentCluster does not take options. Remove the property to silence this warning."
       );
     });
 
