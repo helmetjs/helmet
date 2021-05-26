@@ -23,7 +23,7 @@ app.use(helmet());
 
 ## How it works
 
-Helmet is [Connect](https://github.com/senchalabs/connect)-style middleware, which is compatible with frameworks like [Express](https://expressjs.com/). (If you need support for Koa, see [`koa-helmet`](https://github.com/venables/koa-helmet).)
+Helmet is [Connect](https://github.com/senchalabs/connect)-style middleware, which is compatible with frameworks like [Express](https://expressjs.com/). (If you need support for other frameworks or languages, [see this list](https://helmetjs.github.io/see-also/).)
 
 The top-level `helmet` function is a wrapper around 15 smaller middlewares, 11 of which are enabled by default.
 
