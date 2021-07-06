@@ -1,7 +1,7 @@
 import { IncomingMessage, ServerResponse } from "http";
 
 export interface XFrameOptionsOptions {
-  action?: string;
+  action?: "DENY" | "SAMEORIGIN" | (string & {});
 }
 
 function getHeaderValueFromOptions({
