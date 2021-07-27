@@ -213,17 +213,8 @@ app.use(
     },
   })
 );
-
-// Sets the `frame-ancestors` directive to "'self'"
-// similar to `helmet.frameguard({ action: "sameorigin" })`
-app.use(
-  helmet.contentSecurityPolicy({
-    useDefaults: true,
-    directives: {
-      frameAncestors: ["'self'"],
-    },
-  })
-);
+// to get the behavior similar to `helmet.frameguard({ action: "sameorigin" })`
+// replace "'none'" with "'self'"
 ```
 
 You can install this module separately as `helmet-csp`.
