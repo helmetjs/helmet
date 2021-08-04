@@ -213,8 +213,6 @@ app.use(
     },
   })
 );
-// to get the behavior similar to `helmet.frameguard({ action: "sameorigin" })`
-// replace "'none'" with "'self'"
 ```
 
 You can install this module separately as `helmet-csp`.
