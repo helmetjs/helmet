@@ -204,7 +204,7 @@ app.use(
 );
 
 // Sets the `frame-ancestors` directive to "'none'"
-// similar to `helmet.frameguard({ action: "deny" })`
+// See also: `helmet.frameguard`
 app.use(
   helmet.contentSecurityPolicy({
     useDefaults: true,
