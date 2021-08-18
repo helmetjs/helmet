@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+### Changed
+
+- `helmet.frameguard`: add TypeScript editor autocomplete. See [#322](https://github.com/helmetjs/helmet/pull/322)
+
 ## 4.6.0 - 2021-05-01
 
 ### Added

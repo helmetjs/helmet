@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+### Changed
+
+- Add TypeScript editor autocomplete. See [#322](https://github.com/helmetjs/helmet/pull/322)
+
 ## 4.0.0 - 2020-12-21
 
 ### Removed

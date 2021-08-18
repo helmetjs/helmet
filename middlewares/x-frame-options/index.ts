@@ -1,7 +1,8 @@
 import { IncomingMessage, ServerResponse } from "http";
 
 export interface XFrameOptionsOptions {
-  action?: string;
+  // This offers autocomplete while still supporting regular `string`s.
+  action?: "DENY" | "SAMEORIGIN" | (string & { _?: never });
 }
 
 function getHeaderValueFromOptions({
