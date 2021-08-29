@@ -55,6 +55,7 @@ You can dynamically generate nonces to allow inline `<script>` tags to be safely
 
 ```js
 const crypto = require("crypto");
+const contentSecurityPolicy = require("helmet-csp");
 
 app.use((req, res, next) => {
   res.locals.nonce = crypto.randomBytes(16).toString("hex");
@@ -62,7 +63,7 @@ app.use((req, res, next) => {
 });
 
 app.use((req, res, next) => {
-  csp({
+  contentSecurityPolicy({
     useDefaults: true,
     directives: {
       scriptSrc: ["'self'", `'nonce-${res.locals.nonce}'`],
