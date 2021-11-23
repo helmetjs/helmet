@@ -1,5 +1,13 @@
 # Changelog
 
+### 5.0.0 - ???
+
+### Changed
+
+- **Breaking:** `helmet.crossOriginEmbedderPolicy` is enabled by default
+- **Breaking:** `helmet.crossOriginOpenerPolicy` is enabled by default
+- **Breaking:** `helmet.crossOriginResourcePolicy` is enabled by default
+
 ## Unreleased
 
 ### Changed
