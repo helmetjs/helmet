@@ -4,11 +4,11 @@
 
 ### Changed
 
-- `useDefaults` option now defaults to `true`
+- **Breaking:** `useDefaults` option now defaults to `true`
 
 ### Removed
 
-- Drop support for Node 10 and 11. Node 12+ is now required
+- **Breaking:** Drop support for Node 10 and 11. Node 12+ is now required
 
 ## 3.4.0 - 2021-05-02
 
