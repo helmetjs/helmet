@@ -254,7 +254,7 @@ const helmet: Helmet = Object.assign(
       res: ServerResponse,
       next: (err?: unknown) => void
     ): void {
-      const iterator = middlewareFunctions[Symbol.iterator]();
+      let middlewareIndex = 0;
 
       (function internalNext(err?: unknown) {
         if (err) {
@@ -262,12 +262,12 @@ const helmet: Helmet = Object.assign(
           return;
         }
 
-        const iteration = iterator.next();
-        if (iteration.done) {
-          next();
-        } else {
-          const middlewareFunction = iteration.value;
+        const middlewareFunction = middlewareFunctions[middlewareIndex];
+        if (middlewareFunction) {
+          middlewareIndex++;
           middlewareFunction(req, res, internalNext);
+        } else {
+          next();
         }
       })();
     };
