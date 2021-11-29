@@ -5,6 +5,7 @@
 ### Changed
 
 - **Breaking:** `useDefaults` option now defaults to `true`
+- **Breaking:** `form-action` directive is now set to `'self'` by default
 
 ### Removed
 
