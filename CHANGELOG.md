@@ -5,6 +5,7 @@
 ### Changed
 
 - **Breaking:** `helmet.contentSecurityPolicy`: `useDefaults` option now defaults to `true`
+- **Breaking:** `helmet.contentSecurityPolicy`: `form-action` directive is now set to `'self'` by default
 - **Breaking:** `helmet.crossOriginEmbedderPolicy` is enabled by default
 - **Breaking:** `helmet.crossOriginOpenerPolicy` is enabled by default
 - **Breaking:** `helmet.crossOriginResourcePolicy` is enabled by default
