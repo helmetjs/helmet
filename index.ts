@@ -1,7 +1,7 @@
 import { IncomingMessage, ServerResponse } from "http";
 import contentSecurityPolicy, {
   ContentSecurityPolicyOptions,
-} from "./middlewares/content-security-policy";
+} from "./middlewares/content-security-policy.js";
 import crossOriginEmbedderPolicy from "./middlewares/cross-origin-embedder-policy";
 import crossOriginOpenerPolicy, {
   CrossOriginOpenerPolicyOptions,
@@ -55,30 +55,6 @@ interface MiddlewareFunction {
     res: ServerResponse,
     next: (error?: Error) => void
   ): void;
-}
-
-interface Helmet {
-  (options?: Readonly<HelmetOptions>): (
-    req: IncomingMessage,
-    res: ServerResponse,
-    next: (err?: unknown) => void
-  ) => void;
-
-  contentSecurityPolicy: typeof contentSecurityPolicy;
-  crossOriginEmbedderPolicy: typeof crossOriginEmbedderPolicy;
-  crossOriginOpenerPolicy: typeof crossOriginOpenerPolicy;
-  crossOriginResourcePolicy: typeof crossOriginResourcePolicy;
-  dnsPrefetchControl: typeof xDnsPrefetchControl;
-  expectCt: typeof expectCt;
-  frameguard: typeof xFrameOptions;
-  hidePoweredBy: typeof xPoweredBy;
-  hsts: typeof strictTransportSecurity;
-  ieNoOpen: typeof xDownloadOptions;
-  noSniff: typeof xContentTypeOptions;
-  originAgentCluster: typeof originAgentCluster;
-  permittedCrossDomainPolicies: typeof xPermittedCrossDomainPolicies;
-  referrerPolicy: typeof referrerPolicy;
-  xssFilter: typeof xXssProtection;
 }
 
 function getArgs<T>(
@@ -230,56 +206,77 @@ function getMiddlewareFunctionsFromOptions(
   return result;
 }
 
-const helmet: Helmet = Object.assign(
-  function helmet(options: Readonly<HelmetOptions> = {}) {
-    if (options.constructor?.name === "IncomingMessage") {
-      throw new Error(
-        "It appears you have done something like `app.use(helmet)`, but it should be `app.use(helmet())`."
-      );
-    }
-
-    const middlewareFunctions = getMiddlewareFunctionsFromOptions(options);
-
-    return function helmetMiddleware(
-      req: IncomingMessage,
-      res: ServerResponse,
-      next: (err?: unknown) => void
-    ): void {
-      let middlewareIndex = 0;
-
-      (function internalNext(err?: unknown) {
-        if (err) {
-          next(err);
-          return;
-        }
-
-        const middlewareFunction = middlewareFunctions[middlewareIndex];
-        if (middlewareFunction) {
-          middlewareIndex++;
-          middlewareFunction(req, res, internalNext);
-        } else {
-          next();
-        }
-      })();
-    };
-  },
-  {
-    contentSecurityPolicy,
-    crossOriginEmbedderPolicy,
-    crossOriginOpenerPolicy,
-    crossOriginResourcePolicy,
-    dnsPrefetchControl: xDnsPrefetchControl,
-    expectCt,
-    frameguard: xFrameOptions,
-    hidePoweredBy: xPoweredBy,
-    hsts: strictTransportSecurity,
-    ieNoOpen: xDownloadOptions,
-    noSniff: xContentTypeOptions,
-    originAgentCluster,
-    permittedCrossDomainPolicies: xPermittedCrossDomainPolicies,
-    referrerPolicy,
-    xssFilter: xXssProtection,
+function helmet(options: Readonly<HelmetOptions> = {}) {
+  if (options.constructor?.name === "IncomingMessage") {
+    throw new Error(
+      "It appears you have done something like `app.use(helmet)`, but it should be `app.use(helmet())`."
+    );
   }
-);
 
-export = helmet;
+  const middlewareFunctions = getMiddlewareFunctionsFromOptions(options);
+
+  return function helmetMiddleware(
+    req: IncomingMessage,
+    res: ServerResponse,
+    next: (err?: unknown) => void
+  ): void {
+    let middlewareIndex = 0;
+
+    (function internalNext(err?: unknown) {
+      if (err) {
+        next(err);
+        return;
+      }
+
+      const middlewareFunction = middlewareFunctions[middlewareIndex];
+      if (middlewareFunction) {
+        middlewareIndex++;
+        middlewareFunction(req, res, internalNext);
+      } else {
+        next();
+      }
+    })();
+  };
+}
+
+export default helmet;
+
+export {
+  default as contentSecurityPolicy,
+  ContentSecurityPolicyOptions,
+} from "./middlewares/content-security-policy";
+export { default as crossOriginEmbedderPolicy } from "./middlewares/cross-origin-embedder-policy";
+export {
+  default as crossOriginOpenerPolicy,
+  CrossOriginOpenerPolicyOptions,
+} from "./middlewares/cross-origin-opener-policy";
+export {
+  default as crossOriginResourcePolicy,
+  CrossOriginResourcePolicyOptions,
+} from "./middlewares/cross-origin-resource-policy";
+export { default as expectCt, ExpectCtOptions } from "./middlewares/expect-ct";
+export { default as originAgentCluster } from "./middlewares/origin-agent-cluster";
+export {
+  default as referrerPolicy,
+  ReferrerPolicyOptions,
+} from "./middlewares/referrer-policy";
+export {
+  default as hsts,
+  StrictTransportSecurityOptions,
+} from "./middlewares/strict-transport-security";
+export { default as noSniff } from "./middlewares/x-content-type-options";
+export {
+  default as dnsPrefetchControl,
+  XDnsPrefetchControlOptions,
+} from "./middlewares/x-dns-prefetch-control";
+export { default as ieNoOpen } from "./middlewares/x-download-options";
+export {
+  default as frameguard,
+  XFrameOptionsOptions,
+} from "./middlewares/x-frame-options";
+export {
+  default as permittedCrossDomainPolicies,
+  XPermittedCrossDomainPoliciesOptions,
+} from "./middlewares/x-permitted-cross-domain-policies";
+export { default as hidePoweredBy } from "./middlewares/x-powered-by";
+export { default as xssFilter } from "./middlewares/x-xss-protection";

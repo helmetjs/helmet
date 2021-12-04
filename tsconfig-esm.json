@@ -1,0 +1,8 @@
+{
+  "extends": "./tsconfig-base",
+  "compilerOptions": {
+    "outDir": "./dist/esm",
+    "module": "es2020",
+    "moduleResolution": "node"
+  }
+}

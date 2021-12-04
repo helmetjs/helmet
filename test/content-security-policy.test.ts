@@ -1,7 +1,7 @@
 import { IncomingMessage, ServerResponse } from "http";
 import { check } from "./helpers";
-import connect = require("connect");
-import supertest = require("supertest");
+import connect from "connect";
+import supertest from "supertest";
 import contentSecurityPolicy, {
   getDefaultDirectives,
   dangerouslyDisableDefaultSrc,

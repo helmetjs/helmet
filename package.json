@@ -46,11 +46,22 @@
     "lint:prettier": "prettier --check \"**/*{md,js,json,ts}\"",
     "format": "prettier --write \"**/*{md,js,json,ts}\"",
     "clean": "node ./bin/clean.js",
-    "build": "npm run clean && tsc && npm run format",
+    "build:commonjs": "tsc -p tsconfig-commonjs.json",
+    "build:esm": "tsc -p tsconfig-esm.json",
+    "build:types": "tsc -p tsconfig-types.json",
+    "build": "npm run clean && npm run build:commonjs && npm run build:esm && npm run build:types && echo TODO npm run format",
     "build-middleware-package": "npm run build && node ./bin/build-middleware-package.js",
     "test": "jest"
   },
   "license": "MIT",
-  "types": "dist/index.d.ts",
-  "main": "dist/index"
+  "type": "module",
+  "types": "./dist/types/index.d.ts",
+  "main": "./dist/commonjs/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/commonjs/index.js",
+      "types": "./dist/types/index.d.ts"
+    }
+  }
 }
