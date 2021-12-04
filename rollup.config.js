@@ -31,7 +31,7 @@ export default [
     ...defaults,
     input: path.join(middlewaresPath, middleware, "index.ts"),
     output: {
-      exports: "named",
+      exports: "default",
       dir: `dist/middlewares/${middleware}`,
       format: "cjs",
     },

@@ -243,5 +243,3 @@ contentSecurityPolicy.dangerouslyDisableDefaultSrc =
   dangerouslyDisableDefaultSrc;
 
 export default contentSecurityPolicy;
-// TODO: what are we doing with these?
-export { getDefaultDirectives, dangerouslyDisableDefaultSrc };
