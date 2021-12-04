@@ -39,5 +39,4 @@ function crossOriginOpenerPolicy(
   };
 }
 
-module.exports = crossOriginOpenerPolicy;
 export default crossOriginOpenerPolicy;

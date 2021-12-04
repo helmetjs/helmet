@@ -2,7 +2,7 @@
   "include": ["index.ts", "middlewares/"],
   "compilerOptions": {
     "esModuleInterop": true,
-    "module": "es2020",
+    "module": "esnext",
     "moduleResolution": "node",
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,

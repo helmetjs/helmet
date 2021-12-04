@@ -41,5 +41,4 @@ function xFrameOptions(options: Readonly<XFrameOptionsOptions> = {}) {
   };
 }
 
-module.exports = xFrameOptions;
 export default xFrameOptions;

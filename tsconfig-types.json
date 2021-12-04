@@ -1,7 +1,7 @@
 {
-  "extends": "./tsconfig-base",
+  "extends": "./tsconfig",
   "compilerOptions": {
-    "outDir": "./dist/types",
+    "outDir": "./dist",
     "declaration": true,
     "emitDeclarationOnly": true
   }

@@ -1,7 +1,7 @@
 import { IncomingMessage, ServerResponse } from "http";
 import contentSecurityPolicy, {
   ContentSecurityPolicyOptions,
-} from "./middlewares/content-security-policy.js";
+} from "./middlewares/content-security-policy";
 import crossOriginEmbedderPolicy from "./middlewares/cross-origin-embedder-policy";
 import crossOriginOpenerPolicy, {
   CrossOriginOpenerPolicyOptions,

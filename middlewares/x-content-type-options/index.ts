@@ -11,5 +11,4 @@ function xContentTypeOptions() {
   };
 }
 
-module.exports = xContentTypeOptions;
 export default xContentTypeOptions;

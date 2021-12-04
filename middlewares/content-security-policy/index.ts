@@ -242,6 +242,6 @@ contentSecurityPolicy.getDefaultDirectives = getDefaultDirectives;
 contentSecurityPolicy.dangerouslyDisableDefaultSrc =
   dangerouslyDisableDefaultSrc;
 
-module.exports = contentSecurityPolicy;
 export default contentSecurityPolicy;
+// TODO: what are we doing with these?
 export { getDefaultDirectives, dangerouslyDisableDefaultSrc };

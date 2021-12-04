@@ -35,5 +35,4 @@ function crossOriginResourcePolicy(
   };
 }
 
-module.exports = crossOriginResourcePolicy;
 export default crossOriginResourcePolicy;

@@ -11,5 +11,4 @@ function xDownloadOptions() {
   };
 }
 
-module.exports = xDownloadOptions;
 export default xDownloadOptions;
