@@ -48,7 +48,8 @@
     "lint:prettier": "prettier --check \"**/*{md,js,json,ts}\"",
     "format": "prettier --write \"**/*{md,js,json,ts}\"",
     "clean": "node ./bin/clean.js",
-    "build": "npm run clean && rollup -c && echo TODO npm run format",
+    "build-top-level": "node ./bin/build-top-level.js",
+    "build": "npm run clean && npm run build-top-level && echo TODO npm run format",
     "build-middleware-package": "node ./bin/build-middleware-package.js",
     "test": "jest"
   },

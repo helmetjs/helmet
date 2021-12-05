@@ -284,6 +284,8 @@ const helmet: Helmet = Object.assign(
 
 export default helmet;
 
+// !helmet-end-of-commonjs
+
 export {
   default as contentSecurityPolicy,
   ContentSecurityPolicyOptions,
