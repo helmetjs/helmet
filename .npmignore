@@ -11,3 +11,4 @@
 !dist/index.cjs
 !dist/index.d.ts
 !dist/index.js
+!dist/middlewares/**/*.d.ts

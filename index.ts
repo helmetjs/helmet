@@ -31,7 +31,7 @@ import xPermittedCrossDomainPolicies, {
 import xPoweredBy from "./middlewares/x-powered-by";
 import xXssProtection from "./middlewares/x-xss-protection";
 
-interface HelmetOptions {
+export interface HelmetOptions {
   contentSecurityPolicy?: ContentSecurityPolicyOptions | boolean;
   crossOriginEmbedderPolicy?: boolean;
   crossOriginOpenerPolicy?: CrossOriginOpenerPolicyOptions | boolean;
@@ -287,41 +287,19 @@ export default helmet;
 // !helmet-end-of-commonjs
 
 export {
-  default as contentSecurityPolicy,
-  ContentSecurityPolicyOptions,
-} from "./middlewares/content-security-policy";
-export { default as crossOriginEmbedderPolicy } from "./middlewares/cross-origin-embedder-policy";
-export {
-  default as crossOriginOpenerPolicy,
-  CrossOriginOpenerPolicyOptions,
-} from "./middlewares/cross-origin-opener-policy";
-export {
-  default as crossOriginResourcePolicy,
-  CrossOriginResourcePolicyOptions,
-} from "./middlewares/cross-origin-resource-policy";
-export { default as expectCt, ExpectCtOptions } from "./middlewares/expect-ct";
-export { default as originAgentCluster } from "./middlewares/origin-agent-cluster";
-export {
-  default as referrerPolicy,
-  ReferrerPolicyOptions,
-} from "./middlewares/referrer-policy";
-export {
-  default as hsts,
-  StrictTransportSecurityOptions,
-} from "./middlewares/strict-transport-security";
-export { default as noSniff } from "./middlewares/x-content-type-options";
-export {
-  default as dnsPrefetchControl,
-  XDnsPrefetchControlOptions,
-} from "./middlewares/x-dns-prefetch-control";
-export { default as ieNoOpen } from "./middlewares/x-download-options";
-export {
-  default as frameguard,
-  XFrameOptionsOptions,
-} from "./middlewares/x-frame-options";
-export {
-  default as permittedCrossDomainPolicies,
-  XPermittedCrossDomainPoliciesOptions,
-} from "./middlewares/x-permitted-cross-domain-policies";
-export { default as hidePoweredBy } from "./middlewares/x-powered-by";
-export { default as xssFilter } from "./middlewares/x-xss-protection";
+  contentSecurityPolicy,
+  crossOriginEmbedderPolicy,
+  crossOriginOpenerPolicy,
+  crossOriginResourcePolicy,
+  expectCt,
+  originAgentCluster,
+  referrerPolicy,
+  strictTransportSecurity as hsts,
+  xContentTypeOptions as noSniff,
+  xDnsPrefetchControl as dnsPrefetchControl,
+  xDownloadOptions as ieNoOpen,
+  xFrameOptions as frameguard,
+  xPermittedCrossDomainPolicies as permittedCrossDomainPolicies,
+  xPoweredBy as hidePoweredBy,
+  xXssProtection as xssFilter,
+};
