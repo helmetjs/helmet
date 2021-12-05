@@ -45,5 +45,4 @@ function expectCt(options: Readonly<ExpectCtOptions> = {}) {
   };
 }
 
-module.exports = expectCt;
 export default expectCt;

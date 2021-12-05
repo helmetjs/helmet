@@ -1,6 +1,6 @@
 import { IncomingMessage, ServerResponse } from "http";
-import connect = require("connect");
-import supertest = require("supertest");
+import connect from "connect";
+import supertest from "supertest";
 
 interface MiddlewareFunction {
   (req: IncomingMessage, res: ServerResponse, next: () => void): void;

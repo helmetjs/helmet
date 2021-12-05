@@ -11,5 +11,4 @@ function originAgentCluster() {
   };
 }
 
-module.exports = originAgentCluster;
 export default originAgentCluster;

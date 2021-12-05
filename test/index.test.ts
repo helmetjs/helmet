@@ -1,9 +1,9 @@
 import { IncomingMessage, ServerResponse } from "http";
 import { check } from "./helpers";
-import connect = require("connect");
-import supertest = require("supertest");
+import connect from "connect";
+import supertest from "supertest";
 
-import helmet from "..";
+import * as helmet from "..";
 
 import contentSecurityPolicy from "../middlewares/content-security-policy";
 import crossOriginEmbedderPolicy from "../middlewares/cross-origin-embedder-policy";
@@ -22,6 +22,8 @@ import xPoweredBy from "../middlewares/x-powered-by";
 import xXssProtection from "../middlewares/x-xss-protection";
 
 describe("helmet", () => {
+  const topLevel = helmet.default;
+
   it("includes all middleware with their default options", async () => {
     // NOTE: This test relies on the CSP object being ordered a certain way,
     // which could change (and be non-breaking). If that becomes a problem,
@@ -45,23 +47,23 @@ describe("helmet", () => {
       "x-xss-protection": "0",
     };
 
-    await check(helmet(), expectedHeaders);
-    await check(helmet({}), expectedHeaders);
-    await check(helmet(Object.create(null)), expectedHeaders);
+    await check(topLevel(), expectedHeaders);
+    await check(topLevel({}), expectedHeaders);
+    await check(topLevel(Object.create(null)), expectedHeaders);
   });
 
   it("allows individual middlewares to be disabled", async () => {
-    await check(helmet({ contentSecurityPolicy: false }), {
+    await check(topLevel({ contentSecurityPolicy: false }), {
       "content-security-policy": null,
     });
-    await check(helmet({ dnsPrefetchControl: false }), {
+    await check(topLevel({ dnsPrefetchControl: false }), {
       "x-dns-prefetch-control": null,
     });
   });
 
   it("works with all default middlewares disabled", async () => {
     await check(
-      helmet({
+      topLevel({
         contentSecurityPolicy: false,
         dnsPrefetchControl: false,
         expectCt: false,
@@ -91,37 +93,37 @@ describe("helmet", () => {
     };
 
     expect(() => {
-      helmet(fakeRequest as any);
+      topLevel(fakeRequest as any);
     }).toThrow();
   });
 
   it("allows default middleware to be explicitly enabled (a no-op)", async () => {
-    await check(helmet({ frameguard: true }), {
+    await check(topLevel({ frameguard: true }), {
       "x-frame-options": "SAMEORIGIN",
     });
   });
 
   it("allows Cross-Origin-Embedder-Policy middleware to be enabled", async () => {
-    await check(helmet({ crossOriginEmbedderPolicy: true }), {
+    await check(topLevel({ crossOriginEmbedderPolicy: true }), {
       "cross-origin-embedder-policy": "require-corp",
     });
   });
 
   it("allows Cross-Origin-Embedder-Policy middleware to be explicitly disabled", async () => {
-    await check(helmet({ crossOriginEmbedderPolicy: false }), {
+    await check(topLevel({ crossOriginEmbedderPolicy: false }), {
       "cross-origin-embedder-policy": null,
     });
   });
 
   it("allows Cross-Origin-Opener-Policy middleware to be enabled with its default", async () => {
-    await check(helmet({ crossOriginOpenerPolicy: true }), {
+    await check(topLevel({ crossOriginOpenerPolicy: true }), {
       "cross-origin-opener-policy": "same-origin",
     });
   });
 
   it("allows Cross-Origin-Opener-Policy middleware to be enabled with custom arguments", async () => {
     await check(
-      helmet({
+      topLevel({
         crossOriginOpenerPolicy: { policy: "same-origin-allow-popups" },
       }),
       {
@@ -131,20 +133,20 @@ describe("helmet", () => {
   });
 
   it("allows Cross-Origin-Opener-Policy middleware to be explicitly disabled", async () => {
-    await check(helmet({ crossOriginOpenerPolicy: false }), {
+    await check(topLevel({ crossOriginOpenerPolicy: false }), {
       "cross-origin-opener-policy": null,
     });
   });
 
   it("allows Cross-Origin-Resource-Policy middleware to be enabled with its default", async () => {
-    await check(helmet({ crossOriginResourcePolicy: true }), {
+    await check(topLevel({ crossOriginResourcePolicy: true }), {
       "cross-origin-resource-policy": "same-origin",
     });
   });
 
   it("allows Cross-Origin-Resource-Policy middleware to be enabled with custom arguments", async () => {
     await check(
-      helmet({ crossOriginResourcePolicy: { policy: "same-site" } }),
+      topLevel({ crossOriginResourcePolicy: { policy: "same-site" } }),
       {
         "cross-origin-resource-policy": "same-site",
       }
@@ -152,19 +154,19 @@ describe("helmet", () => {
   });
 
   it("allows Cross-Origin-Resource-Policy middleware to be explicitly disabled", async () => {
-    await check(helmet({ crossOriginResourcePolicy: false }), {
+    await check(topLevel({ crossOriginResourcePolicy: false }), {
       "cross-origin-resource-policy": null,
     });
   });
 
   it("allows Origin-Agent-Cluster middleware to be enabled", async () => {
-    await check(helmet({ originAgentCluster: true }), {
+    await check(topLevel({ originAgentCluster: true }), {
       "origin-agent-cluster": "?1",
     });
   });
 
   it("allows Origin-Agent-Cluster middleware to be explicitly disabled", async () => {
-    await check(helmet({ originAgentCluster: false }), {
+    await check(topLevel({ originAgentCluster: false }), {
       "origin-agent-cluster": null,
     });
   });
@@ -172,7 +174,7 @@ describe("helmet", () => {
   it("properly handles a middleware calling `next()` with an error", async () => {
     const app = connect()
       .use(
-        helmet({
+        topLevel({
           contentSecurityPolicy: {
             directives: {
               defaultSrc: ["'self'", () => "bad;value"],
@@ -206,7 +208,7 @@ describe("helmet", () => {
     });
 
     it("logs a warning when passing options to crossOriginEmbedderPolicy", () => {
-      helmet({ crossOriginEmbedderPolicy: { option: "foo" } as any });
+      topLevel({ crossOriginEmbedderPolicy: { option: "foo" } as any });
 
       expect(console.warn).toHaveBeenCalledTimes(1);
       expect(console.warn).toHaveBeenCalledWith(
@@ -215,7 +217,7 @@ describe("helmet", () => {
     });
 
     it("logs a warning when passing options to hidePoweredBy", () => {
-      helmet({ hidePoweredBy: { setTo: "deprecated option" } as any });
+      topLevel({ hidePoweredBy: { setTo: "deprecated option" } as any });
 
       expect(console.warn).toHaveBeenCalledTimes(1);
       expect(console.warn).toHaveBeenCalledWith(
@@ -224,7 +226,7 @@ describe("helmet", () => {
     });
 
     it("logs a warning when passing options to ieNoOpen", () => {
-      helmet({ ieNoOpen: { option: "foo" } as any });
+      topLevel({ ieNoOpen: { option: "foo" } as any });
 
       expect(console.warn).toHaveBeenCalledTimes(1);
       expect(console.warn).toHaveBeenCalledWith(
@@ -233,7 +235,7 @@ describe("helmet", () => {
     });
 
     it("logs a warning when passing options to originAgentCluster", () => {
-      helmet({ originAgentCluster: { option: "foo" } as any });
+      topLevel({ originAgentCluster: { option: "foo" } as any });
 
       expect(console.warn).toHaveBeenCalledTimes(1);
       expect(console.warn).toHaveBeenCalledWith(
@@ -242,7 +244,7 @@ describe("helmet", () => {
     });
 
     it("logs a warning when passing options to noSniff", () => {
-      helmet({ noSniff: { option: "foo" } as any });
+      topLevel({ noSniff: { option: "foo" } as any });
 
       expect(console.warn).toHaveBeenCalledTimes(1);
       expect(console.warn).toHaveBeenCalledWith(
@@ -251,7 +253,7 @@ describe("helmet", () => {
     });
 
     it("logs a warning when passing options to xssFilter", () => {
-      helmet({ xssFilter: { setOnOldIe: true } as any });
+      topLevel({ xssFilter: { setOnOldIe: true } as any });
 
       expect(console.warn).toHaveBeenCalledTimes(1);
       expect(console.warn).toHaveBeenCalledWith(

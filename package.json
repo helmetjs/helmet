@@ -25,6 +25,7 @@
     "node": ">=12.0.0"
   },
   "devDependencies": {
+    "@rollup/plugin-typescript": "^8.3.0",
     "@types/connect": "^3.4.35",
     "@types/jest": "^27.0.3",
     "@types/supertest": "^2.0.11",
@@ -34,23 +35,32 @@
     "eslint": "^8.3.0",
     "jest": "^27.3.1",
     "prettier": "^2.4.1",
+    "rollup": "^2.60.2",
     "supertest": "^6.1.6",
     "ts-jest": "^27.0.7",
     "typescript": "^4.5.2"
   },
   "scripts": {
     "pretest": "npm run lint",
-    "prepublishOnly": "npm run build",
+    "prepublishOnly": "npm run build-helmet",
     "lint": "npm run lint:eslint && npm run lint:prettier",
     "lint:eslint": "eslint \"**/*.ts\"",
     "lint:prettier": "prettier --check \"**/*{md,js,json,ts}\"",
     "format": "prettier --write \"**/*{md,js,json,ts}\"",
     "clean": "node ./bin/clean.js",
-    "build": "npm run clean && tsc && npm run format",
-    "build-middleware-package": "npm run build && node ./bin/build-middleware-package.js",
+    "build-helmet": "npm run clean && node ./bin/build-helmet.js && prettier --write --config .prettierrc-dist.cjs --ignore-path /dev/null dist",
+    "build-middleware-package": "npm run clean && tsc --emitDeclarationOnly -p tsconfig-types.json && node ./bin/build-middleware-package.js",
     "test": "jest"
   },
   "license": "MIT",
-  "types": "dist/index.d.ts",
-  "main": "dist/index"
+  "type": "module",
+  "types": "./dist/index.d.ts",
+  "main": "./dist/index.cjs",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  }
 }

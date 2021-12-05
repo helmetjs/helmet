@@ -2,6 +2,10 @@
 
 ### 5.0.0 - ???
 
+### Added
+
+- ECMAScript module imports (i.e., `import helmet from "helmet"` and `import { frameguard } from "helmet"`). See [#320](https://github.com/helmetjs/helmet/issues/320)
+
 ### Changed
 
 - **Breaking:** `helmet.contentSecurityPolicy`: `useDefaults` option now defaults to `true`

@@ -59,5 +59,4 @@ function referrerPolicy(options: Readonly<ReferrerPolicyOptions> = {}) {
   };
 }
 
-module.exports = referrerPolicy;
 export default referrerPolicy;

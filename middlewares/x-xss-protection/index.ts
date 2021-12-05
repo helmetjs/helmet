@@ -11,5 +11,4 @@ function xXssProtection() {
   };
 }
 
-module.exports = xXssProtection;
 export default xXssProtection;
