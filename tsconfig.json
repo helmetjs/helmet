@@ -6,10 +6,9 @@
     "moduleResolution": "node",
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
-    "noUncheckedIndexedAccess": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "removeComments": true,
+    "noUncheckedIndexedAccess": true,
     "strict": true,
     "target": "es6"
   }
