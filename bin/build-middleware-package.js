@@ -1,11 +1,20 @@
 #!/usr/bin/env node
-const path = require("path");
-const fs = require("fs").promises;
-const os = require("os");
-const crypto = require("crypto");
+import * as path from "path";
+import { promises as fs } from "fs";
+import * as os from "os";
+import * as crypto from "crypto";
+import { fileURLToPath } from "url";
+import { rollup } from "rollup";
+import rollupTypescript from "@rollup/plugin-typescript";
+
+const __dirname = path.join(path.dirname(fileURLToPath(import.meta.url)));
 
 const PROJECT_ROOT_PATH = path.join(__dirname, "..");
 const getRootFilePath = (filename) => path.join(PROJECT_ROOT_PATH, filename);
+
+async function readJson(path) {
+  return JSON.parse(await fs.readFile(path));
+}
 
 async function main(argv) {
   if (argv.length !== 3) {
@@ -26,7 +35,7 @@ async function main(argv) {
   const getStagingFilePath = (filename) =>
     path.join(stagingDirectoryPath, filename);
 
-  const packageFiles = require(getSourceFilePath("package-files.json"));
+  const packageFiles = await readJson(getSourceFilePath("package-files.json"));
 
   const packageJson = {
     author: "Adam Baldwin <adam@npmjs.com> (https://evilpacket.net)",
@@ -47,11 +56,20 @@ async function main(argv) {
     files: ["CHANGELOG.md", "LICENSE", "README.md", ...packageFiles],
     main: "index.js",
     typings: "index.d.ts",
-    ...require(getSourceFilePath("package-overrides.json")),
+    ...(await readJson(getSourceFilePath("package-overrides.json"))),
   };
 
   await fs.mkdir(stagingDirectoryPath, { recursive: true, mode: 0o700 });
   await Promise.all([
+    rollup({
+      input: getSourceFilePath("index.ts"),
+      output: {
+        exports: "default",
+        file: getStagingFilePath("index.js"),
+        format: "cjs",
+      },
+      plugins: [rollupTypescript()],
+    }),
     fs.writeFile(
       getStagingFilePath("package.json"),
       JSON.stringify(packageJson)

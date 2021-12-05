@@ -8,8 +8,6 @@
 !README.md
 !SECURITY.md
 
-!dist/index.js
+!dist/index.cjs
 !dist/index.d.ts
-!dist/commonjs/**/*
-!dist/esm/**/*
-!dist/types/**/*
+!dist/index.js

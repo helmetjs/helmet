@@ -51,7 +51,7 @@
     "build:js": "rollup -c",
     "build:types": "tsc -p tsconfig-types.json",
     "build": "npm run clean && npm run build:js && npm run build:types && echo TODO npm run format",
-    "build-middleware-package": "npm run build && node ./bin/build-middleware-package.js",
+    "build-middleware-package": "node ./bin/build-middleware-package.js",
     "test": "jest"
   },
   "license": "MIT",
