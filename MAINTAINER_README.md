@@ -12,6 +12,7 @@ tl;dr:
 Helmet releases have the following goals:
 
 - Users should be able to import the package with CommonJS. The following code snippet should work as expected:
+
   ```js
   const helmet = require("helmet");
   app.use(helmet());
@@ -19,6 +20,7 @@ Helmet releases have the following goals:
   ```
 
 - Users should be able to import the package with ECMAScript modules. The default export should be a function, and the rest of the functions should be available too. The following snippets should work as expected:
+
   ```js
   import helmet from "helmet";
   app.use(helmet());
