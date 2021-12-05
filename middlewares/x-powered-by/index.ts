@@ -11,5 +11,4 @@ function xPoweredBy() {
   };
 }
 
-module.exports = xPoweredBy;
 export default xPoweredBy;

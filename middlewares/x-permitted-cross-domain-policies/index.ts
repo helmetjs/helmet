@@ -40,5 +40,4 @@ function xPermittedCrossDomainPolicies(
   };
 }
 
-module.exports = xPermittedCrossDomainPolicies;
 export default xPermittedCrossDomainPolicies;

@@ -11,5 +11,4 @@ function crossOriginEmbedderPolicy() {
   };
 }
 
-module.exports = crossOriginEmbedderPolicy;
 export default crossOriginEmbedderPolicy;

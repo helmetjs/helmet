@@ -67,5 +67,4 @@ function strictTransportSecurity(
   };
 }
 
-module.exports = strictTransportSecurity;
 export default strictTransportSecurity;

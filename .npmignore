@@ -1,5 +1,5 @@
 # `package.json` is published to npm, so everything we add is included in the installed tarball.
-# Removing the `files` key and replacing it with this `.npmignore` saves about 0.2 kB, which should improve installation performance slightly.
+# Removing the `files` key and replacing it with this `.npmignore` saves some bytes, which should improve installation performance slightly.
 
 *
 
@@ -8,36 +8,7 @@
 !README.md
 !SECURITY.md
 
-!dist/index.js
+!dist/index.cjs
 !dist/index.d.ts
-
-!dist/middlewares/content-security-policy/index.d.ts
-!dist/middlewares/content-security-policy/index.js
-!dist/middlewares/cross-origin-embedder-policy/index.d.ts
-!dist/middlewares/cross-origin-embedder-policy/index.js
-!dist/middlewares/cross-origin-opener-policy/index.d.ts
-!dist/middlewares/cross-origin-opener-policy/index.js
-!dist/middlewares/cross-origin-resource-policy/index.d.ts
-!dist/middlewares/cross-origin-resource-policy/index.js
-!dist/middlewares/expect-ct/index.d.ts
-!dist/middlewares/expect-ct/index.js
-!dist/middlewares/origin-agent-cluster/index.d.ts
-!dist/middlewares/origin-agent-cluster/index.js
-!dist/middlewares/referrer-policy/index.d.ts
-!dist/middlewares/referrer-policy/index.js
-!dist/middlewares/strict-transport-security/index.d.ts
-!dist/middlewares/strict-transport-security/index.js
-!dist/middlewares/x-content-type-options/index.d.ts
-!dist/middlewares/x-content-type-options/index.js
-!dist/middlewares/x-dns-prefetch-control/index.d.ts
-!dist/middlewares/x-dns-prefetch-control/index.js
-!dist/middlewares/x-download-options/index.d.ts
-!dist/middlewares/x-download-options/index.js
-!dist/middlewares/x-frame-options/index.d.ts
-!dist/middlewares/x-frame-options/index.js
-!dist/middlewares/x-permitted-cross-domain-policies/index.d.ts
-!dist/middlewares/x-permitted-cross-domain-policies/index.js
-!dist/middlewares/x-powered-by/index.d.ts
-!dist/middlewares/x-powered-by/index.js
-!dist/middlewares/x-xss-protection/index.d.ts
-!dist/middlewares/x-xss-protection/index.js
+!dist/index.js
+!dist/middlewares/**/*.d.ts

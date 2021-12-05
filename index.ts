@@ -31,7 +31,7 @@ import xPermittedCrossDomainPolicies, {
 import xPoweredBy from "./middlewares/x-powered-by";
 import xXssProtection from "./middlewares/x-xss-protection";
 
-interface HelmetOptions {
+export interface HelmetOptions {
   contentSecurityPolicy?: ContentSecurityPolicyOptions | boolean;
   crossOriginEmbedderPolicy?: boolean;
   crossOriginOpenerPolicy?: CrossOriginOpenerPolicyOptions | boolean;
@@ -282,4 +282,24 @@ const helmet: Helmet = Object.assign(
   }
 );
 
-export = helmet;
+export default helmet;
+
+// !helmet-end-of-commonjs
+
+export {
+  contentSecurityPolicy,
+  crossOriginEmbedderPolicy,
+  crossOriginOpenerPolicy,
+  crossOriginResourcePolicy,
+  expectCt,
+  originAgentCluster,
+  referrerPolicy,
+  strictTransportSecurity as hsts,
+  xContentTypeOptions as noSniff,
+  xDnsPrefetchControl as dnsPrefetchControl,
+  xDownloadOptions as ieNoOpen,
+  xFrameOptions as frameguard,
+  xPermittedCrossDomainPolicies as permittedCrossDomainPolicies,
+  xPoweredBy as hidePoweredBy,
+  xXssProtection as xssFilter,
+};

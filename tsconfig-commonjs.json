@@ -1,0 +1,4 @@
+{
+  "extends": "./tsconfig",
+  "include": ["tmp-commonjs-index.ts"]
+}

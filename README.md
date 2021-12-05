@@ -20,6 +20,16 @@ app.use(helmet());
 // ...
 ```
 
+You can also use ECMAScript modules if you prefer.
+
+```js
+import helmet from "helmet";
+
+const app = express();
+
+app.use(helmet());
+```
+
 ## How it works
 
 Helmet is [Connect](https://github.com/senchalabs/connect)-style middleware, which is compatible with frameworks like [Express](https://expressjs.com/). (If you need support for other frameworks or languages, [see this list](https://helmetjs.github.io/see-also/).)

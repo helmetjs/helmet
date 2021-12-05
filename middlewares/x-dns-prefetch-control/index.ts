@@ -19,5 +19,4 @@ function xDnsPrefetchControl(
   };
 }
 
-module.exports = xDnsPrefetchControl;
 export default xDnsPrefetchControl;

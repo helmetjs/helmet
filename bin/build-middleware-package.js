@@ -1,11 +1,17 @@
 #!/usr/bin/env node
-const path = require("path");
-const fs = require("fs").promises;
-const os = require("os");
-const crypto = require("crypto");
+import * as path from "path";
+import { promises as fs } from "fs";
+import * as os from "os";
+import * as crypto from "crypto";
+import { fileURLToPath } from "url";
+import rollupTypescript from "@rollup/plugin-typescript";
+import { writeRollup, withCommonJsFile } from "./helpers.js";
 
-const PROJECT_ROOT_PATH = path.join(__dirname, "..");
-const getRootFilePath = (filename) => path.join(PROJECT_ROOT_PATH, filename);
+const thisPath = fileURLToPath(import.meta.url);
+const rootPath = path.join(path.dirname(thisPath), "..");
+const getRootFilePath = (filename) => path.join(rootPath, filename);
+
+const readJson = async (path) => JSON.parse(await fs.readFile(path));
 
 async function main(argv) {
   if (argv.length !== 3) {
@@ -20,13 +26,11 @@ async function main(argv) {
   );
 
   const getSourceFilePath = (filename) =>
-    path.join(PROJECT_ROOT_PATH, "middlewares", argv[2], filename);
+    path.join(rootPath, "middlewares", argv[2], filename);
   const getDistFilePath = (filename) =>
-    path.join(PROJECT_ROOT_PATH, "dist", "middlewares", argv[2], filename);
+    path.join(rootPath, "dist", "middlewares", argv[2], filename);
   const getStagingFilePath = (filename) =>
     path.join(stagingDirectoryPath, filename);
-
-  const packageFiles = require(getSourceFilePath("package-files.json"));
 
   const packageJson = {
     author: "Adam Baldwin <adam@npmjs.com> (https://evilpacket.net)",
@@ -44,14 +48,33 @@ async function main(argv) {
     engines: {
       node: ">=12.0.0",
     },
-    files: ["CHANGELOG.md", "LICENSE", "README.md", ...packageFiles],
+    files: ["CHANGELOG.md", "LICENSE", "README.md", "index.js", "index.d.ts"],
     main: "index.js",
     typings: "index.d.ts",
-    ...require(getSourceFilePath("package-overrides.json")),
+    exports: {
+      ".": {
+        require: "./index.js",
+        types: "./index.d.ts",
+      },
+    },
+    ...(await readJson(getSourceFilePath("package-overrides.json"))),
   };
 
   await fs.mkdir(stagingDirectoryPath, { recursive: true, mode: 0o700 });
   await Promise.all([
+    withCommonJsFile(getSourceFilePath("index.ts"), (commonJsSourcePath) =>
+      writeRollup(
+        {
+          input: commonJsSourcePath,
+          plugins: [rollupTypescript()],
+        },
+        {
+          exports: "default",
+          file: getStagingFilePath("index.js"),
+          format: "cjs",
+        }
+      )
+    ),
     fs.writeFile(
       getStagingFilePath("package.json"),
       JSON.stringify(packageJson)
@@ -65,8 +88,9 @@ async function main(argv) {
       getStagingFilePath("CHANGELOG.md")
     ),
     fs.copyFile(getRootFilePath("LICENSE"), getStagingFilePath("LICENSE")),
-    ...packageFiles.map((filename) =>
-      fs.copyFile(getDistFilePath(filename), getStagingFilePath(filename))
+    fs.copyFile(
+      getDistFilePath("index.d.ts"),
+      getStagingFilePath("index.d.ts")
     ),
   ]);
 
