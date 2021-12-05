@@ -57,6 +57,30 @@ interface MiddlewareFunction {
   ): void;
 }
 
+interface Helmet {
+  (options?: Readonly<HelmetOptions>): (
+    req: IncomingMessage,
+    res: ServerResponse,
+    next: (err?: unknown) => void
+  ) => void;
+
+  contentSecurityPolicy: typeof contentSecurityPolicy;
+  crossOriginEmbedderPolicy: typeof crossOriginEmbedderPolicy;
+  crossOriginOpenerPolicy: typeof crossOriginOpenerPolicy;
+  crossOriginResourcePolicy: typeof crossOriginResourcePolicy;
+  dnsPrefetchControl: typeof xDnsPrefetchControl;
+  expectCt: typeof expectCt;
+  frameguard: typeof xFrameOptions;
+  hidePoweredBy: typeof xPoweredBy;
+  hsts: typeof strictTransportSecurity;
+  ieNoOpen: typeof xDownloadOptions;
+  noSniff: typeof xContentTypeOptions;
+  originAgentCluster: typeof originAgentCluster;
+  permittedCrossDomainPolicies: typeof xPermittedCrossDomainPolicies;
+  referrerPolicy: typeof referrerPolicy;
+  xssFilter: typeof xXssProtection;
+}
+
 function getArgs<T>(
   option: undefined | boolean | Readonly<T>,
   middlewareConfig: Readonly<
@@ -206,38 +230,57 @@ function getMiddlewareFunctionsFromOptions(
   return result;
 }
 
-function helmet(options: Readonly<HelmetOptions> = {}) {
-  if (options.constructor?.name === "IncomingMessage") {
-    throw new Error(
-      "It appears you have done something like `app.use(helmet)`, but it should be `app.use(helmet())`."
-    );
+const helmet: Helmet = Object.assign(
+  function helmet(options: Readonly<HelmetOptions> = {}) {
+    if (options.constructor?.name === "IncomingMessage") {
+      throw new Error(
+        "It appears you have done something like `app.use(helmet)`, but it should be `app.use(helmet())`."
+      );
+    }
+
+    const middlewareFunctions = getMiddlewareFunctionsFromOptions(options);
+
+    return function helmetMiddleware(
+      req: IncomingMessage,
+      res: ServerResponse,
+      next: (err?: unknown) => void
+    ): void {
+      let middlewareIndex = 0;
+
+      (function internalNext(err?: unknown) {
+        if (err) {
+          next(err);
+          return;
+        }
+
+        const middlewareFunction = middlewareFunctions[middlewareIndex];
+        if (middlewareFunction) {
+          middlewareIndex++;
+          middlewareFunction(req, res, internalNext);
+        } else {
+          next();
+        }
+      })();
+    };
+  },
+  {
+    contentSecurityPolicy,
+    crossOriginEmbedderPolicy,
+    crossOriginOpenerPolicy,
+    crossOriginResourcePolicy,
+    dnsPrefetchControl: xDnsPrefetchControl,
+    expectCt,
+    frameguard: xFrameOptions,
+    hidePoweredBy: xPoweredBy,
+    hsts: strictTransportSecurity,
+    ieNoOpen: xDownloadOptions,
+    noSniff: xContentTypeOptions,
+    originAgentCluster,
+    permittedCrossDomainPolicies: xPermittedCrossDomainPolicies,
+    referrerPolicy,
+    xssFilter: xXssProtection,
   }
-
-  const middlewareFunctions = getMiddlewareFunctionsFromOptions(options);
-
-  return function helmetMiddleware(
-    req: IncomingMessage,
-    res: ServerResponse,
-    next: (err?: unknown) => void
-  ): void {
-    let middlewareIndex = 0;
-
-    (function internalNext(err?: unknown) {
-      if (err) {
-        next(err);
-        return;
-      }
-
-      const middlewareFunction = middlewareFunctions[middlewareIndex];
-      if (middlewareFunction) {
-        middlewareIndex++;
-        middlewareFunction(req, res, internalNext);
-      } else {
-        next();
-      }
-    })();
-  };
-}
+);
 
 export default helmet;
 

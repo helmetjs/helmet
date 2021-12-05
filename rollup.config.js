@@ -1,23 +1,18 @@
 import typescript from "@rollup/plugin-typescript";
 
-const defaults = {
-  input: "index.ts",
-  plugins: [typescript()],
-};
-
 export default [
   {
-    ...defaults,
+    input: "index.ts",
     output: {
       exports: "named",
       file: "dist/index.cjs",
       format: "cjs",
     },
+    plugins: [typescript()],
   },
   {
-    ...defaults,
-    output: {
-      file: "dist/index.js",
-    },
+    input: "index.ts",
+    output: { file: "dist/index.js", },
+    plugins: [typescript({ tsconfig: './tsconfig-types.json' })],
   },
 ];

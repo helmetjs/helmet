@@ -1,5 +1,5 @@
 {
-  "include": ["index.ts", "middlewares/"],
+  "include": ["index.ts"],
   "compilerOptions": {
     "esModuleInterop": true,
     "module": "esnext",

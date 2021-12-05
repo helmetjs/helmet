@@ -1,8 +1,9 @@
 {
   "extends": "./tsconfig",
+  "exclude": ["dist"],
   "compilerOptions": {
-    "outDir": "./dist",
+    "outDir": "dist",
     "declaration": true,
-    "emitDeclarationOnly": true
+    "declarationDir": "."
   }
 }

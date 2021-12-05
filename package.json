@@ -48,9 +48,7 @@
     "lint:prettier": "prettier --check \"**/*{md,js,json,ts}\"",
     "format": "prettier --write \"**/*{md,js,json,ts}\"",
     "clean": "node ./bin/clean.js",
-    "build:js": "rollup -c",
-    "build:types": "tsc -p tsconfig-types.json",
-    "build": "npm run clean && npm run build:js && npm run build:types && echo TODO npm run format",
+    "build": "npm run clean && rollup -c && echo TODO npm run format",
     "build-middleware-package": "node ./bin/build-middleware-package.js",
     "test": "jest"
   },
