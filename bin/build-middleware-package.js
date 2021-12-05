@@ -61,6 +61,7 @@ async function main(argv) {
 
   await fs.mkdir(stagingDirectoryPath, { recursive: true, mode: 0o700 });
   await Promise.all([
+    // TODO: does this work?
     rollup({
       input: getSourceFilePath("index.ts"),
       output: {

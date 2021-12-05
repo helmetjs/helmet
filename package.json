@@ -42,14 +42,13 @@
   },
   "scripts": {
     "pretest": "npm run lint",
-    "prepublishOnly": "npm run build",
+    "prepublishOnly": "npm run build-helmet",
     "lint": "npm run lint:eslint && npm run lint:prettier",
     "lint:eslint": "eslint \"**/*.ts\"",
     "lint:prettier": "prettier --check \"**/*{md,js,json,ts}\"",
     "format": "prettier --write \"**/*{md,js,json,ts}\"",
     "clean": "node ./bin/clean.js",
-    "build-top-level": "node ./bin/build-top-level.js",
-    "build": "npm run clean && npm run build-top-level && echo TODO npm run format",
+    "build-helmet": "npm run clean && node ./bin/build-helmet.js && prettier --write --config .prettierrc-dist.cjs --ignore-path /dev/null dist",
     "build-middleware-package": "node ./bin/build-middleware-package.js",
     "test": "jest"
   },
