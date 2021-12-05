@@ -4,8 +4,8 @@ import { promises as fs } from "fs";
 import * as os from "os";
 import * as crypto from "crypto";
 import { fileURLToPath } from "url";
-import { rollup } from "rollup";
 import rollupTypescript from "@rollup/plugin-typescript";
+import { writeRollup } from "./helpers.js";
 
 const __dirname = path.join(path.dirname(fileURLToPath(import.meta.url)));
 
@@ -35,8 +35,6 @@ async function main(argv) {
   const getStagingFilePath = (filename) =>
     path.join(stagingDirectoryPath, filename);
 
-  const packageFiles = await readJson(getSourceFilePath("package-files.json"));
-
   const packageJson = {
     author: "Adam Baldwin <adam@npmjs.com> (https://evilpacket.net)",
     contributors: ["Evan Hahn <me@evanhahn.com> (https://evanhahn.com)"],
@@ -53,24 +51,31 @@ async function main(argv) {
     engines: {
       node: ">=12.0.0",
     },
-    files: ["CHANGELOG.md", "LICENSE", "README.md", ...packageFiles],
+    files: ["CHANGELOG.md", "LICENSE", "README.md", "index.js", "index.d.ts"],
     main: "index.js",
     typings: "index.d.ts",
+    exports: {
+      ".": {
+        require: "./index.js",
+        types: "./index.d.ts",
+      },
+    },
     ...(await readJson(getSourceFilePath("package-overrides.json"))),
   };
 
   await fs.mkdir(stagingDirectoryPath, { recursive: true, mode: 0o700 });
   await Promise.all([
-    // TODO: does this work?
-    rollup({
-      input: getSourceFilePath("index.ts"),
-      output: {
+    writeRollup(
+      {
+        input: getSourceFilePath("index.ts"),
+        plugins: [rollupTypescript()],
+      },
+      {
         exports: "default",
         file: getStagingFilePath("index.js"),
         format: "cjs",
-      },
-      plugins: [rollupTypescript()],
-    }),
+      }
+    ),
     fs.writeFile(
       getStagingFilePath("package.json"),
       JSON.stringify(packageJson)
@@ -84,8 +89,9 @@ async function main(argv) {
       getStagingFilePath("CHANGELOG.md")
     ),
     fs.copyFile(getRootFilePath("LICENSE"), getStagingFilePath("LICENSE")),
-    ...packageFiles.map((filename) =>
-      fs.copyFile(getDistFilePath(filename), getStagingFilePath(filename))
+    fs.copyFile(
+      getDistFilePath("index.d.ts"),
+      getStagingFilePath("index.d.ts")
     ),
   ]);
 

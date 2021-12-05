@@ -49,7 +49,7 @@
     "format": "prettier --write \"**/*{md,js,json,ts}\"",
     "clean": "node ./bin/clean.js",
     "build-helmet": "npm run clean && node ./bin/build-helmet.js && prettier --write --config .prettierrc-dist.cjs --ignore-path /dev/null dist",
-    "build-middleware-package": "node ./bin/build-middleware-package.js",
+    "build-middleware-package": "npm run clean && tsc --emitDeclarationOnly -p tsconfig-types.json && node ./bin/build-middleware-package.js",
     "test": "jest"
   },
   "license": "MIT",

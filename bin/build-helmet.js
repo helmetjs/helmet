@@ -2,8 +2,8 @@
 import * as path from "path";
 import { promises as fs } from "fs";
 import { fileURLToPath } from "url";
-import { rollup } from "rollup";
 import rollupTypescript from "@rollup/plugin-typescript";
+import { writeRollup } from "./helpers.js";
 
 const thisPath = fileURLToPath(import.meta.url);
 const rootPath = path.join(path.dirname(thisPath), "..");
@@ -11,12 +11,6 @@ const esmSourcePath = path.join(rootPath, "index.ts");
 const esmDistPath = path.join(rootPath, "dist", "index.js");
 const commonJsSourcePath = path.join(rootPath, "tmp-commonjs-index.ts");
 const commonJsDistPath = path.join(rootPath, "dist", "index.cjs");
-
-async function writeRollup(inputOptions, outputOptions) {
-  const bundle = await rollup(inputOptions);
-  await bundle.write(outputOptions);
-  await bundle.close();
-}
 
 async function compileEsm() {
   await writeRollup(
