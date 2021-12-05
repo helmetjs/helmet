@@ -7,10 +7,9 @@ import { fileURLToPath } from "url";
 import rollupTypescript from "@rollup/plugin-typescript";
 import { writeRollup } from "./helpers.js";
 
-const __dirname = path.join(path.dirname(fileURLToPath(import.meta.url)));
-
-const PROJECT_ROOT_PATH = path.join(__dirname, "..");
-const getRootFilePath = (filename) => path.join(PROJECT_ROOT_PATH, filename);
+const thisPath = fileURLToPath(import.meta.url);
+const rootPath = path.join(path.dirname(thisPath), "..");
+const getRootFilePath = (filename) => path.join(rootPath, filename);
 
 async function readJson(path) {
   return JSON.parse(await fs.readFile(path));
@@ -29,9 +28,9 @@ async function main(argv) {
   );
 
   const getSourceFilePath = (filename) =>
-    path.join(PROJECT_ROOT_PATH, "middlewares", argv[2], filename);
+    path.join(rootPath, "middlewares", argv[2], filename);
   const getDistFilePath = (filename) =>
-    path.join(PROJECT_ROOT_PATH, "dist", "middlewares", argv[2], filename);
+    path.join(rootPath, "dist", "middlewares", argv[2], filename);
   const getStagingFilePath = (filename) =>
     path.join(stagingDirectoryPath, filename);
 
