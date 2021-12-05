@@ -5,15 +5,13 @@ import * as os from "os";
 import * as crypto from "crypto";
 import { fileURLToPath } from "url";
 import rollupTypescript from "@rollup/plugin-typescript";
-import { writeRollup } from "./helpers.js";
+import { writeRollup, withCommonJsFile } from "./helpers.js";
 
 const thisPath = fileURLToPath(import.meta.url);
 const rootPath = path.join(path.dirname(thisPath), "..");
 const getRootFilePath = (filename) => path.join(rootPath, filename);
 
-async function readJson(path) {
-  return JSON.parse(await fs.readFile(path));
-}
+const readJson = async (path) => JSON.parse(await fs.readFile(path));
 
 async function main(argv) {
   if (argv.length !== 3) {
@@ -64,16 +62,18 @@ async function main(argv) {
 
   await fs.mkdir(stagingDirectoryPath, { recursive: true, mode: 0o700 });
   await Promise.all([
-    writeRollup(
-      {
-        input: getSourceFilePath("index.ts"),
-        plugins: [rollupTypescript()],
-      },
-      {
-        exports: "default",
-        file: getStagingFilePath("index.js"),
-        format: "cjs",
-      }
+    withCommonJsFile(getSourceFilePath("index.ts"), (commonJsSourcePath) =>
+      writeRollup(
+        {
+          input: commonJsSourcePath,
+          plugins: [rollupTypescript()],
+        },
+        {
+          exports: "default",
+          file: getStagingFilePath("index.js"),
+          format: "cjs",
+        }
+      )
     ),
     fs.writeFile(
       getStagingFilePath("package.json"),
