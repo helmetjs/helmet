@@ -1,5 +1,15 @@
 # Changelog
 
+### 5.0.1 - 2022-01-03
+
+### Changed
+
+- Fixed some documentation
+
+### Removed
+
+- Removed some unused internal code
+
 ### 5.0.0 - 2022-01-02
 
 ### Added
