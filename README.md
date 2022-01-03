@@ -32,18 +32,28 @@ app.use(helmet());
 
 ## How it works
 
-Helmet is [Connect](https://github.com/senchalabs/connect)-style middleware, which is compatible with frameworks like [Express](https://expressjs.com/). (If you need support for other frameworks or languages, [see this list](https://helmetjs.github.io/see-also/).)
+Helmet is [Express](https://expressjs.com) middleware. (It also works with [Connect](https://github.com/senchalabs/connect) or [no library at all](https://github.com/helmetjs/helmet/wiki/How-to-use-Helmet-without-Express)! If you need support for other frameworks or languages, [see this list](https://helmetjs.github.io/see-also/).)
 
-The top-level `helmet` function is a wrapper around 15 smaller middlewares, 11 of which are enabled by default.
+The top-level `helmet` function is a wrapper around 15 smaller middlewares.
 
-In other words, these two things are equivalent:
+In other words, these two code snippets are equivalent:
 
 ```js
-// This...
-app.use(helmet());
+import helmet from "helmet";
 
-// ...is equivalent to this:
+// ...
+app.use(helmet());
+```
+
+```js
+import * as helmet from "helmet";
+
+// ...
+
 app.use(helmet.contentSecurityPolicy());
+app.use(helmet.crossOriginEmbedderPolicy());
+app.use(helmet.crossOriginOpenerPolicy());
+app.use(helmet.crossOriginResourcePolicy());
 app.use(helmet.dnsPrefetchControl());
 app.use(helmet.expectCt());
 app.use(helmet.frameguard());
@@ -51,6 +61,7 @@ app.use(helmet.hidePoweredBy());
 app.use(helmet.hsts());
 app.use(helmet.ieNoOpen());
 app.use(helmet.noSniff());
+app.use(helmet.originAgentCluster());
 app.use(helmet.permittedCrossDomainPolicies());
 app.use(helmet.referrerPolicy());
 app.use(helmet.xssFilter());
@@ -85,17 +96,15 @@ app.use(
 
 Helmet is the top-level middleware for this module, including all 15 others.
 
-11 of 15 middlewares are included by default. `crossOriginEmbedderPolicy`, `crossOriginOpenerPolicy`, `crossOriginResourcePolicy`, and `originAgentCluster` are not included by default. They must be explicitly enabled. They will be turned on by default in the next major version of Helmet.
-
 ```js
-// Includes all 11 middlewares
+// Includes all 15 middlewares
 app.use(helmet());
 ```
 
 If you want to disable one, pass options to `helmet`. For example, to disable `frameguard`:
 
 ```js
-// Includes 10 middlewares, skipping `helmet.frameguard`
+// Includes 14 out of 15 middlewares, skipping `helmet.frameguard`
 app.use(
   helmet({
     frameguard: false,
@@ -106,7 +115,7 @@ app.use(
 Most of the middlewares have options, which are documented in more detail below. For example, to pass `{ action: "deny" }` to `frameguard`:
 
 ```js
-// Includes all 11 middlewares, setting an option for `helmet.frameguard`
+// Includes all 15 middlewares, setting an option for `helmet.frameguard`
 app.use(
   helmet({
     frameguard: {
@@ -129,9 +138,7 @@ This middleware performs very little validation. You should rely on CSP checkers
 
 `options.directives` is an object. Each key is a directive name in camel case (such as `defaultSrc`) or kebab case (such as `default-src`). Each value is an iterable (usually an array) of strings or functions for that directive. If a function appears in the iterable, it will be called with the request and response. The `default-src` can be explicitly disabled by setting its value to `helmet.contentSecurityPolicy.dangerouslyDisableDefaultSrc`.
 
-`options.reportOnly` is a boolean, defaulting to `false`. If `true`, [the `Content-Security-Policy-Report-Only` header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy-Report-Only) will be set instead.
-
-If no directives are supplied, the following policy is set (whitespace added for readability):
+These directives are merged into a default policy, which you can disable by setting `options.useDefaults` to `false`. Here is the default policy (whitespace added for readability):
 
     default-src 'self';
     base-uri 'self';
@@ -145,7 +152,7 @@ If no directives are supplied, the following policy is set (whitespace added for
     style-src 'self' https: 'unsafe-inline';
     upgrade-insecure-requests
 
-You can use this default with the `options.useDefaults` option. `options.useDefaults` is `true` by default.
+`options.reportOnly` is a boolean, defaulting to `false`. If `true`, [the `Content-Security-Policy-Report-Only` header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy-Report-Only) will be set instead.
 
 You can also get the default directives object with `helmet.contentSecurityPolicy.getDefaultDirectives()`.
 
@@ -155,7 +162,6 @@ Examples:
 // Sets all of the defaults, but overrides `script-src` and disables the default `style-src`
 app.use(
   helmet.contentSecurityPolicy({
-    useDefaults: true,
     directives: {
       "script-src": ["'self'", "example.com"],
       "style-src": null,
@@ -179,7 +185,6 @@ app.use(
 // Sets the "Content-Security-Policy-Report-Only" header instead
 app.use(
   helmet.contentSecurityPolicy({
-    useDefaults: true,
     directives: {
       /* ... */
     },
@@ -194,7 +199,6 @@ app.use((req, res, next) => {
 });
 app.use(
   helmet.contentSecurityPolicy({
-    useDefaults: true,
     directives: {
       scriptSrc: ["'self'", (req, res) => `'nonce-${res.locals.cspNonce}'`],
     },
@@ -216,7 +220,6 @@ app.use(
 // See also: `helmet.frameguard`
 app.use(
   helmet.contentSecurityPolicy({
-    useDefaults: true,
     directives: {
       frameAncestors: ["'none'"],
     },
@@ -232,8 +235,6 @@ You can install this module separately as `helmet-csp`.
 <summary><code>helmet.crossOriginEmbedderPolicy()</code></summary>
 
 `helmet.crossOriginEmbedderPolicy` sets the `Cross-Origin-Embedder-Policy` header to `require-corp`. See [MDN's article on this header](https://developer.cdn.mozilla.net/en-US/docs/Web/HTTP/Headers/Cross-Origin-Embedder-Policy) for more.
-
-This middleware is not included when calling `helmet()` by default, and must be enabled explicitly. It will be enabled by default in the next major version of Helmet.
 
 Example usage with Helmet:
 
@@ -258,8 +259,6 @@ You can't install this module separately.
 <summary><code>helmet.crossOriginOpenerPolicy()</code></summary>
 
 `helmet.crossOriginOpenerPolicy` sets the `Cross-Origin-Opener-Policy` header. For more, see [MDN's article on this header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cross-Origin-Opener-Policy).
-
-This middleware is not included when calling `helmet()` by default, and must be enabled explicitly. It will be enabled by default in the next major version of Helmet.
 
 Example usage with Helmet:
 
@@ -296,8 +295,6 @@ You can't install this module separately.
 <summary><code>helmet.crossOriginResourcePolicy()</code></summary>
 
 `helmet.crossOriginResourcePolicy` sets the `Cross-Origin-Resource-Policy` header. For more, see ["Consider deploying Cross-Origin Resource Policy](https://resourcepolicy.fyi/) and [MDN's article on this header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cross-Origin-Resource-Policy).
-
-This middleware is not included when calling `helmet()` by default, and must be enabled explicitly. It will be enabled by default in the next major version of Helmet.
 
 Example usage with Helmet:
 
@@ -456,8 +453,6 @@ You can install this module separately as `dont-sniff-mimetype`.
 <summary><code>helmet.originAgentCluster()</code></summary>
 
 `helmet.originAgentCluster` sets the `Origin-Agent-Cluster` header, which provides a mechanism to allow web applications to isolate their origins. Read more about it [in the spec](https://whatpr.org/html/6214/origin.html#origin-keyed-agent-clusters).
-
-This middleware is not included when calling `helmet()` by default, and must be enabled explicitly. It will be enabled by default in the next major version of Helmet.
 
 Example usage with Helmet:
 
