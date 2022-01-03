@@ -1,6 +1,6 @@
 # Changelog
 
-### 5.0.0 - ???
+### 5.0.0 - 2022-01-02
 
 ### Added
 
@@ -13,6 +13,7 @@
 - **Breaking:** `helmet.crossOriginEmbedderPolicy` is enabled by default
 - **Breaking:** `helmet.crossOriginOpenerPolicy` is enabled by default
 - **Breaking:** `helmet.crossOriginResourcePolicy` is enabled by default
+- **Breaking:** `helmet.originAgentCluster` is enabled by default
 
 ### Removed
 
