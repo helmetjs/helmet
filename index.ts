@@ -84,34 +84,23 @@ interface Helmet {
 function getArgs<T>(
   option: undefined | boolean | Readonly<T>,
   middlewareConfig: Readonly<
-    {
-      enabledByDefault?: boolean;
-    } & (
-      | { takesOptions?: true }
-      | {
-          name: string;
-          takesOptions: false;
-        }
-    )
+    | { takesOptions?: true }
+    | {
+        name: string;
+        takesOptions: false;
+      }
   > = {}
 ): null | [] | [T] {
-  const { enabledByDefault = true } = middlewareConfig;
-
   switch (option) {
     case undefined:
-      return enabledByDefault ? [] : null;
-    case false:
-      return null;
     case true:
       return [];
+    case false:
+      return null;
     default:
       if (middlewareConfig.takesOptions === false) {
         console.warn(
-          `${middlewareConfig.name} does not take options. ${
-            enabledByDefault
-              ? "Remove the property"
-              : "Set the property to `true`"
-          } to silence this warning.`
+          `${middlewareConfig.name} does not take options. Remove the property to silence this warning.`
         );
         return [];
       } else {
