@@ -1,6 +1,8 @@
+/.idea/
 /node_modules/
 
 /dist/
+/package/
 /tmp-commonjs-index.ts
 
 /coverage/

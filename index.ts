@@ -273,7 +273,10 @@ const helmet: Helmet = Object.assign(
 
 export default helmet;
 
-// !helmet-end-of-commonjs
+// !helmet-start-of-commonjs-exports
+exports = helmet;
+module.exports = helmet;
+// !helmet-end-of-commonjs-exports
 
 export {
   contentSecurityPolicy,
