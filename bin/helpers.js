@@ -58,14 +58,14 @@ export async function withCommonJsFile(esmSourcePath, fn) {
   }
 }
 
-export function renameFile(oldPath, newPath) {
-  fs.rename(oldPath, newPath),
-    (error) => {
+export async function renameFile(oldPath, newPath) {
+  await fs.rename(oldPath, newPath)
+    .catch((error) => {
       if (error) console.error(error);
-    };
+    });
 }
 
-export async function finalizeCommonJs(commonJsDistDir, esmDistDir) {
+export async function finalizeCommonJs(commonJsDistDir) {
   const cjsPackageJson = JSON.stringify({
     type: "commonjs",
   });
@@ -74,8 +74,18 @@ export async function finalizeCommonJs(commonJsDistDir, esmDistDir) {
     path.join(commonJsDistDir, "package.json"),
     cjsPackageJson
   );
-  await fs.copyFile(
-    path.join(esmDistDir, "index.d.ts"),
-    path.join(commonJsDistDir, "index.d.ts")
-  );
+}
+
+export async function moveDir(oldPath, newPath) {
+  await fs.mkdir(newPath, { recursive: true });
+  let entries = await fs.readdir(oldPath, { withFileTypes: true });
+
+  for (let entry of entries) {
+    let srcPath = path.join(oldPath, entry.name);
+    let destPath = path.join(newPath, entry.name);
+
+    entry.isDirectory() ?
+      (await moveDir(srcPath, destPath), await fs.rmdir(srcPath)) :
+      (await fs.copyFile(srcPath, destPath), await fs.rm(srcPath));
+  }
 }
