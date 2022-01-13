@@ -23,6 +23,7 @@ import xDnsPrefetchControl, {
 } from "./middlewares/x-dns-prefetch-control";
 import xDownloadOptions from "./middlewares/x-download-options";
 import xFrameOptions, {
+  XFrameOptions,
   XFrameOptionsOptions,
 } from "./middlewares/x-frame-options";
 import xPermittedCrossDomainPolicies, {
@@ -38,7 +39,7 @@ export interface HelmetOptions {
   crossOriginResourcePolicy?: CrossOriginResourcePolicyOptions | boolean;
   dnsPrefetchControl?: XDnsPrefetchControlOptions | boolean;
   expectCt?: ExpectCtOptions | boolean;
-  frameguard?: XFrameOptionsOptions | boolean;
+  frameguard?: XFrameOptions | XFrameOptionsOptions | boolean;
   hidePoweredBy?: boolean;
   hsts?: StrictTransportSecurityOptions | boolean;
   ieNoOpen?: boolean;
