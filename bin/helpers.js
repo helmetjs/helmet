@@ -47,7 +47,7 @@ export async function withCommonJsFile(esmSourcePath, fn) {
     line.includes("!helmet-end-of-commonjs-exports")
   );
   lines.splice(startLine, 1);
-  const resultLines = lines.slice(0, endLine);
+  const resultLines = lines.slice(0, endLine - 1);
 
   try {
     await fs.writeFile(commonJsTempPath, resultLines.join("\n"));
@@ -55,37 +55,5 @@ export async function withCommonJsFile(esmSourcePath, fn) {
     await fn(commonJsTempPath);
   } finally {
     await fs.unlink(commonJsTempPath);
-  }
-}
-
-export async function renameFile(oldPath, newPath) {
-  await fs.rename(oldPath, newPath)
-    .catch((error) => {
-      if (error) console.error(error);
-    });
-}
-
-export async function finalizeCommonJs(commonJsDistDir) {
-  const cjsPackageJson = JSON.stringify({
-    type: "commonjs",
-  });
-
-  await fs.writeFile(
-    path.join(commonJsDistDir, "package.json"),
-    cjsPackageJson
-  );
-}
-
-export async function moveDir(oldPath, newPath) {
-  await fs.mkdir(newPath, { recursive: true });
-  let entries = await fs.readdir(oldPath, { withFileTypes: true });
-
-  for (let entry of entries) {
-    let srcPath = path.join(oldPath, entry.name);
-    let destPath = path.join(newPath, entry.name);
-
-    entry.isDirectory() ?
-      (await moveDir(srcPath, destPath), await fs.rmdir(srcPath)) :
-      (await fs.copyFile(srcPath, destPath), await fs.rm(srcPath));
   }
 }
