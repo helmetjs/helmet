@@ -586,7 +586,7 @@ You can install this module separately as `helmet-crossdomain`.
 
 This middleware takes no options.
 
-If you're using Express, this middleware will work, but you should use `app.disable("x-powered-by")` instead.
+If you're using Express, this middleware will work, but otherwise, you should use `app.disable("x-powered-by")`.
 
 Examples:
 
