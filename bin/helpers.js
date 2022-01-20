@@ -15,14 +15,24 @@ export async function withEsmFile(esmSourcePath, fn) {
   );
 
   const lines = (await fs.readFile(esmSourcePath, "utf8")).split(/\r?\n/);
-  const startLine = lines.findIndex((line) =>
+  const startLineCjsFence = lines.findIndex((line) =>
     line.includes("!helmet-start-of-commonjs-exports")
   );
-  const endLine = lines.findIndex((line) =>
+  const endLineCjsFence = lines.findIndex((line) =>
     line.includes("!helmet-end-of-commonjs-exports")
   );
-  const lineCount = endLine - startLine + 1;
-  lines.splice(startLine, lineCount);
+  const lineCount = endLineCjsFence - startLineCjsFence + 2;
+  lines.splice(startLineCjsFence, lineCount);
+
+  const startLineEsmFence = lines.findIndex((line) =>
+    line.includes("!helmet-start-of-esm-exports")
+  );
+  lines.splice(startLineEsmFence, 1);
+
+  const endLineEsmFence = lines.findIndex((line) =>
+    line.includes("!helmet-end-of-esm-exports")
+  );
+  lines.splice(endLineEsmFence, 1);
 
   try {
     await fs.writeFile(esmTempPath, lines.join("\n"));
