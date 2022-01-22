@@ -456,14 +456,6 @@ You can install this module separately as `dont-sniff-mimetype`.
 
 `helmet.originAgentCluster` sets the `Origin-Agent-Cluster` header, which provides a mechanism to allow web applications to isolate their origins. Read more about it [in the spec](https://whatpr.org/html/6214/origin.html#origin-keyed-agent-clusters).
 
-Example usage with Helmet:
-
-```js
-// Uses the default Helmet options and adds the `originAgentCluster` middleware.
-// Sets "Origin-Agent-Cluster: ?1"
-app.use(helmet({ originAgentCluster: true }));
-```
-
 Standalone example:
 
 ```js

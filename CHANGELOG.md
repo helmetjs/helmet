@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+### Changed
+
+- Cleaned up some documentation around `Origin-Agent-Cluster`
+
 ### 5.0.2 - 2022-01-22
 
 ### Changed
