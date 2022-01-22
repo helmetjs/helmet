@@ -42,6 +42,7 @@ In other words, these two code snippets are equivalent:
 import helmet from "helmet";
 
 // ...
+
 app.use(helmet());
 ```
 
