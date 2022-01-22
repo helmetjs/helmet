@@ -1,9 +1,8 @@
 {
   "extends": "./tsconfig",
-  "exclude": ["dist"],
   "compilerOptions": {
-    "outDir": "dist",
     "declaration": true,
-    "declarationDir": "."
-  }
+    "declarationDir": "types"
+  },
+  "include": ["tmp-esm-index.ts"]
 }

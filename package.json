@@ -54,13 +54,14 @@
   },
   "license": "MIT",
   "type": "module",
-  "types": "./dist/index.d.ts",
-  "main": "./dist/index.cjs",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/types/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js",
+      "types": "./dist/types/index.d.ts"
     }
   }
 }
