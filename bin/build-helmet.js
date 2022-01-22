@@ -3,11 +3,7 @@ import { promises as fs } from "fs";
 import * as path from "path";
 import { fileURLToPath } from "url";
 import rollupTypescript from "@rollup/plugin-typescript";
-import {
-  withCommonJsFile,
-  withEsmFile,
-  writeRollup
-} from "./helpers.js";
+import { withCommonJsFile, withEsmFile, writeRollup } from "./helpers.js";
 
 const thisPath = fileURLToPath(import.meta.url);
 const rootPath = path.join(path.dirname(thisPath), "..");
@@ -27,11 +23,14 @@ const compileEsm = () =>
         plugins: [rollupTypescript({ tsconfig: "./tsconfig-esm.json" })],
       },
       { file: path.join(distPath, "index.js") }
-      );
+    );
 
     await fs.mkdir(esmDistDir);
     await fs.rename(path.join(distPath, "index.js"), esmDistPath);
-    await fs.rename(path.join(typesDistDir, "tmp-esm-index.d.ts"), path.join(typesDistDir, "index.d.ts"));
+    await fs.rename(
+      path.join(typesDistDir, "tmp-esm-index.d.ts"),
+      path.join(typesDistDir, "index.d.ts")
+    );
   });
 
 const compileCommonjs = () =>
@@ -45,7 +44,8 @@ const compileCommonjs = () =>
         exports: "named",
         file: commonJsDistPath,
         format: "cjs",
-      });
+      }
+    );
 
     const cjsPackageJson = JSON.stringify({
       type: "commonjs",
