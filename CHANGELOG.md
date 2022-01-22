@@ -6,14 +6,14 @@
 
 - Cleaned up some documentation around `Origin-Agent-Cluster`
 
-### 5.0.2 - 2022-01-22
+## 5.0.2 - 2022-01-22
 
 ### Changed
 
 - Improve imports for CommonJS and ECMAScript modules. See [#345](https://github.com/helmetjs/helmet/pull/345)
 - Fixed some documentation
 
-### 5.0.1 - 2022-01-03
+## 5.0.1 - 2022-01-03
 
 ### Changed
 
@@ -23,7 +23,7 @@
 
 - Removed some unused internal code
 
-### 5.0.0 - 2022-01-02
+## 5.0.0 - 2022-01-02
 
 ### Added
 
@@ -37,17 +37,12 @@
 - **Breaking:** `helmet.crossOriginOpenerPolicy` is enabled by default
 - **Breaking:** `helmet.crossOriginResourcePolicy` is enabled by default
 - **Breaking:** `helmet.originAgentCluster` is enabled by default
+- `helmet.frameguard`: add TypeScript editor autocomplete. See [#322](https://github.com/helmetjs/helmet/pull/322)
+- Top-level `helmet()` function is slightly faster
 
 ### Removed
 
 - **Breaking:** Drop support for Node 10 and 11. Node 12+ is now required
-
-## Unreleased
-
-### Changed
-
-- Top-level `helmet()` function is slightly faster
-- `helmet.frameguard`: add TypeScript editor autocomplete. See [#322](https://github.com/helmetjs/helmet/pull/322)
 
 ## 4.6.0 - 2021-05-01
 
