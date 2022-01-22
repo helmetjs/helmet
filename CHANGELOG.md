@@ -1,5 +1,12 @@
 # Changelog
 
+### 5.0.2 - 2022-01-22
+
+### Changed
+
+- Improve imports for CommonJS and ECMAScript modules. See [#345](https://github.com/helmetjs/helmet/pull/345)
+- Fixed some documentation
+
 ### 5.0.1 - 2022-01-03
 
 ### Changed
