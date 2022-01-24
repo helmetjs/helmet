@@ -44,7 +44,7 @@
     "pretest": "npm run lint",
     "prepublishOnly": "npm run build-helmet",
     "lint": "npm run lint:eslint && npm run lint:prettier",
-    "lint:eslint": "eslint \"**/*.ts\"",
+    "lint:eslint": "eslint .",
     "lint:prettier": "prettier --check .",
     "format": "prettier --write .",
     "clean": "node ./bin/clean.js",
