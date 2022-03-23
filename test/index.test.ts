@@ -15,7 +15,7 @@ import originAgentCluster from "../middlewares/origin-agent-cluster";
 import strictTransportSecurity from "../middlewares/strict-transport-security";
 import xContentTypeOptions from "../middlewares/x-content-type-options";
 import xDnsPrefetchControl from "../middlewares/x-dns-prefetch-control";
-import xDowloadOptions from "../middlewares/x-download-options";
+import xDownloadOptions from "../middlewares/x-download-options";
 import xFrameOptions from "../middlewares/x-frame-options";
 import xPermittedCrossDomainPolicies from "../middlewares/x-permitted-cross-domain-policies";
 import xPoweredBy from "../middlewares/x-powered-by";
@@ -337,7 +337,7 @@ describe("helmet", () => {
     });
 
     it("aliases the X-Download-Options middleware to helmet.ieNoOpen", () => {
-      expect(helmet.ieNoOpen.name).toBe(xDowloadOptions.name);
+      expect(helmet.ieNoOpen.name).toBe(xDownloadOptions.name);
       expect(helmet.ieNoOpen.name).toBe("xDownloadOptions");
     });
 
