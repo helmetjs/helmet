@@ -46,7 +46,7 @@ You can also get the default directives object with `contentSecurityPolicy.getDe
 
 You can set any directives you wish. `defaultSrc` is required, but can be explicitly disabled by setting its value to `contentSecurityPolicy.dangerouslyDisableDefaultSrc`. Directives can be kebab-cased (like `script-src`) or camel-cased (like `scriptSrc`). They are equivalent, but duplicates are not allowed.
 
-The `reportOnly` option, if set to `true`, sets the `Content-Security-Policy-Report-Only` header instead.
+The `reportOnly` option, if set to `true`, sets the `Content-Security-Policy-Report-Only` header instead. If you want to set _both_ the normal and `Report-Only` headers, see [this code snippet](https://github.com/helmetjs/helmet/issues/351#issuecomment-1015498560).
 
 This middleware does minimal validation. You should use a more sophisticated CSP validator, like [Google's CSP Evaluator](https://csp-evaluator.withgoogle.com/), to make sure your CSP looks good.
 

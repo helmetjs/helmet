@@ -154,7 +154,7 @@ These directives are merged into a default policy, which you can disable by sett
     style-src 'self' https: 'unsafe-inline';
     upgrade-insecure-requests
 
-`options.reportOnly` is a boolean, defaulting to `false`. If `true`, [the `Content-Security-Policy-Report-Only` header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy-Report-Only) will be set instead.
+`options.reportOnly` is a boolean, defaulting to `false`. If `true`, [the `Content-Security-Policy-Report-Only` header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy-Report-Only) will be set instead. If you want to set _both_ the normal and `Report-Only` headers, see [this code snippet](https://github.com/helmetjs/helmet/issues/351#issuecomment-1015498560).
 
 You can also get the default directives object with `helmet.contentSecurityPolicy.getDefaultDirectives()`.
 

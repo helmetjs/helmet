@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Added
+
+- Documented how to set both `Content-Security-Policy` and `Content-Security-Policy-Report-Only`
+
 ### Changed
 
 - Cleaned up some documentation around `Origin-Agent-Cluster`
