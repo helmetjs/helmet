@@ -234,23 +234,18 @@ You can install this module separately as `helmet-csp`.
 </details>
 
 <details>
-<summary><code>helmet.crossOriginEmbedderPolicy()</code></summary>
+<summary><code>helmet.crossOriginEmbedderPolicy(options)</code></summary>
 
 `helmet.crossOriginEmbedderPolicy` sets the `Cross-Origin-Embedder-Policy` header to `require-corp`. See [MDN's article on this header](https://developer.cdn.mozilla.net/en-US/docs/Web/HTTP/Headers/Cross-Origin-Embedder-Policy) for more.
-
-Example usage with Helmet:
-
-```js
-// Uses the default Helmet options and adds the `crossOriginEmbedderPolicy` middleware.
-// Sets "Cross-Origin-Embedder-Policy: require-corp"
-app.use(helmet({ crossOriginEmbedderPolicy: true }));
-```
 
 Standalone example:
 
 ```js
 // Sets "Cross-Origin-Embedder-Policy: require-corp"
 app.use(helmet.crossOriginEmbedderPolicy());
+
+// Sets "Cross-Origin-Embedder-Policy: credentialless"
+app.use(helmet.crossOriginEmbedderPolicy({ policy: "credentialless" }));
 ```
 
 You can't install this module separately.

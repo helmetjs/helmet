@@ -4,6 +4,7 @@
 
 ### Added
 
+- `Cross-Origin-Embedder-Policy`: support `credentialless` policy. See [#365](https://github.com/helmetjs/helmet/pull/365)
 - Documented how to set both `Content-Security-Policy` and `Content-Security-Policy-Report-Only`
 
 ### Changed
