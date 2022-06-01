@@ -3,7 +3,7 @@ name: Node.js CI
 on: [push]
 
 permissions:
-    contents: read
+  contents: read
 
 jobs:
   build:
