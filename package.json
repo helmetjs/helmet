@@ -10,7 +10,8 @@
   "keywords": [
     "express",
     "security",
-    "headers"
+    "headers",
+    "backend"
   ],
   "homepage": "https://helmetjs.github.io/",
   "bugs": {
