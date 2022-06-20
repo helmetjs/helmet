@@ -25,20 +25,20 @@
     "node": ">=12.0.0"
   },
   "devDependencies": {
-    "@rollup/plugin-typescript": "^8.3.2",
+    "@rollup/plugin-typescript": "^8.3.3",
     "@types/connect": "^3.4.35",
-    "@types/jest": "^27.5.1",
+    "@types/jest": "^28.1.2",
     "@types/supertest": "^2.0.12",
-    "@typescript-eslint/eslint-plugin": "^5.25.0",
-    "@typescript-eslint/parser": "^5.25.0",
+    "@typescript-eslint/eslint-plugin": "^5.28.0",
+    "@typescript-eslint/parser": "^5.28.0",
     "connect": "^3.7.0",
-    "eslint": "^8.15.0",
-    "jest": "^28.1.0",
-    "prettier": "^2.6.2",
-    "rollup": "^2.73.0",
+    "eslint": "^8.18.0",
+    "jest": "^28.1.1",
+    "prettier": "^2.7.1",
+    "rollup": "^2.75.7",
     "supertest": "^6.2.3",
-    "ts-jest": "^28.0.2",
-    "typescript": "^4.6.4"
+    "ts-jest": "^28.0.5",
+    "typescript": "^4.7.4"
   },
   "scripts": {
     "pretest": "npm run lint",
