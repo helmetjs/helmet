@@ -29,16 +29,16 @@ describe("Cross-Origin-Embedder-Policy middleware", () => {
   it("throws when setting the policy to an invalid value", () => {
     const invalidValues = [
       "",
-      "NONE",
-      "by-ftp-filename",
-      123 as any,
-      null as any,
-      new String("none") as any,
+      "foo",
+      "CREDENTIALLESS",
+      123,
+      null,
+      new String("credentialless"),
     ];
     for (const policy of invalidValues) {
-      expect(() => crossOriginEmbedderPolicy({ policy })).toThrow(
-        /^Cross-Origin-Embedder-Policy does not support /
-      );
+      expect(() =>
+        crossOriginEmbedderPolicy({ policy: policy as any })
+      ).toThrow(/^Cross-Origin-Embedder-Policy does not support /);
     }
   });
 });

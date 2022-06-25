@@ -33,13 +33,15 @@ describe("X-Permitted-Cross-Domain-Policies middleware", () => {
       "",
       "NONE",
       "by-ftp-filename",
-      123 as any,
-      null as any,
-      new String("none") as any,
+      123,
+      null,
+      new String("none"),
     ];
     for (const permittedPolicies of invalidValues) {
       expect(() =>
-        xPermittedCrossDomainPolicies({ permittedPolicies })
+        xPermittedCrossDomainPolicies({
+          permittedPolicies: permittedPolicies as any,
+        })
       ).toThrow(/^X-Permitted-Cross-Domain-Policies does not support /);
     }
   });

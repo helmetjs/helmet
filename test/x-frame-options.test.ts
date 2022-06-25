@@ -54,8 +54,15 @@ describe("X-Frame-Options middleware", () => {
       );
     }
 
-    for (const action of ["garbage", "", 123 as any, null as any]) {
-      expect(() => xFrameOptions({ action })).toThrow(
+    for (const action of [
+      "",
+      "foo",
+      " deny",
+      123,
+      null,
+      new String("SAMEORIGIN"),
+    ]) {
+      expect(() => xFrameOptions({ action: action as any })).toThrow(
         /^X-Frame-Options received an invalid action /
       );
     }
