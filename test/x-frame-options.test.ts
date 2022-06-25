@@ -52,16 +52,12 @@ describe("X-Frame-Options middleware", () => {
   });
 
   it("throws when passed invalid actions", () => {
-    for (const action of ["allow-from", "ALLOW-FROM"]) {
-      expect(() => xFrameOptions({ action: action as any })).toThrow(
-        /^X-Frame-Options no longer supports `ALLOW-FROM` due to poor browser support. See <https:\/\/github.com\/helmetjs\/helmet\/wiki\/How-to-use-X%E2%80%93Frame%E2%80%93Options's-%60ALLOW%E2%80%93FROM%60-directive> for more info.$/
-      );
-    }
-
     for (const action of [
       "",
       "foo",
       " deny",
+      "allow-from",
+      "ALLOW-FROM",
       123,
       null,
       new String("SAMEORIGIN"),
