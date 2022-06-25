@@ -1,10 +1,21 @@
 import { IncomingMessage, ServerResponse } from "http";
 
+type ReferrerPolicyToken =
+  | "no-referrer"
+  | "no-referrer-when-downgrade"
+  | "same-origin"
+  | "origin"
+  | "strict-origin"
+  | "origin-when-cross-origin"
+  | "strict-origin-when-cross-origin"
+  | "unsafe-url"
+  | "";
+
 export interface ReferrerPolicyOptions {
-  policy?: string | string[];
+  policy?: ReferrerPolicyToken | ReferrerPolicyToken[];
 }
 
-const ALLOWED_TOKENS = new Set<string>([
+const ALLOWED_TOKENS = new Set<ReferrerPolicyToken>([
   "no-referrer",
   "no-referrer-when-downgrade",
   "same-origin",
@@ -25,7 +36,7 @@ function getHeaderValueFromOptions({
     throw new Error("Referrer-Policy received no policy tokens");
   }
 
-  const tokensSeen = new Set<string>();
+  const tokensSeen = new Set<ReferrerPolicyToken>();
   tokens.forEach((token) => {
     if (!ALLOWED_TOKENS.has(token)) {
       throw new Error(

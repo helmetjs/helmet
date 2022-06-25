@@ -1,12 +1,11 @@
 import { IncomingMessage, ServerResponse } from "http";
 
 export interface XFrameOptionsOptions {
-  // This offers autocomplete while still supporting regular `string`s.
-  action?: "DENY" | "SAMEORIGIN" | (string & { _?: never });
+  action?: "deny" | "sameorigin";
 }
 
 function getHeaderValueFromOptions({
-  action = "SAMEORIGIN",
+  action = "sameorigin",
 }: Readonly<XFrameOptionsOptions>): string {
   const normalizedAction =
     typeof action === "string" ? action.toUpperCase() : action;

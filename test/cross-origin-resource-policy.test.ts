@@ -18,7 +18,7 @@ describe("Cross-Origin-Resource-Policy middleware", () => {
     );
   });
 
-  ["same-origin", "same-site", "cross-origin"].forEach((policy) => {
+  (["same-origin", "same-site", "cross-origin"] as const).forEach((policy) => {
     it(`sets "Cross-Origin-Resource-Policy: ${policy}" when told to`, async () => {
       await check(crossOriginResourcePolicy({ policy }), {
         "cross-origin-resource-policy": policy,

@@ -15,7 +15,7 @@ describe("Cross-Origin-Opener-Policy middleware", () => {
     );
   });
 
-  ["same-origin", "same-origin-allow-popups", "unsafe-none"].forEach(
+  (["same-origin", "same-origin-allow-popups", "unsafe-none"] as const).forEach(
     (policy) => {
       it(`sets "Cross-Origin-Opener-Policy: ${policy}" when told to`, async () => {
         await check(crossOriginOpenerPolicy({ policy }), {

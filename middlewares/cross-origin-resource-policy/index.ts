@@ -1,7 +1,7 @@
 import { IncomingMessage, ServerResponse } from "http";
 
 export interface CrossOriginResourcePolicyOptions {
-  policy?: string;
+  policy?: "same-origin" | "same-site" | "cross-origin";
 }
 
 const ALLOWED_POLICIES = new Set(["same-origin", "same-site", "cross-origin"]);

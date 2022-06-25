@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+### Changed
+
+- **Breaking:** increase TypeScript strictness around arguments. Only affects TypeScript users. See [helmetjs/helmet#369](https://github.com/helmetjs/helmet/issues/369)
+
 ## 0.3.0 - 2021-04-17
 
 ### Added

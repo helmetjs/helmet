@@ -17,17 +17,19 @@ describe("Referrer-Policy middleware", () => {
     });
   });
 
-  [
-    "no-referrer",
-    "no-referrer-when-downgrade",
-    "same-origin",
-    "origin",
-    "strict-origin",
-    "origin-when-cross-origin",
-    "strict-origin-when-cross-origin",
-    "unsafe-url",
-    "",
-  ].forEach((policy) => {
+  (
+    [
+      "no-referrer",
+      "no-referrer-when-downgrade",
+      "same-origin",
+      "origin",
+      "strict-origin",
+      "origin-when-cross-origin",
+      "strict-origin-when-cross-origin",
+      "unsafe-url",
+      "",
+    ] as const
+  ).forEach((policy) => {
     it(`can set the header to "${policy}" by specifying it as a string`, async () => {
       await check(referrerPolicy({ policy }), {
         "referrer-policy": policy,

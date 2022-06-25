@@ -1,7 +1,7 @@
 import { IncomingMessage, ServerResponse } from "http";
 
 export interface CrossOriginEmbedderPolicyOptions {
-  policy?: string;
+  policy?: "require-corp" | "credentialless";
 }
 
 const ALLOWED_POLICIES = new Set(["require-corp", "credentialless"]);

@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Changed
+
+- **Breaking:** Where possible, increase TypeScript strictness around some strings. Only affects TypeScript users. See [#369](https://github.com/helmetjs/helmet/issues/369)
+
 ### Removed
 
 - **Breaking:** Dropped support for Node 12 and 13. Node 14+ is now required

@@ -1,7 +1,7 @@
 import { IncomingMessage, ServerResponse } from "http";
 
 export interface XPermittedCrossDomainPoliciesOptions {
-  permittedPolicies?: string;
+  permittedPolicies?: "none" | "master-only" | "by-content-type" | "all";
 }
 
 const ALLOWED_PERMITTED_POLICIES = new Set([
