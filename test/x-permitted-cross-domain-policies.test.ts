@@ -18,7 +18,7 @@ describe("X-Permitted-Cross-Domain-Policies middleware", () => {
     );
   });
 
-  ["none", "master-only", "by-content-type", "all"].forEach(
+  (["none", "master-only", "by-content-type", "all"] as const).forEach(
     (permittedPolicies) => {
       it(`sets "X-Permitted-Cross-Domain-Policies: ${permittedPolicies}" when told to`, async () => {
         await check(xPermittedCrossDomainPolicies({ permittedPolicies }), {

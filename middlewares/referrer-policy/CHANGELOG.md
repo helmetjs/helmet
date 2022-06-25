@@ -1,10 +1,16 @@
 # Changelog
 
+## Unreleased
+
+### Changed
+
+- **Breaking:** increase TypeScript strictness around arguments. Only affects TypeScript users. See [helmetjs/helmet#369](https://github.com/helmetjs/helmet/issues/369)
+
 ## 2.0.0 - Unreleased
 
 ### Removed
 
-- Dropped support for old Node versions. Node 10+ is now required
+- **Breaking:** Dropped support for old Node versions. Node 10+ is now required
 
 ## 1.2.0 - 2019-05-03
 
