@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+### Removed
+
+- **Breaking:** Dropped support for Node 12 and 13. Node 14+ is now required
+
 ## 5.1.1 - 2022-07-23
 
 ### Changed
