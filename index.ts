@@ -1,35 +1,35 @@
 import { IncomingMessage, ServerResponse } from "http";
 import contentSecurityPolicy, {
   ContentSecurityPolicyOptions,
-} from "./middlewares/content-security-policy";
-import crossOriginEmbedderPolicy from "./middlewares/cross-origin-embedder-policy";
+} from "./middlewares/content-security-policy/index.js";
+import crossOriginEmbedderPolicy from "./middlewares/cross-origin-embedder-policy/index.js";
 import crossOriginOpenerPolicy, {
   CrossOriginOpenerPolicyOptions,
-} from "./middlewares/cross-origin-opener-policy";
+} from "./middlewares/cross-origin-opener-policy/index.js";
 import crossOriginResourcePolicy, {
   CrossOriginResourcePolicyOptions,
-} from "./middlewares/cross-origin-resource-policy";
-import expectCt, { ExpectCtOptions } from "./middlewares/expect-ct";
-import originAgentCluster from "./middlewares/origin-agent-cluster";
+} from "./middlewares/cross-origin-resource-policy/index.js";
+import expectCt, { ExpectCtOptions } from "./middlewares/expect-ct/index.js";
+import originAgentCluster from "./middlewares/origin-agent-cluster/index.js";
 import referrerPolicy, {
   ReferrerPolicyOptions,
-} from "./middlewares/referrer-policy";
+} from "./middlewares/referrer-policy/index.js";
 import strictTransportSecurity, {
   StrictTransportSecurityOptions,
-} from "./middlewares/strict-transport-security";
-import xContentTypeOptions from "./middlewares/x-content-type-options";
+} from "./middlewares/strict-transport-security/index.js";
+import xContentTypeOptions from "./middlewares/x-content-type-options/index.js";
 import xDnsPrefetchControl, {
   XDnsPrefetchControlOptions,
-} from "./middlewares/x-dns-prefetch-control";
-import xDownloadOptions from "./middlewares/x-download-options";
+} from "./middlewares/x-dns-prefetch-control/index.js";
+import xDownloadOptions from "./middlewares/x-download-options/index.js";
 import xFrameOptions, {
   XFrameOptionsOptions,
-} from "./middlewares/x-frame-options";
+} from "./middlewares/x-frame-options/index.js";
 import xPermittedCrossDomainPolicies, {
   XPermittedCrossDomainPoliciesOptions,
-} from "./middlewares/x-permitted-cross-domain-policies";
-import xPoweredBy from "./middlewares/x-powered-by";
-import xXssProtection from "./middlewares/x-xss-protection";
+} from "./middlewares/x-permitted-cross-domain-policies/index.js";
+import xPoweredBy from "./middlewares/x-powered-by/index.js";
+import xXssProtection from "./middlewares/x-xss-protection/index.js";
 
 export interface HelmetOptions {
   contentSecurityPolicy?: ContentSecurityPolicyOptions | boolean;
