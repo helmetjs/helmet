@@ -42,7 +42,6 @@ const DEFAULT_DIRECTIVES: Record<
 > = {
   "default-src": ["'self'"],
   "base-uri": ["'self'"],
-  "block-all-mixed-content": [],
   "font-src": ["'self'", "https:", "data:"],
   "form-action": ["'self'"],
   "frame-ancestors": ["'self'"],
