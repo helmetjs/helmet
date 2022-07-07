@@ -143,7 +143,6 @@ These directives are merged into a default policy, which you can disable by sett
 
     default-src 'self';
     base-uri 'self';
-    block-all-mixed-content;
     font-src 'self' https: data:;
     form-action 'self';
     frame-ancestors 'self';
