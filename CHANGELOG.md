@@ -1,5 +1,11 @@
 # Changelog
 
+## 5.1.1 - 2022-07-23
+
+### Changed
+
+- Fix TypeScript bug with some TypeScript configurations. See [#375](https://github.com/helmetjs/helmet/pull/375) and [#359](https://github.com/helmetjs/helmet/issues/359)
+
 ## 5.1.0 - 2022-05-17
 
 ### Added
