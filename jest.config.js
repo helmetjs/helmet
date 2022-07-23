@@ -13,4 +13,13 @@ export default {
   resetMocks: true,
   testEnvironment: "node",
   testRegex: "/test/.*\\.test\\.[jt]s",
+  extensionsToTreatAsEsm: [".ts"],
+  globals: {
+    "ts-jest": {
+      useESM: true,
+    },
+  },
+  moduleNameMapper: {
+    "^(\\.{1,2}/.*)\\.js$": "$1",
+  },
 };
