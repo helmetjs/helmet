@@ -30,6 +30,47 @@ const app = express();
 app.use(helmet());
 ```
 
+By default, Helmet sets the following headers:
+
+```http
+Content-Security-Policy: default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests
+Cross-Origin-Embedder-Policy: require-corp
+Cross-Origin-Opener-Policy: same-origin
+Cross-Origin-Resource-Policy: same-origin
+Expect-CT: max-age=0
+Origin-Agent-Cluster: ?1
+Referrer-Policy: no-referrer
+Strict-Transport-Security: max-age=15552000; includeSubDomains
+X-Content-Type-Options: nosniff
+X-DNS-Prefetch-Control: off
+X-Download-Options: noopen
+X-Frame-Options: SAMEORIGIN
+X-Permitted-Cross-Domain-Policies: none
+X-XSS-Protection: 0
+```
+
+To set custom options for a header, add options like this:
+
+```js
+// This sets custom options for the `referrerPolicy` middleware.
+app.use(
+  helmet({
+    referrerPolicy: { policy: "no-referrer" },
+  })
+);
+```
+
+You can also disable a middleware:
+
+```js
+// This disables the `contentSecurityPolicy` middleware but keeps the rest.
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+  })
+);
+```
+
 ## How it works
 
 Helmet is [Express](https://expressjs.com) middleware. (It also works with [Connect](https://github.com/senchalabs/connect) or [no library at all](https://github.com/helmetjs/helmet/wiki/How-to-use-Helmet-without-Express)! If you need support for other frameworks or languages, [see this list](https://helmetjs.github.io/see-also/).)
@@ -66,28 +107,6 @@ app.use(helmet.originAgentCluster());
 app.use(helmet.permittedCrossDomainPolicies());
 app.use(helmet.referrerPolicy());
 app.use(helmet.xssFilter());
-```
-
-To set custom options for one of the middleware, add options like this:
-
-```js
-// This sets custom options for the `referrerPolicy` middleware.
-app.use(
-  helmet({
-    referrerPolicy: { policy: "no-referrer" },
-  })
-);
-```
-
-You can also disable a middleware:
-
-```js
-// This disables the `contentSecurityPolicy` middleware but keeps the rest.
-app.use(
-  helmet({
-    contentSecurityPolicy: false,
-  })
-);
 ```
 
 ## Reference
@@ -132,6 +151,12 @@ Each middleware's name is listed below.
 
 <details>
 <summary><code>helmet.contentSecurityPolicy(options)</code></summary>
+
+Default:
+
+```http
+Content-Security-Policy: default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests
+```
 
 `helmet.contentSecurityPolicy` sets the `Content-Security-Policy` header which helps mitigate cross-site scripting attacks, among other things. See [MDN's introductory article on Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP).
 
@@ -236,6 +261,12 @@ You can install this module separately as `helmet-csp`.
 <details>
 <summary><code>helmet.crossOriginEmbedderPolicy(options)</code></summary>
 
+Default:
+
+```http
+Cross-Origin-Embedder-Policy: require-corp
+```
+
 `helmet.crossOriginEmbedderPolicy` sets the `Cross-Origin-Embedder-Policy` header to `require-corp`. See [MDN's article on this header](https://developer.cdn.mozilla.net/en-US/docs/Web/HTTP/Headers/Cross-Origin-Embedder-Policy) for more.
 
 Standalone example:
@@ -254,6 +285,10 @@ You can't install this module separately.
 
 <details>
 <summary><code>helmet.crossOriginOpenerPolicy()</code></summary>
+
+```http
+Cross-Origin-Opener-Policy: same-origin
+```
 
 `helmet.crossOriginOpenerPolicy` sets the `Cross-Origin-Opener-Policy` header. For more, see [MDN's article on this header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cross-Origin-Opener-Policy).
 
@@ -291,6 +326,12 @@ You can't install this module separately.
 <details>
 <summary><code>helmet.crossOriginResourcePolicy()</code></summary>
 
+Default:
+
+```http
+Cross-Origin-Resource-Policy: same-origin
+```
+
 `helmet.crossOriginResourcePolicy` sets the `Cross-Origin-Resource-Policy` header. For more, see ["Consider deploying Cross-Origin Resource Policy](https://resourcepolicy.fyi/) and [MDN's article on this header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cross-Origin-Resource-Policy).
 
 Example usage with Helmet:
@@ -324,6 +365,12 @@ You can install this module separately as `cross-origin-resource-policy`.
 
 <details>
 <summary><code>helmet.expectCt(options)</code></summary>
+
+Default:
+
+```http
+Expect-CT: max-age=0
+```
 
 `helmet.expectCt` sets the `Expect-CT` header which helps mitigate misissued SSL certificates. See [MDN's article on Certificate Transparency](https://developer.mozilla.org/en-US/docs/Web/Security/Certificate_Transparency) and the [`Expect-CT` header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Expect-CT) for more.
 
@@ -360,6 +407,12 @@ You can install this module separately as `expect-ct`.
 <details>
 <summary><code>helmet.referrerPolicy(options)</code></summary>
 
+Default:
+
+```http
+Referrer-Policy: no-referrer
+```
+
 `helmet.referrerPolicy` sets the `Referrer-Policy` header which controls what information is set in [the `Referer` header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referer). See ["Referer header: privacy and security concerns"](https://developer.mozilla.org/en-US/docs/Web/Security/Referer_header:_privacy_and_security_concerns) and [the header's documentation](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy) on MDN for more.
 
 `options.policy` is a string or array of strings representing the policy. If passed as an array, it will be joined with commas, which is useful when setting [a fallback policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy#Specifying_a_fallback_policy). It defaults to `no-referrer`.
@@ -388,6 +441,12 @@ You can install this module separately as `referrer-policy`.
 
 <details>
 <summary><code>helmet.hsts(options)</code></summary>
+
+Default:
+
+```http
+Strict-Transport-Security: max-age=15552000; includeSubDomains
+```
 
 `helmet.hsts` sets the `Strict-Transport-Security` header which tells browsers to prefer HTTPS over insecure HTTP. See [the documentation on MDN](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security) for more.
 
@@ -431,6 +490,12 @@ You can install this module separately as `hsts`.
 <details>
 <summary><code>helmet.noSniff()</code></summary>
 
+Default:
+
+```http
+X-Content-Type-Options: nosniff
+```
+
 `helmet.noSniff` sets the `X-Content-Type-Options` header to `nosniff`. This mitigates [MIME type sniffing](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types#MIME_sniffing) which can cause security vulnerabilities. See [documentation for this header on MDN](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options) for more.
 
 This middleware takes no options.
@@ -449,6 +514,12 @@ You can install this module separately as `dont-sniff-mimetype`.
 <details>
 <summary><code>helmet.originAgentCluster()</code></summary>
 
+Default:
+
+```http
+Origin-Agent-Cluster: ?1
+```
+
 `helmet.originAgentCluster` sets the `Origin-Agent-Cluster` header, which provides a mechanism to allow web applications to isolate their origins. Read more about it [in the spec](https://whatpr.org/html/6214/origin.html#origin-keyed-agent-clusters).
 
 Standalone example:
@@ -464,6 +535,12 @@ You can't install this module separately.
 
 <details>
 <summary><code>helmet.dnsPrefetchControl(options)</code></summary>
+
+Default:
+
+```http
+X-DNS-Prefetch-Control: off
+```
 
 `helmet.dnsPrefetchControl` sets the `X-DNS-Prefetch-Control` header to help control DNS prefetching, which can improve user privacy at the expense of performance. See [documentation on MDN](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-DNS-Prefetch-Control) for more.
 
@@ -494,6 +571,12 @@ You can install this module separately as `dns-prefetch-control`.
 <details>
 <summary><code>helmet.ieNoOpen()</code></summary>
 
+Default:
+
+```http
+X-Download-Options: noopen
+```
+
 `helmet.ieNoOpen` sets the `X-Download-Options` header, which is specific to Internet Explorer 8. It forces potentially-unsafe downloads to be saved, mitigating execution of HTML in your site's context. For more, see [this old post on MSDN](https://docs.microsoft.com/en-us/archive/blogs/ie/ie8-security-part-v-comprehensive-protection).
 
 This middleware takes no options.
@@ -511,6 +594,12 @@ You can install this module separately as `ienoopen`.
 
 <details>
 <summary><code>helmet.frameguard(options)</code></summary>
+
+Default:
+
+```http
+X-Frame-Options: SAMEORIGIN
+```
 
 `helmet.frameguard` sets the `X-Frame-Options` header to help you mitigate [clickjacking attacks](https://en.wikipedia.org/wiki/Clickjacking). This header is superseded by [the `frame-ancestors` Content Security Policy directive](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/frame-ancestors) but is still useful on old browsers. For more, see `helmet.contentSecurityPolicy`, as well as [the documentation on MDN](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options).
 
@@ -541,6 +630,12 @@ You can install this module separately as `frameguard`.
 <details>
 <summary><code>helmet.permittedCrossDomainPolicies(options)</code></summary>
 
+Default:
+
+```http
+X-Permitted-Cross-Domain-Policies: none
+```
+
 `helmet.permittedCrossDomainPolicies` sets the `X-Permitted-Cross-Domain-Policies` header, which tells some clients (mostly Adobe products) your domain's policy for loading cross-domain content. See [the description on OWASP](https://owasp.org/www-project-secure-headers/) for more.
 
 `options.permittedPolicies` is a string that must be `"none"`, `"master-only"`, `"by-content-type"`, or `"all"`. It defaults to `"none"`.
@@ -570,6 +665,8 @@ You can install this module separately as `helmet-crossdomain`.
 <details>
 <summary><code>helmet.hidePoweredBy()</code></summary>
 
+Default: the `X-Powered-By` header, if present, is omitted.
+
 `helmet.hidePoweredBy` removes the `X-Powered-By` header, which is set by default in some frameworks (like Express). Removing the header offers very limited security benefits (see [this discussion](https://github.com/expressjs/express/pull/2813#issuecomment-159270428)) and is mostly removed to save bandwidth.
 
 This middleware takes no options.
@@ -589,6 +686,12 @@ You can install this module separately as `hide-powered-by`.
 
 <details>
 <summary><code>helmet.xssFilter()</code></summary>
+
+Default:
+
+```http
+X-XSS-Protection: 0
+```
 
 `helmet.xssFilter` disables browsers' buggy cross-site scripting filter by setting the `X-XSS-Protection` header to `0`. See [discussion about disabling the header here](https://github.com/helmetjs/helmet/issues/230) and [documentation on MDN](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-XSS-Protection).
 
