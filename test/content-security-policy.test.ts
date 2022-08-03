@@ -31,7 +31,6 @@ describe("Content-Security-Policy middleware", () => {
     const expectedDirectives = new Set([
       "default-src 'self'",
       "base-uri 'self'",
-      "block-all-mixed-content",
       "font-src 'self' https: data:",
       "form-action 'self'",
       "frame-ancestors 'self'",
@@ -225,7 +224,6 @@ describe("Content-Security-Policy middleware", () => {
   it("can override the default options", async () => {
     const expectedDirectives = new Set([
       "default-src 'self' example.com",
-      "block-all-mixed-content",
       "font-src 'self' https: data:",
       "form-action 'self'",
       "frame-ancestors 'self'",
@@ -481,7 +479,6 @@ describe("Content-Security-Policy middleware", () => {
       ],
       expectedDirectives: new Set([
         "base-uri 'self'",
-        "block-all-mixed-content",
         "font-src 'self' https: data:",
         "form-action 'self'",
         "frame-ancestors 'self'",
@@ -537,7 +534,6 @@ describe("getDefaultDirectives", () => {
   it("returns the middleware's default directives", () => {
     expect(getDefaultDirectives()).toEqual({
       "base-uri": ["'self'"],
-      "block-all-mixed-content": [],
       "default-src": ["'self'"],
       "font-src": ["'self'", "https:", "data:"],
       "form-action": ["'self'"],

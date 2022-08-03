@@ -6,10 +6,11 @@
 
 - **Breaking:** `useDefaults` option now defaults to `true`
 - **Breaking:** `form-action` directive is now set to `'self'` by default
+- **Breaking:** `block-all-mixed-content` is no longer set by default
 
 ### Removed
 
-- **Breaking:** Drop support for Node 10 and 11. Node 12+ is now required
+- **Breaking:** Node 14+ is now required
 
 ## 3.4.0 - 2021-05-02
 
