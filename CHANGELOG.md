@@ -6,6 +6,7 @@
 
 - **Breaking:** Where possible, increase TypeScript strictness around some strings. Only affects TypeScript users. See [#369](https://github.com/helmetjs/helmet/issues/369)
 - **Breaking:** `helmet.contentSecurityPolicy` no longer sets `block-all-mixed-content` directive by default
+- **Breaking:** `helmet.expectCt` is no longer set by default. It can, however, be explicitly enabled. It will be removed in Helmet 7. See [#310](https://github.com/helmetjs/helmet/issues/310)
 - `helmet.frameguard` no longer offers a specific error when trying to use `ALLOW-FROM`; it just says that it is unsupported. Only the error message has changed
 
 ### Removed

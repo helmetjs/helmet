@@ -147,7 +147,7 @@ function getMiddlewareFunctionsFromOptions(
     result.push(xDnsPrefetchControl(...xDnsPrefetchControlArgs));
   }
 
-  const expectCtArgs = getArgs(options.expectCt);
+  const expectCtArgs = options.expectCt && getArgs(options.expectCt);
   if (expectCtArgs) {
     result.push(expectCt(...expectCtArgs));
   }
