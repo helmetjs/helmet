@@ -37,7 +37,6 @@ Content-Security-Policy: default-src 'self';base-uri 'self';font-src 'self' http
 Cross-Origin-Embedder-Policy: require-corp
 Cross-Origin-Opener-Policy: same-origin
 Cross-Origin-Resource-Policy: same-origin
-Expect-CT: max-age=0
 Origin-Agent-Cluster: ?1
 Referrer-Policy: no-referrer
 Strict-Transport-Security: max-age=15552000; includeSubDomains
@@ -372,6 +371,8 @@ Expect-CT: max-age=0
 ```
 
 `helmet.expectCt` sets the `Expect-CT` header which helps mitigate misissued SSL certificates. See [MDN's article on Certificate Transparency](https://developer.mozilla.org/en-US/docs/Web/Security/Certificate_Transparency) and the [`Expect-CT` header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Expect-CT) for more.
+
+`Expect-CT` is no longer useful for new browsers in 2022. Therefore, `helmet.expectCt` is deprecated and will be removed in the next major version of Helmet. However, it can still be used in this version of Helmet.
 
 `options.maxAge` is the number of seconds to expect Certificate Transparency. It defaults to `0`.
 

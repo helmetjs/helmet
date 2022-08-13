@@ -24,7 +24,7 @@ import xXssProtection from "../middlewares/x-xss-protection";
 describe("helmet", () => {
   const topLevel = helmet.default;
 
-  it("includes all middleware with their default options", async () => {
+  it("includes all middleware, except Expect-CT, with their default options", async () => {
     // NOTE: This test relies on the CSP object being ordered a certain way,
     // which could change (and be non-breaking). If that becomes a problem,
     // we should update this test to be more robust.
@@ -34,7 +34,8 @@ describe("helmet", () => {
       "cross-origin-embedder-policy": "require-corp",
       "cross-origin-opener-policy": "same-origin",
       "cross-origin-resource-policy": "same-origin",
-      "expect-ct": "max-age=0",
+      // In Helmet 7, we can remove this Expect-CT assertion.
+      "expect-ct": null,
       "origin-agent-cluster": "?1",
       "referrer-policy": "no-referrer",
       "strict-transport-security": "max-age=15552000; includeSubDomains",
@@ -58,6 +59,16 @@ describe("helmet", () => {
     });
     await check(topLevel({ dnsPrefetchControl: false }), {
       "x-dns-prefetch-control": null,
+    });
+  });
+
+  // In Helmet 7, this test should be removed.
+  it("allows Expect-CT to be enabled", async () => {
+    await check(topLevel({ expectCt: true }), {
+      "expect-ct": "max-age=0",
+    });
+    await check(topLevel({ expectCt: { maxAge: 123 } }), {
+      "expect-ct": "max-age=123",
     });
   });
 
