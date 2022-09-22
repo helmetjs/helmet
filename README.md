@@ -7,7 +7,7 @@ Helmet helps you secure your Express apps by setting various HTTP headers. _It's
 
 ## Quick start
 
-First, run `npm install helmet --save` for your app. Then, in an Express app:
+First, run `npm install helmet` for your app. Then, in an Express app:
 
 ```js
 const express = require("express");
