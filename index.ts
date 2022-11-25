@@ -57,7 +57,7 @@ interface MiddlewareFunction {
   ): void;
 }
 
-interface Helmet {
+export interface Helmet {
   (options?: Readonly<HelmetOptions>): (
     req: IncomingMessage,
     res: ServerResponse,
