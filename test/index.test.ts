@@ -126,6 +126,15 @@ describe("helmet", () => {
     });
   });
 
+  it("allows Cross-Origin-Embedder-Policy middleware to be enabled with custom arguments", async () => {
+    await check(
+      topLevel({ crossOriginEmbedderPolicy: { policy: "credentialless" } }),
+      {
+        "cross-origin-embedder-policy": "credentialless",
+      }
+    );
+  });
+
   it("allows Cross-Origin-Opener-Policy middleware to be enabled with its default", async () => {
     await check(topLevel({ crossOriginOpenerPolicy: true }), {
       "cross-origin-opener-policy": "same-origin",
@@ -216,15 +225,6 @@ describe("helmet", () => {
   describe("warnings", () => {
     beforeEach(() => {
       jest.spyOn(console, "warn").mockImplementation(() => {});
-    });
-
-    it("logs a warning when passing options to crossOriginEmbedderPolicy", () => {
-      topLevel({ crossOriginEmbedderPolicy: { option: "foo" } as any });
-
-      expect(console.warn).toHaveBeenCalledTimes(1);
-      expect(console.warn).toHaveBeenCalledWith(
-        "crossOriginEmbedderPolicy does not take options. Remove the property to silence this warning."
-      );
     });
 
     it("logs a warning when passing options to hidePoweredBy", () => {

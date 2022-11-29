@@ -1,5 +1,11 @@
 # Changelog
 
+## 6.0.1 - 2022-11-29
+
+### Fixed
+
+- `crossOriginEmbedderPolicy` did not accept options at the top level. See [#390](https://github.com/helmetjs/helmet/issues/390)
+
 ## 6.0.0 - 2022-08-26
 
 ### Changed

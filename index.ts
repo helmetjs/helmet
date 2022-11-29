@@ -2,7 +2,9 @@ import { IncomingMessage, ServerResponse } from "http";
 import contentSecurityPolicy, {
   ContentSecurityPolicyOptions,
 } from "./middlewares/content-security-policy/index.js";
-import crossOriginEmbedderPolicy from "./middlewares/cross-origin-embedder-policy/index.js";
+import crossOriginEmbedderPolicy, {
+  CrossOriginEmbedderPolicyOptions,
+} from "./middlewares/cross-origin-embedder-policy/index.js";
 import crossOriginOpenerPolicy, {
   CrossOriginOpenerPolicyOptions,
 } from "./middlewares/cross-origin-opener-policy/index.js";
@@ -33,7 +35,7 @@ import xXssProtection from "./middlewares/x-xss-protection/index.js";
 
 export interface HelmetOptions {
   contentSecurityPolicy?: ContentSecurityPolicyOptions | boolean;
-  crossOriginEmbedderPolicy?: boolean;
+  crossOriginEmbedderPolicy?: CrossOriginEmbedderPolicyOptions | boolean;
   crossOriginOpenerPolicy?: CrossOriginOpenerPolicyOptions | boolean;
   crossOriginResourcePolicy?: CrossOriginResourcePolicyOptions | boolean;
   dnsPrefetchControl?: XDnsPrefetchControlOptions | boolean;
@@ -120,14 +122,10 @@ function getMiddlewareFunctionsFromOptions(
   }
 
   const crossOriginEmbedderPolicyArgs = getArgs(
-    options.crossOriginEmbedderPolicy,
-    {
-      name: "crossOriginEmbedderPolicy",
-      takesOptions: false,
-    }
+    options.crossOriginEmbedderPolicy
   );
   if (crossOriginEmbedderPolicyArgs) {
-    result.push(crossOriginEmbedderPolicy());
+    result.push(crossOriginEmbedderPolicy(...crossOriginEmbedderPolicyArgs));
   }
 
   const crossOriginOpenerPolicyArgs = getArgs(options.crossOriginOpenerPolicy);
