@@ -25,11 +25,10 @@ const compileEsm = () =>
       { file: path.join(distPath, "index.js") }
     );
 
-    await fs.mkdir(esmDistDir);
     await fs.rename(path.join(distPath, "index.js"), esmDistPath);
     await fs.rename(
-      path.join(typesDistDir, "tmp-esm-index.d.ts"),
-      path.join(typesDistDir, "index.d.ts")
+      path.join(esmDistDir, "tmp-esm-index.d.ts"),
+      path.join(esmDistDir, "index.d.ts")
     );
   });
 
@@ -54,6 +53,10 @@ const compileCommonjs = () =>
     await fs.writeFile(
       path.join(commonJsDistDir, "package.json"),
       cjsPackageJson
+    );
+    await fs.rename(
+      path.join(commonJsDistDir, "tmp-commonjs-index.d.ts"),
+      path.join(commonJsDistDir, "index.d.ts")
     );
   });
 
