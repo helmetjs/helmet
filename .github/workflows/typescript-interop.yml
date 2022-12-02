@@ -1,4 +1,4 @@
-name: Node.js CI
+name: Typescript Interop
 
 on: [push]
 
@@ -6,7 +6,7 @@ permissions:
   contents: read
 
 jobs:
-  build:
+  interop-test:
     runs-on: ubuntu-latest
 
     strategy:
