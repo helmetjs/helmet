@@ -1,0 +1,45 @@
+name: Node.js CI
+
+on: [push]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        package-json-type:
+          - commonjs
+          - module
+        tsconfig-json-module:
+          - CommonJS
+          - ESNext
+          - Node16
+          - Nodenext
+        tsconfig-json-module-resolution:
+          - Node
+          - Node16
+          - Nodenext
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - run: |
+          npm ci &&
+          npm run build-helmet &&
+          npm link &&
+          node bin/create-interop-test &&
+          cd test_interop &&
+          npm i &&
+          npm link helmet &&
+          npm run test-interop
+        env:
+          PACKAGE_JSON_TYPE: ${{ matrix.package-json-type }}
+          TSCONFIG_MODULE: ${{ matrix.tsconfig-json-module }}
+          TSCONFIG_MODULE_RESOLUTION: ${{ matrix.tsconfig-json-module-resolution }}
