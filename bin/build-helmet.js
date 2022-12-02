@@ -53,6 +53,7 @@ const compileCommonjs = () =>
       path.join(commonJsDistDir, "package.json"),
       cjsPackageJson
     );
+
     await fs.rename(
       path.join(commonJsDistDir, "tmp-commonjs-index.d.ts"),
       path.join(commonJsDistDir, "index.d.ts")
