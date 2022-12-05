@@ -43,7 +43,7 @@
   },
   "scripts": {
     "pretest": "npm run lint",
-    "prepublishOnly": "npm run build-helmet",
+    "prepublishOnly": "npm run build-helmet && npm pkg delete devDependencies scripts",
     "lint": "npm run lint:eslint && npm run lint:prettier",
     "lint:eslint": "eslint .",
     "lint:prettier": "prettier --check .",
