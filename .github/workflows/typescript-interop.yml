@@ -23,8 +23,20 @@ jobs:
           - Node
           - Node16
           - Nodenext
-      fail-fast: false
+        exclude:
+          - package-json-type: commonjs
+            tsconfig-json-module: ESNext
+          - package-json-type: module
+            tsconfig-json-module: CommonJS
+          - package-json-type: module
+            tsconfig-json-module: Node16
+            tsconfig-json-module-resolution: Node
+          - package-json-type: module
+            tsconfig-json-module: NodeNext
+            tsconfig-json-module-resolution: Node
 
+      fail-fast: false
+   
     steps:
       - uses: actions/checkout@v3
         with:
