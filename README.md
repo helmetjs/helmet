@@ -74,7 +74,7 @@ app.use(
 
 Helmet is [Express](https://expressjs.com) middleware. (It also works with [Connect](https://github.com/senchalabs/connect) or [no library at all](https://github.com/helmetjs/helmet/wiki/How-to-use-Helmet-without-Express)! If you need support for other frameworks or languages, [see this list](https://helmetjs.github.io/see-also/).)
 
-The top-level `helmet` function is a wrapper around 15 smaller middlewares.
+The top-level `helmet` function is a wrapper around 14 smaller middlewares.
 
 In other words, these two code snippets are equivalent:
 
@@ -96,7 +96,6 @@ app.use(helmet.crossOriginEmbedderPolicy());
 app.use(helmet.crossOriginOpenerPolicy());
 app.use(helmet.crossOriginResourcePolicy());
 app.use(helmet.dnsPrefetchControl());
-app.use(helmet.expectCt());
 app.use(helmet.frameguard());
 app.use(helmet.hidePoweredBy());
 app.use(helmet.hsts());
