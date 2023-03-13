@@ -42,7 +42,7 @@
     "typescript": "^4.9.5"
   },
   "scripts": {
-    "pretest": "npm run lint",
+    "pretest": "npm run lint && npm run build-helmet",
     "prepublishOnly": "npm run build-helmet",
     "lint": "npm run lint:eslint && npm run lint:prettier",
     "lint:eslint": "eslint .",

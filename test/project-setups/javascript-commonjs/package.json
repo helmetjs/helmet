@@ -1,0 +1,6 @@
+{
+  "private": true,
+  "scripts": {
+    "helmet:test": "node test.js"
+  }
+}
