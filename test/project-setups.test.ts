@@ -14,8 +14,8 @@ describe("project setups", () => {
 
   beforeAll(async () => {
     // TODO: Improve the error message
-    const distPath = path.join(__dirname, "..", 'dist');
-    await fs.promises.stat(distPath)
+    const distPath = path.join(__dirname, "..", "dist");
+    await fs.promises.stat(distPath);
   });
 
   it.each(projectSetups)("%s style", async (projectSetupName) => {
