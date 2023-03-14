@@ -13,7 +13,6 @@ const esmDistDir = path.join(distPath, "esm");
 const esmDistPath = path.join(esmDistDir, "index.js");
 const commonJsDistDir = path.join(distPath, "cjs");
 const commonJsDistPath = path.join(commonJsDistDir, "index.js");
-const typesDistDir = path.join(distPath, "types");
 
 const compileEsm = () =>
   withEsmFile(esmSourcePath, async (esmTempPath) => {
@@ -25,11 +24,11 @@ const compileEsm = () =>
       { file: path.join(distPath, "index.js") }
     );
 
-    await fs.mkdir(esmDistDir);
+    await fs.mkdir(esmDistDir, { recursive: true });
     await fs.rename(path.join(distPath, "index.js"), esmDistPath);
     await fs.rename(
-      path.join(typesDistDir, "tmp-esm-index.d.ts"),
-      path.join(typesDistDir, "index.d.ts")
+      path.join(esmDistDir, "tmp-esm-index.d.ts"),
+      path.join(esmDistDir, "index.d.ts")
     );
   });
 
