@@ -1,7 +1,7 @@
 import type { IncomingMessage, ServerResponse } from "http";
 import connect from "connect";
 import supertest from "supertest";
-import helmet, { frameguard } from "../../../dist/esm/index.js";
+import helmet, { frameguard } from "../../../dist/esm/esm.js";
 
 const handler = (_: IncomingMessage, res: ServerResponse) =>
   res.end("Hello world");

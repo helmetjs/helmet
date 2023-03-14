@@ -11,4 +11,4 @@
 !dist/cjs/index.js
 !dist/cjs/package.json
 !dist/esm/index.js
-!dist/types/**/*.d.ts
+!dist/**/*.d.ts
