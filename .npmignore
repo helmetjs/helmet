@@ -8,7 +8,7 @@
 !README.md
 !SECURITY.md
 
-!dist/cjs/index.js
+!dist/cjs/cjs.js
 !dist/cjs/package.json
-!dist/esm/index.js
+!dist/esm/esm.js
 !dist/**/*.d.ts
