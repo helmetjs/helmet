@@ -56,13 +56,13 @@
   },
   "license": "MIT",
   "type": "module",
-  "main": "./dist/cjs/cjs.js",
+  "main": "./dist/cjs/cjs.cjs",
   "module": "./dist/esm/esm.js",
   "types": "./dist/esm/esm.d.ts",
   "exports": {
     ".": {
       "import": "./dist/esm/esm.js",
-      "require": "./dist/cjs/cjs.js",
+      "require": "./dist/cjs/cjs.cjs",
       "types": "./dist/esm/esm.d.ts"
     }
   }

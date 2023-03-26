@@ -14,7 +14,7 @@ const esmDistPath = path.join(esmDistDir, "esm.js");
 const esmTypesTempPath = path.join(esmDistDir, "tmp-esm-index.d.ts");
 const esmTypesDistPath = path.join(esmDistDir, "esm.d.ts");
 const commonJsDistDir = path.join(distPath, "cjs");
-const commonJsDistPath = path.join(commonJsDistDir, "cjs.js");
+const commonJsDistPath = path.join(commonJsDistDir, "cjs.cjs");
 const commonJsTypesTempPath = path.join(
   commonJsDistDir,
   "tmp-commonjs-index.d.ts"
@@ -46,11 +46,6 @@ const compileCommonjs = () =>
         file: commonJsDistPath,
         format: "cjs",
       }
-    );
-
-    await fs.writeFile(
-      path.join(commonJsDistDir, "package.json"),
-      JSON.stringify({ type: "commonjs" })
     );
 
     await fs.rename(commonJsTypesTempPath, commonJsTypesDistPath);
