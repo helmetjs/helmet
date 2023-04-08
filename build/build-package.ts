@@ -241,9 +241,9 @@ async function copyStaticFiles({
 }
 
 async function prePackCrush(distDir: string): Promise<void> {
-  const files = (await fs.readdir(distDir)).map((file) =>
-    path.join(distDir, file)
-  );
+  const files = (await fs.readdir(distDir))
+    .map((file) => path.join(distDir, file))
+    .filter((file) => path.extname(file) !== ".md");
 
   await Promise.all(
     files.map(async (file) => {
