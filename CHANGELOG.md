@@ -1,10 +1,10 @@
 # Changelog
 
-## Unreleased
+## 6.1.0 - 2023-04-08
 
 ### Changed
 
-- Small tweak to reduce package size
+- Improve support for various TypeScript setups, including "nodenext". See [#405](https://github.com/helmetjs/helmet/pull/405)
 
 ## 6.0.1 - 2022-11-29
 
