@@ -30,7 +30,6 @@ By default, Helmet sets the following headers:
 - [`Cross-Origin-Embedder-Policy`](#cross-origin-embedder-policy): Controls cross-origin loading of resources, like images
 - [`Cross-Origin-Opener-Policy`](#cross-origin-opener-policy): Helps process-isolate your page
 - [`Cross-Origin-Resource-Policy`](#cross-origin-resource-policy): Blocks others from loading your resources cross-origin
-- [`Expect-CT`](#expect-ct): Helps notice misissued SSL certificates
 - [`Origin-Agent-Cluster`](#origin-agent-cluster): Changes process isolation to be origin-based
 - [`Referrer-Policy`](#referrer-policy): Controls the [`Referer`][Referer] header
 - [`Strict-Transport-Security`](#strict-transport-security): Tells browsers to prefer HTTPS
@@ -285,45 +284,6 @@ app.use(
 ```
 
 You can use this as standalone middleware with `app.use(helmet.crossOriginResourcePolicy())`.
-
-</details>
-
-<details id="expect-ct">
-<summary><code>Expect-CT</code></summary>
-
-Default:
-
-```http
-Expect-CT: max-age=0
-```
-
-Helmet sets the `Expect-CT` header which helps mitigate misissued SSL certificates. See [MDN's article on Certificate Transparency](https://developer.mozilla.org/en-US/docs/Web/Security/Certificate_Transparency) and the [`Expect-CT` header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Expect-CT) for more.
-
-`Expect-CT` is no longer useful for new browsers in 2022. Therefore, this header is deprecated and will be removed in the next major version of Helmet. However, it can still be used in this version of Helmet.
-
-`maxAge` is the number of seconds to expect Certificate Transparency. It defaults to `0`.
-
-`enforce` is a boolean. If `true`, the user agent (usually a browser) should refuse future connections that violate its Certificate Transparency policy. Defaults to `false`.
-
-`reportUri` is a string. If set, complying user agents will report Certificate Transparency failures to this URL. Unset by default.
-
-```js
-// Sets "Expect-CT: max-age=86400"
-app.use(
-  helmet.expectCt({
-    maxAge: 86400,
-  })
-);
-
-// Sets "Expect-CT: max-age=86400, enforce, report-uri="https://example.com/report"
-app.use(
-  helmet.expectCt({
-    maxAge: 86400,
-    enforce: true,
-    reportUri: "https://example.com/report",
-  })
-);
-```
 
 </details>
 

@@ -5,6 +5,7 @@
 ### Removed
 
 - **Breaking:** Drop support for Node 14 and 15. Node 16+ is now required
+- **Breaking:** `Expect-CT` is no longer part of Helmet. If you still need it, you can use the [`expect-ct` package](https://www.npmjs.com/package/expect-ct). See [#378](https://github.com/helmetjs/helmet/issues/378)
 
 ### 6.2.0 - 2023-05-06
 

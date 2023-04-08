@@ -11,7 +11,6 @@ import crossOriginOpenerPolicy, {
 import crossOriginResourcePolicy, {
   CrossOriginResourcePolicyOptions,
 } from "./middlewares/cross-origin-resource-policy/index.js";
-import expectCt, { ExpectCtOptions } from "./middlewares/expect-ct/index.js";
 import originAgentCluster from "./middlewares/origin-agent-cluster/index.js";
 import referrerPolicy, {
   ReferrerPolicyOptions,
@@ -38,7 +37,6 @@ export type HelmetOptions = {
   crossOriginEmbedderPolicy?: CrossOriginEmbedderPolicyOptions | boolean;
   crossOriginOpenerPolicy?: CrossOriginOpenerPolicyOptions | boolean;
   crossOriginResourcePolicy?: CrossOriginResourcePolicyOptions | boolean;
-  expectCt?: ExpectCtOptions | boolean;
   originAgentCluster?: boolean;
   referrerPolicy?: ReferrerPolicyOptions | boolean;
 } & (
@@ -113,7 +111,6 @@ interface Helmet {
   crossOriginEmbedderPolicy: typeof crossOriginEmbedderPolicy;
   crossOriginOpenerPolicy: typeof crossOriginOpenerPolicy;
   crossOriginResourcePolicy: typeof crossOriginResourcePolicy;
-  expectCt: typeof expectCt;
   originAgentCluster: typeof originAgentCluster;
   referrerPolicy: typeof referrerPolicy;
   strictTransportSecurity: typeof strictTransportSecurity;
@@ -186,18 +183,6 @@ function getMiddlewareFunctionsFromOptions(
       break;
     default:
       result.push(crossOriginResourcePolicy(options.crossOriginResourcePolicy));
-      break;
-  }
-
-  switch (options.expectCt) {
-    case undefined:
-    case false:
-      break;
-    case true:
-      result.push(expectCt());
-      break;
-    default:
-      result.push(expectCt(options.expectCt));
       break;
   }
 
@@ -438,7 +423,6 @@ const helmet: Helmet = Object.assign(
     crossOriginEmbedderPolicy,
     crossOriginOpenerPolicy,
     crossOriginResourcePolicy,
-    expectCt,
     originAgentCluster,
     referrerPolicy,
     strictTransportSecurity,
@@ -469,7 +453,6 @@ export {
   crossOriginEmbedderPolicy,
   crossOriginOpenerPolicy,
   crossOriginResourcePolicy,
-  expectCt,
   originAgentCluster,
   referrerPolicy,
   strictTransportSecurity,
