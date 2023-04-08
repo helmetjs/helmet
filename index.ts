@@ -152,10 +152,10 @@ function getMiddlewareFunctionsFromOptions(
 
   switch (options.crossOriginEmbedderPolicy) {
     case undefined:
+    case false:
+      break;
     case true:
       result.push(crossOriginEmbedderPolicy());
-      break;
-    case false:
       break;
     default:
       result.push(crossOriginEmbedderPolicy(options.crossOriginEmbedderPolicy));

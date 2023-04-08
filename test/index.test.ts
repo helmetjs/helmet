@@ -23,14 +23,14 @@ import xXssProtection from "../middlewares/x-xss-protection";
 describe("helmet", () => {
   const topLevel = helmet.default;
 
-  it("includes all middleware with their default options", async () => {
+  it("includes all middleware, except COEP, with their default options", async () => {
     // NOTE: This test relies on the CSP object being ordered a certain way,
     // which could change (and be non-breaking). If that becomes a problem,
     // we should update this test to be more robust.
     const expectedHeaders = {
       "content-security-policy":
         "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests",
-      "cross-origin-embedder-policy": "require-corp",
+      "cross-origin-embedder-policy": null,
       "cross-origin-opener-policy": "same-origin",
       "cross-origin-resource-policy": "same-origin",
       "origin-agent-cluster": "?1",
@@ -100,7 +100,7 @@ describe("helmet", () => {
     });
   });
 
-  it("allows Cross-Origin-Embedder-Policy middleware to be enabled", async () => {
+  it("allows Cross-Origin-Embedder-Policy middleware to be explicitly enabled", async () => {
     await check(topLevel({ crossOriginEmbedderPolicy: true }), {
       "cross-origin-embedder-policy": "require-corp",
     });
