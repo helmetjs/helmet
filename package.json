@@ -31,5 +31,8 @@
     "build": "ts-node-esm ./build/build-package.ts",
     "test": "jest"
   },
-  "type": "module"
+  "type": "module",
+  "engines": {
+    "node": ">=16.0.0"
+  }
 }
