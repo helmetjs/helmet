@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Removed
+
+- **Breaking:** Drop support for Node 14 and 15. Node 16+ is now required
+
 ### 6.2.0 - 2023-05-06
 
 - Expose header names (e.g., `strictTransportSecurity` for the `Strict-Transport-Security` header, instead of `hsts`)

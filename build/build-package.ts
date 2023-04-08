@@ -217,11 +217,7 @@ async function buildPackageJson({
     },
     license: "MIT",
     keywords: ["express", "security", "headers", "backend"],
-
-    engines: {
-      node: ">=14.0.0",
-    },
-
+    engines: devPackageJson.engines,
     exports: {
       ...(esm ? { import: "./index.mjs" } : {}),
       require: "./index.cjs",
