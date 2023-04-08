@@ -1,0 +1,7 @@
+{
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "helmet:test": "ts-node --compilerOptions '{\"module\": \"commonjs\", \"moduleResolution\": \"node\", \"esModuleInterop\": true}' test.ts"
+  }
+}

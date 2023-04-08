@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+### Changed
+
+- Small tweak to reduce package size
+
 ## 6.0.1 - 2022-11-29
 
 ### Fixed
