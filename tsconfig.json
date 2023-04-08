@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "declaration": true,
     "esModuleInterop": true,
     "module": "esnext",
     "moduleResolution": "node",
@@ -13,5 +12,5 @@
     "target": "es6",
     "outDir": "."
   },
-  "exclude": ["node_modules", "bin", "dist"]
+  "exclude": ["node_modules"]
 }

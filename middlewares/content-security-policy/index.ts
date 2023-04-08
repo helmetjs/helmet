@@ -243,6 +243,4 @@ contentSecurityPolicy.dangerouslyDisableDefaultSrc =
 
 export default contentSecurityPolicy;
 
-// !helmet-end-of-commonjs
-
 export { getDefaultDirectives, dangerouslyDisableDefaultSrc };

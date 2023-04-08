@@ -9,7 +9,6 @@ export default {
     },
   },
   errorOnDeprecated: true,
-  preset: "ts-jest",
   resetMocks: true,
   testEnvironment: "node",
   testRegex: "/test/.*\\.test\\.[jt]s",
@@ -18,6 +17,12 @@ export default {
     "^(\\.{1,2}/.*)\\.js$": "$1",
   },
   transform: {
-    "^.+\\.ts$": ["ts-jest", { useESM: true }],
+    "^.+\\.ts$": [
+      "ts-jest",
+      {
+        useESM: true,
+        tsconfig: { module: "nodenext" },
+      },
+    ],
   },
 };

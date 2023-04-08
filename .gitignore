@@ -1,6 +1,3 @@
 /node_modules/
 
-/dist/
-/tmp-commonjs-index.ts
-
 /coverage/

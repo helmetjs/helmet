@@ -1,6 +1,5 @@
 {
   "private": true,
-  "type": "module",
   "scripts": {
     "helmet:test": "ts-node-esm --compilerOptions '{\"module\": \"nodenext\", \"moduleResolution\": \"nodenext\"}' test.ts"
   }

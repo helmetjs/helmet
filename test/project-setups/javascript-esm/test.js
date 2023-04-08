@@ -1,6 +1,6 @@
 import connect from "connect";
 import supertest from "supertest";
-import helmet, { frameguard } from "../../../dist/esm/esm.js";
+import helmet, { frameguard } from "helmet";
 
 const handler = (_, res) => res.end("Hello world");
 

@@ -1,6 +1,6 @@
 const connect = require("connect");
 const supertest = require("supertest");
-const helmet = require("../../..");
+const helmet = require("helmet");
 
 const handler = (_, res) => res.end("Hello world");
 
