@@ -27,7 +27,6 @@ You can also `require("helmet")` if you prefer.
 By default, Helmet sets the following headers:
 
 - [`Content-Security-Policy`](#content-security-policy): A powerful allow-list of what can happen on your page which mitigates many attacks
-- [`Cross-Origin-Embedder-Policy`](#cross-origin-embedder-policy): Controls cross-origin loading of resources, like images
 - [`Cross-Origin-Opener-Policy`](#cross-origin-opener-policy): Helps process-isolate your page
 - [`Cross-Origin-Resource-Policy`](#cross-origin-resource-policy): Blocks others from loading your resources cross-origin
 - [`Origin-Agent-Cluster`](#origin-agent-cluster): Changes process isolation to be origin-based
@@ -195,23 +194,21 @@ You can use this as standalone middleware with `app.use(helmet.contentSecurityPo
 <details id="cross-origin-embedder-policy">
 <summary><code>Cross-Origin-Embedder-Policy</code></summary>
 
-Default:
+This header is not set by default.
 
-```http
-Cross-Origin-Embedder-Policy: require-corp
-```
-
-The `Cross-Origin-Embedder-Policy` header helps control what resources, such as images, can be loaded cross-origin. See [MDN's article on this header](https://developer.cdn.mozilla.net/en-US/docs/Web/HTTP/Headers/Cross-Origin-Embedder-Policy) for more.
+The `Cross-Origin-Embedder-Policy` header helps control what resources can be loaded cross-origin. See [MDN's article on this header](https://developer.cdn.mozilla.net/en-US/docs/Web/HTTP/Headers/Cross-Origin-Embedder-Policy) for more.
 
 ```js
+// Helmet does not set Cross-Origin-Embedder-Policy
+// by default.
+app.use(helmet());
+
 // Sets "Cross-Origin-Embedder-Policy: require-corp"
 app.use(helmet({ crossOriginEmbedderPolicy: true }));
 
 // Sets "Cross-Origin-Embedder-Policy: credentialless"
 app.use(helmet({ crossOriginEmbedderPolicy: { policy: "credentialless" } }));
 ```
-
-This header will still be around in the next version of Helmet, but will be off by default.
 
 You can use this as standalone middleware with `app.use(helmet.crossOriginEmbedderPolicy())`.
 

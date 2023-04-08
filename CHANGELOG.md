@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Changed
+
+- **Breaking:** `Cross-Origin-Embedder-Policy` middleware is now disabled by default. See [#411](https://github.com/helmetjs/helmet/issues/411)
+
 ### Removed
 
 - **Breaking:** Drop support for Node 14 and 15. Node 16+ is now required
