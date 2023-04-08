@@ -184,6 +184,7 @@ async function buildPackageJson({
 
   const packageJson = {
     name: "helmet",
+    description: "help secure Express/Connect apps with various HTTP headers",
     version: devPackageJson.version,
     author: "Adam Baldwin <adam@npmjs.com> (https://evilpacket.net)",
     contributors: ["Evan Hahn <me@evanhahn.com> (https://evanhahn.com)"],
@@ -197,6 +198,10 @@ async function buildPackageJson({
       url: "git://github.com/helmetjs/helmet.git",
     },
     license: "MIT",
+    keywords: ["express", "security", "headers", "backend"],
+    engines: {
+      node: ">=14.0.0",
+    },
     exports: {
       ".": {
         ...(esm

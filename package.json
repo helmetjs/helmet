@@ -1,21 +1,6 @@
 {
-  "name": "helmet",
-  "author": "Adam Baldwin <adam@npmjs.com> (https://evilpacket.net)",
-  "contributors": [
-    "Evan Hahn <me@evanhahn.com> (https://evanhahn.com)",
-    "Ameen Abdeen <ameen.abdeen.se@gmail.com>"
-  ],
-  "description": "help secure Express/Connect apps with various HTTP headers",
+  "private": true,
   "version": "6.1.0",
-  "keywords": [
-    "express",
-    "security",
-    "headers",
-    "backend"
-  ],
-  "engines": {
-    "node": ">=14.0.0"
-  },
   "devDependencies": {
     "@rollup/plugin-typescript": "^11.1.0",
     "@types/connect": "^3.4.35",

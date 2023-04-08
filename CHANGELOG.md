@@ -1,5 +1,11 @@
 # Changelog
 
+## 6.1.1 - 2023-04-08
+
+### Fixed
+
+- Fixed missing package metadata
+
 ## 6.1.0 - 2023-04-08
 
 ### Changed
