@@ -318,7 +318,7 @@ async function postPackCrush(originalTarGz: string): Promise<string> {
     console.log(
       `Crushed into ${crushedTarGz}. Size: ${crushedSize}. Savings: ${savings} bytes (result is ${Math.round(
         ratio * 100
-      )}% the size))`
+      )}% the size)`
     );
     return crushedTarGz;
   }
