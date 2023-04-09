@@ -1,8 +1,9 @@
 import { IncomingMessage, ServerResponse } from "http";
 
-interface ContentSecurityPolicyDirectiveValueFunction {
-  (req: IncomingMessage, res: ServerResponse): string;
-}
+type ContentSecurityPolicyDirectiveValueFunction = (
+  req: IncomingMessage,
+  res: ServerResponse
+) => string;
 
 type ContentSecurityPolicyDirectiveValue =
   | string

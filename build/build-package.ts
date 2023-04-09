@@ -39,7 +39,7 @@ export async function buildAndPack(
   let entry: string;
   let esm: boolean;
   let packageOverrides: Record<string, unknown>;
-  let filesToCopy: ReadonlyArray<string>;
+  let filesToCopy: readonly string[];
 
   if (middlewareToBuild) {
     const middlewareDir = path.join(rootDir, "middlewares", middlewareToBuild);
@@ -239,7 +239,7 @@ async function readJson(path: fsOriginal.PathLike): Promise<any> {
 async function copyStaticFiles({
   filesToCopy,
   distDir,
-}: Readonly<{ filesToCopy: ReadonlyArray<string>; distDir: string }>) {
+}: Readonly<{ filesToCopy: readonly string[]; distDir: string }>) {
   await Promise.all(
     filesToCopy.map(async (source) => {
       const basename = path.basename(source);

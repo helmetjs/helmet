@@ -2,13 +2,15 @@ import { IncomingMessage, ServerResponse } from "http";
 import connect from "connect";
 import supertest from "supertest";
 
-interface MiddlewareFunction {
-  (req: IncomingMessage, res: ServerResponse, next: () => void): void;
-}
+type MiddlewareFunction = (
+  req: IncomingMessage,
+  res: ServerResponse,
+  next: () => void
+) => void;
 
 export async function check(
   middleware: MiddlewareFunction,
-  expectedHeaders: Readonly<{ [headerName: string]: string | null }>
+  expectedHeaders: Readonly<Record<string, string | null>>
 ) {
   const app = connect()
     .use(middleware)

@@ -1,7 +1,7 @@
 import * as childProcess from "child_process";
 
 export const npm = (
-  args: ReadonlyArray<string>,
+  args: readonly string[],
   { cwd }: Readonly<{ cwd: string }>
 ): Promise<void> =>
   new Promise((resolve, reject) => {

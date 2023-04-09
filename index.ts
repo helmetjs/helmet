@@ -51,13 +51,11 @@ export interface HelmetOptions {
   xssFilter?: boolean;
 }
 
-interface MiddlewareFunction {
-  (
-    req: IncomingMessage,
-    res: ServerResponse,
-    next: (error?: Error) => void
-  ): void;
-}
+type MiddlewareFunction = (
+  req: IncomingMessage,
+  res: ServerResponse,
+  next: (error?: Error) => void
+) => void;
 
 interface Helmet {
   (options?: Readonly<HelmetOptions>): (
@@ -219,6 +217,9 @@ function getMiddlewareFunctionsFromOptions(
 
 const helmet: Helmet = Object.assign(
   function helmet(options: Readonly<HelmetOptions> = {}) {
+    // People should be able to pass an options object with no prototype,
+    // so we want this optional chaining.
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (options.constructor?.name === "IncomingMessage") {
       throw new Error(
         "It appears you have done something like `app.use(helmet)`, but it should be `app.use(helmet())`."
