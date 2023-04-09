@@ -199,9 +199,11 @@ async function buildPackageJson({
     },
     license: "MIT",
     keywords: ["express", "security", "headers", "backend"],
+
     engines: {
       node: ">=14.0.0",
     },
+
     exports: {
       ".": {
         ...(esm
@@ -218,6 +220,10 @@ async function buildPackageJson({
         },
       },
     },
+    // All supported versions of Node handle `exports`, but some build tools
+    // still use `main`, so we keep it around.
+    main: "./index.cjs",
+
     ...packageOverrides,
   };
 
