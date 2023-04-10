@@ -6,7 +6,7 @@ Helmet welcomes contributors! This guide should help you submit issues and pull 
 
 The documentation and [Stack Overflow](https://stackoverflow.com/questions/tagged/helmet.js) are good places to start.
 
-Feel free to [add an issue](https://github.com/helmetjs/helmet/issues) if those don't help!
+Feel free to [add an issue](https://github.com/helmetjs/helmet/issues) or [contact the maintainer](https://evanhahn.com/contact) if those don't help!
 
 ## Want to submit a change?
 
