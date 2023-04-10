@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 6.1.3 - 2023-04-10
 
 ### Fixed
 
