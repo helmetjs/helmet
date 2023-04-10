@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+### Fixed
+
+- Fix another issue with TypeScript default exports. See [#418](https://github.com/helmetjs/helmet/pull/418)
+
 ## 6.1.3 - 2023-04-10
 
 ### Fixed

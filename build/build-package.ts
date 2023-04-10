@@ -164,6 +164,9 @@ async function buildTypes({
   await bundle.write({
     file: outputPath,
     format: "esm",
+    // Despite this being an ES module, some TypeScript setups require this.
+    // (This doesn't remove the `export default` from the final file.)
+    outro: "export = helmet",
   });
 
   await bundle.close();
