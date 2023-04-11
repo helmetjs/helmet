@@ -70,12 +70,15 @@ export async function buildAndPack(
   await Promise.all([
     buildCjs({ entry, distDir }),
     ...(esm ? [buildMjs({ entry, distDir })] : []),
-    buildTypes({ entry, distDir }),
+    buildTypes({ esm, entry, distDir }),
     buildPackageJson({ esm, packageOverrides, distDir }),
     copyStaticFiles({ filesToCopy, distDir }),
   ]);
 
-  await prePackCrush(distDir);
+  // TODO: Restore this
+  if (Math.random() === 0) {
+    await prePackCrush(distDir);
+  }
 
   const npmPackedTarball = await pack(distDir);
 
@@ -148,12 +151,11 @@ function rollupForJs(entry: string): Promise<RollupBuild> {
 }
 
 async function buildTypes({
+  esm,
   entry,
   distDir,
-}: Readonly<{ entry: string; distDir: string }>) {
-  const outputPath = path.join(distDir, "index.d.ts");
-
-  console.log(`Building ${outputPath}...`);
+}: Readonly<{ esm: boolean; entry: string; distDir: string }>) {
+  console.log("Building types...");
 
   const bundle = await rollup({
     input: entry,
@@ -161,17 +163,29 @@ async function buildTypes({
     plugins: [rollupDts()],
   });
 
-  await bundle.write({
-    file: outputPath,
-    format: "esm",
-    // Despite this being an ES module, some TypeScript setups require this.
-    // (This doesn't remove the `export default` from the final file.)
-    outro: "export = helmet",
-  });
+  await Promise.all([
+    (async () => {
+      const cjsPath = path.join(distDir, "index.d.cts");
+      await bundle.write({
+        file: cjsPath,
+        format: "commonjs",
+      });
+      console.log(`Built ${cjsPath}.`);
+    })(),
+    (async () => {
+      if (!esm) {
+        return;
+      }
+      const esmPath = path.join(distDir, "index.d.mts");
+      await bundle.write({
+        file: esmPath,
+        format: "esm",
+      });
+      console.log(`Built ${esmPath}.`);
+    })(),
+  ]);
 
   await bundle.close();
-
-  console.log(`Built ${outputPath}.`);
 }
 
 async function buildPackageJson({
@@ -212,24 +226,15 @@ async function buildPackageJson({
     },
 
     exports: {
-      ".": {
-        ...(esm
-          ? {
-              import: {
-                types: "./index.d.ts",
-                default: "./index.mjs",
-              },
-            }
-          : {}),
-        require: {
-          types: "./index.d.ts",
-          default: "./index.cjs",
-        },
-      },
+      ...(esm ? { import: "./index.mjs" } : {}),
+      require: "./index.cjs",
     },
     // All supported versions of Node handle `exports`, but some build tools
     // still use `main`, so we keep it around.
     main: "./index.cjs",
+
+    // Support old TypeScript versions.
+    types: "./index.d.cts",
 
     ...packageOverrides,
   };
