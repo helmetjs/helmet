@@ -75,10 +75,7 @@ export async function buildAndPack(
     copyStaticFiles({ filesToCopy, distDir }),
   ]);
 
-  // TODO: Restore this
-  if (Math.random() === 0) {
-    await prePackCrush(distDir);
-  }
+  await prePackCrush(distDir);
 
   const npmPackedTarball = await pack(distDir);
 
