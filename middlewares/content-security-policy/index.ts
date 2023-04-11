@@ -1,41 +1,14 @@
 import { IncomingMessage, ServerResponse } from "http";
+import {
+  ContentSecurityPolicy,
+  ContentSecurityPolicyDirectiveValue,
+  ContentSecurityPolicyOptions,
+  NormalizedDirectives,
+  dangerouslyDisableDefaultSrc,
+  GetDefaultDirectives,
+} from "./types";
 
-type ContentSecurityPolicyDirectiveValueFunction = (
-  req: IncomingMessage,
-  res: ServerResponse
-) => string;
-
-type ContentSecurityPolicyDirectiveValue =
-  | string
-  | ContentSecurityPolicyDirectiveValueFunction;
-
-export interface ContentSecurityPolicyOptions {
-  useDefaults?: boolean;
-  directives?: Record<
-    string,
-    | null
-    | Iterable<ContentSecurityPolicyDirectiveValue>
-    | typeof dangerouslyDisableDefaultSrc
-  >;
-  reportOnly?: boolean;
-}
-
-type NormalizedDirectives = Map<
-  string,
-  Iterable<ContentSecurityPolicyDirectiveValue>
->;
-
-interface ContentSecurityPolicy {
-  (options?: Readonly<ContentSecurityPolicyOptions>): (
-    req: IncomingMessage,
-    res: ServerResponse,
-    next: (err?: Error) => void
-  ) => void;
-  getDefaultDirectives: typeof getDefaultDirectives;
-  dangerouslyDisableDefaultSrc: typeof dangerouslyDisableDefaultSrc;
-}
-
-const dangerouslyDisableDefaultSrc = Symbol("dangerouslyDisableDefaultSrc");
+export * from "./types";
 
 const DEFAULT_DIRECTIVES: Record<
   string,
@@ -53,8 +26,9 @@ const DEFAULT_DIRECTIVES: Record<
   "style-src": ["'self'", "https:", "'unsafe-inline'"],
   "upgrade-insecure-requests": [],
 };
-
-const getDefaultDirectives = () => ({ ...DEFAULT_DIRECTIVES });
+const getDefaultDirectives: GetDefaultDirectives = () => ({
+  ...DEFAULT_DIRECTIVES,
+});
 
 const dashify = (str: string): string =>
   str.replace(/[A-Z]/g, (capitalLetter) => "-" + capitalLetter.toLowerCase());

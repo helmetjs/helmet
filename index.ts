@@ -51,7 +51,7 @@ export interface HelmetOptions {
   xssFilter?: boolean;
 }
 
-type MiddlewareFunction = (
+export type MiddlewareFunction = (
   req: IncomingMessage,
   res: ServerResponse,
   next: (error?: Error) => void
@@ -289,3 +289,7 @@ export {
   xPoweredBy as hidePoweredBy,
   xXssProtection as xssFilter,
 };
+
+export * from "./middlewares/content-security-policy/types";
+export * from "./middlewares/referrer-policy/types";
+export * from "./middlewares/strict-transport-security/types";
