@@ -5,6 +5,7 @@
 ### Changed
 
 - Expose header names (e.g., `strictTransportSecurity` for the `Strict-Transport-Security` header, instead of `hsts`)
+- Rework documentation
 
 ## 6.1.5 - 2023-04-11
 
