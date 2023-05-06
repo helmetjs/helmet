@@ -33,11 +33,6 @@ function getHeaderValueFromOptions(
       'Strict-Transport-Security middleware should use `includeSubDomains` instead of `includeSubdomains`. (The correct one has an uppercase "D".)'
     );
   }
-  if ("setIf" in options) {
-    console.warn(
-      "Strict-Transport-Security middleware no longer supports the `setIf` parameter. See the documentation and <https://github.com/helmetjs/helmet/wiki/Conditionally-using-middleware> if you need help replicating this behavior."
-    );
-  }
 
   const directives: string[] = [`max-age=${parseMaxAge(options.maxAge)}`];
 
