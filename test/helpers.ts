@@ -13,6 +13,10 @@ export async function check(
   expectedHeaders: Readonly<Record<string, string | null>>
 ) {
   const app = connect()
+    .use((_req, res, next) => {
+      res.setHeader("X-Powered-By", "Helmet test");
+      next();
+    })
     .use(middleware)
     .use((_req: IncomingMessage, res: ServerResponse) => {
       res.end("Hello world!");

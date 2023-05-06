@@ -4,7 +4,7 @@
 
 ### Changed
 
-- Expose header names for standalone middleware (e.g., `helmet.strictTransportSecurity` for the `Strict-Transport-Security` header)
+- Expose header names (e.g., `strictTransportSecurity` for the `Strict-Transport-Security` header, instead of `hsts`)
 
 ## 6.1.5 - 2023-04-11
 

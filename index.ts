@@ -33,23 +33,68 @@ import xPermittedCrossDomainPolicies, {
 import xPoweredBy from "./middlewares/x-powered-by/index.js";
 import xXssProtection from "./middlewares/x-xss-protection/index.js";
 
-export interface HelmetOptions {
+export type HelmetOptions = {
   contentSecurityPolicy?: ContentSecurityPolicyOptions | boolean;
   crossOriginEmbedderPolicy?: CrossOriginEmbedderPolicyOptions | boolean;
   crossOriginOpenerPolicy?: CrossOriginOpenerPolicyOptions | boolean;
   crossOriginResourcePolicy?: CrossOriginResourcePolicyOptions | boolean;
-  dnsPrefetchControl?: XDnsPrefetchControlOptions | boolean;
   expectCt?: ExpectCtOptions | boolean;
-  frameguard?: XFrameOptionsOptions | boolean;
-  hidePoweredBy?: boolean;
-  hsts?: StrictTransportSecurityOptions | boolean;
-  ieNoOpen?: boolean;
-  noSniff?: boolean;
   originAgentCluster?: boolean;
-  permittedCrossDomainPolicies?: XPermittedCrossDomainPoliciesOptions | boolean;
   referrerPolicy?: ReferrerPolicyOptions | boolean;
-  xssFilter?: boolean;
-}
+} & (
+  | {
+      strictTransportSecurity?: StrictTransportSecurityOptions | boolean;
+      hsts?: never;
+    }
+  | {
+      hsts?: StrictTransportSecurityOptions | boolean;
+      strictTransportSecurity?: never;
+    }
+) &
+  (
+    | { xContentTypeOptions?: boolean; noSniff?: never }
+    | { noSniff?: boolean; xContentTypeOptions?: never }
+  ) &
+  (
+    | {
+        xDnsPrefetchControl?: XDnsPrefetchControlOptions | boolean;
+        dnsPrefetchControl?: never;
+      }
+    | {
+        dnsPrefetchControl?: XDnsPrefetchControlOptions | boolean;
+        xDnsPrefetchControl?: never;
+      }
+  ) &
+  (
+    | { xDownloadOptions?: boolean; ieNoOpen?: never }
+    | { ieNoOpen?: boolean; xDownloadOptions?: never }
+  ) &
+  (
+    | { xFrameOptions?: XFrameOptionsOptions | boolean; frameguard?: never }
+    | { frameguard?: XFrameOptionsOptions | boolean; xFrameOptions?: never }
+  ) &
+  (
+    | {
+        xPermittedCrossDomainPolicies?:
+          | XPermittedCrossDomainPoliciesOptions
+          | boolean;
+        permittedCrossDomainPolicies?: never;
+      }
+    | {
+        permittedCrossDomainPolicies?:
+          | XPermittedCrossDomainPoliciesOptions
+          | boolean;
+        xPermittedCrossDomainPolicies?: never;
+      }
+  ) &
+  (
+    | { xPoweredBy?: boolean; hidePoweredBy?: never }
+    | { hidePoweredBy?: boolean; xPoweredBy?: never }
+  ) &
+  (
+    | { xXssProtection?: boolean; xssFilter?: never }
+    | { xssFilter?: boolean; xXssProtection?: never }
+  );
 
 type MiddlewareFunction = (
   req: IncomingMessage,
@@ -68,46 +113,27 @@ interface Helmet {
   crossOriginEmbedderPolicy: typeof crossOriginEmbedderPolicy;
   crossOriginOpenerPolicy: typeof crossOriginOpenerPolicy;
   crossOriginResourcePolicy: typeof crossOriginResourcePolicy;
-  dnsPrefetchControl: typeof xDnsPrefetchControl;
   expectCt: typeof expectCt;
+  originAgentCluster: typeof originAgentCluster;
+  referrerPolicy: typeof referrerPolicy;
+  strictTransportSecurity: typeof strictTransportSecurity;
+  xContentTypeOptions: typeof xContentTypeOptions;
+  xDnsPrefetchControl: typeof xDnsPrefetchControl;
+  xDownloadOptions: typeof xDownloadOptions;
+  xFrameOptions: typeof xFrameOptions;
+  xPermittedCrossDomainPolicies: typeof xPermittedCrossDomainPolicies;
+  xPoweredBy: typeof xPoweredBy;
+  xXssProtection: typeof xXssProtection;
+
+  // Legacy aliases
+  dnsPrefetchControl: typeof xDnsPrefetchControl;
   frameguard: typeof xFrameOptions;
   hidePoweredBy: typeof xPoweredBy;
   hsts: typeof strictTransportSecurity;
   ieNoOpen: typeof xDownloadOptions;
   noSniff: typeof xContentTypeOptions;
-  originAgentCluster: typeof originAgentCluster;
   permittedCrossDomainPolicies: typeof xPermittedCrossDomainPolicies;
-  referrerPolicy: typeof referrerPolicy;
-  xDnsPrefetchControl: typeof xDnsPrefetchControl;
   xssFilter: typeof xXssProtection;
-}
-
-function getArgs<T>(
-  option: undefined | boolean | Readonly<T>,
-  middlewareConfig: Readonly<
-    | { takesOptions?: true }
-    | {
-        name: string;
-        takesOptions: false;
-      }
-  > = {}
-): null | [] | [T] {
-  switch (option) {
-    case undefined:
-    case true:
-      return [];
-    case false:
-      return null;
-    default:
-      if (middlewareConfig.takesOptions === false) {
-        console.warn(
-          `${middlewareConfig.name} does not take options. Remove the property to silence this warning.`
-        );
-        return [];
-      } else {
-        return [option];
-      }
-  }
 }
 
 function getMiddlewareFunctionsFromOptions(
@@ -115,102 +141,257 @@ function getMiddlewareFunctionsFromOptions(
 ): MiddlewareFunction[] {
   const result: MiddlewareFunction[] = [];
 
-  const contentSecurityPolicyArgs = getArgs(options.contentSecurityPolicy);
-  if (contentSecurityPolicyArgs) {
-    result.push(contentSecurityPolicy(...contentSecurityPolicyArgs));
+  switch (options.contentSecurityPolicy) {
+    case undefined:
+    case true:
+      result.push(contentSecurityPolicy());
+      break;
+    case false:
+      break;
+    default:
+      result.push(contentSecurityPolicy(options.contentSecurityPolicy));
+      break;
   }
 
-  const crossOriginEmbedderPolicyArgs = getArgs(
-    options.crossOriginEmbedderPolicy
-  );
-  if (crossOriginEmbedderPolicyArgs) {
-    result.push(crossOriginEmbedderPolicy(...crossOriginEmbedderPolicyArgs));
+  switch (options.crossOriginEmbedderPolicy) {
+    case undefined:
+    case true:
+      result.push(crossOriginEmbedderPolicy());
+      break;
+    case false:
+      break;
+    default:
+      result.push(crossOriginEmbedderPolicy(options.crossOriginEmbedderPolicy));
+      break;
   }
 
-  const crossOriginOpenerPolicyArgs = getArgs(options.crossOriginOpenerPolicy);
-  if (crossOriginOpenerPolicyArgs) {
-    result.push(crossOriginOpenerPolicy(...crossOriginOpenerPolicyArgs));
+  switch (options.crossOriginOpenerPolicy) {
+    case undefined:
+    case true:
+      result.push(crossOriginOpenerPolicy());
+      break;
+    case false:
+      break;
+    default:
+      result.push(crossOriginOpenerPolicy(options.crossOriginOpenerPolicy));
+      break;
   }
 
-  const crossOriginResourcePolicyArgs = getArgs(
-    options.crossOriginResourcePolicy
-  );
-  if (crossOriginResourcePolicyArgs) {
-    result.push(crossOriginResourcePolicy(...crossOriginResourcePolicyArgs));
+  switch (options.crossOriginResourcePolicy) {
+    case undefined:
+    case true:
+      result.push(crossOriginResourcePolicy());
+      break;
+    case false:
+      break;
+    default:
+      result.push(crossOriginResourcePolicy(options.crossOriginResourcePolicy));
+      break;
   }
 
-  const xDnsPrefetchControlArgs = getArgs(options.dnsPrefetchControl);
-  if (xDnsPrefetchControlArgs) {
-    result.push(xDnsPrefetchControl(...xDnsPrefetchControlArgs));
+  switch (options.expectCt) {
+    case undefined:
+    case false:
+      break;
+    case true:
+      result.push(expectCt());
+      break;
+    default:
+      result.push(expectCt(options.expectCt));
+      break;
   }
 
-  const expectCtArgs = options.expectCt && getArgs(options.expectCt);
-  if (expectCtArgs) {
-    result.push(expectCt(...expectCtArgs));
+  switch (options.originAgentCluster) {
+    case undefined:
+    case true:
+      result.push(originAgentCluster());
+      break;
+    case false:
+      break;
+    default:
+      console.warn(
+        "Origin-Agent-Cluster does not take options. Remove the property to silence this warning."
+      );
+      result.push(originAgentCluster());
+      break;
   }
 
-  const xFrameOptionsArgs = getArgs(options.frameguard);
-  if (xFrameOptionsArgs) {
-    result.push(xFrameOptions(...xFrameOptionsArgs));
+  switch (options.referrerPolicy) {
+    case undefined:
+    case true:
+      result.push(referrerPolicy());
+      break;
+    case false:
+      break;
+    default:
+      result.push(referrerPolicy(options.referrerPolicy));
+      break;
   }
 
-  const xPoweredByArgs = getArgs(options.hidePoweredBy, {
-    name: "hidePoweredBy",
-    takesOptions: false,
-  });
-  if (xPoweredByArgs) {
-    result.push(xPoweredBy());
-  }
-
-  const strictTransportSecurityArgs = getArgs(options.hsts);
-  if (strictTransportSecurityArgs) {
-    result.push(strictTransportSecurity(...strictTransportSecurityArgs));
-  }
-
-  const xDownloadOptionsArgs = getArgs(options.ieNoOpen, {
-    name: "ieNoOpen",
-    takesOptions: false,
-  });
-  if (xDownloadOptionsArgs) {
-    result.push(xDownloadOptions());
-  }
-
-  const xContentTypeOptionsArgs = getArgs(options.noSniff, {
-    name: "noSniff",
-    takesOptions: false,
-  });
-  if (xContentTypeOptionsArgs) {
-    result.push(xContentTypeOptions());
-  }
-
-  const originAgentClusterArgs = getArgs(options.originAgentCluster, {
-    name: "originAgentCluster",
-    takesOptions: false,
-  });
-  if (originAgentClusterArgs) {
-    result.push(originAgentCluster());
-  }
-
-  const xPermittedCrossDomainPoliciesArgs = getArgs(
-    options.permittedCrossDomainPolicies
-  );
-  if (xPermittedCrossDomainPoliciesArgs) {
-    result.push(
-      xPermittedCrossDomainPolicies(...xPermittedCrossDomainPoliciesArgs)
+  if ("strictTransportSecurity" in options && "hsts" in options) {
+    throw new Error(
+      "Strict-Transport-Security option was specified twice. Remove `hsts` to silence this warning."
     );
   }
-
-  const referrerPolicyArgs = getArgs(options.referrerPolicy);
-  if (referrerPolicyArgs) {
-    result.push(referrerPolicy(...referrerPolicyArgs));
+  const strictTransportSecurityOption =
+    options.strictTransportSecurity ?? options.hsts;
+  switch (strictTransportSecurityOption) {
+    case undefined:
+    case true:
+      result.push(strictTransportSecurity());
+      break;
+    case false:
+      break;
+    default:
+      result.push(strictTransportSecurity(strictTransportSecurityOption));
+      break;
   }
 
-  const xXssProtectionArgs = getArgs(options.xssFilter, {
-    name: "xssFilter",
-    takesOptions: false,
-  });
-  if (xXssProtectionArgs) {
-    result.push(xXssProtection());
+  if ("xContentTypeOptions" in options && "noSniff" in options) {
+    throw new Error(
+      "X-Content-Type-Options option was specified twice. Remove `noSniff` to silence this warning."
+    );
+  }
+  const xContentTypeOptionsOption =
+    options.xContentTypeOptions ?? options.noSniff;
+  switch (xContentTypeOptionsOption) {
+    case undefined:
+    case true:
+      result.push(xContentTypeOptions());
+      break;
+    case false:
+      break;
+    default:
+      console.warn(
+        "X-Content-Type-Options does not take options. Remove the property to silence this warning."
+      );
+      result.push(xContentTypeOptions());
+      break;
+  }
+
+  if ("xDnsPrefetchControl" in options && "dnsPrefetchControl" in options) {
+    throw new Error(
+      "X-DNS-Prefetch-Control option was specified twice. Remove `dnsPrefetchControl` to silence this warning."
+    );
+  }
+  const xDnsPrefetchControlOption =
+    options.xDnsPrefetchControl ?? options.dnsPrefetchControl;
+  switch (xDnsPrefetchControlOption) {
+    case undefined:
+    case true:
+      result.push(xDnsPrefetchControl());
+      break;
+    case false:
+      break;
+    default:
+      result.push(xDnsPrefetchControl(xDnsPrefetchControlOption));
+      break;
+  }
+
+  if ("xDownloadOptions" in options && "ieNoOpen" in options) {
+    throw new Error(
+      "X-Download-Options option was specified twice. Remove `ieNoOpen` to silence this warning."
+    );
+  }
+  const xDownloadOptionsOption = options.xDownloadOptions ?? options.ieNoOpen;
+  switch (xDownloadOptionsOption) {
+    case undefined:
+    case true:
+      result.push(xDownloadOptions());
+      break;
+    case false:
+      break;
+    default:
+      console.warn(
+        "X-Download-Options does not take options. Remove the property to silence this warning."
+      );
+      result.push(xDownloadOptions());
+      break;
+  }
+
+  if ("xFrameOptions" in options && "frameguard" in options) {
+    throw new Error(
+      "X-Frame-Options option was specified twice. Remove `frameguard` to silence this warning."
+    );
+  }
+  const xFrameOptionsOption = options.xFrameOptions ?? options.frameguard;
+  switch (xFrameOptionsOption) {
+    case undefined:
+    case true:
+      result.push(xFrameOptions());
+      break;
+    case false:
+      break;
+    default:
+      result.push(xFrameOptions(xFrameOptionsOption));
+      break;
+  }
+
+  if (
+    "xPermittedCrossDomainPolicies" in options &&
+    "permittedCrossDomainPolicies" in options
+  ) {
+    throw new Error(
+      "X-Permitted-Cross-Domain-Policies option was specified twice. Remove `permittedCrossDomainPolicies` to silence this warning."
+    );
+  }
+  const xPermittedCrossDomainPoliciesOption =
+    options.xPermittedCrossDomainPolicies ??
+    options.permittedCrossDomainPolicies;
+  switch (xPermittedCrossDomainPoliciesOption) {
+    case undefined:
+    case true:
+      result.push(xPermittedCrossDomainPolicies());
+      break;
+    case false:
+      break;
+    default:
+      result.push(
+        xPermittedCrossDomainPolicies(xPermittedCrossDomainPoliciesOption)
+      );
+      break;
+  }
+
+  if ("xPoweredBy" in options && "hidePoweredBy" in options) {
+    throw new Error(
+      "X-Powered-By option was specified twice. Remove `hidePoweredBy` to silence this warning."
+    );
+  }
+  const xPoweredByOption = options.xPoweredBy ?? options.hidePoweredBy;
+  switch (xPoweredByOption) {
+    case undefined:
+    case true:
+      result.push(xPoweredBy());
+      break;
+    case false:
+      break;
+    default:
+      console.warn(
+        "X-Powered-By does not take options. Remove the property to silence this warning."
+      );
+      result.push(xPoweredBy());
+      break;
+  }
+
+  if ("xXssProtection" in options && "xssFilter" in options) {
+    throw new Error(
+      "X-XSS-Protection option was specified twice. Remove `xssFilter` to silence this warning."
+    );
+  }
+  const xXssProtectionOption = options.xXssProtection ?? options.xssFilter;
+  switch (xXssProtectionOption) {
+    case undefined:
+    case true:
+      result.push(xXssProtection());
+      break;
+    case false:
+      break;
+    default:
+      console.warn(
+        "X-XSS-Protection does not take options. Remove the property to silence this warning."
+      );
+      result.push(xXssProtection());
+      break;
   }
 
   return result;
@@ -292,21 +473,21 @@ export {
   originAgentCluster,
   referrerPolicy,
   strictTransportSecurity,
-  xContentTypeOptions,
-  xDnsPrefetchControl,
-  xDownloadOptions,
-  xFrameOptions,
-  xPermittedCrossDomainPolicies,
-  xPoweredBy,
-  xXssProtection,
 
   // Legacy aliases
   strictTransportSecurity as hsts,
+  xContentTypeOptions,
   xContentTypeOptions as noSniff,
+  xDnsPrefetchControl,
   xDnsPrefetchControl as dnsPrefetchControl,
+  xDownloadOptions,
   xDownloadOptions as ieNoOpen,
+  xFrameOptions,
   xFrameOptions as frameguard,
+  xPermittedCrossDomainPolicies,
   xPermittedCrossDomainPolicies as permittedCrossDomainPolicies,
+  xPoweredBy,
   xPoweredBy as hidePoweredBy,
+  xXssProtection,
   xXssProtection as xssFilter,
 };
