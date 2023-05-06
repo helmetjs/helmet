@@ -1,6 +1,6 @@
 {
   "private": true,
-  "version": "6.2.0",
+  "version": "7.0.0",
   "devDependencies": {
     "@rollup/plugin-typescript": "^11.1.0",
     "@types/connect": "^3.4.35",
