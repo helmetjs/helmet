@@ -273,13 +273,15 @@ describe("helmet", () => {
     });
   });
 
-  describe("module aliases", () => {
-    it("aliases the X-DNS-Prefetch-Control middleware to helmet.dnsPrefetchControl", () => {
-      expect(helmet.dnsPrefetchControl.name).toBe(xDnsPrefetchControl.name);
-      expect(helmet.dnsPrefetchControl.name).toBe("xDnsPrefetchControl");
+  describe("standalone header middleware", () => {
+    it("exposes the Content-Security-Policy middleware", () => {
+      expect(helmet.contentSecurityPolicy.name).toBe(
+        contentSecurityPolicy.name
+      );
+      expect(helmet.contentSecurityPolicy.name).toBe("contentSecurityPolicy");
     });
 
-    it("aliases the Cross-Origin-Embedder-Policy middleware to helmet.crossOriginEmbedderPolicy", () => {
+    it("exposes the Cross-Origin-Embedder-Policy middleware", () => {
       expect(helmet.crossOriginEmbedderPolicy.name).toBe(
         crossOriginEmbedderPolicy.name
       );
@@ -288,7 +290,7 @@ describe("helmet", () => {
       );
     });
 
-    it("aliases the Cross-Origin-Opener-Policy middleware to helmet.crossOriginOpenerPolicy", () => {
+    it("exposes the Cross-Origin-Opener-Policy middleware", () => {
       expect(helmet.crossOriginOpenerPolicy.name).toBe(
         crossOriginOpenerPolicy.name
       );
@@ -297,7 +299,7 @@ describe("helmet", () => {
       );
     });
 
-    it("aliases the Cross-Origin-Resource-Policy middleware to helmet.crossOriginResourcePolicy", () => {
+    it("exposes the Cross-Origin-Resource-Policy middleware", () => {
       expect(helmet.crossOriginResourcePolicy.name).toBe(
         crossOriginResourcePolicy.name
       );
@@ -306,65 +308,85 @@ describe("helmet", () => {
       );
     });
 
-    it("aliases the X-Content-Type-Options middleware to helmet.noSniff", () => {
-      expect(helmet.noSniff.name).toBe(xContentTypeOptions.name);
-      expect(helmet.noSniff.name).toBe("xContentTypeOptions");
-    });
-
-    it("aliases the Expect-CT middleware to helmet.expectCt", () => {
+    it("exposes the Expect-CT middleware", () => {
       expect(helmet.expectCt.name).toBe(expectCt.name);
       expect(helmet.expectCt.name).toBe("expectCt");
     });
 
-    it("aliases the X-Permitted-Cross-Domain-Policies middleware to helmet.crossdomain", () => {
-      expect(helmet.permittedCrossDomainPolicies.name).toBe(
-        xPermittedCrossDomainPolicies.name
-      );
-      expect(helmet.permittedCrossDomainPolicies.name).toBe(
-        "xPermittedCrossDomainPolicies"
-      );
-    });
-
-    it("aliases the X-Frame-Options middleware to helmet.frameguard", () => {
-      expect(helmet.frameguard.name).toBe(xFrameOptions.name);
-      expect(helmet.frameguard.name).toBe("xFrameOptions");
-    });
-
-    it("aliases the Content-Security-Policy middleware to helmet.contentSecurityPolicy", () => {
-      expect(helmet.contentSecurityPolicy.name).toBe(
-        contentSecurityPolicy.name
-      );
-      expect(helmet.contentSecurityPolicy.name).toBe("contentSecurityPolicy");
-    });
-
-    it("aliases the X-Powered-By middleware to helmet.hidePoweredBy", () => {
-      expect(helmet.hidePoweredBy.name).toBe(xPoweredBy.name);
-      expect(helmet.hidePoweredBy.name).toBe("xPoweredBy");
-    });
-
-    it("aliases the Strict-Transport-Security middleware to helmet.hsts", () => {
-      expect(helmet.hsts.name).toBe(strictTransportSecurity.name);
-      expect(helmet.hsts.name).toBe("strictTransportSecurity");
-    });
-
-    it("aliases the X-Download-Options middleware to helmet.ieNoOpen", () => {
-      expect(helmet.ieNoOpen.name).toBe(xDownloadOptions.name);
-      expect(helmet.ieNoOpen.name).toBe("xDownloadOptions");
-    });
-
-    it("aliases the Referrer-Policy middleware to helmet.referrerPolicy", () => {
-      expect(helmet.referrerPolicy.name).toBe(referrerPolicy.name);
-      expect(helmet.referrerPolicy.name).toBe("referrerPolicy");
-    });
-
-    it("aliases the Origin-Agent-Cluster middleware to helmet.originAgentCluster", () => {
+    it("exposes the Origin-Agent-Cluster middleware", () => {
       expect(helmet.originAgentCluster.name).toBe(originAgentCluster.name);
       expect(helmet.originAgentCluster.name).toBe("originAgentCluster");
     });
 
-    it("aliases the X-XSS-Protection middleware to helmet.xssFilter", () => {
+    it("exposes the Referrer-Policy middleware", () => {
+      expect(helmet.referrerPolicy.name).toBe(referrerPolicy.name);
+      expect(helmet.referrerPolicy.name).toBe("referrerPolicy");
+    });
+
+    it("exposes the Strict-Transport-Security middleware", () => {
+      expect(helmet.strictTransportSecurity.name).toBe(
+        strictTransportSecurity.name
+      );
+      expect(helmet.strictTransportSecurity.name).toBe(
+        "strictTransportSecurity"
+      );
+
+      expect(helmet.hsts.name).toBe(strictTransportSecurity.name);
+    });
+
+    it("exposes the X-Content-Type-Options middleware", () => {
+      expect(helmet.xContentTypeOptions.name).toBe(xContentTypeOptions.name);
+      expect(helmet.xContentTypeOptions.name).toBe("xContentTypeOptions");
+
+      expect(helmet.noSniff.name).toBe(xContentTypeOptions.name);
+    });
+
+    it("exposes the X-DNS-Prefetch-Control middleware", () => {
+      expect(helmet.xDnsPrefetchControl.name).toBe(xDnsPrefetchControl.name);
+      expect(helmet.xDnsPrefetchControl.name).toBe("xDnsPrefetchControl");
+
+      expect(helmet.dnsPrefetchControl.name).toBe(xDnsPrefetchControl.name);
+    });
+
+    it("exposes the X-Download-Options middleware", () => {
+      expect(helmet.xDownloadOptions.name).toBe(xDownloadOptions.name);
+      expect(helmet.xDownloadOptions.name).toBe("xDownloadOptions");
+
+      expect(helmet.ieNoOpen.name).toBe(xDownloadOptions.name);
+    });
+
+    it("exposes the X-Frame-Options middleware", () => {
+      expect(helmet.xFrameOptions.name).toBe(xFrameOptions.name);
+      expect(helmet.xFrameOptions.name).toBe("xFrameOptions");
+
+      expect(helmet.frameguard.name).toBe(xFrameOptions.name);
+    });
+
+    it("exposes the X-Permitted-Cross-Domain-Policies middleware", () => {
+      expect(helmet.xPermittedCrossDomainPolicies.name).toBe(
+        xPermittedCrossDomainPolicies.name
+      );
+      expect(helmet.xPermittedCrossDomainPolicies.name).toBe(
+        "xPermittedCrossDomainPolicies"
+      );
+
+      expect(helmet.permittedCrossDomainPolicies.name).toBe(
+        xPermittedCrossDomainPolicies.name
+      );
+    });
+
+    it("exposes the X-Powered-By middleware", () => {
+      expect(helmet.xPoweredBy.name).toBe(xPoweredBy.name);
+      expect(helmet.xPoweredBy.name).toBe("xPoweredBy");
+
+      expect(helmet.hidePoweredBy.name).toBe(xPoweredBy.name);
+    });
+
+    it("exposes the X-XSS-Protection middleware", () => {
+      expect(helmet.xXssProtection.name).toBe(xXssProtection.name);
+      expect(helmet.xXssProtection.name).toBe("xXssProtection");
+
       expect(helmet.xssFilter.name).toBe(xXssProtection.name);
-      expect(helmet.xssFilter.name).toBe("xXssProtection");
     });
   });
 });

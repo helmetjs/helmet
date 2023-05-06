@@ -78,6 +78,7 @@ interface Helmet {
   originAgentCluster: typeof originAgentCluster;
   permittedCrossDomainPolicies: typeof xPermittedCrossDomainPolicies;
   referrerPolicy: typeof referrerPolicy;
+  xDnsPrefetchControl: typeof xDnsPrefetchControl;
   xssFilter: typeof xXssProtection;
 }
 
@@ -256,17 +257,27 @@ const helmet: Helmet = Object.assign(
     crossOriginEmbedderPolicy,
     crossOriginOpenerPolicy,
     crossOriginResourcePolicy,
-    dnsPrefetchControl: xDnsPrefetchControl,
     expectCt,
+    originAgentCluster,
+    referrerPolicy,
+    strictTransportSecurity,
+    xContentTypeOptions,
+    xDnsPrefetchControl,
+    xDownloadOptions,
+    xFrameOptions,
+    xPermittedCrossDomainPolicies,
+    xPoweredBy,
+    xXssProtection,
+
+    // Legacy aliases
+    dnsPrefetchControl: xDnsPrefetchControl,
+    xssFilter: xXssProtection,
+    permittedCrossDomainPolicies: xPermittedCrossDomainPolicies,
+    ieNoOpen: xDownloadOptions,
+    noSniff: xContentTypeOptions,
     frameguard: xFrameOptions,
     hidePoweredBy: xPoweredBy,
     hsts: strictTransportSecurity,
-    ieNoOpen: xDownloadOptions,
-    noSniff: xContentTypeOptions,
-    originAgentCluster,
-    permittedCrossDomainPolicies: xPermittedCrossDomainPolicies,
-    referrerPolicy,
-    xssFilter: xXssProtection,
   }
 );
 
@@ -280,6 +291,16 @@ export {
   expectCt,
   originAgentCluster,
   referrerPolicy,
+  strictTransportSecurity,
+  xContentTypeOptions,
+  xDnsPrefetchControl,
+  xDownloadOptions,
+  xFrameOptions,
+  xPermittedCrossDomainPolicies,
+  xPoweredBy,
+  xXssProtection,
+
+  // Legacy aliases
   strictTransportSecurity as hsts,
   xContentTypeOptions as noSniff,
   xDnsPrefetchControl as dnsPrefetchControl,

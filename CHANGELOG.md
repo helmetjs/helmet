@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+### Changed
+
+- Expose header names for standalone middleware (e.g., `helmet.strictTransportSecurity` for the `Strict-Transport-Security` header)
+
 ## 6.1.5 - 2023-04-11
 
 ### Fixed
