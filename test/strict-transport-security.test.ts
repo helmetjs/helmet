@@ -86,30 +86,14 @@ describe("Strict-Transport-Security middleware", () => {
     expect(() => strictTransportSecurity({ maxage: 1234 } as any)).toThrow();
   });
 
-  // This functionality only exists to ease the transition to this major version.
-  // It's safe to remove these warnings (and therefore these tests) without a
-  // breaking change.
-  describe("warnings for legacy usage", () => {
-    beforeEach(() => {
-      jest.spyOn(console, "warn").mockImplementation(() => {});
-    });
+  it("logs a warning when using the mis-capitalized `includeSubdomains` parameter", () => {
+    jest.spyOn(console, "warn").mockImplementation(() => {});
 
-    it("logs a warning when using the `includeSubdomains` parameter", () => {
-      strictTransportSecurity({ includeSubdomains: false } as any);
+    strictTransportSecurity({ includeSubdomains: false } as any);
 
-      expect(console.warn).toHaveBeenCalledTimes(1);
-      expect(console.warn).toHaveBeenCalledWith(
-        'Strict-Transport-Security middleware should use `includeSubDomains` instead of `includeSubdomains`. (The correct one has an uppercase "D".)'
-      );
-    });
-
-    it("logs a warning when using the `setIf` parameter", () => {
-      strictTransportSecurity({ setIf: () => false } as any);
-
-      expect(console.warn).toHaveBeenCalledTimes(1);
-      expect(console.warn).toHaveBeenCalledWith(
-        "Strict-Transport-Security middleware no longer supports the `setIf` parameter. See the documentation and <https://github.com/helmetjs/helmet/wiki/Conditionally-using-middleware> if you need help replicating this behavior."
-      );
-    });
+    expect(console.warn).toHaveBeenCalledTimes(1);
+    expect(console.warn).toHaveBeenCalledWith(
+      'Strict-Transport-Security middleware should use `includeSubDomains` instead of `includeSubdomains`. (The correct one has an uppercase "D".)'
+    );
   });
 });
