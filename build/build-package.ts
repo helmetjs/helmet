@@ -5,7 +5,7 @@ import * as zlib from "zlib";
 import { fileURLToPath } from "url";
 import { pipeline } from "stream";
 import { promisify } from "util";
-import { RollupBuild, rollup } from "rollup";
+import { rollup, type RollupBuild } from "rollup";
 import rollupTypescript from "@rollup/plugin-typescript";
 import rollupDts from "rollup-plugin-dts";
 import prettier from "prettier";

@@ -1,4 +1,4 @@
-import { IncomingMessage, ServerResponse } from "http";
+import type { IncomingMessage, ServerResponse } from "http";
 
 export interface CrossOriginOpenerPolicyOptions {
   policy?: "same-origin" | "same-origin-allow-popups" | "unsafe-none";

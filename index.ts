@@ -1,33 +1,33 @@
-import { IncomingMessage, ServerResponse } from "http";
+import type { IncomingMessage, ServerResponse } from "http";
 import contentSecurityPolicy, {
-  ContentSecurityPolicyOptions,
+  type ContentSecurityPolicyOptions,
 } from "./middlewares/content-security-policy/index.js";
 import crossOriginEmbedderPolicy, {
-  CrossOriginEmbedderPolicyOptions,
+  type CrossOriginEmbedderPolicyOptions,
 } from "./middlewares/cross-origin-embedder-policy/index.js";
 import crossOriginOpenerPolicy, {
-  CrossOriginOpenerPolicyOptions,
+  type CrossOriginOpenerPolicyOptions,
 } from "./middlewares/cross-origin-opener-policy/index.js";
 import crossOriginResourcePolicy, {
-  CrossOriginResourcePolicyOptions,
+  type CrossOriginResourcePolicyOptions,
 } from "./middlewares/cross-origin-resource-policy/index.js";
 import originAgentCluster from "./middlewares/origin-agent-cluster/index.js";
 import referrerPolicy, {
-  ReferrerPolicyOptions,
+  type ReferrerPolicyOptions,
 } from "./middlewares/referrer-policy/index.js";
 import strictTransportSecurity, {
-  StrictTransportSecurityOptions,
+  type StrictTransportSecurityOptions,
 } from "./middlewares/strict-transport-security/index.js";
 import xContentTypeOptions from "./middlewares/x-content-type-options/index.js";
 import xDnsPrefetchControl, {
-  XDnsPrefetchControlOptions,
+  type XDnsPrefetchControlOptions,
 } from "./middlewares/x-dns-prefetch-control/index.js";
 import xDownloadOptions from "./middlewares/x-download-options/index.js";
 import xFrameOptions, {
-  XFrameOptionsOptions,
+  type XFrameOptionsOptions,
 } from "./middlewares/x-frame-options/index.js";
 import xPermittedCrossDomainPolicies, {
-  XPermittedCrossDomainPoliciesOptions,
+  type XPermittedCrossDomainPoliciesOptions,
 } from "./middlewares/x-permitted-cross-domain-policies/index.js";
 import xPoweredBy from "./middlewares/x-powered-by/index.js";
 import xXssProtection from "./middlewares/x-xss-protection/index.js";
