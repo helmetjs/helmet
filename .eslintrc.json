@@ -15,6 +15,7 @@
   "rules": {
     "no-unused-vars": "off",
     "@typescript-eslint/consistent-type-exports": "error",
+    "@typescript-eslint/no-confusing-void-expression": "error",
     "@typescript-eslint/no-duplicate-enum-values": "error",
     "@typescript-eslint/no-duplicate-type-constituents": "error",
     "@typescript-eslint/no-extraneous-class": "error",

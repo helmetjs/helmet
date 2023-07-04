@@ -3,8 +3,9 @@ import connect from "connect";
 import supertest from "supertest";
 import helmet, { frameguard } from "helmet";
 
-const handler = (_: IncomingMessage, res: ServerResponse) =>
+const handler = (_: IncomingMessage, res: ServerResponse) => {
   res.end("Hello world");
+};
 
 async function testTopLevel() {
   const app = connect().use(helmet()).use(handler);
