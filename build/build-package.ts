@@ -45,7 +45,7 @@ export async function buildAndPack(
     const middlewareDir = path.join(rootDir, "middlewares", middlewareToBuild);
     entry = path.join(middlewareDir, "index.ts");
     esm = false;
-    packageOverrides = await readJson(
+    packageOverrides = await readJsonObject(
       path.join(middlewareDir, "package-overrides.json"),
     );
     filesToCopy = [
@@ -198,7 +198,9 @@ async function buildPackageJson({
 
   console.log(`Building ${outputPath}...`);
 
-  const devPackageJson = await readJson(path.join(rootDir, "package.json"));
+  const devPackageJson = await readJsonObject(
+    path.join(rootDir, "package.json"),
+  );
 
   const packageJson = {
     name: "helmet",
@@ -237,8 +239,14 @@ async function buildPackageJson({
   console.log(`Built ${outputPath}.`);
 }
 
-async function readJson(path: fsOriginal.PathLike): Promise<any> {
-  return JSON.parse(await fs.readFile(path, "utf8"));
+async function readJsonObject(
+  path: fsOriginal.PathLike,
+): Promise<Record<string, unknown>> {
+  const result: unknown = JSON.parse(await fs.readFile(path, "utf8"));
+  if (typeof result !== "object" || result === null) {
+    throw new Error("Got a non-object from JSON.parse()");
+  }
+  return result as Record<string, unknown>;
 }
 
 async function copyStaticFiles({
