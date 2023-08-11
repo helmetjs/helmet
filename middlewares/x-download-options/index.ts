@@ -4,7 +4,7 @@ function xDownloadOptions() {
   return function xDownloadOptionsMiddleware(
     _req: IncomingMessage,
     res: ServerResponse,
-    next: () => void
+    next: () => void,
   ): void {
     res.setHeader("X-Download-Options", "noopen");
     next();

@@ -63,7 +63,7 @@ describe("X-Frame-Options middleware", () => {
       new String("SAMEORIGIN"),
     ]) {
       expect(() => xFrameOptions({ action: action as any })).toThrow(
-        /^X-Frame-Options received an invalid action /
+        /^X-Frame-Options received an invalid action /,
       );
     }
   });

@@ -4,7 +4,7 @@ function originAgentCluster() {
   return function originAgentClusterMiddleware(
     _req: IncomingMessage,
     res: ServerResponse,
-    next: () => void
+    next: () => void,
   ): void {
     res.setHeader("Origin-Agent-Cluster", "?1");
     next();

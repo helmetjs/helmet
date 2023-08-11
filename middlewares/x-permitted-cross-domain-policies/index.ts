@@ -19,21 +19,21 @@ function getHeaderValueFromOptions({
   } else {
     throw new Error(
       `X-Permitted-Cross-Domain-Policies does not support ${JSON.stringify(
-        permittedPolicies
-      )}`
+        permittedPolicies,
+      )}`,
     );
   }
 }
 
 function xPermittedCrossDomainPolicies(
-  options: Readonly<XPermittedCrossDomainPoliciesOptions> = {}
+  options: Readonly<XPermittedCrossDomainPoliciesOptions> = {},
 ) {
   const headerValue = getHeaderValueFromOptions(options);
 
   return function xPermittedCrossDomainPoliciesMiddleware(
     _req: IncomingMessage,
     res: ServerResponse,
-    next: () => void
+    next: () => void,
   ) {
     res.setHeader("X-Permitted-Cross-Domain-Policies", headerValue);
     next();

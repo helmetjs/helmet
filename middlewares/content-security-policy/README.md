@@ -21,7 +21,7 @@ app.use(
       upgradeInsecureRequests: [],
     },
     reportOnly: false,
-  })
+  }),
 );
 ```
 

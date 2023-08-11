@@ -10,11 +10,11 @@ describe("X-Permitted-Cross-Domain-Policies middleware", () => {
     await check(xPermittedCrossDomainPolicies({}), expectedHeaders);
     await check(
       xPermittedCrossDomainPolicies(Object.create(null)),
-      expectedHeaders
+      expectedHeaders,
     );
     await check(
       xPermittedCrossDomainPolicies({ permittedPolicies: undefined }),
-      expectedHeaders
+      expectedHeaders,
     );
   });
 
@@ -25,7 +25,7 @@ describe("X-Permitted-Cross-Domain-Policies middleware", () => {
           "x-permitted-cross-domain-policies": permittedPolicies,
         });
       });
-    }
+    },
   );
 
   it("throws when setting the policy to an invalid value", () => {
@@ -41,7 +41,7 @@ describe("X-Permitted-Cross-Domain-Policies middleware", () => {
       expect(() =>
         xPermittedCrossDomainPolicies({
           permittedPolicies: permittedPolicies as any,
-        })
+        }),
       ).toThrow(/^X-Permitted-Cross-Domain-Policies does not support /);
     }
   });

@@ -18,21 +18,21 @@ function getHeaderValueFromOptions({
   } else {
     throw new Error(
       `Cross-Origin-Opener-Policy does not support the ${JSON.stringify(
-        policy
-      )} policy`
+        policy,
+      )} policy`,
     );
   }
 }
 
 function crossOriginOpenerPolicy(
-  options: Readonly<CrossOriginOpenerPolicyOptions> = {}
+  options: Readonly<CrossOriginOpenerPolicyOptions> = {},
 ) {
   const headerValue = getHeaderValueFromOptions(options);
 
   return function crossOriginOpenerPolicyMiddleware(
     _req: IncomingMessage,
     res: ServerResponse,
-    next: () => void
+    next: () => void,
   ) {
     res.setHeader("Cross-Origin-Opener-Policy", headerValue);
     next();

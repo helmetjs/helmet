@@ -4,7 +4,7 @@ function xPoweredBy() {
   return function xPoweredByMiddleware(
     _req: IncomingMessage,
     res: ServerResponse,
-    next: () => void
+    next: () => void,
   ) {
     res.removeHeader("X-Powered-By");
     next();

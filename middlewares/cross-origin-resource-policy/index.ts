@@ -14,21 +14,21 @@ function getHeaderValueFromOptions({
   } else {
     throw new Error(
       `Cross-Origin-Resource-Policy does not support the ${JSON.stringify(
-        policy
-      )} policy`
+        policy,
+      )} policy`,
     );
   }
 }
 
 function crossOriginResourcePolicy(
-  options: Readonly<CrossOriginResourcePolicyOptions> = {}
+  options: Readonly<CrossOriginResourcePolicyOptions> = {},
 ) {
   const headerValue = getHeaderValueFromOptions(options);
 
   return function crossOriginResourcePolicyMiddleware(
     _req: IncomingMessage,
     res: ServerResponse,
-    next: () => void
+    next: () => void,
   ) {
     res.setHeader("Cross-Origin-Resource-Policy", headerValue);
     next();

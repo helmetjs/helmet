@@ -14,11 +14,11 @@ describe("Strict-Transport-Security middleware", () => {
     await check(strictTransportSecurity(Object.create(null)), expectedHeaders);
     await check(
       strictTransportSecurity({ maxAge: undefined }),
-      expectedHeaders
+      expectedHeaders,
     );
     await check(
       strictTransportSecurity({ includeSubDomains: undefined }),
-      expectedHeaders
+      expectedHeaders,
     );
   });
 
@@ -65,7 +65,7 @@ describe("Strict-Transport-Security middleware", () => {
   it("throws an error with invalid parameters", () => {
     expect(() => strictTransportSecurity({ maxAge: -123 })).toThrow();
     expect(() =>
-      strictTransportSecurity({ maxAge: BigInt(-123) as any })
+      strictTransportSecurity({ maxAge: BigInt(-123) as any }),
     ).toThrow();
     expect(() => strictTransportSecurity({ maxAge: -0.1 })).toThrow();
     expect(() => strictTransportSecurity({ maxAge: Infinity })).toThrow();
@@ -74,7 +74,7 @@ describe("Strict-Transport-Security middleware", () => {
 
     expect(() => strictTransportSecurity({ maxAge: "123" } as any)).toThrow();
     expect(() =>
-      strictTransportSecurity({ maxAge: BigInt(123) } as any)
+      strictTransportSecurity({ maxAge: BigInt(123) } as any),
     ).toThrow();
     expect(() => strictTransportSecurity({ maxAge: true } as any)).toThrow();
     expect(() => strictTransportSecurity({ maxAge: false } as any)).toThrow();
@@ -93,7 +93,7 @@ describe("Strict-Transport-Security middleware", () => {
 
     expect(console.warn).toHaveBeenCalledTimes(1);
     expect(console.warn).toHaveBeenCalledWith(
-      'Strict-Transport-Security middleware should use `includeSubDomains` instead of `includeSubdomains`. (The correct one has an uppercase "D".)'
+      'Strict-Transport-Security middleware should use `includeSubDomains` instead of `includeSubdomains`. (The correct one has an uppercase "D".)',
     );
   });
 });

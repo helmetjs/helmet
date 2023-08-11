@@ -14,23 +14,23 @@ function parseMaxAge(value: number = DEFAULT_MAX_AGE): number {
   } else {
     throw new Error(
       `Strict-Transport-Security: ${JSON.stringify(
-        value
-      )} is not a valid value for maxAge. Please choose a positive integer.`
+        value,
+      )} is not a valid value for maxAge. Please choose a positive integer.`,
     );
   }
 }
 
 function getHeaderValueFromOptions(
-  options: Readonly<StrictTransportSecurityOptions>
+  options: Readonly<StrictTransportSecurityOptions>,
 ): string {
   if ("maxage" in options) {
     throw new Error(
-      "Strict-Transport-Security received an unsupported property, `maxage`. Did you mean to pass `maxAge`?"
+      "Strict-Transport-Security received an unsupported property, `maxage`. Did you mean to pass `maxAge`?",
     );
   }
   if ("includeSubdomains" in options) {
     console.warn(
-      'Strict-Transport-Security middleware should use `includeSubDomains` instead of `includeSubdomains`. (The correct one has an uppercase "D".)'
+      'Strict-Transport-Security middleware should use `includeSubDomains` instead of `includeSubdomains`. (The correct one has an uppercase "D".)',
     );
   }
 
@@ -48,14 +48,14 @@ function getHeaderValueFromOptions(
 }
 
 function strictTransportSecurity(
-  options: Readonly<StrictTransportSecurityOptions> = {}
+  options: Readonly<StrictTransportSecurityOptions> = {},
 ) {
   const headerValue = getHeaderValueFromOptions(options);
 
   return function strictTransportSecurityMiddleware(
     _req: IncomingMessage,
     res: ServerResponse,
-    next: () => void
+    next: () => void,
   ) {
     res.setHeader("Strict-Transport-Security", headerValue);
     next();

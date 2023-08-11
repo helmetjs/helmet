@@ -41,14 +41,14 @@ function getHeaderValueFromOptions({
     if (!ALLOWED_TOKENS.has(token)) {
       throw new Error(
         `Referrer-Policy received an unexpected policy token ${JSON.stringify(
-          token
-        )}`
+          token,
+        )}`,
       );
     } else if (tokensSeen.has(token)) {
       throw new Error(
         `Referrer-Policy received a duplicate policy token ${JSON.stringify(
-          token
-        )}`
+          token,
+        )}`,
       );
     }
     tokensSeen.add(token);
@@ -63,7 +63,7 @@ function referrerPolicy(options: Readonly<ReferrerPolicyOptions> = {}) {
   return function referrerPolicyMiddleware(
     _req: IncomingMessage,
     res: ServerResponse,
-    next: () => void
+    next: () => void,
   ) {
     res.setHeader("Referrer-Policy", headerValue);
     next();

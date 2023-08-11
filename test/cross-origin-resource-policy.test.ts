@@ -10,11 +10,11 @@ describe("Cross-Origin-Resource-Policy middleware", () => {
     await check(crossOriginResourcePolicy({}), expectedHeaders);
     await check(
       crossOriginResourcePolicy(Object.create(null)),
-      expectedHeaders
+      expectedHeaders,
     );
     await check(
       crossOriginResourcePolicy({ policy: undefined }),
-      expectedHeaders
+      expectedHeaders,
     );
   });
 
@@ -37,7 +37,7 @@ describe("Cross-Origin-Resource-Policy middleware", () => {
     ];
     for (const policy of invalidValues) {
       expect(() =>
-        crossOriginResourcePolicy({ policy: policy as any })
+        crossOriginResourcePolicy({ policy: policy as any }),
       ).toThrow(/^Cross-Origin-Resource-Policy does not support /);
     }
   });

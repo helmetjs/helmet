@@ -11,7 +11,7 @@ describe("Cross-Origin-Opener-Policy middleware", () => {
     await check(crossOriginOpenerPolicy(Object.create(null)), expectedHeaders);
     await check(
       crossOriginOpenerPolicy({ policy: undefined }),
-      expectedHeaders
+      expectedHeaders,
     );
   });
 
@@ -22,7 +22,7 @@ describe("Cross-Origin-Opener-Policy middleware", () => {
           "cross-origin-opener-policy": policy,
         });
       });
-    }
+    },
   );
 
   it("throws when setting the policy to an invalid value", () => {
@@ -36,7 +36,7 @@ describe("Cross-Origin-Opener-Policy middleware", () => {
     ];
     for (const policy of invalidValues) {
       expect(() => crossOriginOpenerPolicy({ policy: policy as any })).toThrow(
-        /^Cross-Origin-Opener-Policy does not support /
+        /^Cross-Origin-Opener-Policy does not support /,
       );
     }
   });

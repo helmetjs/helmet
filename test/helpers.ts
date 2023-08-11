@@ -5,12 +5,12 @@ import supertest from "supertest";
 type MiddlewareFunction = (
   req: IncomingMessage,
   res: ServerResponse,
-  next: () => void
+  next: () => void,
 ) => void;
 
 export async function check(
   middleware: MiddlewareFunction,
-  expectedHeaders: Readonly<Record<string, string | null>>
+  expectedHeaders: Readonly<Record<string, string | null>>,
 ) {
   const app = connect()
     .use((_req, res, next) => {

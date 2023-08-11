@@ -16,7 +16,7 @@ describe("X-Powered-By middleware", () => {
       },
       {
         "x-powered-by": null,
-      }
+      },
     );
   });
 });

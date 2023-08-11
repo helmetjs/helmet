@@ -18,7 +18,7 @@ app.use(referrerPolicy({ policy: "unsafe-url" }));
 app.use(
   referrerPolicy({
     policy: ["no-referrer", "unsafe-url"],
-  })
+  }),
 );
 // Referrer-Policy: no-referrer,unsafe-url
 

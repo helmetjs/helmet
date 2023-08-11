@@ -52,7 +52,7 @@ app.use(
         "script-src": ["'self'", "example.com"],
       },
     },
-  })
+  }),
 );
 ```
 
@@ -65,7 +65,7 @@ app.use(
   helmet({
     contentSecurityPolicy: false,
     xDownloadOptions: false,
-  })
+  }),
 );
 ```
 
@@ -97,7 +97,7 @@ app.use(
         "style-src": null,
       },
     },
-  })
+  }),
 );
 ```
 
@@ -116,7 +116,7 @@ app.use(
         scriptSrc: ["'self'", (req, res) => `'nonce-${res.locals.cspNonce}'`],
       },
     },
-  })
+  }),
 );
 ```
 
@@ -137,7 +137,7 @@ app.use(
         upgradeInsecureRequests: [],
       },
     },
-  })
+  }),
 );
 ```
 
@@ -171,7 +171,7 @@ app.use(
       },
       reportOnly: true,
     },
-  })
+  }),
 );
 ```
 
@@ -183,7 +183,7 @@ To disable the `Content-Security-Policy` header:
 app.use(
   helmet({
     contentSecurityPolicy: false,
-  })
+  }),
 );
 ```
 
@@ -233,7 +233,7 @@ app.use(helmet());
 app.use(
   helmet({
     crossOriginOpenerPolicy: { policy: "same-origin-allow-popups" },
-  })
+  }),
 );
 ```
 
@@ -243,7 +243,7 @@ To disable the `Cross-Origin-Opener-Policy` header:
 app.use(
   helmet({
     crossOriginOpenerPolicy: false,
-  })
+  }),
 );
 ```
 
@@ -276,7 +276,7 @@ To disable the `Cross-Origin-Resource-Policy` header:
 app.use(
   helmet({
     crossOriginResourcePolicy: false,
-  })
+  }),
 );
 ```
 
@@ -308,7 +308,7 @@ To disable the `Origin-Agent-Cluster` header:
 app.use(
   helmet({
     originAgentCluster: false,
-  })
+  }),
 );
 ```
 
@@ -341,7 +341,7 @@ app.use(
     referrerPolicy: {
       policy: "no-referrer",
     },
-  })
+  }),
 );
 
 // Sets "Referrer-Policy: origin,unsafe-url"
@@ -350,7 +350,7 @@ app.use(
     referrerPolicy: {
       policy: ["origin", "unsafe-url"],
     },
-  })
+  }),
 );
 ```
 
@@ -360,7 +360,7 @@ To disable the `Referrer-Policy` header:
 app.use(
   helmet({
     referrerPolicy: false,
-  })
+  }),
 );
 ```
 
@@ -397,7 +397,7 @@ app.use(
     strictTransportSecurity: {
       maxAge: 123456,
     },
-  })
+  }),
 );
 
 // Sets "Strict-Transport-Security: max-age=123456"
@@ -407,7 +407,7 @@ app.use(
       maxAge: 123456,
       includeSubDomains: false,
     },
-  })
+  }),
 );
 
 // Sets "Strict-Transport-Security: max-age=123456; includeSubDomains; preload"
@@ -417,7 +417,7 @@ app.use(
       maxAge: 63072000,
       preload: true,
     },
-  })
+  }),
 );
 ```
 
@@ -427,7 +427,7 @@ To disable the `Strict-Transport-Security` header:
 app.use(
   helmet({
     strictTransportSecurity: false,
-  })
+  }),
 );
 ```
 
@@ -459,7 +459,7 @@ To disable the `X-Content-Type-Options` header:
 app.use(
   helmet({
     xContentTypeOptions: false,
-  })
+  }),
 );
 ```
 
@@ -492,14 +492,14 @@ Examples:
 app.use(
   helmet({
     xDnsPrefetchControl: { allow: false },
-  })
+  }),
 );
 
 // Sets "X-DNS-Prefetch-Control: on"
 app.use(
   helmet({
     xDnsPrefetchControl: { allow: true },
-  })
+  }),
 );
 ```
 
@@ -509,7 +509,7 @@ To disable the `X-DNS-Prefetch-Control` header and use the browser's default val
 app.use(
   helmet({
     xDnsPrefetchControl: false,
-  })
+  }),
 );
 ```
 
@@ -541,7 +541,7 @@ To disable the `X-Download-Options` header:
 app.use(
   helmet({
     xDownloadOptions: false,
-  })
+  }),
 );
 ```
 
@@ -574,14 +574,14 @@ Examples:
 app.use(
   helmet({
     xFrameOptions: { action: "deny" },
-  })
+  }),
 );
 
 // Sets "X-Frame-Options: SAMEORIGIN"
 app.use(
   helmet({
     xFrameOptions: { action: "sameorigin" },
-  })
+  }),
 );
 ```
 
@@ -591,7 +591,7 @@ To disable the `X-Frame-Options` header:
 app.use(
   helmet({
     xFrameOptions: false,
-  })
+  }),
 );
 ```
 
@@ -626,7 +626,7 @@ app.use(
     xPermittedCrossDomainPolicies: {
       permittedPolicies: "none",
     },
-  })
+  }),
 );
 
 // Sets "X-Permitted-Cross-Domain-Policies: by-content-type"
@@ -635,7 +635,7 @@ app.use(
     xPermittedCrossDomainPolicies: {
       permittedPolicies: "by-content-type",
     },
-  })
+  }),
 );
 ```
 
@@ -645,7 +645,7 @@ To disable the `X-Permitted-Cross-Domain-Policies` header:
 app.use(
   helmet({
     xPermittedCrossDomainPolicies: false,
-  })
+  }),
 );
 ```
 
@@ -674,7 +674,7 @@ app.disable("x-powered-by");
 app.use(
   helmet({
     xPoweredBy: false,
-  })
+  }),
 );
 ```
 
@@ -702,7 +702,7 @@ To disable the `X-XSS-Protection` header:
 app.use(
   helmet({
     xXssProtection: false,
-  })
+  }),
 );
 ```
 

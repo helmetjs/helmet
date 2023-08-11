@@ -14,21 +14,21 @@ function getHeaderValueFromOptions({
   } else {
     throw new Error(
       `Cross-Origin-Embedder-Policy does not support the ${JSON.stringify(
-        policy
-      )} policy`
+        policy,
+      )} policy`,
     );
   }
 }
 
 function crossOriginEmbedderPolicy(
-  options: Readonly<CrossOriginEmbedderPolicyOptions> = {}
+  options: Readonly<CrossOriginEmbedderPolicyOptions> = {},
 ) {
   const headerValue = getHeaderValueFromOptions(options);
 
   return function crossOriginEmbedderPolicyMiddleware(
     _req: IncomingMessage,
     res: ServerResponse,
-    next: () => void
+    next: () => void,
   ) {
     res.setHeader("Cross-Origin-Embedder-Policy", headerValue);
     next();

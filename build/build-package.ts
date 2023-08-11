@@ -34,7 +34,7 @@ const testFiles = path.join(rootDir, "test", "**");
  * Build a Helmet package into a tarball ready to be published with `npm publish`.
  */
 export async function buildAndPack(
-  middlewareToBuild?: string
+  middlewareToBuild?: string,
 ): Promise<string> {
   let entry: string;
   let esm: boolean;
@@ -46,7 +46,7 @@ export async function buildAndPack(
     entry = path.join(middlewareDir, "index.ts");
     esm = false;
     packageOverrides = await readJson(
-      path.join(middlewareDir, "package-overrides.json")
+      path.join(middlewareDir, "package-overrides.json"),
     );
     filesToCopy = [
       path.join(rootDir, "LICENSE"),
@@ -252,7 +252,7 @@ async function copyStaticFiles({
       console.log(`Copying ${source} to ${dest}...`);
       await fs.copyFile(source, dest);
       console.log(`Copied ${source} to ${dest}.`);
-    })
+    }),
   );
 }
 
@@ -280,7 +280,7 @@ async function prePackCrush(distDir: string): Promise<void> {
       await fs.writeFile(file, newContents, { encoding: "utf8" });
 
       console.log(`Crushed ${file}.`);
-    })
+    }),
   );
 }
 
@@ -289,11 +289,11 @@ async function pack(distDir: string): Promise<string> {
 
   const tempDirFiles = await fs.readdir(distDir);
   const tarballName = tempDirFiles.find(
-    (file) => file.startsWith("helmet-") && file.endsWith(".tgz")
+    (file) => file.startsWith("helmet-") && file.endsWith(".tgz"),
   );
   if (!tarballName) {
     throw new Error(
-      "Couldn't find helmet tarball in temp directory. Build is not set up correctly"
+      "Couldn't find helmet tarball in temp directory. Build is not set up correctly",
     );
   }
 
@@ -322,8 +322,8 @@ async function postPackCrush(originalTarGz: string): Promise<string> {
     const ratio = crushedSize / originalSize;
     console.log(
       `Crushed into ${crushedTarGz}. Size: ${crushedSize}. Savings: ${savings} bytes (result is ${Math.round(
-        ratio * 100
-      )}% the size)`
+        ratio * 100,
+      )}% the size)`,
     );
     return crushedTarGz;
   }

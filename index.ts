@@ -97,14 +97,16 @@ export type HelmetOptions = {
 type MiddlewareFunction = (
   req: IncomingMessage,
   res: ServerResponse,
-  next: (error?: Error) => void
+  next: (error?: Error) => void,
 ) => void;
 
 interface Helmet {
-  (options?: Readonly<HelmetOptions>): (
+  (
+    options?: Readonly<HelmetOptions>,
+  ): (
     req: IncomingMessage,
     res: ServerResponse,
-    next: (err?: unknown) => void
+    next: (err?: unknown) => void,
   ) => void;
 
   contentSecurityPolicy: typeof contentSecurityPolicy;
@@ -134,7 +136,7 @@ interface Helmet {
 }
 
 function getMiddlewareFunctionsFromOptions(
-  options: Readonly<HelmetOptions>
+  options: Readonly<HelmetOptions>,
 ): MiddlewareFunction[] {
   const result: MiddlewareFunction[] = [];
 
@@ -195,7 +197,7 @@ function getMiddlewareFunctionsFromOptions(
       break;
     default:
       console.warn(
-        "Origin-Agent-Cluster does not take options. Remove the property to silence this warning."
+        "Origin-Agent-Cluster does not take options. Remove the property to silence this warning.",
       );
       result.push(originAgentCluster());
       break;
@@ -215,7 +217,7 @@ function getMiddlewareFunctionsFromOptions(
 
   if ("strictTransportSecurity" in options && "hsts" in options) {
     throw new Error(
-      "Strict-Transport-Security option was specified twice. Remove `hsts` to silence this warning."
+      "Strict-Transport-Security option was specified twice. Remove `hsts` to silence this warning.",
     );
   }
   const strictTransportSecurityOption =
@@ -234,7 +236,7 @@ function getMiddlewareFunctionsFromOptions(
 
   if ("xContentTypeOptions" in options && "noSniff" in options) {
     throw new Error(
-      "X-Content-Type-Options option was specified twice. Remove `noSniff` to silence this warning."
+      "X-Content-Type-Options option was specified twice. Remove `noSniff` to silence this warning.",
     );
   }
   const xContentTypeOptionsOption =
@@ -248,7 +250,7 @@ function getMiddlewareFunctionsFromOptions(
       break;
     default:
       console.warn(
-        "X-Content-Type-Options does not take options. Remove the property to silence this warning."
+        "X-Content-Type-Options does not take options. Remove the property to silence this warning.",
       );
       result.push(xContentTypeOptions());
       break;
@@ -256,7 +258,7 @@ function getMiddlewareFunctionsFromOptions(
 
   if ("xDnsPrefetchControl" in options && "dnsPrefetchControl" in options) {
     throw new Error(
-      "X-DNS-Prefetch-Control option was specified twice. Remove `dnsPrefetchControl` to silence this warning."
+      "X-DNS-Prefetch-Control option was specified twice. Remove `dnsPrefetchControl` to silence this warning.",
     );
   }
   const xDnsPrefetchControlOption =
@@ -275,7 +277,7 @@ function getMiddlewareFunctionsFromOptions(
 
   if ("xDownloadOptions" in options && "ieNoOpen" in options) {
     throw new Error(
-      "X-Download-Options option was specified twice. Remove `ieNoOpen` to silence this warning."
+      "X-Download-Options option was specified twice. Remove `ieNoOpen` to silence this warning.",
     );
   }
   const xDownloadOptionsOption = options.xDownloadOptions ?? options.ieNoOpen;
@@ -288,7 +290,7 @@ function getMiddlewareFunctionsFromOptions(
       break;
     default:
       console.warn(
-        "X-Download-Options does not take options. Remove the property to silence this warning."
+        "X-Download-Options does not take options. Remove the property to silence this warning.",
       );
       result.push(xDownloadOptions());
       break;
@@ -296,7 +298,7 @@ function getMiddlewareFunctionsFromOptions(
 
   if ("xFrameOptions" in options && "frameguard" in options) {
     throw new Error(
-      "X-Frame-Options option was specified twice. Remove `frameguard` to silence this warning."
+      "X-Frame-Options option was specified twice. Remove `frameguard` to silence this warning.",
     );
   }
   const xFrameOptionsOption = options.xFrameOptions ?? options.frameguard;
@@ -317,7 +319,7 @@ function getMiddlewareFunctionsFromOptions(
     "permittedCrossDomainPolicies" in options
   ) {
     throw new Error(
-      "X-Permitted-Cross-Domain-Policies option was specified twice. Remove `permittedCrossDomainPolicies` to silence this warning."
+      "X-Permitted-Cross-Domain-Policies option was specified twice. Remove `permittedCrossDomainPolicies` to silence this warning.",
     );
   }
   const xPermittedCrossDomainPoliciesOption =
@@ -332,14 +334,14 @@ function getMiddlewareFunctionsFromOptions(
       break;
     default:
       result.push(
-        xPermittedCrossDomainPolicies(xPermittedCrossDomainPoliciesOption)
+        xPermittedCrossDomainPolicies(xPermittedCrossDomainPoliciesOption),
       );
       break;
   }
 
   if ("xPoweredBy" in options && "hidePoweredBy" in options) {
     throw new Error(
-      "X-Powered-By option was specified twice. Remove `hidePoweredBy` to silence this warning."
+      "X-Powered-By option was specified twice. Remove `hidePoweredBy` to silence this warning.",
     );
   }
   const xPoweredByOption = options.xPoweredBy ?? options.hidePoweredBy;
@@ -352,7 +354,7 @@ function getMiddlewareFunctionsFromOptions(
       break;
     default:
       console.warn(
-        "X-Powered-By does not take options. Remove the property to silence this warning."
+        "X-Powered-By does not take options. Remove the property to silence this warning.",
       );
       result.push(xPoweredBy());
       break;
@@ -360,7 +362,7 @@ function getMiddlewareFunctionsFromOptions(
 
   if ("xXssProtection" in options && "xssFilter" in options) {
     throw new Error(
-      "X-XSS-Protection option was specified twice. Remove `xssFilter` to silence this warning."
+      "X-XSS-Protection option was specified twice. Remove `xssFilter` to silence this warning.",
     );
   }
   const xXssProtectionOption = options.xXssProtection ?? options.xssFilter;
@@ -373,7 +375,7 @@ function getMiddlewareFunctionsFromOptions(
       break;
     default:
       console.warn(
-        "X-XSS-Protection does not take options. Remove the property to silence this warning."
+        "X-XSS-Protection does not take options. Remove the property to silence this warning.",
       );
       result.push(xXssProtection());
       break;
@@ -389,7 +391,7 @@ const helmet: Helmet = Object.assign(
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (options.constructor?.name === "IncomingMessage") {
       throw new Error(
-        "It appears you have done something like `app.use(helmet)`, but it should be `app.use(helmet())`."
+        "It appears you have done something like `app.use(helmet)`, but it should be `app.use(helmet())`.",
       );
     }
 
@@ -398,7 +400,7 @@ const helmet: Helmet = Object.assign(
     return function helmetMiddleware(
       req: IncomingMessage,
       res: ServerResponse,
-      next: (err?: unknown) => void
+      next: (err?: unknown) => void,
     ): void {
       let middlewareIndex = 0;
 
@@ -443,7 +445,7 @@ const helmet: Helmet = Object.assign(
     frameguard: xFrameOptions,
     hidePoweredBy: xPoweredBy,
     hsts: strictTransportSecurity,
-  }
+  },
 );
 
 export default helmet;

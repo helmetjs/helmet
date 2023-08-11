@@ -10,11 +10,11 @@ describe("Cross-Origin-Embedder-Policy middleware", () => {
     await check(crossOriginEmbedderPolicy({}), expectedHeaders);
     await check(
       crossOriginEmbedderPolicy(Object.create(null)),
-      expectedHeaders
+      expectedHeaders,
     );
     await check(
       crossOriginEmbedderPolicy({ policy: undefined }),
-      expectedHeaders
+      expectedHeaders,
     );
   });
 
@@ -37,7 +37,7 @@ describe("Cross-Origin-Embedder-Policy middleware", () => {
     ];
     for (const policy of invalidValues) {
       expect(() =>
-        crossOriginEmbedderPolicy({ policy: policy as any })
+        crossOriginEmbedderPolicy({ policy: policy as any }),
       ).toThrow(/^Cross-Origin-Embedder-Policy does not support /);
     }
   });

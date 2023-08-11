@@ -18,7 +18,7 @@ function getHeaderValueFromOptions({
       return normalizedAction;
     default:
       throw new Error(
-        `X-Frame-Options received an invalid action ${JSON.stringify(action)}`
+        `X-Frame-Options received an invalid action ${JSON.stringify(action)}`,
       );
   }
 }
@@ -29,7 +29,7 @@ function xFrameOptions(options: Readonly<XFrameOptionsOptions> = {}) {
   return function xFrameOptionsMiddleware(
     _req: IncomingMessage,
     res: ServerResponse,
-    next: () => void
+    next: () => void,
   ) {
     res.setHeader("X-Frame-Options", headerValue);
     next();

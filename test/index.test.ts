@@ -78,7 +78,7 @@ describe("helmet", () => {
       {
         "content-security-policy": null,
         "x-frame-options": null,
-      }
+      },
     );
   });
 
@@ -117,7 +117,7 @@ describe("helmet", () => {
       topLevel({ crossOriginEmbedderPolicy: { policy: "credentialless" } }),
       {
         "cross-origin-embedder-policy": "credentialless",
-      }
+      },
     );
   });
 
@@ -134,7 +134,7 @@ describe("helmet", () => {
       }),
       {
         "cross-origin-opener-policy": "same-origin-allow-popups",
-      }
+      },
     );
   });
 
@@ -155,7 +155,7 @@ describe("helmet", () => {
       topLevel({ crossOriginResourcePolicy: { policy: "same-site" } }),
       {
         "cross-origin-resource-policy": "same-site",
-      }
+      },
     );
   });
 
@@ -186,7 +186,7 @@ describe("helmet", () => {
               defaultSrc: ["'self'", () => "bad;value"],
             },
           },
-        })
+        }),
       )
       .use(
         (
@@ -194,12 +194,12 @@ describe("helmet", () => {
           _req: IncomingMessage,
           res: ServerResponse,
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          _next: () => void
+          _next: () => void,
         ) => {
           res.statusCode = 500;
           res.setHeader("Content-Type", "application/json");
           res.end(JSON.stringify({ message: err.message }));
-        }
+        },
       );
 
     await supertest(app).get("/").expect(500, {
@@ -218,7 +218,7 @@ describe("helmet", () => {
 
       expect(console.warn).toHaveBeenCalledTimes(1);
       expect(console.warn).toHaveBeenCalledWith(
-        "X-Powered-By does not take options. Remove the property to silence this warning."
+        "X-Powered-By does not take options. Remove the property to silence this warning.",
       );
     });
 
@@ -227,7 +227,7 @@ describe("helmet", () => {
 
       expect(console.warn).toHaveBeenCalledTimes(1);
       expect(console.warn).toHaveBeenCalledWith(
-        "X-Download-Options does not take options. Remove the property to silence this warning."
+        "X-Download-Options does not take options. Remove the property to silence this warning.",
       );
     });
 
@@ -236,7 +236,7 @@ describe("helmet", () => {
 
       expect(console.warn).toHaveBeenCalledTimes(1);
       expect(console.warn).toHaveBeenCalledWith(
-        "Origin-Agent-Cluster does not take options. Remove the property to silence this warning."
+        "Origin-Agent-Cluster does not take options. Remove the property to silence this warning.",
       );
     });
 
@@ -245,7 +245,7 @@ describe("helmet", () => {
 
       expect(console.warn).toHaveBeenCalledTimes(1);
       expect(console.warn).toHaveBeenCalledWith(
-        "X-Content-Type-Options does not take options. Remove the property to silence this warning."
+        "X-Content-Type-Options does not take options. Remove the property to silence this warning.",
       );
     });
 
@@ -254,7 +254,7 @@ describe("helmet", () => {
 
       expect(console.warn).toHaveBeenCalledTimes(1);
       expect(console.warn).toHaveBeenCalledWith(
-        "X-XSS-Protection does not take options. Remove the property to silence this warning."
+        "X-XSS-Protection does not take options. Remove the property to silence this warning.",
       );
     });
   });
@@ -264,22 +264,22 @@ describe("helmet", () => {
     expect(helmet.contentSecurityPolicy.name).toBe("contentSecurityPolicy");
 
     expect(helmet.crossOriginEmbedderPolicy.name).toBe(
-      crossOriginEmbedderPolicy.name
+      crossOriginEmbedderPolicy.name,
     );
     expect(helmet.crossOriginEmbedderPolicy.name).toBe(
-      "crossOriginEmbedderPolicy"
+      "crossOriginEmbedderPolicy",
     );
 
     expect(helmet.crossOriginOpenerPolicy.name).toBe(
-      crossOriginOpenerPolicy.name
+      crossOriginOpenerPolicy.name,
     );
     expect(helmet.crossOriginOpenerPolicy.name).toBe("crossOriginOpenerPolicy");
 
     expect(helmet.crossOriginResourcePolicy.name).toBe(
-      crossOriginResourcePolicy.name
+      crossOriginResourcePolicy.name,
     );
     expect(helmet.crossOriginResourcePolicy.name).toBe(
-      "crossOriginResourcePolicy"
+      "crossOriginResourcePolicy",
     );
 
     expect(helmet.originAgentCluster.name).toBe(originAgentCluster.name);
@@ -289,7 +289,7 @@ describe("helmet", () => {
     expect(helmet.referrerPolicy.name).toBe("referrerPolicy");
 
     expect(helmet.strictTransportSecurity.name).toBe(
-      strictTransportSecurity.name
+      strictTransportSecurity.name,
     );
     expect(helmet.strictTransportSecurity.name).toBe("strictTransportSecurity");
 
@@ -306,10 +306,10 @@ describe("helmet", () => {
     expect(helmet.xFrameOptions.name).toBe("xFrameOptions");
 
     expect(helmet.xPermittedCrossDomainPolicies.name).toBe(
-      xPermittedCrossDomainPolicies.name
+      xPermittedCrossDomainPolicies.name,
     );
     expect(helmet.xPermittedCrossDomainPolicies.name).toBe(
-      "xPermittedCrossDomainPolicies"
+      "xPermittedCrossDomainPolicies",
     );
 
     expect(helmet.xPoweredBy.name).toBe(xPoweredBy.name);
@@ -341,7 +341,7 @@ describe("helmet", () => {
       }),
       {
         "x-permitted-cross-domain-policies": "by-content-type",
-      }
+      },
     );
     await check(topLevel({ hidePoweredBy: false }), {
       "x-powered-by": "Helmet test",
@@ -353,38 +353,38 @@ describe("helmet", () => {
 
   it("errors with conflicting header options (legacy + new)", () => {
     expect(() =>
-      topLevel({ strictTransportSecurity: true, hsts: true } as any)
+      topLevel({ strictTransportSecurity: true, hsts: true } as any),
     ).toThrow();
 
     expect(() =>
-      topLevel({ xContentTypeOptions: true, noSniff: true } as any)
+      topLevel({ xContentTypeOptions: true, noSniff: true } as any),
     ).toThrow();
 
     expect(() =>
-      topLevel({ xDnsPrefetchControl: true, dnsPrefetchControl: true } as any)
+      topLevel({ xDnsPrefetchControl: true, dnsPrefetchControl: true } as any),
     ).toThrow();
 
     expect(() =>
-      topLevel({ xDownloadOptions: true, ieNoOpen: true } as any)
+      topLevel({ xDownloadOptions: true, ieNoOpen: true } as any),
     ).toThrow();
 
     expect(() =>
-      topLevel({ xFrameOptions: true, frameguard: true } as any)
+      topLevel({ xFrameOptions: true, frameguard: true } as any),
     ).toThrow();
 
     expect(() =>
       topLevel({
         xPermittedCrossDomainPolicies: true,
         permittedCrossDomainPolicies: true,
-      } as any)
+      } as any),
     ).toThrow();
 
     expect(() =>
-      topLevel({ xPoweredBy: true, hidePoweredBy: true } as any)
+      topLevel({ xPoweredBy: true, hidePoweredBy: true } as any),
     ).toThrow();
 
     expect(() =>
-      topLevel({ xXssProtection: true, xssFilter: true } as any)
+      topLevel({ xXssProtection: true, xssFilter: true } as any),
     ).toThrow();
   });
 
@@ -396,7 +396,7 @@ describe("helmet", () => {
     expect(helmet.noSniff.name).toBe(xContentTypeOptions.name);
     expect(helmet.hidePoweredBy.name).toBe(xPoweredBy.name);
     expect(helmet.permittedCrossDomainPolicies.name).toBe(
-      xPermittedCrossDomainPolicies.name
+      xPermittedCrossDomainPolicies.name,
     );
     expect(helmet.xssFilter.name).toBe(xXssProtection.name);
   });

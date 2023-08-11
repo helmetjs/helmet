@@ -62,12 +62,12 @@ describe("Referrer-Policy middleware", () => {
 
   it("fails with duplicate values", () => {
     expect(
-      referrerPolicy.bind(null, { policy: ["origin", "origin"] })
+      referrerPolicy.bind(null, { policy: ["origin", "origin"] }),
     ).toThrow();
     expect(
       referrerPolicy.bind(null, {
         policy: ["same-origin", "origin", "same-origin"],
-      })
+      }),
     ).toThrow();
   });
 });

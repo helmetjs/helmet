@@ -11,7 +11,7 @@ const strictTransportSecurity = require("hsts");
 app.use(
   strictTransportSecurity({
     maxAge: 15552000, // 180 days in seconds
-  })
+  }),
 );
 ```
 
@@ -24,7 +24,7 @@ app.use(
   strictTransportSecurity({
     maxAge: 15552000,
     includeSubDomains: false,
-  })
+  }),
 );
 ```
 
@@ -36,7 +36,7 @@ app.use(
     maxAge: 31536000, // Must be at least 1 year to be approved
     includeSubDomains: true, // Must be enabled to be approved
     preload: true,
-  })
+  }),
 );
 ```
 

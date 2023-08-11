@@ -301,7 +301,7 @@ describe("Content-Security-Policy middleware", () => {
           },
         });
       }).toThrow(
-        /^Content-Security-Policy received an invalid directive name "/
+        /^Content-Security-Policy received an invalid directive name "/,
       );
     }
   });
@@ -316,7 +316,7 @@ describe("Content-Security-Policy middleware", () => {
         },
       });
     }).toThrow(
-      /^Content-Security-Policy received a duplicate directive "default-src"$/
+      /^Content-Security-Policy received a duplicate directive "default-src"$/,
     );
 
     expect(() => {
@@ -329,7 +329,7 @@ describe("Content-Security-Policy middleware", () => {
         },
       });
     }).toThrow(
-      /^Content-Security-Policy received a duplicate directive "script-src"$/
+      /^Content-Security-Policy received a duplicate directive "script-src"$/,
     );
   });
 
@@ -345,7 +345,7 @@ describe("Content-Security-Policy middleware", () => {
           },
         });
       }).toThrow(
-        /^Content-Security-Policy received an invalid directive value for "something-else"$/
+        /^Content-Security-Policy received an invalid directive value for "something-else"$/,
       );
     }
   });
@@ -358,7 +358,7 @@ describe("Content-Security-Policy middleware", () => {
           directives: {
             defaultSrc: ["'self'", () => "bad;value"],
           },
-        })
+        }),
       )
       .use(
         (
@@ -366,12 +366,12 @@ describe("Content-Security-Policy middleware", () => {
           _req: IncomingMessage,
           res: ServerResponse,
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          _next: () => void
+          _next: () => void,
         ) => {
           res.statusCode = 500;
           res.setHeader("Content-Type", "application/json");
           res.end(JSON.stringify({ message: err.message }));
-        }
+        },
       );
 
     await supertest(app).get("/").expect(500, {
@@ -387,7 +387,7 @@ describe("Content-Security-Policy middleware", () => {
         directives: {},
       });
     }).toThrow(
-      /^Content-Security-Policy has no directives. Either set some or disable the header$/
+      /^Content-Security-Policy has no directives. Either set some or disable the header$/,
     );
     expect(() => {
       contentSecurityPolicy({
@@ -397,14 +397,14 @@ describe("Content-Security-Policy middleware", () => {
         },
       });
     }).toThrow(
-      /^Content-Security-Policy needs a default-src but none was provided. If you really want to disable it, set it to `contentSecurityPolicy.dangerouslyDisableDefaultSrc`.$/
+      /^Content-Security-Policy needs a default-src but none was provided. If you really want to disable it, set it to `contentSecurityPolicy.dangerouslyDisableDefaultSrc`.$/,
     );
     expect(() => {
       contentSecurityPolicy({
         directives: { defaultSrc: null },
       });
     }).toThrow(
-      /^Content-Security-Policy needs a default-src but it was set to `null`. If you really want to disable it, set it to `contentSecurityPolicy.dangerouslyDisableDefaultSrc`.$/
+      /^Content-Security-Policy needs a default-src but it was set to `null`. If you really want to disable it, set it to `contentSecurityPolicy.dangerouslyDisableDefaultSrc`.$/,
     );
 
     expect(() => {
@@ -501,7 +501,7 @@ describe("Content-Security-Policy middleware", () => {
         },
       });
     }).toThrow(
-      /^Content-Security-Policy has no directives. Either set some or disable the header$/
+      /^Content-Security-Policy has no directives. Either set some or disable the header$/,
     );
 
     expect(() => {
@@ -512,7 +512,7 @@ describe("Content-Security-Policy middleware", () => {
         },
       });
     }).toThrow(
-      /^Content-Security-Policy has no directives. Either set some or disable the header$/
+      /^Content-Security-Policy has no directives. Either set some or disable the header$/,
     );
   });
 
@@ -525,7 +525,7 @@ describe("Content-Security-Policy middleware", () => {
         },
       });
     }).toThrow(
-      /^Content-Security-Policy: tried to disable "script-src" as if it were default-src; simply omit the key$/
+      /^Content-Security-Policy: tried to disable "script-src" as if it were default-src; simply omit the key$/,
     );
   });
 });
@@ -549,7 +549,7 @@ describe("getDefaultDirectives", () => {
 
   it("attaches itself to the top-level function", () => {
     expect(getDefaultDirectives).toBe(
-      contentSecurityPolicy.getDefaultDirectives
+      contentSecurityPolicy.getDefaultDirectives,
     );
   });
 });

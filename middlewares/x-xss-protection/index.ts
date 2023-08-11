@@ -4,7 +4,7 @@ function xXssProtection() {
   return function xXssProtectionMiddleware(
     _req: IncomingMessage,
     res: ServerResponse,
-    next: () => void
+    next: () => void,
   ) {
     res.setHeader("X-XSS-Protection", "0");
     next();
