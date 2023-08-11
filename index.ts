@@ -448,6 +448,18 @@ const helmet: Helmet = Object.assign(
 
 export default helmet;
 
+export type {
+  ContentSecurityPolicyOptions,
+  CrossOriginEmbedderPolicyOptions,
+  CrossOriginOpenerPolicyOptions,
+  CrossOriginResourcePolicyOptions,
+  ReferrerPolicyOptions,
+  StrictTransportSecurityOptions,
+  XDnsPrefetchControlOptions,
+  XFrameOptionsOptions,
+  XPermittedCrossDomainPoliciesOptions,
+};
+
 export {
   contentSecurityPolicy,
   crossOriginEmbedderPolicy,
