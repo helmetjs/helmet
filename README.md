@@ -69,6 +69,38 @@ app.use(
 );
 ```
 
+## Mixed Usage
+
+By default, Helmet will change the respective response headers to all requests under that route.
+
+```javascript
+// Affecting `/` by default.
+app.use(helmet());
+
+app.get("/pages", (req, res) => {
+  res.send("Hello Pages!");
+});
+
+app.get("/api", (req, res) => { // Will be servered with Helmet's response headers
+  res.send("Hello API!");
+});
+```
+
+If you want to control where Helmet is applied, consider setting the middleware path.
+
+```javascript
+// Sets the helmet headers to `/pages` routes only
+app.use("/pages", helmet());
+
+app.get("/pages", (req, res) => {
+  res.send("Hello Pages!");
+});
+
+app.get("/api", (req, res) => { // Will NOT be servered with Helmet's response headers
+  res.send("Hello API!");
+});
+```
+
 ## Reference
 
 <details id="content-security-policy">
