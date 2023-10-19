@@ -18,7 +18,7 @@
     "rollup-plugin-dts": "^5.3.1",
     "supertest": "^6.3.3",
     "ts-jest": "^29.1.1",
-    "ts-node": "^10.9.1",
+    "tsx": "^3.14.0",
     "typescript": "^5.1.6"
   },
   "scripts": {
@@ -28,7 +28,7 @@
     "lint:prettier": "prettier --check .",
     "format": "prettier --write .",
     "clean": "node ./bin/clean.mjs",
-    "build": "ts-node-esm ./build/build-package.ts",
+    "build": "tsx ./build/build-package.ts",
     "test": "jest"
   },
   "type": "module",

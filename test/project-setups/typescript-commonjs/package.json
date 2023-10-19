@@ -2,6 +2,6 @@
   "private": true,
   "type": "commonjs",
   "scripts": {
-    "helmet:test": "ts-node --compilerOptions '{\"module\": \"commonjs\", \"moduleResolution\": \"node\", \"esModuleInterop\": true}' --skipProject test.ts"
+    "helmet:test": "tsx test.ts"
   }
 }

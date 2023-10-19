@@ -2,6 +2,6 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "helmet:test": "ts-node-esm --compilerOptions '{\"module\": \"esnext\", \"moduleResolution\": \"node\"}' --skipProject test.ts"
+    "helmet:test": "tsx test.ts"
   }
 }
