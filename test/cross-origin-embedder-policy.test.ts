@@ -18,13 +18,15 @@ describe("Cross-Origin-Embedder-Policy middleware", () => {
     );
   });
 
-  (["require-corp", "credentialless"] as const).forEach((policy) => {
-    it(`sets "Cross-Origin-Embedder-Policy: ${policy}" when told to`, async () => {
-      await check(crossOriginEmbedderPolicy({ policy }), {
-        "cross-origin-embedder-policy": policy,
+  (["require-corp", "credentialless", "unsafe-none"] as const).forEach(
+    (policy) => {
+      it(`sets "Cross-Origin-Embedder-Policy: ${policy}" when told to`, async () => {
+        await check(crossOriginEmbedderPolicy({ policy }), {
+          "cross-origin-embedder-policy": policy,
+        });
       });
-    });
-  });
+    },
+  );
 
   it("throws when setting the policy to an invalid value", () => {
     const invalidValues = [
