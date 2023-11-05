@@ -1,10 +1,14 @@
 import type { IncomingMessage, ServerResponse } from "http";
 
 export interface CrossOriginEmbedderPolicyOptions {
-  policy?: "require-corp" | "credentialless";
+  policy?: "require-corp" | "credentialless" | "unsafe-none";
 }
 
-const ALLOWED_POLICIES = new Set(["require-corp", "credentialless"]);
+const ALLOWED_POLICIES = new Set([
+  "require-corp",
+  "credentialless",
+  "unsafe-none",
+]);
 
 function getHeaderValueFromOptions({
   policy = "require-corp",
