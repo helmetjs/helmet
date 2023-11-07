@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+### Added
+
+- `helmet.crossOriginEmbedderPolicy` now supports the `unsafe-none` directive. See [#477](https://github.com/helmetjs/helmet/pull/447)
+
 ## 7.0.0 - 2023-05-06
 
 ### Changed
