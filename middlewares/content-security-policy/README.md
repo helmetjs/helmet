@@ -58,7 +58,7 @@ const crypto = require("crypto");
 const contentSecurityPolicy = require("helmet-csp");
 
 app.use((req, res, next) => {
-  res.locals.nonce = crypto.randomBytes(16).toString("hex");
+  res.locals.nonce = crypto.randomBytes(32).toString("hex");
   next();
 });
 

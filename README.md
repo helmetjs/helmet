@@ -103,10 +103,10 @@ app.use(
 
 ```js
 // Sets the `script-src` directive to
-// "'self' 'nonce-e33ccde670f149c1789b1e1e113b0916'"
+// "'self' 'nonce-e33cc...'"
 // (or similar)
 app.use((req, res, next) => {
-  res.locals.cspNonce = crypto.randomBytes(16).toString("hex");
+  res.locals.cspNonce = crypto.randomBytes(32).toString("hex");
   next();
 });
 app.use(
