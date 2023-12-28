@@ -19,7 +19,7 @@ async function checkCsp({
   const { header } = await check(contentSecurityPolicy(...middlewareArgs), {});
   expect(header).toHaveProperty(expectedHeader);
 
-  const actualDirectives = header[expectedHeader].split(";");
+  const actualDirectives = header[expectedHeader]?.split(";") ?? [];
   const actualDirectivesSet = new Set(actualDirectives);
   expect(actualDirectives).toHaveLength(actualDirectivesSet.size);
 
