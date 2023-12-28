@@ -1,6 +1,5 @@
 import * as fs from "fs";
 import * as path from "path";
-// import { buildAndPack } from "../build/build-package.js";
 import * as childProcess from "child_process";
 import { promisify } from "util";
 import { npm } from "../build/helpers.js";
