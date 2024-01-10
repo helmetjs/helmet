@@ -1,5 +1,10 @@
 # Changelog
 
+## 8.0.0
+
+### Changed
+- Minimum Node version set to 18.0.0 as represented in `engine` field in `package.json`
+
 ## 7.1.0 - 2023-11-07
 
 ### Added
