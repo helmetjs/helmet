@@ -1,5 +1,11 @@
 # Changelog
 
+## 8.0.0
+
+### Removed
+
+- **Breaking:** Drop support for Node 16 and 17. Node 18+ is now required
+
 ## 7.2.0 - 2024-09-28
 
 ### Changed
