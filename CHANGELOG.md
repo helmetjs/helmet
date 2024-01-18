@@ -2,8 +2,9 @@
 
 ## 8.0.0
 
-### Changed
-- Minimum Node version set to 18.0.0 as represented in `engine` field in `package.json`
+### Removed
+
+- **Breaking:** Drop support for Node 16 and 17. Node 18+ is now required
 
 ## 7.1.0 - 2023-11-07
 
