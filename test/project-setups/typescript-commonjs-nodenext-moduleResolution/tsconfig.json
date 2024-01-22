@@ -2,6 +2,6 @@
   "compilerOptions": {
     "module": "commonjs",
     "moduleResolution": "nodenext",
-    "esModuleInterop": true
-  }
+    "esModuleInterop": true,
+  },
 }
