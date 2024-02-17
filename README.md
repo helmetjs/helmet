@@ -431,6 +431,8 @@ app.use(
 );
 ```
 
+You may wish to disable this header for local development, as it can make your browser force redirects from `http://localhost` to `https://localhost`, which may not be desirable if you develop multiple apps using `localhost`. See [this issue](https://github.com/helmetjs/helmet/issues/451) for more discussion.
+
 You can use this as standalone middleware with `app.use(helmet.strictTransportSecurity())`.
 
 </details>
