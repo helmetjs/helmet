@@ -10,7 +10,7 @@
     "noUncheckedIndexedAccess": true,
     "strict": true,
     "target": "es6",
-    "outDir": ".",
+    "outDir": "."
   },
-  "exclude": ["node_modules"],
+  "exclude": ["node_modules"]
 }
