@@ -370,11 +370,14 @@ describe("Content-Security-Policy middleware", () => {
         ) => {
           res.statusCode = 500;
           res.setHeader("Content-Type", "application/json");
-          res.end(JSON.stringify({ message: err.message }));
+          res.end(
+            JSON.stringify({ helmetTestError: true, message: err.message }),
+          );
         },
       );
 
     await supertest(app).get("/").expect(500, {
+      helmetTestError: true,
       message:
         'Content-Security-Policy received an invalid directive value for "default-src"',
     });
