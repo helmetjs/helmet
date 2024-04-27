@@ -7,6 +7,20 @@ import contentSecurityPolicy, {
   dangerouslyDisableDefaultSrc,
 } from "../middlewares/content-security-policy";
 
+const shouldBeQuoted = [
+  "none",
+  "self",
+  "strict-dynamic",
+  "report-sample",
+  "inline-speculation-rules",
+  "unsafe-inline",
+  "unsafe-eval",
+  "unsafe-hashes",
+  "wasm-unsafe-eval",
+  "nonce-abc123",
+  "sha256-ks9D5epDKP+c2x6DrkuHmhmfKkOM/HZ+pOlzdWbI91k=",
+];
+
 async function checkCsp({
   middlewareArgs,
   expectedHeader = "content-security-policy",
@@ -350,6 +364,21 @@ describe("Content-Security-Policy middleware", () => {
     }
   });
 
+  it("at call time, warns if directive values lack quotes when they should", () => {
+    jest.spyOn(console, "warn").mockImplementation(() => {});
+
+    contentSecurityPolicy({
+      directives: { defaultSrc: shouldBeQuoted },
+    });
+
+    expect(console.warn).toHaveBeenCalledTimes(shouldBeQuoted.length);
+    for (const directiveValue of shouldBeQuoted) {
+      expect(console.warn).toHaveBeenCalledWith(
+        `Content-Security-Policy got directive value \`${directiveValue}\` which should be single-quoted and changed to \`'${directiveValue}'\`. This will be an error in future versions of Helmet.`,
+      );
+    }
+  });
+
   it("errors if any directive values are invalid when a function returns", async () => {
     const app = connect()
       .use(
@@ -381,6 +410,29 @@ describe("Content-Security-Policy middleware", () => {
       message:
         'Content-Security-Policy received an invalid directive value for "default-src"',
     });
+  });
+
+  it("at request time, warns if directive values lack quotes when they should", async () => {
+    jest.spyOn(console, "warn").mockImplementation(() => {});
+
+    const app = connect()
+      .use(
+        contentSecurityPolicy({
+          directives: { defaultSrc: shouldBeQuoted },
+        }),
+      )
+      .use((_req: IncomingMessage, res: ServerResponse) => {
+        res.end();
+      });
+
+    await supertest(app).get("/").expect(200);
+
+    expect(console.warn).toHaveBeenCalledTimes(shouldBeQuoted.length);
+    for (const directiveValue of shouldBeQuoted) {
+      expect(console.warn).toHaveBeenCalledWith(
+        `Content-Security-Policy got directive value \`${directiveValue}\` which should be single-quoted and changed to \`'${directiveValue}'\`. This will be an error in future versions of Helmet.`,
+      );
+    }
   });
 
   it("throws if default-src is missing", () => {

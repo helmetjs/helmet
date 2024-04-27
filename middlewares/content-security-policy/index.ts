@@ -56,6 +56,18 @@ const DEFAULT_DIRECTIVES: Record<
   "upgrade-insecure-requests": [],
 };
 
+const SHOULD_BE_QUOTED: ReadonlySet<string> = new Set([
+  "none",
+  "self",
+  "strict-dynamic",
+  "report-sample",
+  "inline-speculation-rules",
+  "unsafe-inline",
+  "unsafe-eval",
+  "unsafe-hashes",
+  "wasm-unsafe-eval",
+]);
+
 const getDefaultDirectives = () => ({ ...DEFAULT_DIRECTIVES });
 
 const dashify = (str: string): string =>
@@ -63,6 +75,23 @@ const dashify = (str: string): string =>
 
 const isDirectiveValueInvalid = (directiveValue: string): boolean =>
   /;|,/.test(directiveValue);
+
+const shouldDirectiveValueEntryBeQuoted = (
+  directiveValueEntry: string,
+): boolean =>
+  SHOULD_BE_QUOTED.has(directiveValueEntry) ||
+  directiveValueEntry.startsWith("nonce-") ||
+  directiveValueEntry.startsWith("sha256-") ||
+  directiveValueEntry.startsWith("sha384-") ||
+  directiveValueEntry.startsWith("sha512-");
+
+const warnIfDirectiveValueEntryShouldBeQuoted = (value: string): void => {
+  if (shouldDirectiveValueEntryBeQuoted(value)) {
+    console.warn(
+      `Content-Security-Policy got directive value \`${value}\` which should be single-quoted and changed to \`'${value}'\`. This will be an error in future versions of Helmet.`,
+    );
+  }
+};
 
 const has = (obj: Readonly<object>, key: string): boolean =>
   Object.prototype.hasOwnProperty.call(obj, key);
@@ -138,13 +167,17 @@ function normalizeDirectives(
     } else {
       directiveValue = rawDirectiveValue;
     }
+
     for (const element of directiveValue) {
-      if (typeof element === "string" && isDirectiveValueInvalid(element)) {
-        throw new Error(
-          `Content-Security-Policy received an invalid directive value for ${JSON.stringify(
-            directiveName,
-          )}`,
-        );
+      if (typeof element === "string") {
+        if (isDirectiveValueInvalid(element)) {
+          throw new Error(
+            `Content-Security-Policy received an invalid directive value for ${JSON.stringify(
+              directiveName,
+            )}`,
+          );
+        }
+        warnIfDirectiveValueEntryShouldBeQuoted(element);
       }
     }
 
@@ -192,8 +225,13 @@ function getHeaderValue(
   normalizedDirectives.forEach((rawDirectiveValue, directiveName) => {
     let directiveValue = "";
     for (const element of rawDirectiveValue) {
-      directiveValue +=
-        " " + (element instanceof Function ? element(req, res) : element);
+      if (typeof element === "function") {
+        const newElement = element(req, res);
+        warnIfDirectiveValueEntryShouldBeQuoted(newElement);
+        directiveValue += " " + newElement;
+      } else {
+        directiveValue += " " + element;
+      }
     }
 
     if (!directiveValue) {

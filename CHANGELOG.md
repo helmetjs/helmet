@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+### Changed
+
+- `Content-Security-Policy` middleware now warns if a directive should have quotes but does not, such as `self` instead of `'self'`. This will be an error in future versions. See [#454](https://github.com/helmetjs/helmet/issues/454)
+
 ## 7.1.0 - 2023-11-07
 
 ### Added
