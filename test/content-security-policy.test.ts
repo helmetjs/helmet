@@ -348,7 +348,13 @@ describe("Content-Security-Policy middleware", () => {
   });
 
   it("throws if any directive values are invalid", () => {
-    const invalidValues = [";", ",", "hello;world", "hello,world"];
+    const invalidValues = [
+      ";",
+      ",",
+      "hello;world",
+      "hello,world",
+      ...shouldBeQuoted,
+    ];
     for (const invalidValue of invalidValues) {
       expect(() => {
         contentSecurityPolicy({
@@ -364,75 +370,43 @@ describe("Content-Security-Policy middleware", () => {
     }
   });
 
-  it("at call time, warns if directive values lack quotes when they should", () => {
-    jest.spyOn(console, "warn").mockImplementation(() => {});
-
-    contentSecurityPolicy({
-      directives: { defaultSrc: shouldBeQuoted },
-    });
-
-    expect(console.warn).toHaveBeenCalledTimes(shouldBeQuoted.length);
-    for (const directiveValue of shouldBeQuoted) {
-      expect(console.warn).toHaveBeenCalledWith(
-        `Content-Security-Policy got directive value \`${directiveValue}\` which should be single-quoted and changed to \`'${directiveValue}'\`. This will be an error in future versions of Helmet.`,
-      );
-    }
-  });
-
   it("errors if any directive values are invalid when a function returns", async () => {
-    const app = connect()
-      .use(
-        contentSecurityPolicy({
-          useDefaults: false,
-          directives: {
-            defaultSrc: ["'self'", () => "bad;value"],
-          },
-        }),
-      )
-      .use(
-        (
-          err: Error,
-          _req: IncomingMessage,
-          res: ServerResponse,
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          _next: () => void,
-        ) => {
-          res.statusCode = 500;
-          res.setHeader("Content-Type", "application/json");
-          res.end(
-            JSON.stringify({ helmetTestError: true, message: err.message }),
+    const badDirectiveValueEntries = ["bad;value", ...shouldBeQuoted];
+
+    await Promise.all(
+      badDirectiveValueEntries.map(async (directiveValueEntry) => {
+        const app = connect()
+          .use(
+            contentSecurityPolicy({
+              useDefaults: false,
+              directives: {
+                defaultSrc: ["'self'", () => directiveValueEntry],
+              },
+            }),
+          )
+          .use(
+            (
+              err: Error,
+              _req: IncomingMessage,
+              res: ServerResponse,
+              // eslint-disable-next-line @typescript-eslint/no-unused-vars
+              _next: () => void,
+            ) => {
+              res.statusCode = 500;
+              res.setHeader("Content-Type", "application/json");
+              res.end(
+                JSON.stringify({ helmetTestError: true, message: err.message }),
+              );
+            },
           );
-        },
-      );
 
-    await supertest(app).get("/").expect(500, {
-      helmetTestError: true,
-      message:
-        'Content-Security-Policy received an invalid directive value for "default-src"',
-    });
-  });
-
-  it("at request time, warns if directive values lack quotes when they should", async () => {
-    jest.spyOn(console, "warn").mockImplementation(() => {});
-
-    const app = connect()
-      .use(
-        contentSecurityPolicy({
-          directives: { defaultSrc: shouldBeQuoted },
-        }),
-      )
-      .use((_req: IncomingMessage, res: ServerResponse) => {
-        res.end();
-      });
-
-    await supertest(app).get("/").expect(200);
-
-    expect(console.warn).toHaveBeenCalledTimes(shouldBeQuoted.length);
-    for (const directiveValue of shouldBeQuoted) {
-      expect(console.warn).toHaveBeenCalledWith(
-        `Content-Security-Policy got directive value \`${directiveValue}\` which should be single-quoted and changed to \`'${directiveValue}'\`. This will be an error in future versions of Helmet.`,
-      );
-    }
+        await supertest(app).get("/").expect(500, {
+          helmetTestError: true,
+          message:
+            'Content-Security-Policy received an invalid directive value for "default-src"',
+        });
+      }),
+    );
   });
 
   it("throws if default-src is missing", () => {
