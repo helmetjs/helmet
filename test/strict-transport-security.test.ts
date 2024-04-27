@@ -3,10 +3,10 @@ import strictTransportSecurity from "../middlewares/strict-transport-security";
 
 describe("Strict-Transport-Security middleware", () => {
   it('by default, sets max-age to 180 days and adds "includeSubDomains"', async () => {
-    expect(15552000).toStrictEqual(180 * 24 * 60 * 60);
+    expect(31536000).toStrictEqual(365 * 24 * 60 * 60);
 
     const expectedHeaders = {
-      "strict-transport-security": "max-age=15552000; includeSubDomains",
+      "strict-transport-security": "max-age=31536000; includeSubDomains",
     };
 
     await check(strictTransportSecurity(), expectedHeaders);
@@ -45,20 +45,20 @@ describe("Strict-Transport-Security middleware", () => {
 
   it("disables subdomains with the includeSubDomains option", async () => {
     await check(strictTransportSecurity({ includeSubDomains: false }), {
-      "strict-transport-security": "max-age=15552000",
+      "strict-transport-security": "max-age=31536000",
     });
   });
 
   it("can enable preloading", async () => {
     await check(strictTransportSecurity({ preload: true }), {
       "strict-transport-security":
-        "max-age=15552000; includeSubDomains; preload",
+        "max-age=31536000; includeSubDomains; preload",
     });
   });
 
   it("can explicitly disable preloading", async () => {
     await check(strictTransportSecurity({ preload: false }), {
-      "strict-transport-security": "max-age=15552000; includeSubDomains",
+      "strict-transport-security": "max-age=31536000; includeSubDomains",
     });
   });
 
