@@ -2,6 +2,10 @@
 
 ## 8.0.0
 
+### Changed
+
+- **Breaking:** `Strict-Transport-Security` now has a max-age of 365 days, up from 180
+
 ### Removed
 
 - **Breaking:** Drop support for Node 16 and 17. Node 18+ is now required
