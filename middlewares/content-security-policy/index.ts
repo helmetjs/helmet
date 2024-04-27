@@ -93,9 +93,6 @@ const warnIfDirectiveValueEntryShouldBeQuoted = (value: string): void => {
   }
 };
 
-const has = (obj: Readonly<object>, key: string): boolean =>
-  Object.prototype.hasOwnProperty.call(obj, key);
-
 function normalizeDirectives(
   options: Readonly<ContentSecurityPolicyOptions>,
 ): NormalizedDirectives {
@@ -109,7 +106,7 @@ function normalizeDirectives(
   const directivesExplicitlyDisabled = new Set<string>();
 
   for (const rawDirectiveName in rawDirectives) {
-    if (!has(rawDirectives, rawDirectiveName)) {
+    if (!Object.hasOwn(rawDirectives, rawDirectiveName)) {
       continue;
     }
 
