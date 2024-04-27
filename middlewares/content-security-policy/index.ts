@@ -76,22 +76,19 @@ const dashify = (str: string): string =>
 const isDirectiveValueInvalid = (directiveValue: string): boolean =>
   /;|,/.test(directiveValue);
 
-const shouldDirectiveValueEntryBeQuoted = (
-  directiveValueEntry: string,
-): boolean =>
+const isDirectiveValueEntryInvalid = (directiveValueEntry: string): boolean =>
   SHOULD_BE_QUOTED.has(directiveValueEntry) ||
   directiveValueEntry.startsWith("nonce-") ||
   directiveValueEntry.startsWith("sha256-") ||
   directiveValueEntry.startsWith("sha384-") ||
   directiveValueEntry.startsWith("sha512-");
 
-const warnIfDirectiveValueEntryShouldBeQuoted = (value: string): void => {
-  if (shouldDirectiveValueEntryBeQuoted(value)) {
-    console.warn(
-      `Content-Security-Policy got directive value \`${value}\` which should be single-quoted and changed to \`'${value}'\`. This will be an error in future versions of Helmet.`,
-    );
-  }
-};
+const invalidDirectiveValueError = (directiveName: string): Error =>
+  new Error(
+    `Content-Security-Policy received an invalid directive value for ${JSON.stringify(
+      directiveName,
+    )}`,
+  );
 
 function normalizeDirectives(
   options: Readonly<ContentSecurityPolicyOptions>,
@@ -166,15 +163,12 @@ function normalizeDirectives(
     }
 
     for (const element of directiveValue) {
-      if (typeof element === "string") {
-        if (isDirectiveValueInvalid(element)) {
-          throw new Error(
-            `Content-Security-Policy received an invalid directive value for ${JSON.stringify(
-              directiveName,
-            )}`,
-          );
-        }
-        warnIfDirectiveValueEntryShouldBeQuoted(element);
+      if (
+        typeof element === "string" &&
+        (isDirectiveValueInvalid(element) ||
+          isDirectiveValueEntryInvalid(element))
+      ) {
+        throw invalidDirectiveValueError(directiveName);
       }
     }
 
@@ -216,15 +210,16 @@ function getHeaderValue(
   res: ServerResponse,
   normalizedDirectives: Readonly<NormalizedDirectives>,
 ): string | Error {
-  let err: undefined | Error;
   const result: string[] = [];
 
-  normalizedDirectives.forEach((rawDirectiveValue, directiveName) => {
+  for (const [directiveName, rawDirectiveValue] of normalizedDirectives) {
     let directiveValue = "";
     for (const element of rawDirectiveValue) {
       if (typeof element === "function") {
         const newElement = element(req, res);
-        warnIfDirectiveValueEntryShouldBeQuoted(newElement);
+        if (isDirectiveValueEntryInvalid(newElement)) {
+          return invalidDirectiveValueError(directiveName);
+        }
         directiveValue += " " + newElement;
       } else {
         directiveValue += " " + element;
@@ -234,17 +229,13 @@ function getHeaderValue(
     if (!directiveValue) {
       result.push(directiveName);
     } else if (isDirectiveValueInvalid(directiveValue)) {
-      err = new Error(
-        `Content-Security-Policy received an invalid directive value for ${JSON.stringify(
-          directiveName,
-        )}`,
-      );
+      return invalidDirectiveValueError(directiveName);
     } else {
       result.push(`${directiveName}${directiveValue}`);
     }
-  });
+  }
 
-  return err ? err : result.join(";");
+  return result.join(";");
 }
 
 const contentSecurityPolicy: ContentSecurityPolicy =
