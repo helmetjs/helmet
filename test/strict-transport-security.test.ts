@@ -87,12 +87,9 @@ describe("Strict-Transport-Security middleware", () => {
   });
 
   it("logs a warning when using the mis-capitalized `includeSubdomains` parameter", () => {
-    jest.spyOn(console, "warn").mockImplementation(() => {});
-
-    strictTransportSecurity({ includeSubdomains: false } as any);
-
-    expect(console.warn).toHaveBeenCalledTimes(1);
-    expect(console.warn).toHaveBeenCalledWith(
+    expect(() =>
+      strictTransportSecurity({ includeSubdomains: false } as any),
+    ).toThrow(
       'Strict-Transport-Security middleware should use `includeSubDomains` instead of `includeSubdomains`. (The correct one has an uppercase "D".)',
     );
   });
