@@ -5,6 +5,7 @@
     "@rollup/plugin-typescript": "^11.1.6",
     "@types/connect": "^3.4.38",
     "@types/jest": "^29.5.12",
+    "@types/node": "^20.12.7",
     "@types/node-zopfli": "^2.0.5",
     "@types/supertest": "^6.0.2",
     "@typescript-eslint/eslint-plugin": "^7.7.1",
