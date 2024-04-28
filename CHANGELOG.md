@@ -6,6 +6,7 @@
 
 - **Breaking:** `Strict-Transport-Security` now has a max-age of 365 days, up from 180
 - **Breaking:** `Content-Security-Policy` middleware now throws an error if a directive should have quotes but does not, such as `self` instead of `'self'`. See [#454](https://github.com/helmetjs/helmet/issues/454)
+- **Breaking:** `Strict-Transport-Security` now throws an error when "includeSubDomains" option is misspelled. This was previously a warning
 
 ### Removed
 
