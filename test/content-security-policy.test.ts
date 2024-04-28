@@ -297,12 +297,12 @@ describe("Content-Security-Policy middleware", () => {
     const invalidNames = [
       "",
       ";",
-      "á",
+      "\u00e1",
       "default src",
       "default;src",
       "default,src",
       "default!src",
-      "defáult-src",
+      "def\u00e1ult-src",
       "default_src",
       "__proto__",
     ];
