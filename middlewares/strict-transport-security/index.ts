@@ -29,7 +29,7 @@ function getHeaderValueFromOptions(
     );
   }
   if ("includeSubdomains" in options) {
-    console.warn(
+    throw new Error(
       'Strict-Transport-Security middleware should use `includeSubDomains` instead of `includeSubdomains`. (The correct one has an uppercase "D".)',
     );
   }
