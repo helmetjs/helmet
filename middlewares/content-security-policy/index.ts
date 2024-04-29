@@ -5,7 +5,7 @@ type ContentSecurityPolicyDirectiveValueFunction = (
   res: ServerResponse,
 ) => string;
 
-export type ContentSecurityPolicyDirectiveValue =
+type ContentSecurityPolicyDirectiveValue =
   | string
   | ContentSecurityPolicyDirectiveValueFunction;
 
