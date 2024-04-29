@@ -5,7 +5,7 @@ type ContentSecurityPolicyDirectiveValueFunction = (
   res: ServerResponse,
 ) => string;
 
-type ContentSecurityPolicyDirectiveValue =
+export type ContentSecurityPolicyDirectiveValue =
   | string
   | ContentSecurityPolicyDirectiveValueFunction;
 
@@ -68,7 +68,7 @@ const SHOULD_BE_QUOTED: ReadonlySet<string> = new Set([
   "wasm-unsafe-eval",
 ]);
 
-const getDefaultDirectives = () => structuredClone(DEFAULT_DIRECTIVES);
+const getDefaultDirectives = () => ({ ...DEFAULT_DIRECTIVES });
 
 const dashify = (str: string): string =>
   str.replace(/[A-Z]/g, (capitalLetter) => "-" + capitalLetter.toLowerCase());

@@ -2,6 +2,7 @@ import { IncomingMessage, ServerResponse } from "http";
 import { check } from "./helpers";
 import connect from "connect";
 import supertest from "supertest";
+import type { ContentSecurityPolicyDirectiveValue } from "../middlewares/content-security-policy";
 import contentSecurityPolicy, {
   getDefaultDirectives,
   dangerouslyDisableDefaultSrc,
@@ -580,5 +581,17 @@ describe("getDefaultDirectives", () => {
     expect(getDefaultDirectives).toBe(
       contentSecurityPolicy.getDefaultDirectives,
     );
+  });
+
+  it("returns a new copy each time", () => {
+    const one = getDefaultDirectives();
+    one["worker-src"] = ["ignored.example"];
+    (one["img-src"] as Array<ContentSecurityPolicyDirectiveValue>).push(
+      "ignored.example",
+    );
+
+    const two = getDefaultDirectives();
+    expect(two).not.toHaveProperty("worker-src");
+    expect(two["img-src"]).not.toContain("ignored.example");
   });
 });
