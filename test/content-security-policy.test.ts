@@ -581,4 +581,14 @@ describe("getDefaultDirectives", () => {
       contentSecurityPolicy.getDefaultDirectives,
     );
   });
+
+  it("returns a new copy each time", () => {
+    const one = getDefaultDirectives();
+    one["worker-src"] = ["ignored.example"];
+    (one["img-src"] as Array<string>).push("ignored.example");
+
+    const two = getDefaultDirectives();
+    expect(two).not.toHaveProperty("worker-src");
+    expect(two["img-src"]).not.toContain("ignored.example");
+  });
 });
