@@ -68,7 +68,7 @@ const SHOULD_BE_QUOTED: ReadonlySet<string> = new Set([
   "wasm-unsafe-eval",
 ]);
 
-const getDefaultDirectives = () => ({ ...DEFAULT_DIRECTIVES });
+const getDefaultDirectives = () => structuredClone(DEFAULT_DIRECTIVES);
 
 const dashify = (str: string): string =>
   str.replace(/[A-Z]/g, (capitalLetter) => "-" + capitalLetter.toLowerCase());
