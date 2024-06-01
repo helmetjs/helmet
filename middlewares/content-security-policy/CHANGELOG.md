@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 4.0.0 - 2024-06-01
 
 ### Changed
 
