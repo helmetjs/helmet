@@ -1,30 +1,16 @@
 # Helmet
 
-Helmet helps secure Express apps by setting HTTP response headers.
-
-## Get started
-
-Here's a sample Express app that uses Helmet:
+Help secure Express apps by setting HTTP response headers.
 
 ```javascript
-import express from "express";
 import helmet from "helmet";
 
 const app = express();
 
-// Use Helmet!
 app.use(helmet());
-
-app.get("/", (req, res) => {
-  res.send("Hello world!");
-});
-
-app.listen(8000);
 ```
 
-You can also `require("helmet")` if you prefer.
-
-By default, Helmet sets the following headers:
+Helmet sets the following headers by default:
 
 - [`Content-Security-Policy`](#content-security-policy): A powerful allow-list of what can happen on your page which mitigates many attacks
 - [`Cross-Origin-Opener-Policy`](#cross-origin-opener-policy): Helps process-isolate your page
@@ -43,8 +29,7 @@ By default, Helmet sets the following headers:
 Each header can be configured. For example, here's how you configure the `Content-Security-Policy` header:
 
 ```js
-// This sets custom options for the
-// Content-Security-Policy header.
+// Configure the Content-Security-Policy header.
 app.use(
   helmet({
     contentSecurityPolicy: {
@@ -59,8 +44,7 @@ app.use(
 Headers can also be disabled. For example, here's how you disable the `Content-Security-Policy` and `X-Download-Options` headers:
 
 ```js
-// This disables the Content-Security-Policy
-// and X-Download-Options headers.
+// Disable the Content-Security-Policy and X-Download-Options headers
 app.use(
   helmet({
     contentSecurityPolicy: false,
@@ -82,7 +66,7 @@ Content-Security-Policy: default-src 'self';base-uri 'self';font-src 'self' http
 
 The `Content-Security-Policy` header mitigates a large number of attacks, such as [cross-site scripting][XSS]. See [MDN's introductory article on Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP).
 
-This header is powerful but likely requires some configuration.
+This header is powerful but likely requires some configuration for your specific app.
 
 To configure this header, pass an object with a nested `directives` object. Each key is a directive name in camel case (such as `defaultSrc`) or kebab case (such as `default-src`). Each value is an array (or other iterable) of strings or functions for that directive. If a function appears in the array, it will be called with the request and response objects.
 
@@ -141,7 +125,7 @@ app.use(
 );
 ```
 
-You can get the default directives object with `helmet.contentSecurityPolicy.getDefaultDirectives()`. Here is the default policy (whitespace added for readability):
+You can get the default directives object with `helmet.contentSecurityPolicy.getDefaultDirectives()`. Here is the default policy (formatted for readability):
 
 ```
 default-src 'self';
@@ -159,7 +143,7 @@ upgrade-insecure-requests
 
 The `default-src` directive can be explicitly disabled by setting its value to `helmet.contentSecurityPolicy.dangerouslyDisableDefaultSrc`, but this is not recommended.
 
-You can set the [`Content-Security-Policy-Report-Only`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy-Report-Only) instead.
+You can set the [`Content-Security-Policy-Report-Only`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy-Report-Only) instead:
 
 ```javascript
 // Sets the Content-Security-Policy-Report-Only header
