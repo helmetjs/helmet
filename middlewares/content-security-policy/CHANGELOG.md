@@ -10,7 +10,7 @@
 
 ### Removed
 
-- **Breaking:** Node 14+ is now required
+- **Breaking:** Node 18+ is now required
 
 ## 3.4.0 - 2021-05-02
 
