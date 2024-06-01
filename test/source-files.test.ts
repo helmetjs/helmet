@@ -52,7 +52,7 @@ const getSourceFileChunks = (): AsyncIterable<{
   });
 
 const getSourceFiles = async (): Promise<Array<string>> =>
-  (await exec("git ls-files", { cwd: root, env: {} })).stdout
+  (await exec("git ls-files", { cwd: root })).stdout
     .split(/\r?\n/g)
     .filter(
       (file) => !EXTNAMES_THAT_DONT_HAVE_TO_BE_ASCII.has(path.extname(file)),
