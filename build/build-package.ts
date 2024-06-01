@@ -104,9 +104,9 @@ async function buildCjs({
     format: "cjs",
     generatedCode: "es2015",
     outro: [
-      "module.exports = helmet;",
+      "module.exports = exports.default;",
       // Some bundlers import with CommonJS but then pull `default` off.
-      "module.exports.default = helmet;",
+      "module.exports.default = module.exports;",
     ].join("\n"),
   });
 
