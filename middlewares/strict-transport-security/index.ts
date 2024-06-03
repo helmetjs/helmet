@@ -1,6 +1,6 @@
 import type { IncomingMessage, ServerResponse } from "http";
 
-const DEFAULT_MAX_AGE = 180 * 24 * 60 * 60;
+const DEFAULT_MAX_AGE = 365 * 24 * 60 * 60;
 
 export interface StrictTransportSecurityOptions {
   maxAge?: number;
@@ -29,7 +29,7 @@ function getHeaderValueFromOptions(
     );
   }
   if ("includeSubdomains" in options) {
-    console.warn(
+    throw new Error(
       'Strict-Transport-Security middleware should use `includeSubDomains` instead of `includeSubdomains`. (The correct one has an uppercase "D".)',
     );
   }

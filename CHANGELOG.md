@@ -1,6 +1,16 @@
 # Changelog
 
-## Unreleased
+## 8.0.0
+
+### Changed
+
+- **Breaking:** `Content-Security-Policy` middleware now throws an error if a directive should have quotes but does not, such as `self` instead of `'self'`. See [#454](https://github.com/helmetjs/helmet/issues/454)
+
+### Removed
+
+- **Breaking:** Drop support for Node 16 and 17. Node 18+ is now required
+
+## Unreleased (7.x)
 
 ### Changed
 
