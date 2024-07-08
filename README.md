@@ -244,7 +244,7 @@ Default:
 Cross-Origin-Resource-Policy: same-origin
 ```
 
-The `Cross-Origin-Resource-Policy` header blocks others from loading your resources cross-origin in some cases. For more, see ["Consider deploying Cross-Origin Resource Policy](https://resourcepolicy.fyi/) and [MDN's article on this header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cross-Origin-Resource-Policy).
+The `Cross-Origin-Resource-Policy` header blocks others from loading your resources cross-origin in some cases. For more, see ["Consider deploying Cross-Origin Resource Policy"](https://resourcepolicy.fyi/) and [MDN's article on this header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cross-Origin-Resource-Policy).
 
 ```js
 // Sets "Cross-Origin-Resource-Policy: same-origin"
