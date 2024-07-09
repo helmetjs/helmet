@@ -9,7 +9,7 @@
     "noUnusedParameters": true,
     "noUncheckedIndexedAccess": true,
     "strict": true,
-    "target": "es6",
+    "target": "es2022",
     "outDir": "."
   },
   "exclude": ["node_modules"]
