@@ -5,7 +5,7 @@
     "@eslint/js": "^9.11.1",
     "@rollup/plugin-typescript": "^12.1.0",
     "@types/connect": "^3.4.38",
-    "@types/jest": "^29.5.12",
+    "@types/jest": "^29.5.13",
     "@types/node": "^22.7.4",
     "@types/node-zopfli": "^2.0.5",
     "@types/supertest": "^6.0.2",
@@ -18,7 +18,7 @@
     "rollup": "^4.22.5",
     "rollup-plugin-dts": "^6.1.1",
     "supertest": "^7.0.0",
-    "ts-jest": "^29.1.2",
+    "ts-jest": "^29.2.5",
     "tsx": "^4.19.1",
     "typescript": "^5.6.2",
     "typescript-eslint": "^8.7.0"
