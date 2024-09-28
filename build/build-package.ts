@@ -96,7 +96,7 @@ async function buildCjs({
 
   console.log(`Building ${outputPath}...`);
 
-  const bundle = await rollupForJs(entry);
+  const bundle = await rollupForJs({ entry, distDir });
 
   await bundle.write({
     file: outputPath,
@@ -123,7 +123,7 @@ async function buildMjs({
 
   console.log(`Building ${outputPath}...`);
 
-  const bundle = await rollupForJs(entry);
+  const bundle = await rollupForJs({ entry, distDir });
 
   await bundle.write({
     file: outputPath,
@@ -136,11 +136,15 @@ async function buildMjs({
   console.log(`Built ${outputPath}.`);
 }
 
-function rollupForJs(entry: string): Promise<RollupBuild> {
+function rollupForJs({
+  entry,
+  distDir,
+}: Readonly<{ entry: string; distDir: string }>): Promise<RollupBuild> {
   return rollup({
     input: entry,
     plugins: [
       rollupTypescript({
+        outDir: distDir,
         exclude: [testFiles],
       }),
     ],
