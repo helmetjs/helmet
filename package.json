@@ -26,7 +26,7 @@
   "scripts": {
     "pretest": "npm run lint",
     "lint": "npm run lint:eslint && npm run lint:prettier",
-    "lint:eslint": "eslint .",
+    "lint:eslint": "eslint --cache .",
     "lint:prettier": "prettier --check .",
     "format": "prettier --write .",
     "clean": "node ./bin/clean.mjs",
