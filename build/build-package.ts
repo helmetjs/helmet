@@ -338,7 +338,7 @@ async function postPackCrush(originalTarGz: string): Promise<string> {
   const crushedTarGz = originalTarGz.replace(".tgz", ".crushed.tgz");
   const readOriginal = fsOriginal.createReadStream(originalTarGz);
   const gunzip = zlib.createGunzip();
-  const gzip = zopfli.createGzip({ numiterations: 15 });
+  const gzip = zopfli.createGzip({ numiterations: 100 });
   const writeCrushed = fsOriginal.createWriteStream(crushedTarGz);
 
   await pipe(readOriginal, gunzip, gzip, writeCrushed);
