@@ -6,7 +6,7 @@
     "@rollup/plugin-typescript": "^12.1.0",
     "@types/connect": "^3.4.38",
     "@types/jest": "^29.5.12",
-    "@types/node": "^20.12.7",
+    "@types/node": "^22.7.4",
     "@types/node-zopfli": "^2.0.5",
     "@types/supertest": "^6.0.2",
     "connect": "^3.7.0",
