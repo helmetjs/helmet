@@ -39,23 +39,6 @@ interface ContentSecurityPolicy {
 
 const dangerouslyDisableDefaultSrc = Symbol("dangerouslyDisableDefaultSrc");
 
-const DEFAULT_DIRECTIVES: Record<
-  string,
-  Iterable<ContentSecurityPolicyDirectiveValue>
-> = {
-  "default-src": ["'self'"],
-  "base-uri": ["'self'"],
-  "font-src": ["'self'", "https:", "data:"],
-  "form-action": ["'self'"],
-  "frame-ancestors": ["'self'"],
-  "img-src": ["'self'", "data:"],
-  "object-src": ["'none'"],
-  "script-src": ["'self'"],
-  "script-src-attr": ["'none'"],
-  "style-src": ["'self'", "https:", "'unsafe-inline'"],
-  "upgrade-insecure-requests": [],
-};
-
 const SHOULD_BE_QUOTED: ReadonlySet<string> = new Set([
   "none",
   "self",
@@ -68,7 +51,22 @@ const SHOULD_BE_QUOTED: ReadonlySet<string> = new Set([
   "wasm-unsafe-eval",
 ]);
 
-const getDefaultDirectives = () => structuredClone(DEFAULT_DIRECTIVES);
+const getDefaultDirectives = (): Record<
+  string,
+  Iterable<ContentSecurityPolicyDirectiveValue>
+> => ({
+  "default-src": ["'self'"],
+  "base-uri": ["'self'"],
+  "font-src": ["'self'", "https:", "data:"],
+  "form-action": ["'self'"],
+  "frame-ancestors": ["'self'"],
+  "img-src": ["'self'", "data:"],
+  "object-src": ["'none'"],
+  "script-src": ["'self'"],
+  "script-src-attr": ["'none'"],
+  "style-src": ["'self'", "https:", "'unsafe-inline'"],
+  "upgrade-insecure-requests": [],
+});
 
 const dashify = (str: string): string =>
   str.replace(/[A-Z]/g, (capitalLetter) => "-" + capitalLetter.toLowerCase());
