@@ -244,8 +244,11 @@ async function buildPackageJson({
     ],
     engines: devPackageJson.engines,
     exports: {
-      ...(esm ? { import: "./index.mjs" } : {}),
-      require: "./index.cjs",
+      ".": {
+        ...(esm ? { import: "./index.mjs" } : {}),
+        require: "./index.cjs",
+      },
+      ...(esm ? { "./module": "./index.mjs" } : {}),
     },
     // All supported versions of Node handle `exports`, but some build tools
     // still use `main`, so we keep it around.
