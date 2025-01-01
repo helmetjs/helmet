@@ -700,3 +700,15 @@ You can use this as standalone middleware with `app.use(helmet.xXssProtection())
 [MIME sniffing]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types#mime_sniffing
 [Clickjacking]: https://en.wikipedia.org/wiki/Clickjacking
 [XSS]: https://developer.mozilla.org/en-US/docs/Glossary/Cross-site_scripting
+
+## Alternative ESM import
+
+If you're encountering issues importing Helmet in an ESM project (notably TypeScript projects launched with `ts-node`), an altnerative import is available that may resolve the problem. Import the module from `"helmet/module"` instead of `"helmet"`. For example:
+
+```javascript
+import helmet from "helmet/module";
+
+const app = express();
+
+app.use(helmet());
+```

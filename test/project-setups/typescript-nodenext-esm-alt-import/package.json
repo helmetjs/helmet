@@ -1,0 +1,7 @@
+{
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "helmet:test": "tsx test.ts"
+  }
+}
