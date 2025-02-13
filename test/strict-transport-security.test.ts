@@ -2,7 +2,7 @@ import { check } from "./helpers";
 import strictTransportSecurity from "../middlewares/strict-transport-security";
 
 describe("Strict-Transport-Security middleware", () => {
-  it('by default, sets max-age to 180 days and adds "includeSubDomains"', async () => {
+  it('by default, sets max-age to 365 days and adds "includeSubDomains"', async () => {
     expect(31536000).toStrictEqual(365 * 24 * 60 * 60);
 
     const expectedHeaders = {

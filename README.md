@@ -358,17 +358,17 @@ You can use this as standalone middleware with `app.use(helmet.referrerPolicy())
 Default:
 
 ```http
-Strict-Transport-Security: max-age=15552000; includeSubDomains
+Strict-Transport-Security: max-age=31536000; includeSubDomains
 ```
 
 The `Strict-Transport-Security` header tells browsers to prefer HTTPS instead of insecure HTTP. See [the documentation on MDN](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security) for more.
 
 ```js
-// Sets "Strict-Transport-Security: max-age=15552000; includeSubDomains"
+// Sets "Strict-Transport-Security: max-age=31536000; includeSubDomains"
 app.use(helmet());
 ```
 
-`maxAge` is the number of seconds browsers should remember to prefer HTTPS. If passed a non-integer, the value is rounded down. It defaults to `15552000`, which is 180 days.
+`maxAge` is the number of seconds browsers should remember to prefer HTTPS. If passed a non-integer, the value is rounded down. It defaults to 365 days.
 
 `includeSubDomains` is a boolean which dictates whether to include the `includeSubDomains` directive, which makes this policy extend to subdomains. It defaults to `true`.
 
