@@ -1,7 +1,7 @@
-import type { IncomingMessage, ServerResponse } from "http";
-import { check } from "./helpers";
 import connect from "connect";
+import type { IncomingMessage, ServerResponse } from "node:http";
 import supertest from "supertest";
+import { check } from "./helpers";
 
 import * as helmet from "..";
 
@@ -9,8 +9,8 @@ import contentSecurityPolicy from "../middlewares/content-security-policy";
 import crossOriginEmbedderPolicy from "../middlewares/cross-origin-embedder-policy";
 import crossOriginOpenerPolicy from "../middlewares/cross-origin-opener-policy";
 import crossOriginResourcePolicy from "../middlewares/cross-origin-resource-policy";
-import referrerPolicy from "../middlewares/referrer-policy";
 import originAgentCluster from "../middlewares/origin-agent-cluster";
+import referrerPolicy from "../middlewares/referrer-policy";
 import strictTransportSecurity from "../middlewares/strict-transport-security";
 import xContentTypeOptions from "../middlewares/x-content-type-options";
 import xDnsPrefetchControl from "../middlewares/x-dns-prefetch-control";

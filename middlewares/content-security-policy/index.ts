@@ -1,4 +1,4 @@
-import type { IncomingMessage, ServerResponse } from "http";
+import type { IncomingMessage, ServerResponse } from "node:http";
 
 type ContentSecurityPolicyDirectiveValueFunction = (
   req: IncomingMessage,
@@ -270,4 +270,4 @@ contentSecurityPolicy.dangerouslyDisableDefaultSrc =
 
 export default contentSecurityPolicy;
 
-export { getDefaultDirectives, dangerouslyDisableDefaultSrc };
+export { dangerouslyDisableDefaultSrc, getDefaultDirectives };

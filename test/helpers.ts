@@ -1,5 +1,5 @@
-import type { IncomingMessage, ServerResponse } from "http";
 import connect from "connect";
+import type { IncomingMessage, ServerResponse } from "node:http";
 import supertest from "supertest";
 
 type MiddlewareFunction = (

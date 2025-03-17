@@ -1,15 +1,15 @@
-import * as path from "path";
-import * as os from "os";
-import * as fsOriginal from "fs";
-import * as zlib from "zlib";
-import { fileURLToPath } from "url";
-import { pipeline } from "stream";
-import { promisify } from "util";
-import { rollup, type RollupBuild } from "rollup";
 import rollupTypescript from "@rollup/plugin-typescript";
-import rollupDts from "rollup-plugin-dts";
-import prettier from "prettier";
 import zopfli from "node-zopfli";
+import * as fsOriginal from "node:fs";
+import * as os from "node:os";
+import * as path from "node:path";
+import { pipeline } from "node:stream";
+import { fileURLToPath } from "node:url";
+import { promisify } from "node:util";
+import * as zlib from "node:zlib";
+import prettier from "prettier";
+import { type RollupBuild, rollup } from "rollup";
+import rollupDts from "rollup-plugin-dts";
 import { npm } from "./helpers.js";
 
 const fs = fsOriginal.promises;
@@ -160,7 +160,7 @@ async function buildTypes({
 
   const bundle = await rollup({
     input: entry,
-    external: ["http"],
+    external: ["node:http"],
     plugins: [rollupDts()],
   });
 

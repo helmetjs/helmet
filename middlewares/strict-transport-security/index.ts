@@ -1,4 +1,4 @@
-import type { IncomingMessage, ServerResponse } from "http";
+import type { IncomingMessage, ServerResponse } from "node:http";
 
 const DEFAULT_MAX_AGE = 365 * 24 * 60 * 60;
 

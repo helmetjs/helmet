@@ -1,5 +1,5 @@
-import { check } from "./helpers";
 import xDnsPrefetchControl from "../middlewares/x-dns-prefetch-control";
+import { check } from "./helpers";
 
 describe("X-DNS-Prefetch-Control middleware", () => {
   it('sets the header to "off" by default', async () => {

@@ -1,5 +1,5 @@
-import { check } from "./helpers";
 import crossOriginOpenerPolicy from "../middlewares/cross-origin-opener-policy";
+import { check } from "./helpers";
 
 describe("Cross-Origin-Opener-Policy middleware", () => {
   it('sets "Cross-Origin-Opener-Policy: same-origin" when called with no policy', async () => {

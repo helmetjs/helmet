@@ -1,5 +1,5 @@
-import { check } from "./helpers";
 import xFrameOptions from "../middlewares/x-frame-options";
+import { check } from "./helpers";
 
 describe("X-Frame-Options middleware", () => {
   it('sets "X-Frame-Options: SAMEORIGIN" when passed no action', async () => {

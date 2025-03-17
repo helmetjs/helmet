@@ -1,5 +1,5 @@
-import { check } from "./helpers";
 import crossOriginResourcePolicy from "../middlewares/cross-origin-resource-policy";
+import { check } from "./helpers";
 
 describe("Cross-Origin-Resource-Policy middleware", () => {
   it('sets "Cross-Origin-Resource-Policy: same-origin" when called with no policy', async () => {

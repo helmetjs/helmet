@@ -1,4 +1,4 @@
-import type { IncomingMessage, ServerResponse } from "http";
+import type { IncomingMessage, ServerResponse } from "node:http";
 
 export interface XPermittedCrossDomainPoliciesOptions {
   permittedPolicies?: "none" | "master-only" | "by-content-type" | "all";

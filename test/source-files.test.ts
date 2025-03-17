@@ -1,8 +1,8 @@
-import { promisify } from "node:util";
+import * as childProcess from "node:child_process";
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
-import * as childProcess from "node:child_process";
 import { ReadableStream } from "node:stream/web";
+import { promisify } from "node:util";
 
 const EXTNAMES_THAT_DONT_HAVE_TO_BE_ASCII: ReadonlySet<string> = new Set([
   ".md",

@@ -1,11 +1,11 @@
-import { IncomingMessage, ServerResponse } from "http";
-import { check } from "./helpers";
 import connect from "connect";
+import { IncomingMessage, ServerResponse } from "node:http";
 import supertest from "supertest";
 import contentSecurityPolicy, {
-  getDefaultDirectives,
   dangerouslyDisableDefaultSrc,
+  getDefaultDirectives,
 } from "../middlewares/content-security-policy";
+import { check } from "./helpers";
 
 const shouldBeQuoted = [
   "none",

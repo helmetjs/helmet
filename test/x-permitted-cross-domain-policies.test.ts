@@ -1,5 +1,5 @@
-import { check } from "./helpers";
 import xPermittedCrossDomainPolicies from "../middlewares/x-permitted-cross-domain-policies";
+import { check } from "./helpers";
 
 describe("X-Permitted-Cross-Domain-Policies middleware", () => {
   it('sets "X-Permitted-Cross-Domain-Policies: none" when called with no permitted policies', async () => {

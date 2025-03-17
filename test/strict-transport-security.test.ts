@@ -1,5 +1,5 @@
-import { check } from "./helpers";
 import strictTransportSecurity from "../middlewares/strict-transport-security";
+import { check } from "./helpers";
 
 describe("Strict-Transport-Security middleware", () => {
   it('by default, sets max-age to 365 days and adds "includeSubDomains"', async () => {

@@ -1,5 +1,5 @@
-import { check } from "./helpers";
 import referrerPolicy from "../middlewares/referrer-policy";
+import { check } from "./helpers";
 
 describe("Referrer-Policy middleware", () => {
   it("sets header to no-referrer when passed no policy", async () => {

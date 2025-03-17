@@ -1,4 +1,4 @@
-import type { IncomingMessage, ServerResponse } from "http";
+import type { IncomingMessage, ServerResponse } from "node:http";
 import contentSecurityPolicy, {
   type ContentSecurityPolicyOptions,
 } from "./middlewares/content-security-policy/index.js";

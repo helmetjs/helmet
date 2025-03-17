@@ -1,4 +1,4 @@
-import type { IncomingMessage, ServerResponse } from "http";
+import type { IncomingMessage, ServerResponse } from "node:http";
 
 export interface CrossOriginResourcePolicyOptions {
   policy?: "same-origin" | "same-site" | "cross-origin";

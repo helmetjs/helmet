@@ -1,5 +1,5 @@
-import { check } from "./helpers";
 import xPoweredBy from "../middlewares/x-powered-by";
+import { check } from "./helpers";
 
 describe("X-Powered-By middleware", () => {
   it("does nothing if the request was not set earlier in the stack", async () => {

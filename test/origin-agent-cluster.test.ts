@@ -1,5 +1,5 @@
-import { check } from "./helpers";
 import originAgentCluster from "../middlewares/origin-agent-cluster";
+import { check } from "./helpers";
 
 describe("Origin-Agent-Cluster middleware", () => {
   it('sets "Origin-Agent-Cluster: ?1"', async () => {

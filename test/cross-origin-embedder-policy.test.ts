@@ -1,5 +1,5 @@
-import { check } from "./helpers";
 import crossOriginEmbedderPolicy from "../middlewares/cross-origin-embedder-policy";
+import { check } from "./helpers";
 
 describe("Cross-Origin-Embedder-Policy middleware", () => {
   it('sets "Cross-Origin-Embedder-Policy: same-origin" when called with no policy', async () => {
