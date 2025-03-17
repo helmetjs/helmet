@@ -1,5 +1,7 @@
 import connect from "connect";
+import assert from "node:assert/strict";
 import type { IncomingMessage, ServerResponse } from "node:http";
+import { describe, it, type TestContext, type Mock } from "node:test";
 import supertest from "supertest";
 import { check } from "./helpers";
 
@@ -89,9 +91,7 @@ describe("helmet", () => {
       },
     };
 
-    expect(() => {
-      topLevel(fakeRequest as any);
-    }).toThrow();
+    assert.throws(() => topLevel(fakeRequest as any));
   });
 
   it("allows default middleware to be explicitly enabled (a no-op)", async () => {
@@ -209,114 +209,147 @@ describe("helmet", () => {
   });
 
   describe("warnings", () => {
-    beforeEach(() => {
-      jest.spyOn(console, "warn").mockImplementation(() => {});
-    });
+    const mockWarn = (t: TestContext) =>
+      t.mock.method(console, "warn", () => {});
 
-    it("logs a warning when passing options to xPoweredBy", () => {
+    const assertWarns = (
+      { mock }: Mock<() => unknown>,
+      message: string,
+    ): void => {
+      assert.equal(mock.callCount(), 1);
+      assert.deepEqual(mock.calls[0]?.arguments, [message]);
+    };
+
+    it("logs a warning when passing options to xPoweredBy", (t) => {
+      const warn = mockWarn(t);
       topLevel({ xPoweredBy: { setTo: "deprecated option" } as any });
-
-      expect(console.warn).toHaveBeenCalledTimes(1);
-      expect(console.warn).toHaveBeenCalledWith(
+      assertWarns(
+        warn,
         "X-Powered-By does not take options. Remove the property to silence this warning.",
       );
     });
 
-    it("logs a warning when passing options to xDownloadOptions", () => {
+    it("logs a warning when passing options to xDownloadOptions", (t) => {
+      const warn = mockWarn(t);
       topLevel({ xDownloadOptions: { option: "foo" } as any });
-
-      expect(console.warn).toHaveBeenCalledTimes(1);
-      expect(console.warn).toHaveBeenCalledWith(
+      assertWarns(
+        warn,
         "X-Download-Options does not take options. Remove the property to silence this warning.",
       );
     });
 
-    it("logs a warning when passing options to originAgentCluster", () => {
+    it("logs a warning when passing options to originAgentCluster", (t) => {
+      const warn = mockWarn(t);
       topLevel({ originAgentCluster: { option: "foo" } as any });
-
-      expect(console.warn).toHaveBeenCalledTimes(1);
-      expect(console.warn).toHaveBeenCalledWith(
+      assertWarns(
+        warn,
         "Origin-Agent-Cluster does not take options. Remove the property to silence this warning.",
       );
     });
 
-    it("logs a warning when passing options to xContentTypeOptions", () => {
+    it("logs a warning when passing options to xContentTypeOptions", (t) => {
+      const warn = mockWarn(t);
       topLevel({ xContentTypeOptions: { option: "foo" } as any });
-
-      expect(console.warn).toHaveBeenCalledTimes(1);
-      expect(console.warn).toHaveBeenCalledWith(
+      assertWarns(
+        warn,
         "X-Content-Type-Options does not take options. Remove the property to silence this warning.",
       );
     });
 
-    it("logs a warning when passing options to xXssProtection", () => {
+    it("logs a warning when passing options to xXssProtection", (t) => {
+      const warn = mockWarn(t);
       topLevel({ xXssProtection: { setOnOldIe: true } as any });
-
-      expect(console.warn).toHaveBeenCalledTimes(1);
-      expect(console.warn).toHaveBeenCalledWith(
+      assertWarns(
+        warn,
         "X-XSS-Protection does not take options. Remove the property to silence this warning.",
       );
     });
   });
 
   it("exposes standalone middleware", () => {
-    expect(helmet.contentSecurityPolicy.name).toBe(contentSecurityPolicy.name);
-    expect(helmet.contentSecurityPolicy.name).toBe("contentSecurityPolicy");
+    assert.strictEqual(
+      helmet.contentSecurityPolicy.name,
+      contentSecurityPolicy.name,
+    );
+    assert.strictEqual(
+      helmet.contentSecurityPolicy.name,
+      "contentSecurityPolicy",
+    );
 
-    expect(helmet.crossOriginEmbedderPolicy.name).toBe(
+    assert.strictEqual(
+      helmet.crossOriginEmbedderPolicy.name,
       crossOriginEmbedderPolicy.name,
     );
-    expect(helmet.crossOriginEmbedderPolicy.name).toBe(
+    assert.strictEqual(
+      helmet.crossOriginEmbedderPolicy.name,
       "crossOriginEmbedderPolicy",
     );
 
-    expect(helmet.crossOriginOpenerPolicy.name).toBe(
+    assert.strictEqual(
+      helmet.crossOriginOpenerPolicy.name,
       crossOriginOpenerPolicy.name,
     );
-    expect(helmet.crossOriginOpenerPolicy.name).toBe("crossOriginOpenerPolicy");
+    assert.strictEqual(
+      helmet.crossOriginOpenerPolicy.name,
+      "crossOriginOpenerPolicy",
+    );
 
-    expect(helmet.crossOriginResourcePolicy.name).toBe(
+    assert.strictEqual(
+      helmet.crossOriginResourcePolicy.name,
       crossOriginResourcePolicy.name,
     );
-    expect(helmet.crossOriginResourcePolicy.name).toBe(
+    assert.strictEqual(
+      helmet.crossOriginResourcePolicy.name,
       "crossOriginResourcePolicy",
     );
 
-    expect(helmet.originAgentCluster.name).toBe(originAgentCluster.name);
-    expect(helmet.originAgentCluster.name).toBe("originAgentCluster");
+    assert.strictEqual(helmet.originAgentCluster.name, originAgentCluster.name);
+    assert.strictEqual(helmet.originAgentCluster.name, "originAgentCluster");
 
-    expect(helmet.referrerPolicy.name).toBe(referrerPolicy.name);
-    expect(helmet.referrerPolicy.name).toBe("referrerPolicy");
+    assert.strictEqual(helmet.referrerPolicy.name, referrerPolicy.name);
+    assert.strictEqual(helmet.referrerPolicy.name, "referrerPolicy");
 
-    expect(helmet.strictTransportSecurity.name).toBe(
+    assert.strictEqual(
+      helmet.strictTransportSecurity.name,
       strictTransportSecurity.name,
     );
-    expect(helmet.strictTransportSecurity.name).toBe("strictTransportSecurity");
+    assert.strictEqual(
+      helmet.strictTransportSecurity.name,
+      "strictTransportSecurity",
+    );
 
-    expect(helmet.xContentTypeOptions.name).toBe(xContentTypeOptions.name);
-    expect(helmet.xContentTypeOptions.name).toBe("xContentTypeOptions");
+    assert.strictEqual(
+      helmet.xContentTypeOptions.name,
+      xContentTypeOptions.name,
+    );
+    assert.strictEqual(helmet.xContentTypeOptions.name, "xContentTypeOptions");
 
-    expect(helmet.xDnsPrefetchControl.name).toBe(xDnsPrefetchControl.name);
-    expect(helmet.xDnsPrefetchControl.name).toBe("xDnsPrefetchControl");
+    assert.strictEqual(
+      helmet.xDnsPrefetchControl.name,
+      xDnsPrefetchControl.name,
+    );
+    assert.strictEqual(helmet.xDnsPrefetchControl.name, "xDnsPrefetchControl");
 
-    expect(helmet.xDownloadOptions.name).toBe(xDownloadOptions.name);
-    expect(helmet.xDownloadOptions.name).toBe("xDownloadOptions");
+    assert.strictEqual(helmet.xDownloadOptions.name, xDownloadOptions.name);
+    assert.strictEqual(helmet.xDownloadOptions.name, "xDownloadOptions");
 
-    expect(helmet.xFrameOptions.name).toBe(xFrameOptions.name);
-    expect(helmet.xFrameOptions.name).toBe("xFrameOptions");
+    assert.strictEqual(helmet.xFrameOptions.name, xFrameOptions.name);
+    assert.strictEqual(helmet.xFrameOptions.name, "xFrameOptions");
 
-    expect(helmet.xPermittedCrossDomainPolicies.name).toBe(
+    assert.strictEqual(
+      helmet.xPermittedCrossDomainPolicies.name,
       xPermittedCrossDomainPolicies.name,
     );
-    expect(helmet.xPermittedCrossDomainPolicies.name).toBe(
+    assert.strictEqual(
+      helmet.xPermittedCrossDomainPolicies.name,
       "xPermittedCrossDomainPolicies",
     );
 
-    expect(helmet.xPoweredBy.name).toBe(xPoweredBy.name);
-    expect(helmet.xPoweredBy.name).toBe("xPoweredBy");
+    assert.strictEqual(helmet.xPoweredBy.name, xPoweredBy.name);
+    assert.strictEqual(helmet.xPoweredBy.name, "xPoweredBy");
 
-    expect(helmet.xXssProtection.name).toBe(xXssProtection.name);
-    expect(helmet.xXssProtection.name).toBe("xXssProtection");
+    assert.strictEqual(helmet.xXssProtection.name, xXssProtection.name);
+    assert.strictEqual(helmet.xXssProtection.name, "xXssProtection");
   });
 
   it("exposes legacy header options", async () => {
@@ -352,52 +385,56 @@ describe("helmet", () => {
   });
 
   it("errors with conflicting header options (legacy + new)", () => {
-    expect(() =>
+    assert.throws(() =>
       topLevel({ strictTransportSecurity: true, hsts: true } as any),
-    ).toThrow();
+    );
 
-    expect(() =>
+    assert.throws(() =>
       topLevel({ xContentTypeOptions: true, noSniff: true } as any),
-    ).toThrow();
+    );
 
-    expect(() =>
+    assert.throws(() =>
       topLevel({ xDnsPrefetchControl: true, dnsPrefetchControl: true } as any),
-    ).toThrow();
+    );
 
-    expect(() =>
+    assert.throws(() =>
       topLevel({ xDownloadOptions: true, ieNoOpen: true } as any),
-    ).toThrow();
+    );
 
-    expect(() =>
+    assert.throws(() =>
       topLevel({ xFrameOptions: true, frameguard: true } as any),
-    ).toThrow();
+    );
 
-    expect(() =>
+    assert.throws(() =>
       topLevel({
         xPermittedCrossDomainPolicies: true,
         permittedCrossDomainPolicies: true,
       } as any),
-    ).toThrow();
+    );
 
-    expect(() =>
+    assert.throws(() =>
       topLevel({ xPoweredBy: true, hidePoweredBy: true } as any),
-    ).toThrow();
+    );
 
-    expect(() =>
+    assert.throws(() =>
       topLevel({ xXssProtection: true, xssFilter: true } as any),
-    ).toThrow();
+    );
   });
 
   it("exposes standalone middleware with legacy aliases", () => {
-    expect(helmet.hsts.name).toBe(strictTransportSecurity.name);
-    expect(helmet.dnsPrefetchControl.name).toBe(xDnsPrefetchControl.name);
-    expect(helmet.ieNoOpen.name).toBe(xDownloadOptions.name);
-    expect(helmet.frameguard.name).toBe(xFrameOptions.name);
-    expect(helmet.noSniff.name).toBe(xContentTypeOptions.name);
-    expect(helmet.hidePoweredBy.name).toBe(xPoweredBy.name);
-    expect(helmet.permittedCrossDomainPolicies.name).toBe(
+    assert.strictEqual(helmet.hsts.name, strictTransportSecurity.name);
+    assert.strictEqual(
+      helmet.dnsPrefetchControl.name,
+      xDnsPrefetchControl.name,
+    );
+    assert.strictEqual(helmet.ieNoOpen.name, xDownloadOptions.name);
+    assert.strictEqual(helmet.frameguard.name, xFrameOptions.name);
+    assert.strictEqual(helmet.noSniff.name, xContentTypeOptions.name);
+    assert.strictEqual(helmet.hidePoweredBy.name, xPoweredBy.name);
+    assert.strictEqual(
+      helmet.permittedCrossDomainPolicies.name,
       xPermittedCrossDomainPolicies.name,
     );
-    expect(helmet.xssFilter.name).toBe(xXssProtection.name);
+    assert.strictEqual(helmet.xssFilter.name, xXssProtection.name);
   });
 });

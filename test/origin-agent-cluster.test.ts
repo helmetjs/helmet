@@ -1,3 +1,4 @@
+import { describe, it } from "node:test";
 import originAgentCluster from "../middlewares/origin-agent-cluster";
 import { check } from "./helpers";
 

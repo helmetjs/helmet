@@ -1,3 +1,4 @@
+import { describe, it } from "node:test";
 import xDnsPrefetchControl from "../middlewares/x-dns-prefetch-control";
 import { check } from "./helpers";
 

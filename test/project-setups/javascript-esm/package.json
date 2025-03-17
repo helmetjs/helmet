@@ -2,6 +2,6 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "helmet:test": "node test.js"
+    "helmet:test": "node check.js"
   }
 }

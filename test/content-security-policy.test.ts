@@ -1,5 +1,7 @@
 import connect from "connect";
+import assert from "node:assert/strict";
 import { IncomingMessage, ServerResponse } from "node:http";
+import { describe, it } from "node:test";
 import supertest from "supertest";
 import contentSecurityPolicy, {
   dangerouslyDisableDefaultSrc,
@@ -21,6 +23,11 @@ const shouldBeQuoted = [
   "sha256-ks9D5epDKP+c2x6DrkuHmhmfKkOM/HZ+pOlzdWbI91k=",
 ];
 
+const getOwn = <T extends object, K extends keyof T>(
+  obj: T,
+  key: K,
+): T[K] | undefined => (Object.hasOwn(obj, key) ? obj[key] : undefined);
+
 async function checkCsp({
   middlewareArgs,
   expectedHeader = "content-security-policy",
@@ -31,13 +38,13 @@ async function checkCsp({
   expectedDirectives: Set<string>;
 }>): Promise<void> {
   const { header } = await check(contentSecurityPolicy(...middlewareArgs), {});
-  expect(header).toHaveProperty(expectedHeader);
-
-  const actualDirectives = header[expectedHeader]?.split(";") ?? [];
-  const actualDirectivesSet = new Set(actualDirectives);
-  expect(actualDirectives).toHaveLength(actualDirectivesSet.size);
-
-  expect(actualDirectivesSet).toEqual(expectedDirectives);
+  const headerValue = getOwn(header, expectedHeader);
+  assert(
+    typeof headerValue === "string",
+    `${expectedHeader} header should be set`,
+  );
+  const actualDirectives = new Set(headerValue.split(";"));
+  assert.deepEqual(actualDirectives, expectedDirectives);
 }
 
 describe("Content-Security-Policy middleware", () => {
@@ -220,8 +227,14 @@ describe("Content-Security-Policy middleware", () => {
             "default-src": [
               "'self'",
               (req: IncomingMessage, res: ServerResponse) => {
-                expect(req).toBeInstanceOf(IncomingMessage);
-                expect(res).toBeInstanceOf(ServerResponse);
+                assert(
+                  req instanceof IncomingMessage,
+                  "req should be a request",
+                );
+                assert(
+                  res instanceof ServerResponse,
+                  "res should be a response",
+                );
                 return "foo.example.com";
               },
               "bar.example.com",
@@ -307,43 +320,55 @@ describe("Content-Security-Policy middleware", () => {
       "__proto__",
     ];
     for (const name of invalidNames) {
-      expect(() => {
-        contentSecurityPolicy({
-          useDefaults: true,
-          directives: {
-            [name]: ["value"],
-          },
-        });
-      }).toThrow(
-        /^Content-Security-Policy received an invalid directive name "/,
+      assert.throws(
+        () => {
+          contentSecurityPolicy({
+            useDefaults: true,
+            directives: {
+              [name]: ["value"],
+            },
+          });
+        },
+        {
+          message:
+            /^Content-Security-Policy received an invalid directive name "/,
+        },
       );
     }
   });
 
   it("throws if duplicate directive names are found", () => {
-    expect(() => {
-      contentSecurityPolicy({
-        useDefaults: false,
-        directives: {
-          defaultSrc: ["foo"],
-          "default-src": ["foo"],
-        },
-      });
-    }).toThrow(
-      /^Content-Security-Policy received a duplicate directive "default-src"$/,
+    assert.throws(
+      () => {
+        contentSecurityPolicy({
+          useDefaults: false,
+          directives: {
+            defaultSrc: ["foo"],
+            "default-src": ["foo"],
+          },
+        });
+      },
+      {
+        message:
+          /^Content-Security-Policy received a duplicate directive "default-src"$/,
+      },
     );
 
-    expect(() => {
-      contentSecurityPolicy({
-        useDefaults: false,
-        directives: {
-          defaultSrc: ["'self'"],
-          scriptSrc: ["foo"],
-          "script-src": ["foo"],
-        },
-      });
-    }).toThrow(
-      /^Content-Security-Policy received a duplicate directive "script-src"$/,
+    assert.throws(
+      () => {
+        contentSecurityPolicy({
+          useDefaults: false,
+          directives: {
+            defaultSrc: ["'self'"],
+            scriptSrc: ["foo"],
+            "script-src": ["foo"],
+          },
+        });
+      },
+      {
+        message:
+          /^Content-Security-Policy received a duplicate directive "script-src"$/,
+      },
     );
   });
 
@@ -356,16 +381,20 @@ describe("Content-Security-Policy middleware", () => {
       ...shouldBeQuoted,
     ];
     for (const invalidValue of invalidValues) {
-      expect(() => {
-        contentSecurityPolicy({
-          useDefaults: false,
-          directives: {
-            "default-src": "'self'",
-            "something-else": [invalidValue],
-          },
-        });
-      }).toThrow(
-        /^Content-Security-Policy received an invalid directive value for "something-else"$/,
+      assert.throws(
+        () => {
+          contentSecurityPolicy({
+            useDefaults: false,
+            directives: {
+              "default-src": "'self'",
+              "something-else": [invalidValue],
+            },
+          });
+        },
+        {
+          message:
+            /^Content-Security-Policy received an invalid directive value for "something-else"$/,
+        },
       );
     }
   });
@@ -410,64 +439,69 @@ describe("Content-Security-Policy middleware", () => {
   });
 
   it("throws if default-src is missing", () => {
-    expect(() => {
-      contentSecurityPolicy({
-        useDefaults: false,
-        directives: {},
-      });
-    }).toThrow(
-      /^Content-Security-Policy has no directives. Either set some or disable the header$/,
+    assert.throws(
+      () => {
+        contentSecurityPolicy({
+          useDefaults: false,
+          directives: {},
+        });
+      },
+      {
+        message:
+          /^Content-Security-Policy has no directives. Either set some or disable the header$/,
+      },
     );
-    expect(() => {
-      contentSecurityPolicy({
-        useDefaults: false,
-        directives: {
-          scriptSrc: ["example.com"],
-        },
-      });
-    }).toThrow(
-      /^Content-Security-Policy needs a default-src but none was provided. If you really want to disable it, set it to `contentSecurityPolicy.dangerouslyDisableDefaultSrc`.$/,
+    assert.throws(
+      () => {
+        contentSecurityPolicy({
+          useDefaults: false,
+          directives: {
+            scriptSrc: ["example.com"],
+          },
+        });
+      },
+      {
+        message:
+          /^Content-Security-Policy needs a default-src but none was provided. If you really want to disable it, set it to `contentSecurityPolicy.dangerouslyDisableDefaultSrc`.$/,
+      },
     );
-    expect(() => {
-      contentSecurityPolicy({
-        directives: { defaultSrc: null },
-      });
-    }).toThrow(
-      /^Content-Security-Policy needs a default-src but it was set to `null`. If you really want to disable it, set it to `contentSecurityPolicy.dangerouslyDisableDefaultSrc`.$/,
+    assert.throws(
+      () => {
+        contentSecurityPolicy({
+          directives: { defaultSrc: null },
+        });
+      },
+      {
+        message:
+          /^Content-Security-Policy needs a default-src but it was set to `null`. If you really want to disable it, set it to `contentSecurityPolicy.dangerouslyDisableDefaultSrc`.$/,
+      },
     );
 
-    expect(() => {
-      contentSecurityPolicy({
-        useDefaults: false,
-        directives: {
-          defaultSrc: ["foo"],
-        },
-      });
-    }).not.toThrow();
-    expect(() => {
-      contentSecurityPolicy({
-        useDefaults: false,
-        directives: {
-          "default-src": ["foo"],
-        },
-      });
-    }).not.toThrow();
-    expect(() => {
-      contentSecurityPolicy({
-        useDefaults: false,
-        directives: {
-          defaultSrc: [],
-        },
-      });
-    }).not.toThrow();
-    expect(() => {
-      contentSecurityPolicy({
-        useDefaults: false,
-        directives: {
-          defaultSrc: "",
-        },
-      });
-    }).not.toThrow();
+    // These should not throw.
+    contentSecurityPolicy({
+      useDefaults: false,
+      directives: {
+        defaultSrc: ["foo"],
+      },
+    });
+    contentSecurityPolicy({
+      useDefaults: false,
+      directives: {
+        "default-src": ["foo"],
+      },
+    });
+    contentSecurityPolicy({
+      useDefaults: false,
+      directives: {
+        defaultSrc: [],
+      },
+    });
+    contentSecurityPolicy({
+      useDefaults: false,
+      directives: {
+        defaultSrc: "",
+      },
+    });
   });
 
   it("allows default-src to be explicitly disabled", async () => {
@@ -522,46 +556,58 @@ describe("Content-Security-Policy middleware", () => {
   });
 
   it("throws an error if default-src is disabled and there are no other directives", () => {
-    expect(() => {
-      contentSecurityPolicy({
-        useDefaults: false,
-        directives: {
-          defaultSrc: dangerouslyDisableDefaultSrc,
-        },
-      });
-    }).toThrow(
-      /^Content-Security-Policy has no directives. Either set some or disable the header$/,
+    assert.throws(
+      () => {
+        contentSecurityPolicy({
+          useDefaults: false,
+          directives: {
+            defaultSrc: dangerouslyDisableDefaultSrc,
+          },
+        });
+      },
+      {
+        message:
+          /^Content-Security-Policy has no directives. Either set some or disable the header$/,
+      },
     );
 
-    expect(() => {
-      contentSecurityPolicy({
-        useDefaults: false,
-        directives: {
-          "default-src": dangerouslyDisableDefaultSrc,
-        },
-      });
-    }).toThrow(
-      /^Content-Security-Policy has no directives. Either set some or disable the header$/,
+    assert.throws(
+      () => {
+        contentSecurityPolicy({
+          useDefaults: false,
+          directives: {
+            "default-src": dangerouslyDisableDefaultSrc,
+          },
+        });
+      },
+      {
+        message:
+          /^Content-Security-Policy has no directives. Either set some or disable the header$/,
+      },
     );
   });
 
   it("throws an error if directives other than default-src are `dangerouslyDisableDefaultSrc`", () => {
-    expect(() => {
-      contentSecurityPolicy({
-        directives: {
-          "default-src": "'self'",
-          "script-src": dangerouslyDisableDefaultSrc,
-        },
-      });
-    }).toThrow(
-      /^Content-Security-Policy: tried to disable "script-src" as if it were default-src; simply omit the key$/,
+    assert.throws(
+      () => {
+        contentSecurityPolicy({
+          directives: {
+            "default-src": "'self'",
+            "script-src": dangerouslyDisableDefaultSrc,
+          },
+        });
+      },
+      {
+        message:
+          /^Content-Security-Policy: tried to disable "script-src" as if it were default-src; simply omit the key$/,
+      },
     );
   });
 });
 
 describe("getDefaultDirectives", () => {
   it("returns the middleware's default directives", () => {
-    expect(getDefaultDirectives()).toEqual({
+    assert.deepEqual(getDefaultDirectives(), {
       "base-uri": ["'self'"],
       "default-src": ["'self'"],
       "font-src": ["'self'", "https:", "data:"],
@@ -577,7 +623,8 @@ describe("getDefaultDirectives", () => {
   });
 
   it("attaches itself to the top-level function", () => {
-    expect(getDefaultDirectives).toBe(
+    assert.equal(
+      getDefaultDirectives,
       contentSecurityPolicy.getDefaultDirectives,
     );
   });
@@ -588,7 +635,9 @@ describe("getDefaultDirectives", () => {
     (one["img-src"] as Array<string>).push("ignored.example");
 
     const two = getDefaultDirectives();
-    expect(two).not.toHaveProperty("worker-src");
-    expect(two["img-src"]).not.toContain("ignored.example");
+    assert(!("worker-src" in two));
+    assert(
+      two["img-src"] && !Array.from(two["img-src"]).includes("ignored.example"),
+    );
   });
 });

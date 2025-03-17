@@ -1,3 +1,4 @@
+import { describe, it } from "node:test";
 import xContentTypeOptions from "../middlewares/x-content-type-options";
 import { check } from "./helpers";
 

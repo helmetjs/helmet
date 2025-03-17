@@ -1,3 +1,5 @@
+import assert from "node:assert/strict";
+import { describe, it } from "node:test";
 import xFrameOptions from "../middlewares/x-frame-options";
 import { check } from "./helpers";
 
@@ -62,9 +64,9 @@ describe("X-Frame-Options middleware", () => {
       null,
       new String("SAMEORIGIN"),
     ]) {
-      expect(() => xFrameOptions({ action: action as any })).toThrow(
-        /^X-Frame-Options received an invalid action /,
-      );
+      assert.throws(() => xFrameOptions({ action: action as any }), {
+        message: /^X-Frame-Options received an invalid action /,
+      });
     }
   });
 });
