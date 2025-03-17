@@ -373,13 +373,7 @@ describe("Content-Security-Policy middleware", () => {
   });
 
   it("throws if any directive values are invalid", () => {
-    const invalidValues = [
-      ";",
-      ",",
-      "hello;world",
-      "hello,world",
-      ...shouldBeQuoted,
-    ];
+    const invalidValues = [";", ",", "hello;world", "hello,world"];
     for (const invalidValue of invalidValues) {
       assert.throws(
         () => {
@@ -394,6 +388,23 @@ describe("Content-Security-Policy middleware", () => {
         {
           message:
             /^Content-Security-Policy received an invalid directive value for "something-else"$/,
+        },
+      );
+    }
+
+    for (const invalidDirectiveEntry of shouldBeQuoted) {
+      assert.throws(
+        () => {
+          contentSecurityPolicy({
+            useDefaults: false,
+            directives: {
+              "default-src": "'self'",
+              "something-else": [invalidDirectiveEntry],
+            },
+          });
+        },
+        {
+          message: `Content-Security-Policy received an invalid directive value for "something-else". "${invalidDirectiveEntry}" should be quoted`,
         },
       );
     }
@@ -421,19 +432,14 @@ describe("Content-Security-Policy middleware", () => {
               // eslint-disable-next-line @typescript-eslint/no-unused-vars
               _next: () => void,
             ) => {
-              res.statusCode = 500;
-              res.setHeader("Content-Type", "application/json");
-              res.end(
-                JSON.stringify({ helmetTestError: true, message: err.message }),
+              const isOk = err.message.startsWith(
+                'Content-Security-Policy received an invalid directive value for "default-src"',
               );
+              res.end(JSON.stringify(isOk));
             },
           );
 
-        await supertest(app).get("/").expect(500, {
-          helmetTestError: true,
-          message:
-            'Content-Security-Policy received an invalid directive value for "default-src"',
-        });
+        await supertest(app).get("/").expect(200, "true");
       }),
     );
   });

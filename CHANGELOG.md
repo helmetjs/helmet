@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+### Changed
+
+- `Content-Security-Policy` gives a better error when a directive value, like `self`, should be quoted. See [#482](https://github.com/helmetjs/helmet/issues/482)
+
 ## 8.0.0
 
 ### Changed

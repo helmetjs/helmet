@@ -71,22 +71,37 @@ const getDefaultDirectives = (): Record<
 const dashify = (str: string): string =>
   str.replace(/[A-Z]/g, (capitalLetter) => "-" + capitalLetter.toLowerCase());
 
-const isDirectiveValueInvalid = (directiveValue: string): boolean =>
-  /;|,/.test(directiveValue);
+const assertDirectiveValueIsValid = (
+  directiveName: string,
+  directiveValue: string,
+): void => {
+  if (/;|,/.test(directiveValue)) {
+    throw new Error(
+      `Content-Security-Policy received an invalid directive value for ${JSON.stringify(
+        directiveName,
+      )}`,
+    );
+  }
+};
 
-const isDirectiveValueEntryInvalid = (directiveValueEntry: string): boolean =>
-  SHOULD_BE_QUOTED.has(directiveValueEntry) ||
-  directiveValueEntry.startsWith("nonce-") ||
-  directiveValueEntry.startsWith("sha256-") ||
-  directiveValueEntry.startsWith("sha384-") ||
-  directiveValueEntry.startsWith("sha512-");
-
-const invalidDirectiveValueError = (directiveName: string): Error =>
-  new Error(
-    `Content-Security-Policy received an invalid directive value for ${JSON.stringify(
-      directiveName,
-    )}`,
-  );
+const assertDirectiveValueEntryIsValid = (
+  directiveName: string,
+  directiveValueEntry: string,
+): void => {
+  if (
+    SHOULD_BE_QUOTED.has(directiveValueEntry) ||
+    directiveValueEntry.startsWith("nonce-") ||
+    directiveValueEntry.startsWith("sha256-") ||
+    directiveValueEntry.startsWith("sha384-") ||
+    directiveValueEntry.startsWith("sha512-")
+  ) {
+    throw new Error(
+      `Content-Security-Policy received an invalid directive value for ${JSON.stringify(
+        directiveName,
+      )}. ${JSON.stringify(directiveValueEntry)} should be quoted`,
+    );
+  }
+};
 
 function normalizeDirectives(
   options: Readonly<ContentSecurityPolicyOptions>,
@@ -161,13 +176,9 @@ function normalizeDirectives(
     }
 
     for (const element of directiveValue) {
-      if (
-        typeof element === "string" &&
-        (isDirectiveValueInvalid(element) ||
-          isDirectiveValueEntryInvalid(element))
-      ) {
-        throw invalidDirectiveValueError(directiveName);
-      }
+      if (typeof element !== "string") continue;
+      assertDirectiveValueIsValid(directiveName, element);
+      assertDirectiveValueEntryIsValid(directiveName, element);
     }
 
     result.set(directiveName, directiveValue);
@@ -215,21 +226,18 @@ function getHeaderValue(
     for (const element of rawDirectiveValue) {
       if (typeof element === "function") {
         const newElement = element(req, res);
-        if (isDirectiveValueEntryInvalid(newElement)) {
-          return invalidDirectiveValueError(directiveName);
-        }
+        assertDirectiveValueEntryIsValid(directiveName, newElement);
         directiveValue += " " + newElement;
       } else {
         directiveValue += " " + element;
       }
     }
 
-    if (!directiveValue) {
-      result.push(directiveName);
-    } else if (isDirectiveValueInvalid(directiveValue)) {
-      return invalidDirectiveValueError(directiveName);
-    } else {
+    if (directiveValue) {
+      assertDirectiveValueIsValid(directiveName, directiveValue);
       result.push(`${directiveName}${directiveValue}`);
+    } else {
+      result.push(directiveName);
     }
   }
 
