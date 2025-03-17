@@ -1,3 +1,5 @@
+import assert from "node:assert/strict";
+import { describe, it } from "node:test";
 import crossOriginEmbedderPolicy from "../middlewares/cross-origin-embedder-policy";
 import { check } from "./helpers";
 
@@ -38,9 +40,12 @@ describe("Cross-Origin-Embedder-Policy middleware", () => {
       new String("credentialless"),
     ];
     for (const policy of invalidValues) {
-      expect(() =>
-        crossOriginEmbedderPolicy({ policy: policy as any }),
-      ).toThrow(/^Cross-Origin-Embedder-Policy does not support /);
+      assert.throws(
+        () => crossOriginEmbedderPolicy({ policy: policy as any }),
+        {
+          message: /^Cross-Origin-Embedder-Policy does not support /,
+        },
+      );
     }
   });
 });

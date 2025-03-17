@@ -1,3 +1,4 @@
+import { describe, it } from "node:test";
 import xXssProtection from "../middlewares/x-xss-protection";
 import { check } from "./helpers";
 

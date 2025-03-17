@@ -1,3 +1,4 @@
+import { describe, it } from "node:test";
 import xPoweredBy from "../middlewares/x-powered-by";
 import { check } from "./helpers";
 

@@ -1,3 +1,5 @@
+import assert from "node:assert/strict";
+import { describe, it } from "node:test";
 import crossOriginOpenerPolicy from "../middlewares/cross-origin-opener-policy";
 import { check } from "./helpers";
 
@@ -35,9 +37,9 @@ describe("Cross-Origin-Opener-Policy middleware", () => {
       new String("same-origin"),
     ];
     for (const policy of invalidValues) {
-      expect(() => crossOriginOpenerPolicy({ policy: policy as any })).toThrow(
-        /^Cross-Origin-Opener-Policy does not support /,
-      );
+      assert.throws(() => crossOriginOpenerPolicy({ policy: policy as any }), {
+        message: /^Cross-Origin-Opener-Policy does not support /,
+      });
     }
   });
 });

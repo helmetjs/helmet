@@ -2,6 +2,8 @@ import * as childProcess from "node:child_process";
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
 import { ReadableStream } from "node:stream/web";
+import { describe, it } from "node:test";
+import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 
 const EXTNAMES_THAT_DONT_HAVE_TO_BE_ASCII: ReadonlySet<string> = new Set([
@@ -12,7 +14,9 @@ const SPACE = " ".charCodeAt(0);
 const TILDE = "~".charCodeAt(0);
 
 const exec = promisify(childProcess.exec);
-const root = path.resolve(__dirname, "..");
+
+const filename = fileURLToPath(import.meta.url);
+const root = path.resolve(path.dirname(filename), "..");
 
 describe("source files", () => {
   it('only has "normal" ASCII characters in the source files', async () => {

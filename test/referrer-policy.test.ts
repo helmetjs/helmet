@@ -1,3 +1,5 @@
+import assert from "node:assert/strict";
+import { describe, it } from "node:test";
 import referrerPolicy from "../middlewares/referrer-policy";
 import { check } from "./helpers";
 
@@ -52,22 +54,18 @@ describe("Referrer-Policy middleware", () => {
   it("fails with a bad policy", () => {
     const invalidValues = ["foo", "sameorigin", "ORIGIN", 123, false, null, {}];
     for (const policy of invalidValues) {
-      expect(referrerPolicy.bind(null, { policy: policy as any })).toThrow();
+      assert.throws(() => referrerPolicy({ policy: policy as any }));
     }
   });
 
   it("fails with an empty array", () => {
-    expect(referrerPolicy.bind(null, { policy: [] })).toThrow();
+    assert.throws(() => referrerPolicy({ policy: [] }));
   });
 
   it("fails with duplicate values", () => {
-    expect(
-      referrerPolicy.bind(null, { policy: ["origin", "origin"] }),
-    ).toThrow();
-    expect(
-      referrerPolicy.bind(null, {
-        policy: ["same-origin", "origin", "same-origin"],
-      }),
-    ).toThrow();
+    assert.throws(() => referrerPolicy({ policy: ["origin", "origin"] }));
+    assert.throws(() =>
+      referrerPolicy({ policy: ["same-origin", "origin", "same-origin"] }),
+    );
   });
 });

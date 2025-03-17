@@ -1,3 +1,5 @@
+import assert from "node:assert/strict";
+import { describe, it } from "node:test";
 import xPermittedCrossDomainPolicies from "../middlewares/x-permitted-cross-domain-policies";
 import { check } from "./helpers";
 
@@ -38,11 +40,13 @@ describe("X-Permitted-Cross-Domain-Policies middleware", () => {
       new String("none"),
     ];
     for (const permittedPolicies of invalidValues) {
-      expect(() =>
-        xPermittedCrossDomainPolicies({
-          permittedPolicies: permittedPolicies as any,
-        }),
-      ).toThrow(/^X-Permitted-Cross-Domain-Policies does not support /);
+      assert.throws(
+        () =>
+          xPermittedCrossDomainPolicies({
+            permittedPolicies: permittedPolicies as any,
+          }),
+        { message: /^X-Permitted-Cross-Domain-Policies does not support / },
+      );
     }
   });
 });

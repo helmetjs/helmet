@@ -1,9 +1,11 @@
+import assert from "node:assert/strict";
+import { describe, it } from "node:test";
 import strictTransportSecurity from "../middlewares/strict-transport-security";
 import { check } from "./helpers";
 
 describe("Strict-Transport-Security middleware", () => {
   it('by default, sets max-age to 365 days and adds "includeSubDomains"', async () => {
-    expect(31536000).toStrictEqual(365 * 24 * 60 * 60);
+    assert.equal(31536000, 365 * 24 * 60 * 60);
 
     const expectedHeaders = {
       "strict-transport-security": "max-age=31536000; includeSubDomains",
@@ -63,34 +65,36 @@ describe("Strict-Transport-Security middleware", () => {
   });
 
   it("throws an error with invalid parameters", () => {
-    expect(() => strictTransportSecurity({ maxAge: -123 })).toThrow();
-    expect(() =>
+    assert.throws(() => strictTransportSecurity({ maxAge: -123 }));
+    assert.throws(() =>
       strictTransportSecurity({ maxAge: BigInt(-123) as any }),
-    ).toThrow();
-    expect(() => strictTransportSecurity({ maxAge: -0.1 })).toThrow();
-    expect(() => strictTransportSecurity({ maxAge: Infinity })).toThrow();
-    expect(() => strictTransportSecurity({ maxAge: -Infinity })).toThrow();
-    expect(() => strictTransportSecurity({ maxAge: NaN })).toThrow();
+    );
+    assert.throws(() => strictTransportSecurity({ maxAge: -0.1 }));
+    assert.throws(() => strictTransportSecurity({ maxAge: Infinity }));
+    assert.throws(() => strictTransportSecurity({ maxAge: -Infinity }));
+    assert.throws(() => strictTransportSecurity({ maxAge: NaN }));
 
-    expect(() => strictTransportSecurity({ maxAge: "123" } as any)).toThrow();
-    expect(() =>
+    assert.throws(() => strictTransportSecurity({ maxAge: "123" } as any));
+    assert.throws(() =>
       strictTransportSecurity({ maxAge: BigInt(123) } as any),
-    ).toThrow();
-    expect(() => strictTransportSecurity({ maxAge: true } as any)).toThrow();
-    expect(() => strictTransportSecurity({ maxAge: false } as any)).toThrow();
-    expect(() => strictTransportSecurity({ maxAge: {} } as any)).toThrow();
-    expect(() => strictTransportSecurity({ maxAge: [] } as any)).toThrow();
-    expect(() => strictTransportSecurity({ maxAge: null } as any)).toThrow();
+    );
+    assert.throws(() => strictTransportSecurity({ maxAge: true } as any));
+    assert.throws(() => strictTransportSecurity({ maxAge: false } as any));
+    assert.throws(() => strictTransportSecurity({ maxAge: {} } as any));
+    assert.throws(() => strictTransportSecurity({ maxAge: [] } as any));
+    assert.throws(() => strictTransportSecurity({ maxAge: null } as any));
 
-    expect(() => strictTransportSecurity({ maxage: false } as any)).toThrow();
-    expect(() => strictTransportSecurity({ maxage: 1234 } as any)).toThrow();
+    assert.throws(() => strictTransportSecurity({ maxage: false } as any));
+    assert.throws(() => strictTransportSecurity({ maxage: 1234 } as any));
   });
 
   it("logs a warning when using the mis-capitalized `includeSubdomains` parameter", () => {
-    expect(() =>
-      strictTransportSecurity({ includeSubdomains: false } as any),
-    ).toThrow(
-      'Strict-Transport-Security middleware should use `includeSubDomains` instead of `includeSubdomains`. (The correct one has an uppercase "D".)',
+    assert.throws(
+      () => strictTransportSecurity({ includeSubdomains: false } as any),
+      {
+        message:
+          'Strict-Transport-Security middleware should use `includeSubDomains` instead of `includeSubdomains`. (The correct one has an uppercase "D".)',
+      },
     );
   });
 });

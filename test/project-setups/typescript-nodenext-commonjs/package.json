@@ -2,6 +2,6 @@
   "private": true,
   "type": "commonjs",
   "scripts": {
-    "helmet:test": "tsx test.ts"
+    "helmet:test": "tsx check.ts"
   }
 }

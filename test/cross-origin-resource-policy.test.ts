@@ -1,3 +1,5 @@
+import assert from "node:assert/strict";
+import { describe, it } from "node:test";
 import crossOriginResourcePolicy from "../middlewares/cross-origin-resource-policy";
 import { check } from "./helpers";
 
@@ -36,9 +38,10 @@ describe("Cross-Origin-Resource-Policy middleware", () => {
       new String("none"),
     ];
     for (const policy of invalidValues) {
-      expect(() =>
-        crossOriginResourcePolicy({ policy: policy as any }),
-      ).toThrow(/^Cross-Origin-Resource-Policy does not support /);
+      assert.throws(
+        () => crossOriginResourcePolicy({ policy: policy as any }),
+        { message: /^Cross-Origin-Resource-Policy does not support / },
+      );
     }
   });
 });

@@ -1,4 +1,5 @@
 import connect from "connect";
+import assert from "node:assert/strict";
 import type { IncomingMessage, ServerResponse } from "node:http";
 import supertest from "supertest";
 
@@ -26,9 +27,16 @@ export async function check(
 
   for (const [headerName, headerValue] of Object.entries(expectedHeaders)) {
     if (headerValue === null) {
-      expect(response.header).not.toHaveProperty(headerName);
+      assert(
+        !(headerName in response.header),
+        `${headerName} should not be set`,
+      );
     } else {
-      expect(response.header).toHaveProperty(headerName, headerValue);
+      assert.equal(
+        response.header[headerName],
+        headerValue,
+        `${headerName} should have value ${headerValue}`,
+      );
     }
   }
 
