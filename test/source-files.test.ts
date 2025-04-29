@@ -42,9 +42,7 @@ const getSourceFileChunks = (): AsyncIterable<{
         (await getSourceFiles()).map(async (sourceFile) => {
           const handle = await fs.open(sourceFile);
           let index = 0;
-          for await (const chunk of handle.readableWebStream({
-            type: "bytes",
-          })) {
+          for await (const chunk of handle.readableWebStream()) {
             controller.enqueue({ sourceFile, chunk, index });
             index += chunk.byteLength;
           }
