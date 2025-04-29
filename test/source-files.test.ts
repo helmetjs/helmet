@@ -1,7 +1,6 @@
 import * as childProcess from "node:child_process";
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
-import { ReadableStream } from "node:stream/web";
 import { describe, it } from "node:test";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
@@ -20,40 +19,33 @@ const root = path.resolve(path.dirname(filename), "..");
 
 describe("source files", () => {
   it('only has "normal" ASCII characters in the source files', async () => {
-    for await (const { sourceFile, chunk, index } of getSourceFileChunks()) {
-      const abnormalByte = chunk.find((byte) => !isNormalAsciiByte(byte));
-      if (typeof abnormalByte === "number") {
+    const sourceFiles = await getSourceFiles();
+    for (const { path, contents } of sourceFiles) {
+      const abnormalByteIndex = contents.findIndex(
+        (byte) => !isNormalAsciiByte(byte),
+      );
+      if (abnormalByteIndex !== -1) {
         throw new Error(
-          `${sourceFile} must only contain "normal" ASCII characters but contained 0x${abnormalByte.toString(16)} at index ${index + chunk.indexOf(abnormalByte)}`,
+          `${path} must only contain "normal" ASCII characters but contained abnormal byte at ${abnormalByteIndex}`,
         );
       }
     }
   });
 });
 
-const getSourceFileChunks = (): AsyncIterable<{
-  sourceFile: string;
-  chunk: Uint8Array;
-  index: number;
-}> =>
-  new ReadableStream({
-    async start(controller) {
-      await Promise.all(
-        (await getSourceFiles()).map(async (sourceFile) => {
-          const handle = await fs.open(sourceFile);
-          let index = 0;
-          for await (const chunk of handle.readableWebStream()) {
-            controller.enqueue({ sourceFile, chunk, index });
-            index += chunk.byteLength;
-          }
-          await handle.close();
-        }),
-      );
-      controller.close();
-    },
-  });
+const getSourceFiles = async (): Promise<
+  Iterable<{ path: string; contents: Uint8Array }>
+> => {
+  const paths = await getSourceFilePaths();
+  return Promise.all(
+    paths.map(async (path) => ({
+      path,
+      contents: await fs.readFile(path),
+    })),
+  );
+};
 
-const getSourceFiles = async (): Promise<Array<string>> =>
+const getSourceFilePaths = async (): Promise<Array<string>> =>
   (await exec("git ls-files", { cwd: root })).stdout
     .split(/\r?\n/g)
     .filter(
