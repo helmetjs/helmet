@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Improve error message when passing duplicate options
+
 ## 8.1.0 - 2025-03-17
 
 ### Changed

@@ -217,7 +217,7 @@ function getMiddlewareFunctionsFromOptions(
 
   if ("strictTransportSecurity" in options && "hsts" in options) {
     throw new Error(
-      "Strict-Transport-Security option was specified twice. Remove `hsts` to silence this warning.",
+      "Strict-Transport-Security option was specified twice. Remove the `hsts` option to fix this error.",
     );
   }
   const strictTransportSecurityOption =
@@ -236,7 +236,7 @@ function getMiddlewareFunctionsFromOptions(
 
   if ("xContentTypeOptions" in options && "noSniff" in options) {
     throw new Error(
-      "X-Content-Type-Options option was specified twice. Remove `noSniff` to silence this warning.",
+      "X-Content-Type-Options option was specified twice. Remove the `noSniff` option to fix this error.",
     );
   }
   const xContentTypeOptionsOption =
@@ -258,7 +258,7 @@ function getMiddlewareFunctionsFromOptions(
 
   if ("xDnsPrefetchControl" in options && "dnsPrefetchControl" in options) {
     throw new Error(
-      "X-DNS-Prefetch-Control option was specified twice. Remove `dnsPrefetchControl` to silence this warning.",
+      "X-DNS-Prefetch-Control option was specified twice. Remove the `dnsPrefetchControl` option to fix this error.",
     );
   }
   const xDnsPrefetchControlOption =
@@ -277,7 +277,7 @@ function getMiddlewareFunctionsFromOptions(
 
   if ("xDownloadOptions" in options && "ieNoOpen" in options) {
     throw new Error(
-      "X-Download-Options option was specified twice. Remove `ieNoOpen` to silence this warning.",
+      "X-Download-Options option was specified twice. Remove the `ieNoOpen` option to fix this error.",
     );
   }
   const xDownloadOptionsOption = options.xDownloadOptions ?? options.ieNoOpen;
@@ -298,7 +298,7 @@ function getMiddlewareFunctionsFromOptions(
 
   if ("xFrameOptions" in options && "frameguard" in options) {
     throw new Error(
-      "X-Frame-Options option was specified twice. Remove `frameguard` to silence this warning.",
+      "X-Frame-Options option was specified twice. Remove the `frameguard` option to fix this error.",
     );
   }
   const xFrameOptionsOption = options.xFrameOptions ?? options.frameguard;
@@ -319,7 +319,7 @@ function getMiddlewareFunctionsFromOptions(
     "permittedCrossDomainPolicies" in options
   ) {
     throw new Error(
-      "X-Permitted-Cross-Domain-Policies option was specified twice. Remove `permittedCrossDomainPolicies` to silence this warning.",
+      "X-Permitted-Cross-Domain-Policies option was specified twice. Remove the `permittedCrossDomainPolicies` option to fix this error.",
     );
   }
   const xPermittedCrossDomainPoliciesOption =
@@ -341,7 +341,7 @@ function getMiddlewareFunctionsFromOptions(
 
   if ("xPoweredBy" in options && "hidePoweredBy" in options) {
     throw new Error(
-      "X-Powered-By option was specified twice. Remove `hidePoweredBy` to silence this warning.",
+      "X-Powered-By option was specified twice. Remove the `hidePoweredBy` option to fix this error.",
     );
   }
   const xPoweredByOption = options.xPoweredBy ?? options.hidePoweredBy;
@@ -362,7 +362,7 @@ function getMiddlewareFunctionsFromOptions(
 
   if ("xXssProtection" in options && "xssFilter" in options) {
     throw new Error(
-      "X-XSS-Protection option was specified twice. Remove `xssFilter` to silence this warning.",
+      "X-XSS-Protection option was specified twice. Remove the `xssFilter` option to fix this error.",
     );
   }
   const xXssProtectionOption = options.xXssProtection ?? options.xssFilter;
