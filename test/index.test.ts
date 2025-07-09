@@ -66,6 +66,8 @@ describe("helmet", () => {
       topLevel({
         contentSecurityPolicy: false,
         crossOriginEmbedderPolicy: false,
+        crossOriginOpenerPolicy: false,
+        crossOriginResourcePolicy: false,
         originAgentCluster: false,
         referrerPolicy: false,
         strictTransportSecurity: false,
