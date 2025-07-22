@@ -1,6 +1,6 @@
 # Helmet
 
-Help secure Express apps by setting HTTP response headers.
+Security headers for Express.js apps.
 
 ```javascript
 import helmet from "helmet";
@@ -26,7 +26,7 @@ Helmet sets the following headers by default:
 - [`X-Powered-By`](#x-powered-by): Info about the web server. Removed because it could be used in simple attacks
 - [`X-XSS-Protection`](#x-xss-protection): Legacy header that tries to mitigate [XSS attacks][XSS], but makes things worse, so Helmet disables it
 
-Each header can be configured. For example, here's how you configure the `Content-Security-Policy` header:
+Each header can be configured. For example, here's how to configure the `Content-Security-Policy` header:
 
 ```js
 // Configure the Content-Security-Policy header.
