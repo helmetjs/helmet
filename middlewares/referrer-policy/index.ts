@@ -12,6 +12,11 @@ type ReferrerPolicyToken =
   | "";
 
 export interface ReferrerPolicyOptions {
+  /**
+   * One or more valid Referrer-Policy tokens.
+   * Can be a string or an array of strings.
+   * Defaults to `["no-referrer"]`.
+   */
   policy?: ReferrerPolicyToken | ReferrerPolicyToken[];
 }
 
@@ -27,6 +32,13 @@ const ALLOWED_TOKENS = new Set<ReferrerPolicyToken>([
   "",
 ]);
 
+/**
+ * Validates and normalizes the `policy` option.
+ * Throws on invalid or duplicate tokens.
+ *
+ * @param options The ReferrerPolicyOptions object.
+ * @returns The normalized header value string.
+ */
 function getHeaderValueFromOptions({
   policy = ["no-referrer"],
 }: Readonly<ReferrerPolicyOptions>): string {
@@ -57,6 +69,15 @@ function getHeaderValueFromOptions({
   return tokens.join(",");
 }
 
+/**
+ * Middleware factory to set the `Referrer-Policy` header.
+ *
+ * The middleware sets the header with the validated value from options
+ * and calls `next()` to continue request processing.
+ *
+ * @param options Configuration options for the Referrer-Policy header.
+ * @returns Middleware function that sets the `Referrer-Policy` header.
+ */
 function referrerPolicy(options: Readonly<ReferrerPolicyOptions> = {}) {
   const headerValue = getHeaderValueFromOptions(options);
 
