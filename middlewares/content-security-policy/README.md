@@ -89,4 +89,19 @@ app.use(
 );
 ```
 
+`upgrade-insecure-requests`, a directive that causes browsers to upgrade HTTP to HTTPS, is set by default. You may wish to avoid this in development, as you may not be developing with HTTPS. Notably, Safari will upgrade `http://localhost` to `https://localhost`, which can cause problems. To work around this, you may wish to disable the `upgrade-insecure-requests` directive in development. For example:
+
+```js
+const isDevelopment = app.get("env") === "development";
+
+app.use(
+  contentSecurityPolicy({
+    directives: {
+      // Disable upgrade-insecure-requests in development.
+      "upgrade-insecure-requests": isDevelopment ? null : [],
+    },
+  }),
+);
+```
+
 This module performs very little validation on your CSP. You should rely on CSP checkers like [CSP Evaluator](https://csp-evaluator.withgoogle.com/) instead.
