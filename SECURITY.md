@@ -1,7 +1,11 @@
 # Security issue reporting & disclosure process
 
-If you feel you have found a security issue or concern with Helmet, please reach out to the maintainers.
+Please reach out if you think you've found a security issue.
 
-Contact Evan Hahn at <me@evanhahn.com> or Adam Baldwin at <adam@npmjs.com>. Evan Hahn [can also be reached in other ways](https://evanhahn.com/contact).
+Email Evan Hahn at <me@evanhahn.com>, on Signal at [EvanHahn.64](https://signal.me/#eu/vDide_HmUgHnNa0usMXq8oHAA0gnl5dzCqDeHyXhkeIbIiOcPVhCZKXIZteSqoc8), or [in other ways](https://evanhahn.com/contact).
 
-We will try to communicate in a timely manner and address your concerns.
+My playbook for security issues:
+
+- Acknowledge and address the concern as soon as possible
+- Issue advisories (CVEs, for example) as needed. Public disclosure may be embargoed to give people time to update
+- Consider patching non-current major versions depending on popularity and severity
