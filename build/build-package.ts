@@ -221,6 +221,7 @@ async function buildPackageJson({
       type: "git",
       url: "git://github.com/helmetjs/helmet.git",
     },
+    funding: "https://github.com/sponsors/EvanHahn",
     license: "MIT",
     keywords: [
       "express",
