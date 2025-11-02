@@ -44,6 +44,10 @@ export default [
       "@typescript-eslint/prefer-regexp-exec": "error",
       "@typescript-eslint/require-array-sort-compare": "error",
       "@typescript-eslint/switch-exhaustiveness-check": "error",
+      // This works around a bug in ESLint. See [this issue][0].
+      // We should be able to remove this soon and re-enable this rule.
+      // [0]: https://github.com/eslint/eslint/issues/20272
+      "@typescript-eslint/unified-signatures": "off",
     },
   },
   {
