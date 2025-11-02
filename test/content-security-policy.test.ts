@@ -35,7 +35,7 @@ async function checkCsp({
 }: Readonly<{
   middlewareArgs: Parameters<typeof contentSecurityPolicy>;
   expectedHeader?: string;
-  expectedDirectives: Set<string>;
+  expectedDirectives: Iterable<string>;
 }>): Promise<void> {
   const { header } = await check(contentSecurityPolicy(...middlewareArgs), {});
   const headerValue = getOwn(header, expectedHeader);
@@ -44,12 +44,12 @@ async function checkCsp({
     `${expectedHeader} header should be set`,
   );
   const actualDirectives = new Set(headerValue.split(";"));
-  assert.deepEqual(actualDirectives, expectedDirectives);
+  assert.deepEqual(actualDirectives, new Set(expectedDirectives));
 }
 
 describe("Content-Security-Policy middleware", () => {
   it("sets a default policy when passed no directives", async () => {
-    const expectedDirectives = new Set([
+    const expectedDirectives = [
       "default-src 'self'",
       "base-uri 'self'",
       "font-src 'self' https: data:",
@@ -61,7 +61,7 @@ describe("Content-Security-Policy middleware", () => {
       "script-src-attr 'none'",
       "style-src 'self' https: 'unsafe-inline'",
       "upgrade-insecure-requests",
-    ]);
+    ];
     await checkCsp({
       middlewareArgs: [],
       expectedDirectives,
@@ -96,11 +96,11 @@ describe("Content-Security-Policy middleware", () => {
           },
         },
       ],
-      expectedDirectives: new Set([
+      expectedDirectives: [
         "default-src 'self'",
         "script-src example.com",
         "style-src 'none'",
-      ]),
+      ],
     });
   });
 
@@ -116,11 +116,11 @@ describe("Content-Security-Policy middleware", () => {
           },
         },
       ],
-      expectedDirectives: new Set([
+      expectedDirectives: [
         "default-src 'self'",
         "script-src example.com",
         "style-src 'none'",
-      ]),
+      ],
     });
   });
 
@@ -137,12 +137,12 @@ describe("Content-Security-Policy middleware", () => {
           },
         },
       ],
-      expectedDirectives: new Set([
+      expectedDirectives: [
         "default-src 'self'",
         "script-src example.com",
         "style-src 'none'",
         "object-src 'none'",
-      ]),
+      ],
     });
   });
 
@@ -157,7 +157,7 @@ describe("Content-Security-Policy middleware", () => {
           },
         },
       ],
-      expectedDirectives: new Set(["default-src 'self'", "sandbox"]),
+      expectedDirectives: ["default-src 'self'", "sandbox"],
     });
   });
 
@@ -179,7 +179,7 @@ describe("Content-Security-Policy middleware", () => {
           },
         },
       ],
-      expectedDirectives: new Set(["default-src 'self'", "sandbox"]),
+      expectedDirectives: ["default-src 'self'", "sandbox"],
     });
   });
 
@@ -195,11 +195,11 @@ describe("Content-Security-Policy middleware", () => {
           },
         },
       ],
-      expectedDirectives: new Set([
+      expectedDirectives: [
         "default-src 'self'  example.com",
         "script-src 'none'",
         "sandbox",
-      ]),
+      ],
     });
   });
 
@@ -214,7 +214,7 @@ describe("Content-Security-Policy middleware", () => {
           },
         },
       ],
-      expectedDirectives: new Set(["default-src 'self'"]),
+      expectedDirectives: ["default-src 'self'"],
     });
   });
 
@@ -242,14 +242,14 @@ describe("Content-Security-Policy middleware", () => {
           },
         },
       ],
-      expectedDirectives: new Set([
+      expectedDirectives: [
         "default-src 'self' foo.example.com bar.example.com",
-      ]),
+      ],
     });
   });
 
   it("can override the default options", async () => {
-    const expectedDirectives = new Set([
+    const expectedDirectives = [
       "default-src 'self' example.com",
       "font-src 'self' https: data:",
       "form-action 'self'",
@@ -260,7 +260,7 @@ describe("Content-Security-Policy middleware", () => {
       "script-src-attr 'none'",
       "style-src 'self' https: 'unsafe-inline'",
       "upgrade-insecure-requests",
-    ]);
+    ];
 
     await checkCsp({
       middlewareArgs: [
@@ -302,7 +302,7 @@ describe("Content-Security-Policy middleware", () => {
         },
       ],
       expectedHeader: "content-security-policy-report-only",
-      expectedDirectives: new Set(["default-src 'self'"]),
+      expectedDirectives: ["default-src 'self'"],
     });
   });
 
@@ -521,7 +521,7 @@ describe("Content-Security-Policy middleware", () => {
           },
         },
       ],
-      expectedDirectives: new Set(["script-src example.com"]),
+      expectedDirectives: ["script-src example.com"],
     });
 
     await checkCsp({
@@ -534,7 +534,7 @@ describe("Content-Security-Policy middleware", () => {
           },
         },
       ],
-      expectedDirectives: new Set(["script-src example.com"]),
+      expectedDirectives: ["script-src example.com"],
     });
 
     await checkCsp({
@@ -546,7 +546,7 @@ describe("Content-Security-Policy middleware", () => {
           },
         },
       ],
-      expectedDirectives: new Set([
+      expectedDirectives: [
         "base-uri 'self'",
         "font-src 'self' https: data:",
         "form-action 'self'",
@@ -557,7 +557,7 @@ describe("Content-Security-Policy middleware", () => {
         "script-src-attr 'none'",
         "style-src 'self' https: 'unsafe-inline'",
         "upgrade-insecure-requests",
-      ]),
+      ],
     });
   });
 
