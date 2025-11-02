@@ -312,7 +312,7 @@ describe("Content-Security-Policy middleware", () => {
     });
   });
 
-  it('can set the "report only" version of the header instead', async () => {
+  it('can set the "report only" version of the header instead, by specifying directives and reportOnly: true', async () => {
     await checkCsp({
       middlewareArgs: [
         {
@@ -325,6 +325,140 @@ describe("Content-Security-Policy middleware", () => {
       ],
       expectedDirectives: null,
       expectedReportOnlyDirectives: ["default-src 'self'"],
+    });
+  });
+
+  it('can set the "report only" version of the header instead, by only specifying reportOnly options', async () => {
+    await checkCsp({
+      middlewareArgs: [
+        {
+          reportOnly: {
+            useDefaults: false,
+            directives: {
+              "default-src": "'self'",
+            },
+          },
+        },
+      ],
+      expectedDirectives: null,
+      expectedReportOnlyDirectives: ["default-src 'self'"],
+    });
+    await checkCsp({
+      middlewareArgs: [
+        {
+          useDefaults: false,
+          reportOnly: {
+            directives: {
+              "default-src": "'self'",
+            },
+          },
+        },
+      ],
+      expectedDirectives: null,
+      expectedReportOnlyDirectives: ["default-src 'self'"],
+    });
+    await checkCsp({
+      middlewareArgs: [
+        {
+          reportOnly: {
+            directives: {
+              "default-src": "'self' foo.example",
+            },
+          },
+        },
+      ],
+      expectedDirectives: null,
+      expectedReportOnlyDirectives: [
+        "default-src 'self' foo.example",
+        "base-uri 'self'",
+        "font-src 'self' https: data:",
+        "form-action 'self'",
+        "frame-ancestors 'self'",
+        "img-src 'self' data:",
+        "object-src 'none'",
+        "script-src 'self'",
+        "script-src-attr 'none'",
+        "style-src 'self' https: 'unsafe-inline'",
+        "upgrade-insecure-requests",
+      ],
+    });
+    await checkCsp({
+      middlewareArgs: [
+        {
+          useDefaults: false,
+          reportOnly: {
+            useDefaults: true,
+            directives: {
+              "default-src": "'self' foo.example",
+            },
+          },
+        },
+      ],
+      expectedDirectives: null,
+      expectedReportOnlyDirectives: [
+        "default-src 'self' foo.example",
+        "base-uri 'self'",
+        "font-src 'self' https: data:",
+        "form-action 'self'",
+        "frame-ancestors 'self'",
+        "img-src 'self' data:",
+        "object-src 'none'",
+        "script-src 'self'",
+        "script-src-attr 'none'",
+        "style-src 'self' https: 'unsafe-inline'",
+        "upgrade-insecure-requests",
+      ],
+    });
+  });
+
+  it('can set both the "normal" and "report only" versions of the header simultaneously', async () => {
+    await checkCsp({
+      middlewareArgs: [
+        {
+          useDefaults: false,
+          directives: {
+            "default-src": "normal.example",
+          },
+          reportOnly: {
+            useDefaults: false,
+            directives: {
+              "default-src": "report.example",
+            },
+          },
+        },
+      ],
+      expectedDirectives: ["default-src normal.example"],
+      expectedReportOnlyDirectives: ["default-src report.example"],
+    });
+    await checkCsp({
+      middlewareArgs: [
+        {
+          useDefaults: false,
+          directives: {
+            "default-src": "normal.example",
+          },
+          reportOnly: {
+            useDefaults: true,
+            directives: {
+              "default-src": "report.example",
+            },
+          },
+        },
+      ],
+      expectedDirectives: ["default-src normal.example"],
+      expectedReportOnlyDirectives: [
+        "default-src report.example",
+        "base-uri 'self'",
+        "font-src 'self' https: data:",
+        "form-action 'self'",
+        "frame-ancestors 'self'",
+        "img-src 'self' data:",
+        "object-src 'none'",
+        "script-src 'self'",
+        "script-src-attr 'none'",
+        "style-src 'self' https: 'unsafe-inline'",
+        "upgrade-insecure-requests",
+      ],
     });
   });
 
