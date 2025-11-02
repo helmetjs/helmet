@@ -23,28 +23,50 @@ const shouldBeQuoted = [
   "sha256-ks9D5epDKP+c2x6DrkuHmhmfKkOM/HZ+pOlzdWbI91k=",
 ];
 
-const getOwn = <T extends object, K extends keyof T>(
-  obj: T,
-  key: K,
-): T[K] | undefined => (Object.hasOwn(obj, key) ? obj[key] : undefined);
+const assertCspHeader = (
+  header: Record<string, string>,
+  headerName: string,
+  expectedDirectives: Iterable<string>,
+): void => {
+  const headerValue = header[headerName];
+  assert(typeof headerValue === "string", `${headerName} should be set`);
+  const actualDirectives = new Set(headerValue.split(";"));
+  assert.deepEqual(actualDirectives, new Set(expectedDirectives));
+};
 
 async function checkCsp({
   middlewareArgs,
-  expectedHeader = "content-security-policy",
   expectedDirectives,
+  expectedReportOnlyDirectives,
 }: Readonly<{
   middlewareArgs: Parameters<typeof contentSecurityPolicy>;
   expectedHeader?: string;
-  expectedDirectives: Iterable<string>;
+  expectedDirectives: null | Iterable<string>;
+  expectedReportOnlyDirectives?: Iterable<string>;
 }>): Promise<void> {
   const { header } = await check(contentSecurityPolicy(...middlewareArgs), {});
-  const headerValue = getOwn(header, expectedHeader);
-  assert(
-    typeof headerValue === "string",
-    `${expectedHeader} header should be set`,
-  );
-  const actualDirectives = new Set(headerValue.split(";"));
-  assert.deepEqual(actualDirectives, new Set(expectedDirectives));
+
+  if (expectedDirectives) {
+    assertCspHeader(header, "content-security-policy", expectedDirectives);
+  } else {
+    assert(
+      !Object.hasOwn(header, "content-security-policy"),
+      "Content-Security-Policy header should be unset",
+    );
+  }
+
+  if (expectedReportOnlyDirectives) {
+    assertCspHeader(
+      header,
+      "content-security-policy-report-only",
+      expectedReportOnlyDirectives,
+    );
+  } else {
+    assert(
+      !Object.hasOwn(header, "content-security-policy-report-only"),
+      "Content-Security-Policy-Report-Only header should be unset",
+    );
+  }
 }
 
 describe("Content-Security-Policy middleware", () => {
@@ -301,8 +323,8 @@ describe("Content-Security-Policy middleware", () => {
           reportOnly: true,
         },
       ],
-      expectedHeader: "content-security-policy-report-only",
-      expectedDirectives: ["default-src 'self'"],
+      expectedDirectives: null,
+      expectedReportOnlyDirectives: ["default-src 'self'"],
     });
   });
 
