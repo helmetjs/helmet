@@ -159,6 +159,25 @@ app.use(
 );
 ```
 
+If you want to set _both_ the `Content-Security-Policy` and `Content-Security-Policy-Report-Only` headers simultaneously, you can do this:
+
+```javascript
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'", "normal.example"],
+      },
+      reportOnly: {
+        directives: {
+          defaultSrc: ["'self'", "report-only.example"],
+        },
+      },
+    },
+  }),
+);
+```
+
 `upgrade-insecure-requests`, a directive that causes browsers to upgrade HTTP to HTTPS, is set by default. You may wish to avoid this in development, as you may not be developing with HTTPS. Notably, Safari will upgrade `http://localhost` to `https://localhost`, which can cause problems. To work around this, you may wish to disable the `upgrade-insecure-requests` directive in development. For example:
 
 ```js
