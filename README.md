@@ -1,6 +1,8 @@
 # Helmet
 
-Security headers for Express.js apps.
+Helmet helps secure Node/Express apps. It sets HTTP response headers such as `Content-Security-Policy` and `Strict-Transport-Security`. It aims to be quick to integrate and be low maintenance afterward.
+
+## Quick start
 
 ```javascript
 import helmet from "helmet";
@@ -10,23 +12,25 @@ const app = express();
 app.use(helmet());
 ```
 
-Helmet sets the following headers by default:
+This will set 13 HTTP response headers in your app.
 
-- [`Content-Security-Policy`](#content-security-policy): A powerful allow-list of what can happen on your page which mitigates many attacks
-- [`Cross-Origin-Opener-Policy`](#cross-origin-opener-policy): Helps process-isolate your page
-- [`Cross-Origin-Resource-Policy`](#cross-origin-resource-policy): Blocks others from loading your resources cross-origin
-- [`Origin-Agent-Cluster`](#origin-agent-cluster): Changes process isolation to be origin-based
-- [`Referrer-Policy`](#referrer-policy): Controls the [`Referer`][Referer] header
-- [`Strict-Transport-Security`](#strict-transport-security): Tells browsers to prefer HTTPS
-- [`X-Content-Type-Options`](#x-content-type-options): Avoids [MIME sniffing]
-- [`X-DNS-Prefetch-Control`](#x-dns-prefetch-control): Controls DNS prefetching
-- [`X-Download-Options`](#x-download-options): Forces downloads to be saved (Internet Explorer only)
-- [`X-Frame-Options`](#x-frame-options): Legacy header that mitigates [clickjacking] attacks
-- [`X-Permitted-Cross-Domain-Policies`](#x-permitted-cross-domain-policies): Controls cross-domain behavior for Adobe products, like Acrobat
-- [`X-Powered-By`](#x-powered-by): Info about the web server. Removed because it could be used in simple attacks
-- [`X-XSS-Protection`](#x-xss-protection): Legacy header that tries to mitigate [XSS attacks][XSS], but makes things worse, so Helmet disables it
+[Helmet can also be used in standalone Node.js, or with other frameworks.](https://helmetjs.github.io/faq/use-without-express/)
 
-Each header can be configured. For example, here's how to configure the `Content-Security-Policy` header:
+## Configuration
+
+Each header can be disabled. To disable a header:
+
+```js
+// Disable the Content-Security-Policy and X-Download-Options headers
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+    xDownloadOptions: false,
+  }),
+);
+```
+
+To configure a header, pass header-specific options:
 
 ```js
 // Configure the Content-Security-Policy header.
@@ -41,19 +45,7 @@ app.use(
 );
 ```
 
-Headers can also be disabled. For example, here's how you disable the `Content-Security-Policy` and `X-Download-Options` headers:
-
-```js
-// Disable the Content-Security-Policy and X-Download-Options headers
-app.use(
-  helmet({
-    contentSecurityPolicy: false,
-    xDownloadOptions: false,
-  }),
-);
-```
-
-## Reference
+## HTTP header reference
 
 <details id="content-security-policy">
 <summary><code>Content-Security-Policy</code></summary>
