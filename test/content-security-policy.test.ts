@@ -23,33 +23,55 @@ const shouldBeQuoted = [
   "sha256-ks9D5epDKP+c2x6DrkuHmhmfKkOM/HZ+pOlzdWbI91k=",
 ];
 
-const getOwn = <T extends object, K extends keyof T>(
-  obj: T,
-  key: K,
-): T[K] | undefined => (Object.hasOwn(obj, key) ? obj[key] : undefined);
+const assertCspHeader = (
+  header: Record<string, string>,
+  headerName: string,
+  expectedDirectives: Iterable<string>,
+): void => {
+  const headerValue = header[headerName];
+  assert(typeof headerValue === "string", `${headerName} should be set`);
+  const actualDirectives = new Set(headerValue.split(";"));
+  assert.deepEqual(actualDirectives, new Set(expectedDirectives));
+};
 
 async function checkCsp({
   middlewareArgs,
-  expectedHeader = "content-security-policy",
   expectedDirectives,
+  expectedReportOnlyDirectives,
 }: Readonly<{
   middlewareArgs: Parameters<typeof contentSecurityPolicy>;
   expectedHeader?: string;
-  expectedDirectives: Set<string>;
+  expectedDirectives: null | Iterable<string>;
+  expectedReportOnlyDirectives?: Iterable<string>;
 }>): Promise<void> {
   const { header } = await check(contentSecurityPolicy(...middlewareArgs), {});
-  const headerValue = getOwn(header, expectedHeader);
-  assert(
-    typeof headerValue === "string",
-    `${expectedHeader} header should be set`,
-  );
-  const actualDirectives = new Set(headerValue.split(";"));
-  assert.deepEqual(actualDirectives, expectedDirectives);
+
+  if (expectedDirectives) {
+    assertCspHeader(header, "content-security-policy", expectedDirectives);
+  } else {
+    assert(
+      !Object.hasOwn(header, "content-security-policy"),
+      "Content-Security-Policy header should be unset",
+    );
+  }
+
+  if (expectedReportOnlyDirectives) {
+    assertCspHeader(
+      header,
+      "content-security-policy-report-only",
+      expectedReportOnlyDirectives,
+    );
+  } else {
+    assert(
+      !Object.hasOwn(header, "content-security-policy-report-only"),
+      "Content-Security-Policy-Report-Only header should be unset",
+    );
+  }
 }
 
 describe("Content-Security-Policy middleware", () => {
   it("sets a default policy when passed no directives", async () => {
-    const expectedDirectives = new Set([
+    const expectedDirectives = [
       "default-src 'self'",
       "base-uri 'self'",
       "font-src 'self' https: data:",
@@ -61,7 +83,7 @@ describe("Content-Security-Policy middleware", () => {
       "script-src-attr 'none'",
       "style-src 'self' https: 'unsafe-inline'",
       "upgrade-insecure-requests",
-    ]);
+    ];
     await checkCsp({
       middlewareArgs: [],
       expectedDirectives,
@@ -96,11 +118,11 @@ describe("Content-Security-Policy middleware", () => {
           },
         },
       ],
-      expectedDirectives: new Set([
+      expectedDirectives: [
         "default-src 'self'",
         "script-src example.com",
         "style-src 'none'",
-      ]),
+      ],
     });
   });
 
@@ -116,11 +138,11 @@ describe("Content-Security-Policy middleware", () => {
           },
         },
       ],
-      expectedDirectives: new Set([
+      expectedDirectives: [
         "default-src 'self'",
         "script-src example.com",
         "style-src 'none'",
-      ]),
+      ],
     });
   });
 
@@ -137,12 +159,12 @@ describe("Content-Security-Policy middleware", () => {
           },
         },
       ],
-      expectedDirectives: new Set([
+      expectedDirectives: [
         "default-src 'self'",
         "script-src example.com",
         "style-src 'none'",
         "object-src 'none'",
-      ]),
+      ],
     });
   });
 
@@ -157,7 +179,7 @@ describe("Content-Security-Policy middleware", () => {
           },
         },
       ],
-      expectedDirectives: new Set(["default-src 'self'", "sandbox"]),
+      expectedDirectives: ["default-src 'self'", "sandbox"],
     });
   });
 
@@ -179,7 +201,7 @@ describe("Content-Security-Policy middleware", () => {
           },
         },
       ],
-      expectedDirectives: new Set(["default-src 'self'", "sandbox"]),
+      expectedDirectives: ["default-src 'self'", "sandbox"],
     });
   });
 
@@ -195,11 +217,11 @@ describe("Content-Security-Policy middleware", () => {
           },
         },
       ],
-      expectedDirectives: new Set([
+      expectedDirectives: [
         "default-src 'self'  example.com",
         "script-src 'none'",
         "sandbox",
-      ]),
+      ],
     });
   });
 
@@ -214,7 +236,7 @@ describe("Content-Security-Policy middleware", () => {
           },
         },
       ],
-      expectedDirectives: new Set(["default-src 'self'"]),
+      expectedDirectives: ["default-src 'self'"],
     });
   });
 
@@ -242,14 +264,14 @@ describe("Content-Security-Policy middleware", () => {
           },
         },
       ],
-      expectedDirectives: new Set([
+      expectedDirectives: [
         "default-src 'self' foo.example.com bar.example.com",
-      ]),
+      ],
     });
   });
 
   it("can override the default options", async () => {
-    const expectedDirectives = new Set([
+    const expectedDirectives = [
       "default-src 'self' example.com",
       "font-src 'self' https: data:",
       "form-action 'self'",
@@ -260,7 +282,7 @@ describe("Content-Security-Policy middleware", () => {
       "script-src-attr 'none'",
       "style-src 'self' https: 'unsafe-inline'",
       "upgrade-insecure-requests",
-    ]);
+    ];
 
     await checkCsp({
       middlewareArgs: [
@@ -290,7 +312,7 @@ describe("Content-Security-Policy middleware", () => {
     });
   });
 
-  it('can set the "report only" version of the header instead', async () => {
+  it('can set the "report only" version of the header instead, by specifying directives and reportOnly: true', async () => {
     await checkCsp({
       middlewareArgs: [
         {
@@ -301,8 +323,142 @@ describe("Content-Security-Policy middleware", () => {
           reportOnly: true,
         },
       ],
-      expectedHeader: "content-security-policy-report-only",
-      expectedDirectives: new Set(["default-src 'self'"]),
+      expectedDirectives: null,
+      expectedReportOnlyDirectives: ["default-src 'self'"],
+    });
+  });
+
+  it('can set the "report only" version of the header instead, by only specifying reportOnly options', async () => {
+    await checkCsp({
+      middlewareArgs: [
+        {
+          reportOnly: {
+            useDefaults: false,
+            directives: {
+              "default-src": "'self'",
+            },
+          },
+        },
+      ],
+      expectedDirectives: null,
+      expectedReportOnlyDirectives: ["default-src 'self'"],
+    });
+    await checkCsp({
+      middlewareArgs: [
+        {
+          useDefaults: false,
+          reportOnly: {
+            directives: {
+              "default-src": "'self'",
+            },
+          },
+        },
+      ],
+      expectedDirectives: null,
+      expectedReportOnlyDirectives: ["default-src 'self'"],
+    });
+    await checkCsp({
+      middlewareArgs: [
+        {
+          reportOnly: {
+            directives: {
+              "default-src": "'self' foo.example",
+            },
+          },
+        },
+      ],
+      expectedDirectives: null,
+      expectedReportOnlyDirectives: [
+        "default-src 'self' foo.example",
+        "base-uri 'self'",
+        "font-src 'self' https: data:",
+        "form-action 'self'",
+        "frame-ancestors 'self'",
+        "img-src 'self' data:",
+        "object-src 'none'",
+        "script-src 'self'",
+        "script-src-attr 'none'",
+        "style-src 'self' https: 'unsafe-inline'",
+        "upgrade-insecure-requests",
+      ],
+    });
+    await checkCsp({
+      middlewareArgs: [
+        {
+          useDefaults: false,
+          reportOnly: {
+            useDefaults: true,
+            directives: {
+              "default-src": "'self' foo.example",
+            },
+          },
+        },
+      ],
+      expectedDirectives: null,
+      expectedReportOnlyDirectives: [
+        "default-src 'self' foo.example",
+        "base-uri 'self'",
+        "font-src 'self' https: data:",
+        "form-action 'self'",
+        "frame-ancestors 'self'",
+        "img-src 'self' data:",
+        "object-src 'none'",
+        "script-src 'self'",
+        "script-src-attr 'none'",
+        "style-src 'self' https: 'unsafe-inline'",
+        "upgrade-insecure-requests",
+      ],
+    });
+  });
+
+  it('can set both the "normal" and "report only" versions of the header simultaneously', async () => {
+    await checkCsp({
+      middlewareArgs: [
+        {
+          useDefaults: false,
+          directives: {
+            "default-src": "normal.example",
+          },
+          reportOnly: {
+            useDefaults: false,
+            directives: {
+              "default-src": "report.example",
+            },
+          },
+        },
+      ],
+      expectedDirectives: ["default-src normal.example"],
+      expectedReportOnlyDirectives: ["default-src report.example"],
+    });
+    await checkCsp({
+      middlewareArgs: [
+        {
+          useDefaults: false,
+          directives: {
+            "default-src": "normal.example",
+          },
+          reportOnly: {
+            useDefaults: true,
+            directives: {
+              "default-src": "report.example",
+            },
+          },
+        },
+      ],
+      expectedDirectives: ["default-src normal.example"],
+      expectedReportOnlyDirectives: [
+        "default-src report.example",
+        "base-uri 'self'",
+        "font-src 'self' https: data:",
+        "form-action 'self'",
+        "frame-ancestors 'self'",
+        "img-src 'self' data:",
+        "object-src 'none'",
+        "script-src 'self'",
+        "script-src-attr 'none'",
+        "style-src 'self' https: 'unsafe-inline'",
+        "upgrade-insecure-requests",
+      ],
     });
   });
 
@@ -521,7 +677,7 @@ describe("Content-Security-Policy middleware", () => {
           },
         },
       ],
-      expectedDirectives: new Set(["script-src example.com"]),
+      expectedDirectives: ["script-src example.com"],
     });
 
     await checkCsp({
@@ -534,7 +690,7 @@ describe("Content-Security-Policy middleware", () => {
           },
         },
       ],
-      expectedDirectives: new Set(["script-src example.com"]),
+      expectedDirectives: ["script-src example.com"],
     });
 
     await checkCsp({
@@ -546,7 +702,7 @@ describe("Content-Security-Policy middleware", () => {
           },
         },
       ],
-      expectedDirectives: new Set([
+      expectedDirectives: [
         "base-uri 'self'",
         "font-src 'self' https: data:",
         "form-action 'self'",
@@ -557,7 +713,7 @@ describe("Content-Security-Policy middleware", () => {
         "script-src-attr 'none'",
         "style-src 'self' https: 'unsafe-inline'",
         "upgrade-insecure-requests",
-      ]),
+      ],
     });
   });
 
