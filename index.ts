@@ -31,6 +31,9 @@ import xPermittedCrossDomainPolicies, {
 } from "./middlewares/x-permitted-cross-domain-policies/index.js";
 import xPoweredBy from "./middlewares/x-powered-by/index.js";
 import xXssProtection from "./middlewares/x-xss-protection/index.js";
+import permissionsPolicy, {
+  type PermissionsPolicyOptions,
+} from "./middlewares/permissions-policy/index.js";
 
 export type HelmetOptions = {
   contentSecurityPolicy?: ContentSecurityPolicyOptions | boolean;
@@ -39,29 +42,30 @@ export type HelmetOptions = {
   crossOriginResourcePolicy?: CrossOriginResourcePolicyOptions | boolean;
   originAgentCluster?: boolean;
   referrerPolicy?: ReferrerPolicyOptions | boolean;
+  permissionsPolicy?: PermissionsPolicyOptions | boolean;
 } & (
-  | {
+    | {
       strictTransportSecurity?: StrictTransportSecurityOptions | boolean;
       hsts?: never;
     }
-  | {
+    | {
       hsts?: StrictTransportSecurityOptions | boolean;
       strictTransportSecurity?: never;
     }
-) &
+  ) &
   (
     | { xContentTypeOptions?: boolean; noSniff?: never }
     | { noSniff?: boolean; xContentTypeOptions?: never }
   ) &
   (
     | {
-        xDnsPrefetchControl?: XDnsPrefetchControlOptions | boolean;
-        dnsPrefetchControl?: never;
-      }
+      xDnsPrefetchControl?: XDnsPrefetchControlOptions | boolean;
+      dnsPrefetchControl?: never;
+    }
     | {
-        dnsPrefetchControl?: XDnsPrefetchControlOptions | boolean;
-        xDnsPrefetchControl?: never;
-      }
+      dnsPrefetchControl?: XDnsPrefetchControlOptions | boolean;
+      xDnsPrefetchControl?: never;
+    }
   ) &
   (
     | { xDownloadOptions?: boolean; ieNoOpen?: never }
@@ -73,17 +77,17 @@ export type HelmetOptions = {
   ) &
   (
     | {
-        xPermittedCrossDomainPolicies?:
-          | XPermittedCrossDomainPoliciesOptions
-          | boolean;
-        permittedCrossDomainPolicies?: never;
-      }
+      xPermittedCrossDomainPolicies?:
+      | XPermittedCrossDomainPoliciesOptions
+      | boolean;
+      permittedCrossDomainPolicies?: never;
+    }
     | {
-        permittedCrossDomainPolicies?:
-          | XPermittedCrossDomainPoliciesOptions
-          | boolean;
-        xPermittedCrossDomainPolicies?: never;
-      }
+      permittedCrossDomainPolicies?:
+      | XPermittedCrossDomainPoliciesOptions
+      | boolean;
+      xPermittedCrossDomainPolicies?: never;
+    }
   ) &
   (
     | { xPoweredBy?: boolean; hidePoweredBy?: never }
@@ -123,6 +127,7 @@ interface Helmet {
   xPermittedCrossDomainPolicies: typeof xPermittedCrossDomainPolicies;
   xPoweredBy: typeof xPoweredBy;
   xXssProtection: typeof xXssProtection;
+  permissionsPolicy: typeof permissionsPolicy;
 
   // Legacy aliases
   dnsPrefetchControl: typeof xDnsPrefetchControl;
@@ -212,6 +217,19 @@ function getMiddlewareFunctionsFromOptions(
       break;
     default:
       result.push(referrerPolicy(options.referrerPolicy));
+      break;
+  }
+
+  switch (options.permissionsPolicy) {
+    case undefined:
+    case false:
+      break;
+    case true:
+      throw new Error(
+        "Permissions-Policy requires options (e.g. { features: { ... } }).",
+      );
+    default:
+      result.push(permissionsPolicy(options.permissionsPolicy));
       break;
   }
 
@@ -435,6 +453,7 @@ const helmet: Helmet = Object.assign(
     xPermittedCrossDomainPolicies,
     xPoweredBy,
     xXssProtection,
+    permissionsPolicy,
 
     // Legacy aliases
     dnsPrefetchControl: xDnsPrefetchControl,

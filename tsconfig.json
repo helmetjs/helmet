@@ -2,7 +2,7 @@
   "compilerOptions": {
     "esModuleInterop": true,
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
     "noUnusedLocals": true,
@@ -13,5 +13,8 @@
     "target": "es2022",
     "outDir": "."
   },
-  "exclude": ["node_modules", "test/project-setups"]
+  "exclude": [
+    "node_modules",
+    "test/project-setups"
+  ]
 }

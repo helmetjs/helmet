@@ -309,6 +309,33 @@ You can use this as standalone middleware with `app.use(helmet.originAgentCluste
 
 </details>
 
+<details id="permissions-policy">
+<summary><code>Permissions-Policy</code></summary>
+
+This header is not set by default.
+
+The `Permissions-Policy` header allows you to control which features and APIs can be used in the browser. See [MDN's article on this header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Permissions-Policy) for more.
+
+```js
+
+app.use(helmet());
+
+app.use(
+  helmet({
+    permissionsPolicy: {
+      features: {
+        geolocation: ["self", "https://example.com"],
+      },
+    },
+  }),
+);
+```
+
+You can use this as standalone middleware with `app.use(helmet.permissionsPolicy({ ... }))`.
+
+</details>
+
+
 <details id="referrer-policy">
 <summary><code>Referrer-Policy</code></summary>
 
