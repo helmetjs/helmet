@@ -9,15 +9,22 @@ type ContentSecurityPolicyDirectiveValue =
   | string
   | ContentSecurityPolicyDirectiveValueFunction;
 
+type ContentSecurityPolicyDirectiveMap = Record<
+  string,
+  | null
+  | Iterable<ContentSecurityPolicyDirectiveValue>
+  | typeof dangerouslyDisableDefaultSrc
+>;
+
 export interface ContentSecurityPolicyOptions {
   useDefaults?: boolean;
-  directives?: Record<
-    string,
-    | null
-    | Iterable<ContentSecurityPolicyDirectiveValue>
-    | typeof dangerouslyDisableDefaultSrc
-  >;
-  reportOnly?: boolean;
+  directives?: ContentSecurityPolicyDirectiveMap;
+  reportOnly?:
+    | boolean
+    | {
+        useDefaults?: boolean;
+        directives: ContentSecurityPolicyDirectiveMap;
+      };
 }
 
 type NormalizedDirectives = Map<
@@ -104,7 +111,9 @@ const assertDirectiveValueEntryIsValid = (
 };
 
 function normalizeDirectives(
-  options: Readonly<ContentSecurityPolicyOptions>,
+  options: Readonly<
+    Pick<ContentSecurityPolicyOptions, "useDefaults" | "directives">
+  >,
 ): NormalizedDirectives {
   const defaultDirectives = getDefaultDirectives();
 
@@ -252,24 +261,47 @@ const contentSecurityPolicy: ContentSecurityPolicy =
     res: ServerResponse,
     next: (err?: Error) => void,
   ) => void {
-    const headerName = options.reportOnly
-      ? "Content-Security-Policy-Report-Only"
-      : "Content-Security-Policy";
+    let normalizedDirectives: undefined | NormalizedDirectives;
+    let normalizedReportOnlyDirectives: undefined | NormalizedDirectives;
 
-    const normalizedDirectives = normalizeDirectives(options);
+    if (options.reportOnly === true) {
+      normalizedReportOnlyDirectives = normalizeDirectives(options);
+    } else if (options.reportOnly) {
+      if (options.directives) {
+        normalizedDirectives = normalizeDirectives(options);
+      }
+      normalizedReportOnlyDirectives = normalizeDirectives({
+        useDefaults: options.useDefaults,
+        ...options.reportOnly,
+      });
+    } else {
+      normalizedDirectives = normalizeDirectives(options);
+    }
 
     return function contentSecurityPolicyMiddleware(
       req: IncomingMessage,
       res: ServerResponse,
       next: (error?: Error) => void,
     ) {
-      const result = getHeaderValue(req, res, normalizedDirectives);
-      if (result instanceof Error) {
-        next(result);
-      } else {
-        res.setHeader(headerName, result);
-        next();
+      if (normalizedDirectives) {
+        const result = getHeaderValue(req, res, normalizedDirectives);
+        if (result instanceof Error) {
+          next(result);
+          return;
+        }
+        res.setHeader("Content-Security-Policy", result);
       }
+
+      if (normalizedReportOnlyDirectives) {
+        const result = getHeaderValue(req, res, normalizedReportOnlyDirectives);
+        if (result instanceof Error) {
+          next(result);
+          return;
+        }
+        res.setHeader("Content-Security-Policy-Report-Only", result);
+      }
+
+      next();
     };
   };
 contentSecurityPolicy.getDefaultDirectives = getDefaultDirectives;
