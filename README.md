@@ -521,7 +521,7 @@ Default:
 X-Download-Options: noopen
 ```
 
-The `X-Download-Options` header is specific to Internet Explorer 8. It forces potentially-unsafe downloads to be saved, mitigating execution of HTML in your site's context. For more, see [this old post on MSDN](https://docs.microsoft.com/en-us/archive/blogs/ie/ie8-security-part-v-comprehensive-protection).
+The `X-Download-Options` header is specific to Internet Explorer 8. It forces potentially-unsafe downloads to be saved, mitigating execution of HTML in your site's context. For more, see [this old post on MSDN](https://learn.microsoft.com/en-us/archive/blogs/ie/ie8-security-part-v-comprehensive-protection).
 
 This header takes no options and is set by default.
 
