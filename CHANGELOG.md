@@ -33,7 +33,7 @@
 
 ### Added
 
-- `helmet.crossOriginEmbedderPolicy` now supports the `unsafe-none` directive. See [#477](https://github.com/helmetjs/helmet/pull/447)
+- `helmet.crossOriginEmbedderPolicy` now supports the `unsafe-none` directive. See [#447](https://github.com/helmetjs/helmet/pull/447)
 
 ## 7.0.0 - 2023-05-06
 
@@ -55,7 +55,7 @@
 
 ### Fixed
 
-- Fixed yet another issue with TypeScript exports. See [#420](https://github.com/helmetjs/helmet/pull/418)
+- Fixed yet another issue with TypeScript exports. See [#420](https://github.com/helmetjs/helmet/pull/420)
 
 ## 6.1.4 - 2023-04-10
 
