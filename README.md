@@ -560,7 +560,7 @@ The legacy `X-Frame-Options` header to help you mitigate [clickjacking attacks](
 app.use(helmet());
 ```
 
-`action` is a string that specifies which directive to use—either `DENY` or `SAMEORIGIN`. (A legacy directive, `ALLOW-FROM`, is not supported by Helmet. [Read more here.](https://github.com/helmetjs/helmet/wiki/How-to-use-X%E2%80%93Frame%E2%80%93Options's-%60ALLOW%E2%80%93FROM%60-directive)) It defaults to `SAMEORIGIN`.
+`action` is a string that specifies which directive to use—either `DENY` or `SAMEORIGIN`. (A legacy directive, `ALLOW-FROM`, is not supported by Helmet. [Read more here.](https://helmetjs.github.io/faq/x-frame-options-allow-from-directive/)) It defaults to `SAMEORIGIN`.
 
 Examples:
 
