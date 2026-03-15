@@ -17,15 +17,20 @@ describe("Cross-Origin-Opener-Policy middleware", () => {
     );
   });
 
-  (["same-origin", "same-origin-allow-popups", "unsafe-none"] as const).forEach(
-    (policy) => {
-      it(`sets "Cross-Origin-Opener-Policy: ${policy}" when told to`, async () => {
-        await check(crossOriginOpenerPolicy({ policy }), {
-          "cross-origin-opener-policy": policy,
-        });
+  (
+    [
+      "same-origin",
+      "same-origin-allow-popups",
+      "noopener-allow-popups",
+      "unsafe-none",
+    ] as const
+  ).forEach((policy) => {
+    it(`sets "Cross-Origin-Opener-Policy: ${policy}" when told to`, async () => {
+      await check(crossOriginOpenerPolicy({ policy }), {
+        "cross-origin-opener-policy": policy,
       });
-    },
-  );
+    });
+  });
 
   it("throws when setting the policy to an invalid value", () => {
     const invalidValues = [
