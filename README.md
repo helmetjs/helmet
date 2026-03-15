@@ -286,7 +286,7 @@ Default:
 Origin-Agent-Cluster: ?1
 ```
 
-The `Origin-Agent-Cluster` header provides a mechanism to allow web applications to isolate their origins from other processes. Read more about it [in the spec](https://whatpr.org/html/6214/origin.html#origin-keyed-agent-clusters).
+The `Origin-Agent-Cluster` header provides a mechanism to allow web applications to isolate their origins from other processes. Read more about it [in the spec](https://html.spec.whatwg.org/multipage/browsers.html#origin-keyed-agent-clusters).
 
 This header takes no options and is set by default.
 
