@@ -189,7 +189,7 @@ You can use this as standalone middleware with `app.use(helmet.contentSecurityPo
 
 This header is not set by default.
 
-The `Cross-Origin-Embedder-Policy` header helps control what resources can be loaded cross-origin. See [MDN's article on this header](https://developer.cdn.mozilla.net/en-US/docs/Web/HTTP/Headers/Cross-Origin-Embedder-Policy) for more.
+The `Cross-Origin-Embedder-Policy` header helps control what resources can be loaded cross-origin. See [MDN's article on this header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cross-Origin-Embedder-Policy) for more.
 
 ```js
 // Helmet does not set Cross-Origin-Embedder-Policy
