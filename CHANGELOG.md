@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- `Cross-Origin-Opener-Policy`: support `noopener-allow-popups`. See [#522](https://github.com/helmetjs/helmet/pull/522)
 - Improve error message when passing duplicate options
 
 ## 8.1.0 - 2025-03-17
