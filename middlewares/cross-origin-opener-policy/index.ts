@@ -1,12 +1,17 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
 
 export interface CrossOriginOpenerPolicyOptions {
-  policy?: "same-origin" | "same-origin-allow-popups" | "unsafe-none";
+  policy?:
+    | "same-origin"
+    | "same-origin-allow-popups"
+    | "noopener-allow-popups"
+    | "unsafe-none";
 }
 
 const ALLOWED_POLICIES = new Set([
   "same-origin",
   "same-origin-allow-popups",
+  "noopener-allow-popups",
   "unsafe-none",
 ]);
 
