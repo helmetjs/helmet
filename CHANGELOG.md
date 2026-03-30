@@ -74,7 +74,7 @@
 
 ### Fixed
 
-- Retored `main` to package to help with some build tools
+- Restored `main` to package to help with some build tools
 
 ## 6.1.1 - 2023-04-08
 
