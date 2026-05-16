@@ -14,7 +14,7 @@ app.use(helmet());
 
 This will set 13 HTTP response headers in your app.
 
-[Helmet can also be used in standalone Node.js, or with other frameworks.](https://helmetjs.github.io/faq/use-without-express/)
+See [the docs](https://helmetjs.github.io/) for more info, including [the FAQ](https://helmetjs.github.io/faq/).
 
 ## Configuration
 
