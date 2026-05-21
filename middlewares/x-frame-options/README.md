@@ -19,4 +19,4 @@ app.use(frameguard({ action: "sameorigin" }));
 app.use(frameguard()); // defaults to sameorigin
 ```
 
-A legacy action, `ALLOW-FROM`, is not supported by this middleware. [Read more here.](https://helmetjs.github.io/faq/x-frame-options-allow-from-directive/)
+A legacy action, `ALLOW-FROM`, is not supported by this middleware. [Read more here.](https://helmet.js.org/faq/x-frame-options-allow-from-directive/)

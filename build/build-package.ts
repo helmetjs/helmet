@@ -212,7 +212,7 @@ async function buildPackageJson({
     version: devPackageJson.version,
     author: "Adam Baldwin <adam@npmjs.com> (https://evilpacket.net)",
     contributors: ["Evan Hahn <me@evanhahn.com> (https://evanhahn.com)"],
-    homepage: "https://helmetjs.github.io/",
+    homepage: "https://helmet.js.org/",
     bugs: {
       url: "https://github.com/helmetjs/helmet/issues",
       email: "me@evanhahn.com",

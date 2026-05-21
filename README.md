@@ -14,7 +14,7 @@ app.use(helmet());
 
 This will set 13 HTTP response headers in your app.
 
-See [the docs](https://helmetjs.github.io/) for more info, including [the FAQ](https://helmetjs.github.io/faq/).
+See [the docs](https://helmet.js.org/) for more info, including [the FAQ](https://helmet.js.org/faq/).
 
 ## Configuration
 
@@ -560,7 +560,7 @@ The legacy `X-Frame-Options` header to help you mitigate [clickjacking attacks](
 app.use(helmet());
 ```
 
-`action` is a string that specifies which directive to use—either `DENY` or `SAMEORIGIN`. (A legacy directive, `ALLOW-FROM`, is not supported by Helmet. [Read more here.](https://helmetjs.github.io/faq/x-frame-options-allow-from-directive/)) It defaults to `SAMEORIGIN`.
+`action` is a string that specifies which directive to use—either `DENY` or `SAMEORIGIN`. (A legacy directive, `ALLOW-FROM`, is not supported by Helmet. [Read more here.](https://helmet.js.org/faq/x-frame-options-allow-from-directive/)) It defaults to `SAMEORIGIN`.
 
 Examples:
 
