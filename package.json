@@ -1,6 +1,6 @@
 {
   "private": true,
-  "version": "8.1.0",
+  "version": "8.2.0",
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@rollup/plugin-typescript": "^12.3.0",
