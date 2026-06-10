@@ -109,11 +109,19 @@ type Helmet = {
     next: (err?: unknown) => void,
   ) => void;
 
+  // In addition to "normal" exports, we also attach everything to the default export. This improves compatibility with the many module systems out there.
   contentSecurityPolicy: typeof contentSecurityPolicy;
   crossOriginEmbedderPolicy: typeof crossOriginEmbedderPolicy;
   crossOriginOpenerPolicy: typeof crossOriginOpenerPolicy;
   crossOriginResourcePolicy: typeof crossOriginResourcePolicy;
+  dnsPrefetchControl: typeof xDnsPrefetchControl;
+  frameguard: typeof xFrameOptions;
+  hidePoweredBy: typeof xPoweredBy;
+  hsts: typeof strictTransportSecurity;
+  ieNoOpen: typeof xDownloadOptions;
+  noSniff: typeof xContentTypeOptions;
   originAgentCluster: typeof originAgentCluster;
+  permittedCrossDomainPolicies: typeof xPermittedCrossDomainPolicies;
   referrerPolicy: typeof referrerPolicy;
   strictTransportSecurity: typeof strictTransportSecurity;
   xContentTypeOptions: typeof xContentTypeOptions;
@@ -123,15 +131,6 @@ type Helmet = {
   xPermittedCrossDomainPolicies: typeof xPermittedCrossDomainPolicies;
   xPoweredBy: typeof xPoweredBy;
   xXssProtection: typeof xXssProtection;
-
-  // Legacy aliases
-  dnsPrefetchControl: typeof xDnsPrefetchControl;
-  frameguard: typeof xFrameOptions;
-  hidePoweredBy: typeof xPoweredBy;
-  hsts: typeof strictTransportSecurity;
-  ieNoOpen: typeof xDownloadOptions;
-  noSniff: typeof xContentTypeOptions;
-  permittedCrossDomainPolicies: typeof xPermittedCrossDomainPolicies;
   xssFilter: typeof xXssProtection;
 };
 
