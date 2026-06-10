@@ -1,7 +1,7 @@
 import connect from "connect";
 import assert from "node:assert/strict";
 import type { IncomingMessage, ServerResponse } from "node:http";
-import { describe, it, type TestContext, type Mock } from "node:test";
+import { describe, it, type Mock, type TestContext } from "node:test";
 import supertest from "supertest";
 import { check } from "./helpers";
 
@@ -387,40 +387,51 @@ describe("helmet", () => {
   });
 
   it("errors with conflicting header options (legacy + new)", () => {
+    /* eslint-disable @typescript-eslint/ban-ts-comment */
     assert.throws(() =>
-      topLevel({ strictTransportSecurity: true, hsts: true } as any),
+      // @ts-expect-error
+      topLevel({ strictTransportSecurity: true, hsts: true }),
     );
 
     assert.throws(() =>
-      topLevel({ xContentTypeOptions: true, noSniff: true } as any),
+      // @ts-expect-error
+      topLevel({ xContentTypeOptions: true, noSniff: true }),
     );
 
     assert.throws(() =>
-      topLevel({ xDnsPrefetchControl: true, dnsPrefetchControl: true } as any),
+      // @ts-expect-error
+      topLevel({ xDnsPrefetchControl: true, dnsPrefetchControl: true }),
     );
 
     assert.throws(() =>
-      topLevel({ xDownloadOptions: true, ieNoOpen: true } as any),
+      // @ts-expect-error
+      topLevel({ xDownloadOptions: true, ieNoOpen: true }),
     );
 
     assert.throws(() =>
-      topLevel({ xFrameOptions: true, frameguard: true } as any),
+      // @ts-expect-error
+      topLevel({ xFrameOptions: true, frameguard: true }),
     );
 
+    // Prettier pushes this to two lines, so the `@ts-expect-error` isn't like the others.
     assert.throws(() =>
       topLevel({
         xPermittedCrossDomainPolicies: true,
+        // @ts-expect-error
         permittedCrossDomainPolicies: true,
-      } as any),
+      }),
     );
 
     assert.throws(() =>
-      topLevel({ xPoweredBy: true, hidePoweredBy: true } as any),
+      // @ts-expect-error
+      topLevel({ xPoweredBy: true, hidePoweredBy: true }),
     );
 
     assert.throws(() =>
-      topLevel({ xXssProtection: true, xssFilter: true } as any),
+      // @ts-expect-error
+      topLevel({ xXssProtection: true, xssFilter: true }),
     );
+    /* eslint-enable @typescript-eslint/ban-ts-comment */
   });
 
   it("exposes standalone middleware with legacy aliases", () => {
