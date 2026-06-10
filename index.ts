@@ -32,6 +32,10 @@ import xPermittedCrossDomainPolicies, {
 import xPoweredBy from "./middlewares/x-powered-by/index.js";
 import xXssProtection from "./middlewares/x-xss-protection/index.js";
 
+type EitherKey<Key1 extends PropertyKey, Key2 extends PropertyKey, Value> =
+  | ({ [K in Key1]?: Value } & { [K in Key2]?: never })
+  | ({ [K in Key1]?: never } & { [K in Key2]?: Value });
+
 export type HelmetOptions = {
   contentSecurityPolicy?: ContentSecurityPolicyOptions | boolean;
   crossOriginEmbedderPolicy?: CrossOriginEmbedderPolicyOptions | boolean;
@@ -39,60 +43,26 @@ export type HelmetOptions = {
   crossOriginResourcePolicy?: CrossOriginResourcePolicyOptions | boolean;
   originAgentCluster?: boolean;
   referrerPolicy?: ReferrerPolicyOptions | boolean;
-} & (
-  | {
-      strictTransportSecurity?: StrictTransportSecurityOptions | boolean;
-      hsts?: never;
-    }
-  | {
-      hsts?: StrictTransportSecurityOptions | boolean;
-      strictTransportSecurity?: never;
-    }
-) &
-  (
-    | { xContentTypeOptions?: boolean; noSniff?: never }
-    | { noSniff?: boolean; xContentTypeOptions?: never }
-  ) &
-  (
-    | {
-        xDnsPrefetchControl?: XDnsPrefetchControlOptions | boolean;
-        dnsPrefetchControl?: never;
-      }
-    | {
-        dnsPrefetchControl?: XDnsPrefetchControlOptions | boolean;
-        xDnsPrefetchControl?: never;
-      }
-  ) &
-  (
-    | { xDownloadOptions?: boolean; ieNoOpen?: never }
-    | { ieNoOpen?: boolean; xDownloadOptions?: never }
-  ) &
-  (
-    | { xFrameOptions?: XFrameOptionsOptions | boolean; frameguard?: never }
-    | { frameguard?: XFrameOptionsOptions | boolean; xFrameOptions?: never }
-  ) &
-  (
-    | {
-        xPermittedCrossDomainPolicies?:
-          | XPermittedCrossDomainPoliciesOptions
-          | boolean;
-        permittedCrossDomainPolicies?: never;
-      }
-    | {
-        permittedCrossDomainPolicies?:
-          | XPermittedCrossDomainPoliciesOptions
-          | boolean;
-        xPermittedCrossDomainPolicies?: never;
-      }
-  ) &
-  (
-    | { xPoweredBy?: boolean; hidePoweredBy?: never }
-    | { hidePoweredBy?: boolean; xPoweredBy?: never }
-  ) &
-  (
-    | { xXssProtection?: boolean; xssFilter?: never }
-    | { xssFilter?: boolean; xXssProtection?: never }
-  );
+} & EitherKey<
+  "strictTransportSecurity",
+  "hsts",
+  StrictTransportSecurityOptions | boolean
+> &
+  EitherKey<"xContentTypeOptions", "noSniff", boolean> &
+  EitherKey<
+    "xDnsPrefetchControl",
+    "dnsPrefetchControl",
+    XDnsPrefetchControlOptions | boolean
+  > &
+  EitherKey<"xDownloadOptions", "ieNoOpen", boolean> &
+  EitherKey<"xFrameOptions", "frameguard", XFrameOptionsOptions | boolean> &
+  EitherKey<
+    "xPermittedCrossDomainPolicies",
+    "permittedCrossDomainPolicies",
+    XPermittedCrossDomainPoliciesOptions | boolean
+  > &
+  EitherKey<"xPoweredBy", "hidePoweredBy", boolean> &
+  EitherKey<"xXssProtection", "xssFilter", boolean>;
 
 type MiddlewareFunction = (
   req: IncomingMessage,
