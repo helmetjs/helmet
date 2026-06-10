@@ -9,7 +9,7 @@ type ContentSecurityPolicyDirectiveValue =
   | string
   | ContentSecurityPolicyDirectiveValueFunction;
 
-export interface ContentSecurityPolicyOptions {
+export type ContentSecurityPolicyOptions = {
   useDefaults?: boolean;
   directives?: Record<
     string,
@@ -18,14 +18,14 @@ export interface ContentSecurityPolicyOptions {
     | typeof dangerouslyDisableDefaultSrc
   >;
   reportOnly?: boolean;
-}
+};
 
 type NormalizedDirectives = Map<
   string,
   Iterable<ContentSecurityPolicyDirectiveValue>
 >;
 
-interface ContentSecurityPolicy {
+type ContentSecurityPolicy = {
   (
     options?: Readonly<ContentSecurityPolicyOptions>,
   ): (
@@ -35,7 +35,7 @@ interface ContentSecurityPolicy {
   ) => void;
   getDefaultDirectives: typeof getDefaultDirectives;
   dangerouslyDisableDefaultSrc: typeof dangerouslyDisableDefaultSrc;
-}
+};
 
 const dangerouslyDisableDefaultSrc = Symbol("dangerouslyDisableDefaultSrc");
 

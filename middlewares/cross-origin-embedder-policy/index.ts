@@ -1,8 +1,8 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
 
-export interface CrossOriginEmbedderPolicyOptions {
+export type CrossOriginEmbedderPolicyOptions = {
   policy?: "require-corp" | "credentialless" | "unsafe-none";
-}
+};
 
 const ALLOWED_POLICIES = new Set([
   "require-corp",

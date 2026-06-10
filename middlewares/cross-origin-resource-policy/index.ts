@@ -1,8 +1,8 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
 
-export interface CrossOriginResourcePolicyOptions {
+export type CrossOriginResourcePolicyOptions = {
   policy?: "same-origin" | "same-site" | "cross-origin";
-}
+};
 
 const ALLOWED_POLICIES = new Set(["same-origin", "same-site", "cross-origin"]);
 

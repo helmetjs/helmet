@@ -100,7 +100,7 @@ type MiddlewareFunction = (
   next: (error?: Error) => void,
 ) => void;
 
-interface Helmet {
+type Helmet = {
   (
     options?: Readonly<HelmetOptions>,
   ): (
@@ -133,7 +133,7 @@ interface Helmet {
   noSniff: typeof xContentTypeOptions;
   permittedCrossDomainPolicies: typeof xPermittedCrossDomainPolicies;
   xssFilter: typeof xXssProtection;
-}
+};
 
 function getMiddlewareFunctionsFromOptions(
   options: Readonly<HelmetOptions>,

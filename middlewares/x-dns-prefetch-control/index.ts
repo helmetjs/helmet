@@ -1,8 +1,8 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
 
-export interface XDnsPrefetchControlOptions {
+export type XDnsPrefetchControlOptions = {
   allow?: boolean;
-}
+};
 
 function xDnsPrefetchControl(
   options: Readonly<XDnsPrefetchControlOptions> = {},

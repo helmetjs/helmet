@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+### Changed
+
+- The `ContentSecurityPolicyOptions` type is no longer extensible. Only affects TypeScript users who were mis-using the type
+
 ## 4.0.0 - 2024-06-01
 
 ### Changed

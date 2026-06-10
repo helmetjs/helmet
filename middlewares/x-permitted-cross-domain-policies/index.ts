@@ -1,8 +1,8 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
 
-export interface XPermittedCrossDomainPoliciesOptions {
+export type XPermittedCrossDomainPoliciesOptions = {
   permittedPolicies?: "none" | "master-only" | "by-content-type" | "all";
-}
+};
 
 const ALLOWED_PERMITTED_POLICIES = new Set([
   "none",

@@ -11,9 +11,9 @@ type ReferrerPolicyToken =
   | "unsafe-url"
   | "";
 
-export interface ReferrerPolicyOptions {
+export type ReferrerPolicyOptions = {
   policy?: ReferrerPolicyToken | ReferrerPolicyToken[];
-}
+};
 
 const ALLOWED_TOKENS = new Set<ReferrerPolicyToken>([
   "no-referrer",

@@ -2,11 +2,11 @@ import type { IncomingMessage, ServerResponse } from "node:http";
 
 const DEFAULT_MAX_AGE = 365 * 24 * 60 * 60;
 
-export interface StrictTransportSecurityOptions {
+export type StrictTransportSecurityOptions = {
   maxAge?: number;
   includeSubDomains?: boolean;
   preload?: boolean;
-}
+};
 
 function parseMaxAge(value: number = DEFAULT_MAX_AGE): number {
   if (value >= 0 && Number.isFinite(value)) {

@@ -1,8 +1,8 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
 
-export interface XFrameOptionsOptions {
+export type XFrameOptionsOptions = {
   action?: "deny" | "sameorigin";
-}
+};
 
 function getHeaderValueFromOptions({
   action = "sameorigin",

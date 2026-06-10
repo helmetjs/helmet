@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Changed
+
+- The `XDnsPrefetchControlOptions` type is no longer extensible. Only affects TypeScript users who were mis-using the type
+
 ### Removed
 
 - Dropped support for old Node versions. Node 10+ is now required

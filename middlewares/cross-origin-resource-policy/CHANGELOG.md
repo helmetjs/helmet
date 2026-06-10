@@ -5,6 +5,7 @@
 ### Changed
 
 - **Breaking:** increase TypeScript strictness around arguments. Only affects TypeScript users. See [helmetjs/helmet#369](https://github.com/helmetjs/helmet/issues/369)
+- The `CrossOriginEmbedderPolicyOptions` type is no longer extensible. Only affects TypeScript users who were mis-using the type
 
 ## 0.3.0 - 2021-04-17
 
