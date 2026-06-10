@@ -5,22 +5,22 @@
     "@eslint/js": "^10.0.1",
     "@rollup/plugin-typescript": "^12.3.0",
     "@types/connect": "^3.4.38",
-    "@types/node": "^25.5.0",
+    "@types/node": "^25.9.2",
     "@types/node-zopfli": "^2.0.5",
     "@types/supertest": "^7.2.0",
     "connect": "^3.7.0",
-    "eslint": "^10.0.3",
-    "globals": "^17.4.0",
+    "eslint": "^10.4.1",
+    "globals": "^17.6.0",
     "node-zopfli": "^2.1.4",
-    "npm-run-all2": "^8.0.4",
-    "prettier": "^3.8.1",
-    "rollup": "^4.59.0",
-    "rollup-plugin-dts": "^6.4.0",
+    "npm-run-all2": "^9.0.1",
+    "prettier": "^3.8.4",
+    "rollup": "^4.61.1",
+    "rollup-plugin-dts": "^6.4.1",
     "supertest": "^7.2.2",
     "tslib": "^2.8.1",
-    "tsx": "^4.21.0",
-    "typescript": "^5.9.3",
-    "typescript-eslint": "^8.57.1"
+    "tsx": "^4.22.4",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.61.0"
   },
   "scripts": {
     "test:eslint": "eslint --cache .",
@@ -35,5 +35,10 @@
   "type": "module",
   "engines": {
     "node": ">=18.0.0"
+  },
+  "allowScripts": {
+    "esbuild@0.28.0": true,
+    "fsevents@2.3.3": true,
+    "node-zopfli@2.1.4": true
   }
 }
