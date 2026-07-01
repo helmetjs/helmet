@@ -142,9 +142,7 @@ You can set the [`Content-Security-Policy-Report-Only`](https://developer.mozill
 app.use(
   helmet({
     contentSecurityPolicy: {
-      directives: {
-        /* ... */
-      },
+      directives: {/* ... */},
       reportOnly: true,
     },
   }),

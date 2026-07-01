@@ -6,8 +6,7 @@ type ContentSecurityPolicyDirectiveValueFunction = (
 ) => string;
 
 type ContentSecurityPolicyDirectiveValue =
-  | string
-  | ContentSecurityPolicyDirectiveValueFunction;
+  string | ContentSecurityPolicyDirectiveValueFunction;
 
 export type ContentSecurityPolicyOptions = {
   useDefaults?: boolean;

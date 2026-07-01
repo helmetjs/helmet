@@ -81,9 +81,7 @@ You can set the [`Content-Security-Policy-Report-Only`](https://developer.mozill
 // Sets the Content-Security-Policy-Report-Only header
 app.use(
   contentSecurityPolicy({
-    directives: {
-      /* ... */
-    },
+    directives: {/* ... */},
     reportOnly: true,
   }),
 );
