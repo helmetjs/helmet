@@ -121,7 +121,7 @@ function normalizeDirectives(
 
     if (
       rawDirectiveName.length === 0 ||
-      /[^a-zA-Z0-9-]/.test(rawDirectiveName)
+      !/^[a-z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$/.test(rawDirectiveName)
     ) {
       throw new Error(
         `Content-Security-Policy received an invalid directive name ${JSON.stringify(

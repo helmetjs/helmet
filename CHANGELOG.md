@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Changed
+
+- `Content-Security-Policy`: improved error handling for invalid directive names
+
 ### Fixed
 
 - `Content-Security-Policy`: dynamically-computed directive values would `throw`, not call `next`, when invalid
