@@ -70,36 +70,36 @@ const getDefaultDirectives = (): Record<
 const dashify = (str: string): string =>
   str.replace(/[A-Z]/g, (capitalLetter) => "-" + capitalLetter.toLowerCase());
 
-const assertDirectiveValueIsValid = (
+const getDirectiveValueValidationError = (
   directiveName: string,
   directiveValue: string,
-): void => {
-  if (/;|,/.test(directiveValue)) {
-    throw new Error(
-      `Content-Security-Policy received an invalid directive value for ${JSON.stringify(
-        directiveName,
-      )}`,
-    );
-  }
-};
+): null | Error =>
+  /;|,/.test(directiveValue)
+    ? new Error(
+        `Content-Security-Policy received an invalid directive value for ${JSON.stringify(
+          directiveName,
+        )}`,
+      )
+    : null;
 
-const assertDirectiveValueEntryIsValid = (
+const getDirectiveValueEntryValidationError = (
   directiveName: string,
   directiveValueEntry: string,
-): void => {
-  if (
-    SHOULD_BE_QUOTED.has(directiveValueEntry) ||
-    directiveValueEntry.startsWith("nonce-") ||
-    directiveValueEntry.startsWith("sha256-") ||
-    directiveValueEntry.startsWith("sha384-") ||
-    directiveValueEntry.startsWith("sha512-")
-  ) {
-    throw new Error(
-      `Content-Security-Policy received an invalid directive value for ${JSON.stringify(
-        directiveName,
-      )}. ${JSON.stringify(directiveValueEntry)} should be quoted`,
-    );
-  }
+): null | Error =>
+  SHOULD_BE_QUOTED.has(directiveValueEntry) ||
+  directiveValueEntry.startsWith("nonce-") ||
+  directiveValueEntry.startsWith("sha256-") ||
+  directiveValueEntry.startsWith("sha384-") ||
+  directiveValueEntry.startsWith("sha512-")
+    ? new Error(
+        `Content-Security-Policy received an invalid directive value for ${JSON.stringify(
+          directiveName,
+        )}. ${JSON.stringify(directiveValueEntry)} should be quoted`,
+      )
+    : null;
+
+const throwErrorIfExists = (err: null | Error) => {
+  if (err) throw err;
 };
 
 function normalizeDirectives(
@@ -176,8 +176,10 @@ function normalizeDirectives(
 
     for (const element of directiveValue) {
       if (typeof element !== "string") continue;
-      assertDirectiveValueIsValid(directiveName, element);
-      assertDirectiveValueEntryIsValid(directiveName, element);
+      throwErrorIfExists(
+        getDirectiveValueValidationError(directiveName, element) ??
+          getDirectiveValueEntryValidationError(directiveName, element),
+      );
     }
 
     result.set(directiveName, directiveValue);
@@ -225,7 +227,11 @@ function getHeaderValue(
     for (const element of rawDirectiveValue) {
       if (typeof element === "function") {
         const newElement = element(req, res);
-        assertDirectiveValueEntryIsValid(directiveName, newElement);
+        const err = getDirectiveValueEntryValidationError(
+          directiveName,
+          newElement,
+        );
+        if (err) return err;
         directiveValue += " " + newElement;
       } else {
         directiveValue += " " + element;
@@ -233,7 +239,11 @@ function getHeaderValue(
     }
 
     if (directiveValue) {
-      assertDirectiveValueIsValid(directiveName, directiveValue);
+      const err = getDirectiveValueValidationError(
+        directiveName,
+        directiveValue,
+      );
+      if (err) return err;
       result.push(`${directiveName}${directiveValue}`);
     } else {
       result.push(directiveName);

@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+### Fixed
+
+- `Content-Security-Policy`: dynamically-computed directive values would `throw`, not call `next`, when invalid
+
 ## 8.2.0 - 2026-05-21
 
 - `Cross-Origin-Opener-Policy`: support `noopener-allow-popups`. See [#522](https://github.com/helmetjs/helmet/pull/522)
