@@ -26,7 +26,6 @@
     "test:prettier": "prettier --check .",
     "test:typescript": "tsc --noEmit",
     "format": "prettier --write .",
-    "clean": "node ./bin/clean.mjs",
     "build": "tsx ./build/build-package.ts",
     "test": "run-p --aggregate-output test:*"
   },
