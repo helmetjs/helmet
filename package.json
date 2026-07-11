@@ -4,7 +4,7 @@
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@rollup/plugin-typescript": "^12.3.0",
-    "@types/node": "^26.1.0",
+    "@types/node": "^26.1.1",
     "@types/node-zopfli": "^2.0.5",
     "@types/supertest": "^7.2.0",
     "eslint": "^10.7.0",
