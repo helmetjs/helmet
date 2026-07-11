@@ -9,8 +9,7 @@
     "noUncheckedIndexedAccess": true,
     "noUncheckedSideEffectImports": true,
     "strict": true,
-    "target": "es2022",
-    "outDir": "."
+    "target": "es2022"
   },
   "exclude": ["node_modules", "test/project-setups"]
 }
