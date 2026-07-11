@@ -7,7 +7,7 @@
     "@types/node": "^26.1.0",
     "@types/node-zopfli": "^2.0.5",
     "@types/supertest": "^7.2.0",
-    "eslint": "^10.6.0",
+    "eslint": "^10.7.0",
     "globals": "^17.7.0",
     "node-zopfli": "^2.1.4",
     "npm-run-all2": "^9.0.2",
