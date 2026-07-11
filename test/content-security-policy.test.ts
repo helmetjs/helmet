@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { randomUUID } from "node:crypto";
 import { IncomingMessage, ServerResponse, createServer } from "node:http";
 import { describe, it } from "node:test";
 import supertest from "supertest";
@@ -19,7 +20,9 @@ const shouldBeQuoted = [
   "unsafe-hashes",
   "wasm-unsafe-eval",
   "nonce-abc123",
-  "sha256-ks9D5epDKP+c2x6DrkuHmhmfKkOM/HZ+pOlzdWbI91k=",
+  "sha256-abc123",
+  "sha384-abc123",
+  "sha512-abc123",
 ];
 
 const getOwn = <T extends object, K extends keyof T>(
@@ -217,7 +220,18 @@ describe("Content-Security-Policy middleware", () => {
     });
   });
 
+  it("ignores inherited directive properties", async () => {
+    const directives = Object.create({ scriptSrc: ["ignored.example"] });
+    directives.defaultSrc = ["'self'"];
+
+    await checkCsp({
+      middlewareArgs: [{ useDefaults: false, directives }],
+      expectedDirectives: new Set(["default-src 'self'"]),
+    });
+  });
+
   it("allows functions in directive values to generate dynamic directives", async () => {
+    const dynamicResult = randomUUID() + ".example";
     await checkCsp({
       middlewareArgs: [
         {
@@ -234,7 +248,7 @@ describe("Content-Security-Policy middleware", () => {
                   res instanceof ServerResponse,
                   "res should be a response",
                 );
-                return "foo.example.com";
+                return dynamicResult;
               },
               "bar.example.com",
             ],
@@ -242,7 +256,7 @@ describe("Content-Security-Policy middleware", () => {
         },
       ],
       expectedDirectives: new Set([
-        "default-src 'self' foo.example.com bar.example.com",
+        `default-src 'self' ${dynamicResult} bar.example.com`,
       ]),
     });
   });
@@ -290,19 +304,35 @@ describe("Content-Security-Policy middleware", () => {
   });
 
   it('can set the "report only" version of the header instead', async () => {
-    await checkCsp({
-      middlewareArgs: [
-        {
-          useDefaults: false,
-          directives: {
-            "default-src": "'self'",
-          },
-          reportOnly: true,
+    await check(
+      contentSecurityPolicy({
+        useDefaults: false,
+        directives: {
+          "default-src": "'self'",
         },
-      ],
-      expectedHeader: "content-security-policy-report-only",
-      expectedDirectives: new Set(["default-src 'self'"]),
-    });
+        reportOnly: true,
+      }),
+      {
+        "content-security-policy": null,
+        "content-security-policy-report-only": "default-src 'self'",
+      },
+    );
+  });
+
+  it("sets normal header when reportOnly is false", async () => {
+    await check(
+      contentSecurityPolicy({
+        useDefaults: false,
+        directives: {
+          "default-src": "'self'",
+        },
+        reportOnly: false,
+      }),
+      {
+        "content-security-policy": "default-src 'self'",
+        "content-security-policy-report-only": null,
+      },
+    );
   });
 
   it("throws if any directive names are invalid", () => {
@@ -399,6 +429,21 @@ describe("Content-Security-Policy middleware", () => {
       );
     }
 
+    assert.throws(
+      () => {
+        contentSecurityPolicy({
+          useDefaults: false,
+          directives: {
+            "default-src": "foo;bar",
+          },
+        });
+      },
+      {
+        message:
+          /^Content-Security-Policy received an invalid directive value for "default-src"$/,
+      },
+    );
+
     for (const invalidDirectiveEntry of shouldBeQuoted) {
       assert.throws(
         () => {
@@ -412,6 +457,24 @@ describe("Content-Security-Policy middleware", () => {
         },
         {
           message: `Content-Security-Policy received an invalid directive value for "something-else". "${invalidDirectiveEntry}" should be quoted`,
+        },
+      );
+    }
+  });
+
+  it("throws if directive values are falsy but not null", () => {
+    for (const invalidValue of [undefined, false, 0]) {
+      assert.throws(
+        () => {
+          contentSecurityPolicy({
+            directives: {
+              defaultSrc: invalidValue as never,
+            },
+          });
+        },
+        {
+          message:
+            /^Content-Security-Policy received an invalid directive value for "default-src"$/,
         },
       );
     }
@@ -441,7 +504,8 @@ describe("Content-Security-Policy middleware", () => {
           });
         });
 
-        await supertest(app).get("/").expect(200, "true");
+        const response = await supertest(app).get("/").expect(200, "true");
+        assert(!("content-security-policy" in response.header));
       }),
     );
   });
@@ -634,6 +698,13 @@ describe("getDefaultDirectives", () => {
     assert.equal(
       getDefaultDirectives,
       contentSecurityPolicy.getDefaultDirectives,
+    );
+  });
+
+  it("attaches dangerouslyDisableDefaultSrc to the top-level function", () => {
+    assert.equal(
+      dangerouslyDisableDefaultSrc,
+      contentSecurityPolicy.dangerouslyDisableDefaultSrc,
     );
   });
 
