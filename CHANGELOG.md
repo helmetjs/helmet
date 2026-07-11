@@ -9,6 +9,7 @@
 ### Fixed
 
 - `Content-Security-Policy`: dynamically-computed directive values would `throw`, not call `next`, when invalid
+- `Content-Security-Policy`: dynamically-computed directive value entries would `throw`, not call `next`, when function threw
 
 ## 8.2.0 - 2026-05-21
 

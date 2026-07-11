@@ -261,6 +261,36 @@ describe("Content-Security-Policy middleware", () => {
     });
   });
 
+  it("errors if a dynamic function throws and does not continue", async () => {
+    const errToThrow = new Error("test error");
+    let wasSecondFunctionCalled = false;
+
+    const middleware = contentSecurityPolicy({
+      useDefaults: false,
+      directives: {
+        defaultSrc: [
+          "'self'",
+          () => {
+            throw errToThrow;
+          },
+          () => {
+            wasSecondFunctionCalled = true;
+            return "ignored.example";
+          },
+        ],
+      },
+    });
+    const app = createServer((req, res) => {
+      middleware(req, res, (err) => {
+        res.end(String(err === errToThrow));
+      });
+    });
+
+    const response = await supertest(app).get("/").expect(200, "true");
+    assert(!("content-security-policy" in response.header));
+    assert(!wasSecondFunctionCalled);
+  });
+
   it("can override the default options", async () => {
     const expectedDirectives = new Set([
       "default-src 'self' example.com",

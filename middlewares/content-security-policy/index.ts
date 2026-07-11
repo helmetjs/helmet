@@ -102,6 +102,9 @@ const throwErrorIfExists = (err: null | Error) => {
   if (err) throw err;
 };
 
+const errify = (err: unknown): Error =>
+  err instanceof Error ? err : new Error(String(err));
+
 function normalizeDirectives(
   options: Readonly<ContentSecurityPolicyOptions>,
 ): NormalizedDirectives {
@@ -226,7 +229,12 @@ function getHeaderValue(
     let directiveValue = "";
     for (const element of rawDirectiveValue) {
       if (typeof element === "function") {
-        const newElement = element(req, res);
+        let newElement: string;
+        try {
+          newElement = element(req, res);
+        } catch (err) {
+          return errify(err);
+        }
         const err = getDirectiveValueEntryValidationError(
           directiveName,
           newElement,
