@@ -11,7 +11,7 @@
     "globals": "^17.7.0",
     "node-zopfli": "^2.1.4",
     "npm-run-all2": "^9.0.2",
-    "prettier": "^3.9.4",
+    "prettier": "^3.9.5",
     "rollup": "^4.62.2",
     "rollup-plugin-dts": "^6.4.1",
     "supertest": "^7.2.2",
