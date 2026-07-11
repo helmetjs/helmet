@@ -1,4 +1,5 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
+import { dashify, errify, throwErrorIfExists } from "./util";
 
 type ContentSecurityPolicyDirectiveValueFunction = (
   req: IncomingMessage,
@@ -68,9 +69,6 @@ const getDefaultDirectives = (): Record<
   "upgrade-insecure-requests": [],
 });
 
-const dashify = (str: string): string =>
-  str.replace(/[A-Z]/g, (capitalLetter) => "-" + capitalLetter.toLowerCase());
-
 const getDirectiveValueValidationError = (
   directiveName: string,
   directiveValue: string,
@@ -98,13 +96,6 @@ const getDirectiveValueEntryValidationError = (
         )}. ${JSON.stringify(directiveValueEntry)} should be quoted`,
       )
     : null;
-
-const throwErrorIfExists = (err: null | Error) => {
-  if (err) throw err;
-};
-
-const errify = (err: unknown): Error =>
-  err instanceof Error ? err : new Error(String(err));
 
 function normalizeDirectives(
   options: Readonly<ContentSecurityPolicyOptions>,
