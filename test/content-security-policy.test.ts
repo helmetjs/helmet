@@ -418,7 +418,11 @@ describe("Content-Security-Policy middleware", () => {
   });
 
   it("errors if any directive values are invalid when a function returns", async () => {
-    const badDirectiveValueEntries = ["bad;value", ...shouldBeQuoted];
+    const badDirectiveValueEntries = [
+      "bad;value",
+      "bad,value",
+      ...shouldBeQuoted,
+    ];
 
     await Promise.all(
       badDirectiveValueEntries.map(async (directiveValueEntry) => {
