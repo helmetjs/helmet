@@ -555,6 +555,15 @@ describe("Content-Security-Policy middleware", () => {
     );
     assert.throws(
       () => {
+        contentSecurityPolicy({ useDefaults: false } as never);
+      },
+      {
+        message:
+          /^Content-Security-Policy has no directives. Either set some or disable the header$/,
+      },
+    );
+    assert.throws(
+      () => {
         contentSecurityPolicy({
           useDefaults: false,
           directives: {

@@ -8,16 +8,17 @@ type ContentSecurityPolicyDirectiveValueFunction = (
 type ContentSecurityPolicyDirectiveValue =
   string | ContentSecurityPolicyDirectiveValueFunction;
 
-export type ContentSecurityPolicyOptions = {
-  useDefaults?: boolean;
-  directives?: Record<
-    string,
-    | null
-    | Iterable<ContentSecurityPolicyDirectiveValue>
-    | typeof dangerouslyDisableDefaultSrc
-  >;
-  reportOnly?: boolean;
-};
+type ContentSecurityPolicyDirectives = Record<
+  string,
+  | null
+  | Iterable<ContentSecurityPolicyDirectiveValue>
+  | typeof dangerouslyDisableDefaultSrc
+>;
+
+export type ContentSecurityPolicyOptions = { reportOnly?: boolean } & (
+  | { useDefaults?: true; directives?: ContentSecurityPolicyDirectives }
+  | { useDefaults: false; directives: ContentSecurityPolicyDirectives }
+);
 
 type NormalizedDirectives = Map<
   string,
@@ -110,8 +111,7 @@ function normalizeDirectives(
 ): NormalizedDirectives {
   const defaultDirectives = getDefaultDirectives();
 
-  const { useDefaults = true, directives: rawDirectives = defaultDirectives } =
-    options;
+  const { useDefaults = true, directives: rawDirectives = {} } = options;
 
   const result: NormalizedDirectives = new Map();
   const directiveNamesSeen = new Set<string>();

@@ -8,6 +8,7 @@
 
 ### Fixed
 
+- `Content-Security-Policy`: `useDefaults: false` with no directives is no longer valid, both at runtime and the type level
 - `Content-Security-Policy`: dynamically-computed directive values would `throw`, not call `next`, when invalid
 - `Content-Security-Policy`: dynamically-computed directive value entries would `throw`, not call `next`, when function threw
 
