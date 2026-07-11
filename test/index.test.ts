@@ -1,6 +1,5 @@
-import connect from "connect";
 import assert from "node:assert/strict";
-import type { IncomingMessage, ServerResponse } from "node:http";
+import { createServer } from "node:http";
 import { describe, it, type Mock, type TestContext } from "node:test";
 import supertest from "supertest";
 import { check } from "./helpers";
@@ -180,34 +179,30 @@ describe("helmet", () => {
   });
 
   it("properly handles a middleware calling `next()` with an error", async () => {
-    const app = connect()
-      .use(
-        topLevel({
-          contentSecurityPolicy: {
-            directives: {
-              defaultSrc: ["'self'", () => "bad;value"],
-            },
-          },
-        }),
-      )
-      .use(
-        (
-          err: Error,
-          _req: IncomingMessage,
-          res: ServerResponse,
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          _next: () => void,
-        ) => {
-          res.statusCode = 500;
-          res.setHeader("Content-Type", "application/json");
-          res.end(JSON.stringify({ message: err.message }));
+    const middleware = topLevel({
+      contentSecurityPolicy: {
+        directives: {
+          defaultSrc: ["'self'", () => "bad;value"],
         },
-      );
-
-    await supertest(app).get("/").expect(500, {
-      message:
-        'Content-Security-Policy received an invalid directive value for "default-src"',
+      },
     });
+    const app = createServer((req, res) => {
+      middleware(req, res, (err) => {
+        if (err) {
+          res.statusCode = 500;
+          res.end(String(err));
+        } else {
+          res.end();
+        }
+      });
+    });
+
+    await supertest(app)
+      .get("/")
+      .expect(
+        500,
+        'Error: Content-Security-Policy received an invalid directive value for "default-src"',
+      );
   });
 
   describe("warnings", () => {

@@ -1,6 +1,5 @@
-import connect from "connect";
 import assert from "node:assert/strict";
-import { IncomingMessage, ServerResponse } from "node:http";
+import { IncomingMessage, ServerResponse, createServer } from "node:http";
 import { describe, it } from "node:test";
 import supertest from "supertest";
 import contentSecurityPolicy, {
@@ -415,29 +414,20 @@ describe("Content-Security-Policy middleware", () => {
 
     await Promise.all(
       badDirectiveValueEntries.map(async (directiveValueEntry) => {
-        const app = connect()
-          .use(
-            contentSecurityPolicy({
-              useDefaults: false,
-              directives: {
-                defaultSrc: ["'self'", () => directiveValueEntry],
-              },
-            }),
-          )
-          .use(
-            (
-              err: Error,
-              _req: IncomingMessage,
-              res: ServerResponse,
-              // eslint-disable-next-line @typescript-eslint/no-unused-vars
-              _next: () => void,
-            ) => {
-              const isOk = err.message.startsWith(
-                'Content-Security-Policy received an invalid directive value for "default-src"',
-              );
-              res.end(JSON.stringify(isOk));
-            },
-          );
+        const middleware = contentSecurityPolicy({
+          useDefaults: false,
+          directives: {
+            defaultSrc: ["'self'", () => directiveValueEntry],
+          },
+        });
+        const app = createServer((req, res) => {
+          middleware(req, res, (err) => {
+            const isOk = err?.message.startsWith(
+              'Content-Security-Policy received an invalid directive value for "default-src"',
+            );
+            res.end(JSON.stringify(isOk));
+          });
+        });
 
         await supertest(app).get("/").expect(200, "true");
       }),

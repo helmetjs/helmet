@@ -1,11 +1,21 @@
-const connect = require("connect");
+const { createServer } = require("node:http");
 const supertest = require("supertest");
 const helmet = require("helmet");
 
-const handler = (_, res) => res.end("Hello world");
+const createApp = (middleware) =>
+  createServer((req, res) => {
+    middleware(req, res, (err) => {
+      if (err) {
+        res.statusCode = 500;
+        res.end();
+      } else {
+        res.end("Hello world");
+      }
+    });
+  });
 
 async function testTopLevel() {
-  const app = connect().use(helmet()).use(handler);
+  const app = createApp(helmet());
   await supertest(app)
     .get("/")
     .expect(200, "Hello world")
@@ -13,7 +23,7 @@ async function testTopLevel() {
 }
 
 async function testMiddleware() {
-  const app = connect().use(helmet.frameguard()).use(handler);
+  const app = createApp(helmet.frameguard());
   await supertest(app)
     .get("/")
     .expect(200, "Hello world")
