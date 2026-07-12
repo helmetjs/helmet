@@ -4,6 +4,9 @@ export const dashify = (str: string): string =>
 export const errify = (err: unknown): Error =>
   err instanceof Error ? err : new Error(String(err));
 
+export const isString = (value: unknown): value is string =>
+  typeof value === "string";
+
 export const throwErrorIfExists = (err: null | Error) => {
   if (err) throw err;
 };

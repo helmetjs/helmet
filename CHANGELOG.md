@@ -4,6 +4,7 @@
 
 ### Changed
 
+- `Content-Security-Policy`: improved performance by ~7% when there are no dynamic directives
 - `Content-Security-Policy`: improved error handling for invalid directive names
 
 ### Fixed

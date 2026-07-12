@@ -1,5 +1,5 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
-import { dashify, errify, throwErrorIfExists } from "./util";
+import { dashify, errify, isString, throwErrorIfExists } from "./util";
 
 type ContentSecurityPolicyDirectiveValueFunction = (
   req: IncomingMessage,
@@ -21,7 +21,7 @@ export type ContentSecurityPolicyOptions = { reportOnly?: boolean } & (
   | { useDefaults: false; directives: ContentSecurityPolicyDirectives }
 );
 
-type NormalizedDirectives = Map<
+type ParsedDirectivesMap = Map<
   string,
   Iterable<ContentSecurityPolicyDirectiveValue>
 >;
@@ -69,6 +69,20 @@ const getDefaultDirectives = (): Record<
   "upgrade-insecure-requests": [],
 });
 
+const parseDirectiveName = (rawDirectiveName: string): string => {
+  if (
+    rawDirectiveName.length === 0 ||
+    !/^[a-z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$/.test(rawDirectiveName)
+  ) {
+    throw new Error(
+      `Content-Security-Policy received an invalid directive name ${JSON.stringify(
+        rawDirectiveName,
+      )}`,
+    );
+  }
+  return dashify(rawDirectiveName);
+};
+
 const getDirectiveValueValidationError = (
   directiveName: string,
   directiveValue: string,
@@ -97,35 +111,34 @@ const getDirectiveValueEntryValidationError = (
       )
     : null;
 
-function normalizeDirectives(
-  options: Readonly<ContentSecurityPolicyOptions>,
-): NormalizedDirectives {
-  const defaultDirectives = getDefaultDirectives();
+const stringifyDirectiveValue = (
+  directiveValue: Iterable<ContentSecurityPolicyDirectiveValue>,
+): null | string => {
+  if (Array.isArray(directiveValue)) {
+    return directiveValue.every(isString) ? directiveValue.join(" ") : null;
+  }
+  if (directiveValue instanceof Set) {
+    return stringifyDirectiveValue(Array.from(directiveValue));
+  }
+  return null;
+};
 
-  const { useDefaults = true, directives: rawDirectives = {} } = options;
-
-  const result: NormalizedDirectives = new Map();
+const parseDirectives = ({
+  useDefaults = true,
+  directives: rawDirectives = {},
+}: Readonly<ContentSecurityPolicyOptions>): string | ParsedDirectivesMap => {
+  const result: ParsedDirectivesMap = new Map(
+    useDefaults ? Object.entries(getDefaultDirectives()) : [],
+  );
+  let hasDisabledDefaultSrc = false;
   const directiveNamesSeen = new Set<string>();
-  const directivesExplicitlyDisabled = new Set<string>();
 
   for (const rawDirectiveName in rawDirectives) {
     if (!Object.hasOwn(rawDirectives, rawDirectiveName)) {
       continue;
     }
 
-    if (
-      rawDirectiveName.length === 0 ||
-      !/^[a-z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$/.test(rawDirectiveName)
-    ) {
-      throw new Error(
-        `Content-Security-Policy received an invalid directive name ${JSON.stringify(
-          rawDirectiveName,
-        )}`,
-      );
-    }
-
-    const directiveName = dashify(rawDirectiveName);
-
+    const directiveName = parseDirectiveName(rawDirectiveName);
     if (directiveNamesSeen.has(directiveName)) {
       throw new Error(
         `Content-Security-Policy received a duplicate directive ${JSON.stringify(
@@ -137,25 +150,21 @@ function normalizeDirectives(
 
     const rawDirectiveValue = rawDirectives[rawDirectiveName];
     let directiveValue: Iterable<ContentSecurityPolicyDirectiveValue>;
+
     if (rawDirectiveValue === null) {
       if (directiveName === "default-src") {
         throw new Error(
           "Content-Security-Policy needs a default-src but it was set to `null`. If you really want to disable it, set it to `contentSecurityPolicy.dangerouslyDisableDefaultSrc`.",
         );
       }
-      directivesExplicitlyDisabled.add(directiveName);
+      result.delete(directiveName);
       continue;
     } else if (typeof rawDirectiveValue === "string") {
       directiveValue = [rawDirectiveValue];
-    } else if (!rawDirectiveValue) {
-      throw new Error(
-        `Content-Security-Policy received an invalid directive value for ${JSON.stringify(
-          directiveName,
-        )}`,
-      );
     } else if (rawDirectiveValue === dangerouslyDisableDefaultSrc) {
       if (directiveName === "default-src") {
-        directivesExplicitlyDisabled.add("default-src");
+        hasDisabledDefaultSrc = true;
+        result.delete(directiveName);
         continue;
       } else {
         throw new Error(
@@ -164,8 +173,14 @@ function normalizeDirectives(
           )} as if it were default-src; simply omit the key`,
         );
       }
-    } else {
+    } else if (rawDirectiveValue) {
       directiveValue = rawDirectiveValue;
+    } else {
+      throw new Error(
+        `Content-Security-Policy received an invalid directive value for ${JSON.stringify(
+          directiveName,
+        )}`,
+      );
     }
 
     for (const element of directiveValue) {
@@ -179,40 +194,39 @@ function normalizeDirectives(
     result.set(directiveName, directiveValue);
   }
 
-  if (useDefaults) {
-    Object.entries(defaultDirectives).forEach(
-      ([defaultDirectiveName, defaultDirectiveValue]) => {
-        if (
-          !result.has(defaultDirectiveName) &&
-          !directivesExplicitlyDisabled.has(defaultDirectiveName)
-        ) {
-          result.set(defaultDirectiveName, defaultDirectiveValue);
-        }
-      },
-    );
-  }
-
   if (!result.size) {
     throw new Error(
       "Content-Security-Policy has no directives. Either set some or disable the header",
     );
   }
-  if (
-    !result.has("default-src") &&
-    !directivesExplicitlyDisabled.has("default-src")
-  ) {
+  if (!result.has("default-src") && !hasDisabledDefaultSrc) {
     throw new Error(
       "Content-Security-Policy needs a default-src but none was provided. If you really want to disable it, set it to `contentSecurityPolicy.dangerouslyDisableDefaultSrc`.",
     );
   }
 
-  return result;
-}
+  let stringResult = "";
+  let shouldUseStringResult = true;
+  for (const [directiveName, directiveValue] of result) {
+    const directiveValueString = stringifyDirectiveValue(directiveValue);
+    if (directiveValueString === null) {
+      shouldUseStringResult = false;
+      break;
+    } else {
+      if (stringResult) stringResult += ";";
+      stringResult += directiveValueString
+        ? `${directiveName} ${directiveValueString}`
+        : directiveName;
+    }
+  }
+
+  return shouldUseStringResult ? stringResult : result;
+};
 
 function getHeaderValue(
   req: IncomingMessage,
   res: ServerResponse,
-  normalizedDirectives: Readonly<NormalizedDirectives>,
+  normalizedDirectives: Readonly<ParsedDirectivesMap>,
 ): string | Error {
   const result: string[] = [];
 
@@ -264,14 +278,26 @@ const contentSecurityPolicy: ContentSecurityPolicy =
       ? "Content-Security-Policy-Report-Only"
       : "Content-Security-Policy";
 
-    const normalizedDirectives = normalizeDirectives(options);
+    const parsedDirectives = parseDirectives(options);
+
+    // A special case for performance.
+    if (typeof parsedDirectives === "string") {
+      return function contentSecurityPolicyMiddleware(
+        _req: IncomingMessage,
+        res: ServerResponse,
+        next: (error?: Error) => void,
+      ) {
+        res.setHeader(headerName, parsedDirectives);
+        next();
+      };
+    }
 
     return function contentSecurityPolicyMiddleware(
       req: IncomingMessage,
       res: ServerResponse,
       next: (error?: Error) => void,
     ) {
-      const result = getHeaderValue(req, res, normalizedDirectives);
+      const result = getHeaderValue(req, res, parsedDirectives);
       if (result instanceof Error) {
         next(result);
       } else {
