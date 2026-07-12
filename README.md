@@ -50,10 +50,21 @@ app.use(
 <details id="content-security-policy">
 <summary><code>Content-Security-Policy</code></summary>
 
-Default:
+Default (formatted for readability):
 
-```http
-Content-Security-Policy: default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests
+```
+Content-Security-Policy:
+  default-src 'self'
+  base-uri 'self'
+  font-src 'self' https: data:
+  form-action 'self'
+  frame-ancestors 'self'
+  img-src 'self' data:
+  object-src 'none'
+  script-src 'self'
+  script-src-attr 'none'
+  style-src 'self' https: 'unsafe-inline'
+  upgrade-insecure-requests
 ```
 
 The `Content-Security-Policy` header mitigates a large number of attacks, such as [cross-site scripting][XSS]. See [MDN's introductory article on Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP).
