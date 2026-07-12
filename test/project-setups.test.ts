@@ -28,13 +28,7 @@ async function buildHelmet(): Promise<string> {
   return result;
 }
 
-let helmetTarballPromise: undefined | Promise<string>;
-async function getHelmetTarballPath(): Promise<string> {
-  if (!helmetTarballPromise) {
-    helmetTarballPromise = buildHelmet();
-  }
-  return helmetTarballPromise;
-}
+const helmetTarballPromise = buildHelmet();
 
 for (const projectSetupName of projectSetups) {
   test(`${projectSetupName} project setup`, { timeout: 60_000 }, async () => {
@@ -44,7 +38,7 @@ for (const projectSetupName of projectSetups) {
     await fs.promises.rm(nodeModulesFolder, { recursive: true, force: true });
 
     await npm(
-      ["install", "--no-save", "--no-audit", await getHelmetTarballPath()],
+      ["install", "--no-save", "--no-audit", await helmetTarballPromise],
       {
         cwd: projectFolder,
       },
