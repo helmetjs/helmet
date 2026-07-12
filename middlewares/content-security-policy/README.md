@@ -103,3 +103,5 @@ app.use(
 ```
 
 This module performs very little validation on your CSP. You should rely on CSP checkers like [CSP Evaluator](https://csp-evaluator.withgoogle.com/) instead.
+
+[XSS]: https://developer.mozilla.org/en-US/docs/Glossary/Cross-site_scripting
