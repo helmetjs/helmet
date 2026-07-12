@@ -5,6 +5,14 @@
 ### Changed
 
 - The `ContentSecurityPolicyOptions` type is no longer extensible. Only affects TypeScript users who were mis-using the type
+- Improved performance by ~7% when there are no dynamic directives
+- Improved error handling for invalid directive names
+
+### Fixed
+
+- `useDefaults: false` with no directives is no longer valid, both at runtime and the type level
+- dynamically-computed directive values would `throw`, not call `next`, when invalid
+- dynamically-computed directive value entries would `throw`, not call `next`, when function threw
 
 ## 4.0.0 - 2024-06-01
 
