@@ -18,31 +18,24 @@ See [the docs](https://helmet.js.org/) for more info, including [the FAQ](https:
 
 ## Using Helmet on APIs and subroutes
 
-Helmet is useful beyond full HTML websites. You can mount it app-wide or only on certain routes.
-
-**API-only servers:** Even if browsers never render your JSON as a page, several headers are still valuable app-wide. For example, `X-Content-Type-Options: nosniff` helps prevent browsers from MIME-sniffing a JSON body as HTML/JavaScript, and `Strict-Transport-Security` only applies over HTTPS but is harmless to send from an API. You can disable browser-oriented headers you do not need:
+In most apps it is fine to enable Helmet for **every** response, including JSON APIs. Headers such as `Content-Security-Policy` are mainly enforced by browsers when rendering documents; they typically do not break API clients. Some headers are more relevant for HTML/SVG (for example CSP, COOP), while others can still help on APIs (for example `X-Content-Type-Options: nosniff` against MIME sniffing).
 
 ```js
-app.use(
-  helmet({
-    contentSecurityPolicy: false,
-    // CSP, COOP, and similar are mainly relevant when browsers render HTML
-  }),
-);
+// Common: apply Helmet once for the whole app
+app.use(helmet());
+app.use("/api", apiRouter);
+app.use("/admin", adminRouter);
 ```
 
-**Static or admin subroutes:** If only some paths serve HTML (for example `/admin` or static files), mount Helmet on those routes instead of (or in addition to) the whole app:
+If you only want Helmet on certain paths (for example HTML admin UI or static files), mount it on those routes — it is ordinary Express middleware:
 
 ```js
-// API routes without full Helmet
-app.use("/api", apiRouter);
-
-// HTML/static routes with Helmet
+app.use("/api", apiRouter); // no Helmet
 app.use("/admin", helmet(), adminRouter);
 app.use("/public", helmet(), express.static("public"));
 ```
 
-Helmet is ordinary Express middleware, so route order and `app.use(path, ...)` scoping work as usual. Prefer enabling it wherever responses might be interpreted by a browser.
+To skip Helmet on a few routes while keeping it global, use a conditional wrapper (see [“How do I skip a middleware on a certain path?”](https://helmetjs.github.io/) in the docs / FAQ patterns). You can also turn individual headers off via options when a specific response type must not send them (for example embedding an iframe widget).
 
 ## Configuration
 
