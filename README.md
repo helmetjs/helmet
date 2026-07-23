@@ -16,6 +16,27 @@ This will set 13 HTTP response headers in your app.
 
 See [the docs](https://helmet.js.org/) for more info, including [the FAQ](https://helmet.js.org/faq/).
 
+## Using Helmet on APIs and subroutes
+
+In most apps it is fine to enable Helmet for **every** response, including JSON APIs. Headers such as `Content-Security-Policy` are mainly enforced by browsers when rendering documents; they typically do not break API clients. Some headers are more relevant for HTML/SVG (for example CSP, COOP), while others can still help on APIs (for example `X-Content-Type-Options: nosniff` against MIME sniffing).
+
+```js
+// Common: apply Helmet once for the whole app
+app.use(helmet());
+app.use("/api", apiRouter);
+app.use("/admin", adminRouter);
+```
+
+If you only want Helmet on certain paths (for example HTML admin UI or static files), mount it on those routes — it is ordinary Express middleware:
+
+```js
+app.use("/api", apiRouter); // no Helmet
+app.use("/admin", helmet(), adminRouter);
+app.use("/public", helmet(), express.static("public"));
+```
+
+To skip Helmet on a few routes while keeping it global, use a conditional wrapper (see [“How do I skip a middleware on a certain path?”](https://helmetjs.github.io/) in the docs / FAQ patterns). You can also turn individual headers off via options when a specific response type must not send them (for example embedding an iframe widget).
+
 ## Configuration
 
 Each header can be disabled. To disable a header:
