@@ -183,6 +183,14 @@ const parseDirectives = ({
       );
     }
 
+    // Generators get used up after one read, so copy them to an array
+    if (
+      !Array.isArray(directiveValue) &&
+      typeof directiveValue[Symbol.iterator] === "function"
+    ) {
+      directiveValue = [...directiveValue];
+    }
+
     for (const element of directiveValue) {
       if (typeof element !== "string") continue;
       throwErrorIfExists(

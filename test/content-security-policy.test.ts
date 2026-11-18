@@ -185,6 +185,27 @@ describe("Content-Security-Policy middleware", () => {
     });
   });
 
+  it("accepts one-shot iterables, like generators, for directive values", async () => {
+    await checkCsp({
+      middlewareArgs: [
+        {
+          useDefaults: false,
+          directives: {
+            "default-src": ["'self'"],
+            "script-src": (function* () {
+              yield "'self'";
+              yield "example.com";
+            })(),
+          },
+        },
+      ],
+      expectedDirectives: new Set([
+        "default-src 'self'",
+        "script-src 'self' example.com",
+      ]),
+    });
+  });
+
   it("accepts strings as directive values", async () => {
     await checkCsp({
       middlewareArgs: [
