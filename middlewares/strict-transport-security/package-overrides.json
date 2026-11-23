@@ -1,7 +1,7 @@
 {
   "name": "hsts",
   "description": "HTTP Strict Transport Security middleware",
-  "version": "2.2.0",
+  "version": "3.0.0",
   "keywords": [
     "express",
     "security",
