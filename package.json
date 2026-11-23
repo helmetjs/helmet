@@ -22,7 +22,7 @@
   },
   "scripts": {
     "test:eslint": "eslint --cache .",
-    "test:node": "tsx --test test/*.ts",
+    "test:node": "tsx --test \"test/**/*.test.ts\"",
     "test:prettier": "prettier --check .",
     "test:typescript": "tsc --noEmit",
     "format": "prettier --write .",
