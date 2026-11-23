@@ -163,21 +163,14 @@ describe("Content-Security-Policy middleware", () => {
     });
   });
 
-  it("accepts non-array iterables for directive values", async () => {
+  it("accepts Sets for directive values", async () => {
     await checkCsp({
       middlewareArgs: [
         {
           useDefaults: false,
           directives: {
             "default-src": new Set(["'self'"]),
-            sandbox: {
-              [Symbol.iterator]: () => ({
-                next: () => ({
-                  done: true,
-                  value: undefined,
-                }),
-              }),
-            },
+            sandbox: new Set(),
           },
         },
       ],
@@ -458,6 +451,27 @@ describe("Content-Security-Policy middleware", () => {
         },
       );
     }
+
+    const customIterable = {
+      [Symbol.iterator]: () => ({
+        next: () => ({ done: true, value: undefined }),
+      }),
+    };
+    assert.throws(
+      () => {
+        contentSecurityPolicy({
+          useDefaults: false,
+          directives: {
+            "default-src": "'self'",
+            "something-else": customIterable as never,
+          },
+        });
+      },
+      {
+        message:
+          /^Content-Security-Policy received an invalid directive value for "something-else"$/,
+      },
+    );
 
     assert.throws(
       () => {

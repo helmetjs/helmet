@@ -4,7 +4,7 @@ The `Content-Security-Policy` header mitigates a large number of attacks, such a
 
 This header is powerful but likely requires some configuration for your specific app.
 
-To configure this header, pass an object with a nested `directives` object. Each key is a directive name in camel case (such as `defaultSrc`) or kebab case (such as `default-src`). Each value is an array (or other iterable) of strings or functions for that directive. If a function appears in the array, it will be called with the request and response objects.
+To configure this header, pass an object with a nested `directives` object. Each key is a directive name in camel case (such as `defaultSrc`) or kebab case (such as `default-src`). Each value is an array (or `Set`) of strings or functions for that directive. If a function appears in the array, it will be called with the request and response objects.
 
 ```javascript
 const contentSecurityPolicy = require("helmet-csp");
