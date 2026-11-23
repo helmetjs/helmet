@@ -10,7 +10,7 @@
 
 - Dropped support for `includeSubdomains` with a lowercase D. See [#231](https://github.com/helmetjs/helmet/issues/231)
 - Dropped support for `setIf`. [Read this if you need help.](https://github.com/helmetjs/helmet/wiki/Conditionally-using-middleware). See [#232](https://github.com/helmetjs/helmet/issues/232)
-- Dropped support for old Node versions. Node 10+ is now required
+- Dropped support for old Node versions. Node 22+ is now required
 
 ## 2.2.0 - 2019-03-10
 
