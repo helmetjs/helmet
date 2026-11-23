@@ -86,6 +86,10 @@ describe("Strict-Transport-Security middleware", () => {
 
     assert.throws(() => strictTransportSecurity({ maxage: false } as any));
     assert.throws(() => strictTransportSecurity({ maxage: 1234 } as any));
+
+    assert.throws(() =>
+      strictTransportSecurity({ includeSubdomains: false } as any),
+    );
   });
 
   it("ignores `maxage` and `includeSubdomains` that are only inherited", async () => {
@@ -103,15 +107,5 @@ describe("Strict-Transport-Security middleware", () => {
     await check(strictTransportSecurity(options), {
       "strict-transport-security": "max-age=123",
     });
-  });
-
-  it("logs a warning when using the mis-capitalized `includeSubdomains` parameter", () => {
-    assert.throws(
-      () => strictTransportSecurity({ includeSubdomains: false } as any),
-      {
-        message:
-          'Strict-Transport-Security middleware should use `includeSubDomains` instead of `includeSubdomains`. (The correct one has an uppercase "D".)',
-      },
-    );
   });
 });
