@@ -320,9 +320,7 @@ async function pack(distDir: string): Promise<string> {
   await npm(["pack"], { cwd: distDir });
 
   const tempDirFiles = await fs.readdir(distDir);
-  const tarballName = tempDirFiles.find(
-    (file) => file.startsWith("helmet-") && file.endsWith(".tgz"),
-  );
+  const tarballName = tempDirFiles.find((file) => file.endsWith(".tgz"));
   if (!tarballName) {
     throw new Error(
       "Couldn't find helmet tarball in temp directory. Build is not set up correctly",
