@@ -9,10 +9,15 @@ type ContentSecurityPolicyDirectiveValueFunction = (
 type ContentSecurityPolicyDirectiveValue =
   string | ContentSecurityPolicyDirectiveValueFunction;
 
+type ContentSecurityPolicyDirectiveValueList =
+  | ReadonlyArray<ContentSecurityPolicyDirectiveValue>
+  | ReadonlySet<ContentSecurityPolicyDirectiveValue>;
+
 type ContentSecurityPolicyDirectives = Record<
   string,
   | null
-  | Iterable<ContentSecurityPolicyDirectiveValue>
+  | string
+  | ContentSecurityPolicyDirectiveValueList
   | typeof dangerouslyDisableDefaultSrc
 >;
 
@@ -21,10 +26,7 @@ export type ContentSecurityPolicyOptions = { reportOnly?: boolean } & (
   | { useDefaults: false; directives: ContentSecurityPolicyDirectives }
 );
 
-type ParsedDirectivesMap = Map<
-  string,
-  Iterable<ContentSecurityPolicyDirectiveValue>
->;
+type ParsedDirectivesMap = Map<string, ContentSecurityPolicyDirectiveValueList>;
 
 type ContentSecurityPolicy = {
   (
@@ -54,7 +56,7 @@ const SHOULD_BE_QUOTED: ReadonlySet<string> = new Set([
 
 const getDefaultDirectives = (): Record<
   string,
-  Iterable<ContentSecurityPolicyDirectiveValue>
+  ContentSecurityPolicyDirectiveValueList
 > => ({
   "default-src": ["'self'"],
   "base-uri": ["'self'"],
@@ -112,15 +114,12 @@ const getDirectiveValueEntryValidationError = (
     : null;
 
 const stringifyDirectiveValue = (
-  directiveValue: Iterable<ContentSecurityPolicyDirectiveValue>,
+  directiveValue: ContentSecurityPolicyDirectiveValueList,
 ): null | string => {
   if (Array.isArray(directiveValue)) {
     return directiveValue.every(isString) ? directiveValue.join(" ") : null;
   }
-  if (directiveValue instanceof Set) {
-    return stringifyDirectiveValue(Array.from(directiveValue));
-  }
-  return null;
+  return stringifyDirectiveValue(Array.from(directiveValue));
 };
 
 const parseDirectives = ({
@@ -149,7 +148,7 @@ const parseDirectives = ({
     directiveNamesSeen.add(directiveName);
 
     const rawDirectiveValue = rawDirectives[rawDirectiveName];
-    let directiveValue: Iterable<ContentSecurityPolicyDirectiveValue>;
+    let directiveValue: ContentSecurityPolicyDirectiveValueList;
 
     if (rawDirectiveValue === null) {
       if (directiveName === "default-src") {
@@ -173,7 +172,10 @@ const parseDirectives = ({
           )} as if it were default-src; simply omit the key`,
         );
       }
-    } else if (rawDirectiveValue) {
+    } else if (
+      Array.isArray(rawDirectiveValue) ||
+      rawDirectiveValue instanceof Set
+    ) {
       directiveValue = rawDirectiveValue;
     } else {
       throw new Error(

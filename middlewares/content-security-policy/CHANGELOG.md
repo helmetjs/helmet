@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+### Changed
+
+- **Breaking:** directive values must now be an `Array` or a `Set`; other iterables are no longer accepted. See [#557](https://github.com/helmetjs/helmet/issues/557)
+
 ## 4.1.0 - 2026-07-11
 
 ### Changed
