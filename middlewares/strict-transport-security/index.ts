@@ -23,12 +23,12 @@ function parseMaxAge(value: number = DEFAULT_MAX_AGE): number {
 function getHeaderValueFromOptions(
   options: Readonly<StrictTransportSecurityOptions>,
 ): string {
-  if ("maxage" in options) {
+  if (Object.hasOwn(options, "maxage")) {
     throw new Error(
       "Strict-Transport-Security received an unsupported property, `maxage`. Did you mean to pass `maxAge`?",
     );
   }
-  if ("includeSubdomains" in options) {
+  if (Object.hasOwn(options, "includeSubdomains")) {
     throw new Error(
       'Strict-Transport-Security middleware should use `includeSubDomains` instead of `includeSubdomains`. (The correct one has an uppercase "D".)',
     );

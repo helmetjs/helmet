@@ -88,6 +88,23 @@ describe("Strict-Transport-Security middleware", () => {
     assert.throws(() => strictTransportSecurity({ maxage: 1234 } as any));
   });
 
+  it("ignores `maxage` and `includeSubdomains` that are only inherited", async () => {
+    const options = Object.create({
+      maxage: 1234,
+      includeSubdomains: false,
+    });
+
+    await check(strictTransportSecurity(options), {
+      "strict-transport-security": "max-age=31536000; includeSubDomains",
+    });
+
+    options.maxAge = 123;
+    options.includeSubDomains = false;
+    await check(strictTransportSecurity(options), {
+      "strict-transport-security": "max-age=123",
+    });
+  });
+
   it("logs a warning when using the mis-capitalized `includeSubdomains` parameter", () => {
     assert.throws(
       () => strictTransportSecurity({ includeSubdomains: false } as any),
